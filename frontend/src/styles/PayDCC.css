@@ -1,0 +1,480 @@
+.paydcc-page {
+  min-height: 100vh;
+  background: #F5F5F7;
+  display: flex;
+  flex-direction: column;
+  font-family: 'PP Neue Montreal Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.paydcc__header {
+  position: relative;
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+}
+
+.paydcc__header-return {
+  position: absolute;
+  right: 24px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.paydcc__header-return:hover {
+  background: #F5F5F7;
+}
+
+.paydcc__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.paydcc__logo img {
+  height: 32px;
+  width: auto;
+}
+
+/* Content */
+.paydcc__content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 24px;
+}
+
+.paydcc__card {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.paydcc__title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1C1C1C;
+  margin: 0 0 32px 0;
+  text-align: center;
+}
+
+/* Form */
+.paydcc__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.paydcc__input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.paydcc__input {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.48px;
+  color: #2E2C3A;
+  background: #F7F8FA;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 12px;
+  font-family: 'PP Neue Montreal Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  transition: all 0.2s;
+  direction: ltr;
+  text-align: right;
+}
+
+.paydcc__input::placeholder {
+  color: #9CA3AF;
+  direction: rtl;
+}
+
+.paydcc__input:focus {
+  outline: none;
+  border-color: #6568f4;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(101, 104, 244, 0.1);
+}
+
+.paydcc__input.error {
+  border-color: #EF4444;
+  background: #FEF2F2;
+}
+
+.paydcc__input.error:focus {
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.paydcc__error-message {
+  position: absolute;
+  bottom: -20px;
+  right: 12px;
+  font-size: 12px;
+  color: #EF4444;
+  margin: 4px 0 0 0;
+}
+
+/* Row for CVC and Expiry */
+.paydcc__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.paydcc__input-with-icon {
+  position: relative;
+  width: 100%;
+}
+
+.paydcc__input-with-icon .paydcc__input {
+  padding-left: 48px;
+}
+
+.paydcc__calendar-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.paydcc__cvc-icon {
+  position: absolute;
+  left: 16px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.paydcc__cvc-icon:hover {
+  opacity: 0.7;
+}
+
+.paydcc__card-type-icon {
+  position: absolute;
+  left: 16px;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 32px;
+  object-fit: contain;
+  pointer-events: none;
+  animation: cardIconFadeIn 0.3s ease;
+}
+
+@keyframes cardIconFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.paydcc__cvc-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #1C1C1C;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 280px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: tooltipFadeIn 0.2s ease;
+}
+
+.paydcc__cvc-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  background: #1C1C1C;
+  transform: rotate(45deg);
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Submit Button */
+.paydcc__submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: #6568f4;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'PP Neue Montreal Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.paydcc__submit-btn:hover:not(:disabled) {
+  background: #5457d8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(101, 104, 244, 0.3);
+}
+
+.paydcc__submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.paydcc__submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.paydcc__loader {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Security Notice */
+.paydcc__security {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1.5px solid #E5E7EB;
+}
+
+.paydcc__payment-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.paydcc__security-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #746C96;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.paydcc__security-text svg {
+  flex-shrink: 0;
+}
+
+/* Footer */
+.paydcc__footer {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: white;
+  border-top: 1px solid #E5E7EB;
+}
+
+.paydcc__footer-image {
+  max-width: 100%;
+  height: auto;
+  width: auto;
+  max-height: 120px;
+}
+
+.paydcc__footer p {
+  margin: 0;
+  font-size: 14px;
+  color: #6B7280;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .paydcc__card {
+    padding: 32px 24px;
+  }
+
+  .paydcc__title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .paydcc__row {
+    grid-template-columns: 1fr;
+  }
+
+  .paydcc__submit-btn {
+    font-size: 16px;
+  }
+
+  .paydcc__cvc-tooltip {
+    max-width: calc(100vw - 48px);
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .paydcc__cvc-tooltip::before {
+    right: 50%;
+    transform: translateX(50%) rotate(45deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .paydcc__content {
+    padding: 24px 16px;
+  }
+
+  .paydcc__card {
+    padding: 24px 16px;
+    border-radius: 12px;
+  }
+
+  .paydcc__title {
+    font-size: 22px;
+  }
+
+  .paydcc__input {
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .paydcc__submit-btn {
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .paydcc__payment-icons svg {
+    width: 32px;
+    height: auto;
+  }
+
+  .paydcc__security-text {
+    font-size: 12px;
+  }
+}
+
+/* RTL Support */
+.rtl {
+  direction: rtl;
+}
+
+.rtl .paydcc__input {
+  direction: ltr;
+  text-align: right;
+}
+
+/* Reminder/Security Section */
+.reminder_dibsy {
+  margin-top: 24px;
+  padding: 20px;
+  background: #f9f9fb;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.payment-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.payment-icons svg {
+  flex-shrink: 0;
+}
+
+.reminder-desc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #746C96;
+  line-height: 1.6;
+  direction: rtl;
+}
+
+.reminder-desc svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .payment-icons {
+    gap: 12px;
+  }
+  
+  .payment-icons svg {
+    width: 36px;
+    height: auto;
+  }
+  
+  .reminder-desc {
+    font-size: 12px;
+  }
+}
+
+.rtl .paydcc__input::placeholder {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl .paydcc__header-return {
+  right: 24px;
+  left: auto;
+}
+
+.rtl .paydcc__error-message {
+  right: 12px;
+  left: auto;
+}
+
+.rtl .paydcc__cvc-tooltip {
+  right: 0;
+  left: auto;
+}

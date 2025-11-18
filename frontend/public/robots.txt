@@ -1,0 +1,17 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ielts.sbs/sitemap.xml
+
+# Disallow admin pages from search engines
+User-agent: *
+Disallow: /admin
+Disallow: /admin/*
+
+# Allow common search engines
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Slurp
+Allow: /

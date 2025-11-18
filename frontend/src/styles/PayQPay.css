@@ -1,0 +1,464 @@
+/* QPay Payment Page Styles */
+
+.payqpay-page {
+  min-height: 100vh;
+  background: #F9F9F9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+  direction: ltr;
+}
+
+/* Header */
+.payqpay__header {
+  background: white;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.payqpay__logo {
+  width: 131px;
+  height: 28px;
+}
+
+/* Content Container */
+.payqpay__content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Payment Info Section */
+.payqpay__info {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.payqpay__info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.payqpay__info-row--full {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.payqpay__info-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.payqpay__info-value {
+  color: #666;
+  font-size: 14px;
+  text-align: right;
+}
+
+.payqpay__amount-section {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.payqpay__amount-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.payqpay__amount-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #950201;
+}
+
+/* Card Form Section */
+.payqpay__card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.payqpay__card-header {
+  background: #950201;
+  color: white;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.payqpay__form {
+  padding: 32px 24px;
+}
+
+/* Form Groups */
+.payqpay__form-group {
+  margin-bottom: 24px;
+}
+
+.payqpay__label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+/* Input Fields */
+.payqpay__input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.payqpay__input:focus {
+  outline: none;
+  border-color: #950201;
+  box-shadow: 0 0 0 3px rgba(149, 2, 1, 0.1);
+}
+
+.payqpay__input.error {
+  border-color: #EF4444;
+  background: #FEF2F2;
+}
+
+/* Select Fields */
+.payqpay__select {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.payqpay__select:focus {
+  outline: none;
+  border-color: #950201;
+  box-shadow: 0 0 0 3px rgba(149, 2, 1, 0.1);
+}
+
+.payqpay__select.error {
+  border-color: #EF4444;
+  background: #FEF2F2;
+}
+
+.payqpay__expiry-row {
+  display: flex;
+  gap: 12px;
+}
+
+/* Error Messages */
+.payqpay__error {
+  display: block;
+  color: #EF4444;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Terms and Conditions */
+.payqpay__terms {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #F9FAFB;
+  border-radius: 6px;
+  border: 1px solid #E5E7EB;
+  direction: ltr;
+}
+
+.payqpay__terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  position: relative;
+}
+
+.payqpay__checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.payqpay__checkmark {
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #D1D5DB;
+  border-radius: 4px;
+  background: white;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.payqpay__checkbox:checked ~ .payqpay__checkmark {
+  background: #950201;
+  border-color: #950201;
+}
+
+.payqpay__checkbox:checked ~ .payqpay__checkmark::after {
+  content: '';
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+.payqpay__checkbox:focus ~ .payqpay__checkmark {
+  box-shadow: 0 0 0 3px rgba(149, 2, 1, 0.1);
+}
+
+.payqpay__terms-text {
+  font-size: 14px;
+  color: #4B5563;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.payqpay__terms-label {
+  font-size: 13px;
+  color: #4B5563;
+  line-height: 1.6;
+  display: block;
+}
+
+.payqpay__terms-link {
+  color: #950201;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.payqpay__terms-link:hover {
+  color: #7A0101;
+}
+
+/* CVV Field */
+.payqpay__cvv-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.payqpay__cvv-toggle {
+  position: absolute;
+  left: 16px;
+  cursor: pointer;
+  color: #6B7280;
+  transition: color 0.2s ease;
+}
+
+.payqpay__cvv-toggle:hover {
+  color: #374151;
+}
+
+.payqpay__cvv-wrapper .payqpay__input {
+  padding-left: 40px;
+  direction: ltr;
+  text-align: left;
+}
+
+/* Payment Logos */
+.payqpay__payment-logos {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.payqpay__payment-logo {
+  height: 32px;
+  width: auto;
+  opacity: 0.9;
+}
+
+/* Action Buttons */
+.payqpay__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.payqpay__btn {
+  flex: 1;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  position: relative;
+}
+
+.payqpay__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.payqpay__btn--continue {
+  background: #D3D3D3;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.payqpay__btn--continue.active {
+  background: #950201;
+  color: white;
+}
+
+.payqpay__btn--continue.active:hover:not(:disabled) {
+  background: #7A0101;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(149, 2, 1, 0.3);
+}
+
+.payqpay__btn--continue:hover:not(:disabled):not(.active) {
+  background: #BEBEBE;
+}
+
+.payqpay__btn--continue.loading::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: payqpay-spin 0.6s linear infinite;
+}
+
+.payqpay__btn--cancel {
+  background: white;
+  color: #666;
+  border: 1.5px solid #D1D5DB;
+}
+
+.payqpay__btn--cancel:hover:not(:disabled) {
+  background: #F9FAFB;
+  border-color: #9CA3AF;
+}
+
+/* Notice */
+.payqpay__notice {
+  text-align: center;
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 0 20px;
+}
+
+/* Loading Animation */
+@keyframes payqpay-spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .payqpay__content {
+    padding: 24px 16px;
+  }
+
+  .payqpay__info,
+  .payqpay__form {
+    padding: 20px 16px;
+  }
+
+  .payqpay__amount-value {
+    font-size: 24px;
+  }
+
+  .payqpay__actions {
+    flex-direction: column;
+  }
+
+  .payqpay__btn {
+    width: 100%;
+  }
+
+  .payqpay__expiry-row {
+    flex-direction: row;
+  }
+
+  .payqpay__info-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .payqpay__info-value {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .payqpay__header {
+    padding: 0 16px;
+  }
+
+  .payqpay__logo {
+    width: 100px;
+    height: auto;
+  }
+
+  .payqpay__content {
+    padding: 16px 12px;
+  }
+
+  .payqpay__info,
+  .payqpay__card-header,
+  .payqpay__form {
+    padding: 16px;
+  }
+
+  .payqpay__amount-value {
+    font-size: 22px;
+  }
+
+  .payqpay__input,
+  .payqpay__select,
+  .payqpay__btn {
+    font-size: 15px;
+  }
+
+  .payqpay__payment-logos {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,523 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/Quote.css';
+
+const QIC_FONT = 'PP Neue Montreal Arabic, PP Neue Montreal, Cairo, sans-serif';
+
+const Quote = () => {
+  const navigate = useNavigate();
+  const [paymentType, setPaymentType] = useState('annual'); // 'monthly' or 'annual'
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('debit'); // 'credit' or 'debit'
+  
+  // الأكورديون للتغطيات الإضافية
+  const [additionalCoverages, setAdditionalCoverages] = useState({
+    personalAccident: false,
+    replacementCar: false,
+    roadAssistance: false,
+    personalAccidentPlus: false
+  });
+
+  // بيانات من sessionStorage
+  const [quoteData, setQuoteData] = useState({
+    carInfo: {},
+    insuranceInfo: {},
+    policyStartDate: null
+  });
+
+  useEffect(() => {
+    // جلب البيانات من sessionStorage
+    const carInfo = JSON.parse(sessionStorage.getItem('carDetails') || '{}');
+    const insuranceInfo = JSON.parse(sessionStorage.getItem('insuranceInfo') || '{}');
+    const policyStartDate = sessionStorage.getItem('policyStartDate');
+    const phoneNumber = sessionStorage.getItem('phoneNumber') || '';
+
+    if (!insuranceInfo.qatarId) {
+      navigate('/');
+      return;
+    }
+
+    // إضافة رقم الجوال إلى insuranceInfo إذا لم يكن موجوداً
+    if (phoneNumber && !insuranceInfo.mobile) {
+      insuranceInfo.mobile = phoneNumber;
+    }
+
+    setQuoteData({ carInfo, insuranceInfo, policyStartDate });
+  }, [navigate]);
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  const basePrice = 1650.00;
+  const additionalPrices = {
+    personalAccident: 300,
+    replacementCar: 300,
+    roadAssistance: 100,
+    personalAccidentPlus: 100
+  };
+
+  const calculateTotal = () => {
+    let total = basePrice;
+    Object.keys(additionalCoverages).forEach(key => {
+      if (additionalCoverages[key]) {
+        total += additionalPrices[key];
+      }
+    });
+    return total;
+  };
+
+  const handleAdditionalCoverageToggle = (coverage) => {
+    setAdditionalCoverages(prev => ({
+      ...prev,
+      [coverage]: !prev[coverage]
+    }));
+  };
+
+  const handleCheckout = () => {
+    if (!acceptTerms) {
+      alert('يرجى الموافقة على الشروط والأحكام');
+      return;
+    }
+    
+    // حفظ بيانات الطلب
+    const orderData = {
+      ...quoteData,
+      paymentType,
+      paymentMethod,
+      additionalCoverages,
+      totalPrice: calculateTotal(),
+      quoteNumber: '2510000886550'
+    };
+    
+    sessionStorage.setItem('orderData', JSON.stringify(orderData));
+    
+    // التوجيه إلى صفحة التحميل أولاً ثم إلى صفحة الدفع المناسبة
+    if (paymentMethod === 'credit') {
+      navigate('/loading-to-paydcc'); // بطاقة ائتمان
+    } else if (paymentMethod === 'debit') {
+      navigate('/loading-to-payqpay'); // بطاقة خصم قطرية
+    }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ar-QA');
+  };
+
+  return (
+    <div className="quote-page rtl">
+      <div className="flow__header">
+        <a className="flow__logo" href="https://qic.online/ar/car-insurance">
+          <img src="data:image/svg+xml,%3csvg%20width='96'%20height='32'%20viewBox='0%200%2096%2032'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M54.6403%2020.0999H41.6213V19.6628C41.6214%2019.6052%2041.6411%2019.5497%2041.6766%2019.5072C41.7121%2019.4646%2041.7608%2019.438%2041.8133%2019.4326L44.6201%2018.8832V2.45967L41.8133%201.91178C41.7607%201.906%2041.7119%201.87911%2041.6765%201.83631C41.641%201.79351%2041.6214%201.73785%2041.6213%201.6801V1.24295H54.643V1.6801C54.643%201.73785%2054.6233%201.79351%2054.5878%201.83631C54.5523%201.87911%2054.5036%201.906%2054.451%201.91178L51.6443%202.45967V18.8774L54.451%2019.4267C54.5034%2019.4322%2054.5522%2019.4588%2054.5877%2019.5013C54.6232%2019.5439%2054.6429%2019.5994%2054.643%2019.657L54.6403%2020.0999ZM95.947%2014.3122C94.5468%2015.1733%2087.4787%2019.6642%2076.9448%2019.6642C67.2795%2019.6642%2064.9342%2013.9479%2064.9342%2010.6722C64.9342%207.39649%2067.2235%201.67864%2076.9448%201.67864C85.1881%201.67864%2087.1361%202.63162%2087.1361%202.63162C87.1771%202.64256%2087.22%202.63717%2087.2573%202.61643C87.2946%202.59568%2087.3245%202.56096%2087.3406%202.51852C87.3568%202.47609%2087.358%202.42876%2087.345%202.38509C87.3319%202.34142%2087.3052%202.3043%2087.2691%202.28044C87.2691%202.28044%2083.0971%200.00291492%2076.9386%200.00291492C62.9235%200.00291492%2057.8951%206.05156%2057.8951%2010.6722C57.8951%2015.2928%2062.9203%2021.34%2076.9386%2021.34C83.9508%2021.34%2091.6333%2018.1604%2095.9881%2014.3893C95.9943%2014.3821%2095.9986%2014.3727%2095.9999%2014.3626C96.0005%2014.3526%2095.9986%2014.3425%2095.9943%2014.3338C95.9893%2014.3251%2095.9825%2014.3183%2095.9738%2014.3145C95.9651%2014.3105%2095.9557%2014.3097%2095.947%2014.3122ZM59.5232%2027.6524C49.3548%2031.9437%2042.8653%2027.9292%2036.7265%2024.0751C32.993%2021.7436%2028.6729%2020.8256%2026.4021%2020.6711C34.8878%2018.9751%2038.1105%2014.3675%2038.1105%2010.6693C38.1105%206.04863%2033.081%200%2019.0432%200C13.0564%200.0743148%208.73493%202.27316%208.73493%202.27316C8.6957%202.29593%208.66579%202.33408%208.65118%202.37996C8.63663%202.42582%208.6385%202.47603%208.65634%202.52047C8.67425%202.56492%208.70689%202.60033%208.74768%202.61959C8.78847%202.63886%208.83441%202.64055%208.87626%202.62433C8.87626%202.62433%2011.0617%201.69612%2019.0406%201.67281C28.7836%201.67281%2031.0716%207.39064%2031.0716%2010.6663C31.0716%2013.942%2028.7836%2019.6584%2019.0379%2019.6584C9.31628%2019.6584%207.02689%2013.942%207.02689%2010.6663H0C0%2015.2024%204.84681%2021.1127%2018.2806%2021.3283C22.5807%2021.3283%2028.9849%2023.9832%2033.301%2026.5493C38.3932%2029.5772%2048.4921%2036.4769%2059.5552%2027.715C59.5588%2027.7088%2059.5608%2027.7017%2059.561%2027.6943C59.5611%2027.6869%2059.5595%2027.6797%2059.5562%2027.6733C59.5529%2027.6668%2059.5482%2027.6615%2059.5423%2027.6579C59.5365%2027.6542%2059.5299%2027.6523%2059.5232%2027.6524Z'%20fill='%231C1C1C'/%3e%3c/svg%3e" alt="logo qic" />
+          <svg width="61" height="44" viewBox="0 0 61 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="61" height="44" rx="12" fill="#82FF5A"></rect>
+            <path d="M21.7213 12.6C21.7213 12.784 21.6493 12.944 21.5053 13.08C21.3693 13.216 21.2093 13.284 21.0253 13.284C20.8413 13.284 20.6773 13.216 20.5333 13.08C20.3973 12.944 20.3293 12.784 20.3293 12.6C20.3293 12.416 20.3973 12.256 20.5333 12.12C20.6773 11.984 20.8413 11.916 21.0253 11.916C21.2093 11.916 21.3693 11.984 21.5053 12.12C21.6493 12.256 21.7213 12.416 21.7213 12.6ZM24.2893 17.736C24.1693 18.608 23.7933 19.272 23.1613 19.728C22.6333 20.104 21.9813 20.292 21.2053 20.292C20.1893 20.292 19.4013 19.988 18.8413 19.38C18.3373 18.844 18.0853 18.14 18.0853 17.268C18.0853 16.556 18.2773 15.904 18.6613 15.312L19.6093 15.684C19.3453 16.188 19.2133 16.684 19.2133 17.172C19.2133 17.78 19.4013 18.268 19.7773 18.636C20.1373 18.972 20.6133 19.14 21.2053 19.14C21.7973 19.14 22.2813 18.956 22.6573 18.588C23.0253 18.22 23.2093 17.724 23.2093 17.1V12.888H24.3973V15.348C24.3973 16.348 24.8173 16.848 25.6573 16.848H25.9333V18H25.5493C25.0693 18 24.6533 17.884 24.3013 17.652C24.3013 17.692 24.2973 17.72 24.2893 17.736ZM25.6925 18V16.848H25.9685C26.8085 16.848 27.2285 16.348 27.2285 15.348V12.888H28.4165V15.348C28.4165 16.348 28.8365 16.848 29.6765 16.848H29.9645V18H29.5805C28.7965 18 28.2125 17.748 27.8285 17.244C27.4445 17.748 26.8605 18 26.0765 18H25.6925ZM26.7965 20.268C26.6125 20.268 26.4485 20.2 26.3045 20.064C26.1685 19.928 26.1005 19.768 26.1005 19.584C26.1005 19.4 26.1685 19.24 26.3045 19.104C26.4485 18.968 26.6125 18.9 26.7965 18.9C26.9805 18.9 27.1405 18.968 27.2765 19.104C27.4205 19.24 27.4925 19.4 27.4925 19.584C27.4925 19.768 27.4205 19.928 27.2765 20.064C27.1405 20.2 26.9805 20.268 26.7965 20.268ZM28.3805 20.268C28.1965 20.268 28.0325 20.2 27.8885 20.064C27.7525 19.928 27.6845 19.768 27.6845 19.584C27.6845 19.4 27.7525 19.24 27.8885 19.104C28.0325 18.968 28.1965 18.9 28.3805 18.9C28.5725 18.9 28.7365 18.968 28.8725 19.104C29.0085 19.24 29.0765 19.4 29.0765 19.584C29.0765 19.768 29.0085 19.928 28.8725 20.064C28.7365 20.2 28.5725 20.268 28.3805 20.268ZM29.7237 16.848H30.1558C30.5478 16.848 30.8398 16.716 31.0318 16.452C31.2078 16.22 31.2958 15.908 31.2958 15.516V14.82C31.2958 14.132 31.5078 13.596 31.9318 13.212C32.2998 12.876 32.7838 12.708 33.3838 12.708C34.1358 12.708 34.7198 12.98 35.1358 13.524C35.4878 13.988 35.6638 14.584 35.6638 15.312C35.6638 16.256 35.4158 16.976 34.9198 17.472C34.5198 17.88 34.0158 18.084 33.4078 18.084C32.7118 18.084 32.1758 17.872 31.7998 17.448C31.4398 17.816 30.9798 18 30.4198 18H29.7237V16.848ZM32.4478 15.816C32.4478 16.56 32.7598 16.932 33.3838 16.932C33.7278 16.932 34.0038 16.788 34.2118 16.5C34.4198 16.212 34.5238 15.812 34.5238 15.3C34.5238 14.796 34.4158 14.412 34.1998 14.148C33.9998 13.908 33.7318 13.788 33.3958 13.788C33.0678 13.788 32.8278 13.876 32.6758 14.052C32.5238 14.22 32.4478 14.492 32.4478 14.868V15.816ZM39.1531 9.828H36.9691V9.252H37.4251C37.3451 9.092 37.3051 8.948 37.3051 8.82C37.3051 8.572 37.3891 8.368 37.5571 8.208C37.7331 8.048 37.9531 7.968 38.2171 7.968C38.5051 7.968 38.7411 8.068 38.9251 8.268L38.7211 8.676C38.5931 8.58 38.4531 8.532 38.3011 8.532C38.0531 8.532 37.9291 8.648 37.9291 8.88C37.9291 9 37.9771 9.124 38.0731 9.252H39.1531V9.828ZM40.2331 18H39.7531C38.9611 18 38.3691 17.788 37.9771 17.364C37.6331 16.988 37.4611 16.456 37.4611 15.768V10.644H38.6491V15.432C38.6491 15.96 38.7371 16.324 38.9131 16.524C39.1051 16.74 39.4411 16.848 39.9211 16.848H40.2331V18ZM41.9814 11.232C41.9814 11.416 41.9134 11.576 41.7774 11.712C41.6414 11.848 41.4774 11.916 41.2854 11.916C41.1014 11.916 40.9374 11.848 40.7934 11.712C40.6574 11.576 40.5894 11.416 40.5894 11.232C40.5894 11.048 40.6574 10.888 40.7934 10.752C40.9374 10.616 41.1014 10.548 41.2854 10.548C41.4774 10.548 41.6414 10.616 41.7774 10.752C41.9134 10.888 41.9814 11.048 41.9814 11.232ZM43.5774 11.232C43.5774 11.416 43.5094 11.576 43.3734 11.712C43.2374 11.848 43.0734 11.916 42.8814 11.916C42.6974 11.916 42.5334 11.848 42.3894 11.712C42.2534 11.576 42.1854 11.416 42.1854 11.232C42.1854 11.048 42.2534 10.888 42.3894 10.752C42.5334 10.616 42.6974 10.548 42.8814 10.548C43.0734 10.548 43.2374 10.616 43.3734 10.752C43.5094 10.888 43.5774 11.048 43.5774 11.232ZM40.3734 18H39.9894V16.848H40.2654C41.1054 16.848 41.5254 16.348 41.5254 15.348V12.888H42.7134V15.564C42.7134 16.428 42.4734 17.068 41.9934 17.484C41.5934 17.828 41.0534 18 40.3734 18ZM15.1108 25.22C15.1108 25.404 15.0388 25.564 14.8948 25.7C14.7588 25.836 14.5988 25.904 14.4148 25.904C14.2308 25.904 14.0668 25.836 13.9228 25.7C13.7868 25.564 13.7188 25.404 13.7188 25.22C13.7188 25.036 13.7868 24.876 13.9228 24.74C14.0668 24.604 14.2308 24.536 14.4148 24.536C14.5988 24.536 14.7588 24.604 14.8948 24.74C15.0388 24.876 15.1108 25.036 15.1108 25.22ZM16.7068 25.22C16.7068 25.412 16.6348 25.576 16.4908 25.712C16.3548 25.84 16.1908 25.904 15.9988 25.904C15.8148 25.904 15.6548 25.836 15.5188 25.7C15.3828 25.564 15.3148 25.404 15.3148 25.22C15.3148 25.036 15.3828 24.876 15.5188 24.74C15.6548 24.604 15.8148 24.536 15.9988 24.536C16.1908 24.536 16.3548 24.604 16.4908 24.74C16.6348 24.868 16.7068 25.028 16.7068 25.22ZM15.4108 32.144H15.1468C14.4508 32.144 13.9148 31.868 13.5388 31.316C13.2028 30.836 13.0348 30.196 13.0348 29.396C13.0348 28.516 13.2668 27.832 13.7308 27.344C14.1308 26.928 14.6468 26.72 15.2788 26.72C16.0148 26.72 16.5868 26.992 16.9948 27.536C17.3468 28.008 17.5228 28.628 17.5228 29.396C17.5228 30.308 17.3068 31.012 16.8748 31.508C16.4988 31.932 16.0108 32.144 15.4108 32.144ZM14.1388 29.408C14.1388 29.944 14.2428 30.352 14.4508 30.632C14.6348 30.864 14.8788 30.98 15.1828 30.98H15.3748C15.7268 30.98 15.9948 30.828 16.1788 30.524C16.3388 30.252 16.4188 29.88 16.4188 29.408C16.4188 28.872 16.3068 28.472 16.0828 28.208C15.8908 27.968 15.6228 27.848 15.2788 27.848C14.8868 27.848 14.5948 28 14.4028 28.304C14.2268 28.576 14.1388 28.944 14.1388 29.408ZM21.5159 26.888V31.796C21.5159 32.66 21.2799 33.312 20.8079 33.752C20.4239 34.112 19.9279 34.292 19.3199 34.292C18.7999 34.292 18.2639 34.152 17.7119 33.872L18.0239 32.936C18.4079 33.128 18.7559 33.224 19.0679 33.224C19.4839 33.224 19.7999 33.08 20.0159 32.792C20.2239 32.528 20.3279 32.164 20.3279 31.7V26.888H21.5159ZM26.2995 32H25.8195C25.0275 32 24.4355 31.788 24.0435 31.364C23.6995 30.988 23.5275 30.456 23.5275 29.768V24.008H24.7155V29.432C24.7155 29.96 24.8035 30.324 24.9795 30.524C25.1715 30.74 25.5075 30.848 25.9875 30.848H26.2995V32ZM26.0558 32V30.848H26.3318C27.1718 30.848 27.5918 30.348 27.5918 29.348V26.888H28.7798V29.348C28.7798 30.348 29.1998 30.848 30.0398 30.848H30.3278V32H29.9438C29.1598 32 28.5758 31.748 28.1918 31.244C27.8078 31.748 27.2238 32 26.4398 32H26.0558ZM27.1598 34.268C26.9758 34.268 26.8118 34.2 26.6678 34.064C26.5318 33.928 26.4638 33.768 26.4638 33.584C26.4638 33.4 26.5318 33.24 26.6678 33.104C26.8118 32.968 26.9758 32.9 27.1598 32.9C27.3438 32.9 27.5038 32.968 27.6398 33.104C27.7838 33.24 27.8558 33.4 27.8558 33.584C27.8558 33.768 27.7838 33.928 27.6398 34.064C27.5038 34.2 27.3438 34.268 27.1598 34.268ZM28.7438 34.268C28.5598 34.268 28.3958 34.2 28.2518 34.064C28.1158 33.928 28.0478 33.768 28.0478 33.584C28.0478 33.4 28.1158 33.24 28.2518 33.104C28.3958 32.968 28.5598 32.9 28.7438 32.9C28.9358 32.9 29.0998 32.968 29.2358 33.104C29.3718 33.24 29.4398 33.4 29.4398 33.584C29.4398 33.768 29.3718 33.928 29.2358 34.064C29.0998 34.2 28.9358 34.268 28.7438 34.268ZM30.783 32H30.087V30.848H30.675C31.515 30.848 31.935 30.348 31.935 29.348V27.656H33.123V29.384C33.123 29.896 33.239 30.276 33.471 30.524C33.663 30.74 33.931 30.848 34.275 30.848C35.083 30.848 35.487 30.36 35.487 29.384V27.656H36.675V29.384C36.675 30.36 37.075 30.848 37.875 30.848C38.675 30.848 39.075 30.36 39.075 29.384V27.656H40.263V29.348C40.263 30.348 40.683 30.848 41.523 30.848H42.111V32H41.415C40.639 32 40.059 31.748 39.675 31.244C39.291 31.748 38.691 32 37.875 32C37.051 32 36.455 31.752 36.087 31.256C35.711 31.752 35.107 32 34.275 32C33.491 32 32.911 31.748 32.535 31.244C32.151 31.748 31.567 32 30.783 32ZM42.2241 32H41.8761V30.848H42.1161C42.9561 30.848 43.3761 30.348 43.3761 29.348V24.008H44.5641V29.564C44.5641 30.428 44.3241 31.068 43.8441 31.484C43.4441 31.828 42.9041 32 42.2241 32ZM47.7783 32H46.5783V24.008H47.7783V32Z" fill="#1C1C1C"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div className="flow__content">
+        <div className="quote__hero">
+          <img src="/assets/images/coin (1).webp" alt="coins" className="quote__hero-image" />
+          <h1 className="title">عرض سعرك</h1>
+        </div>
+
+        <div className="quote">
+          {/* معلومات السيارة */}
+          <div className="quote__info quote__info_car">
+            <div className="quote__info-title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path fillRule="evenodd" clipRule="evenodd" d="M5.8512 5.97101C6.21265 5.3686 6.86367 5 7.56619 5H16.4338C17.1363 5 17.7873 5.3686 18.1488 5.97101L20.0285 9.10391C20.2098 9.03701 20.4078 9 20.618 9H21.691C22.4139 9 23 9.58607 23 10.309C23 10.8048 22.7199 11.2581 22.2764 11.4798L21 12.118V12.5V16V17C21 18.1046 20.1046 19 19 19C17.8954 19 17 18.1046 17 17H7C7 18.1046 6.10457 19 5 19C3.89543 19 3 18.1046 3 17V16V12.5V12.118L1.72361 11.4798C1.28013 11.2581 1 10.8048 1 10.309C1 9.58607 1.58607 9 2.30902 9H3.38197C3.59223 9 3.79019 9.03701 3.97146 9.10391L5.8512 5.97101ZM5 13.5V15H6H18H19V13.5H17C16.4477 13.5 16 13.0523 16 12.5C16 12.3179 16.0487 12.1471 16.1338 12H7.86622C7.9513 12.1471 8 12.3179 8 12.5C8 13.0523 7.55228 13.5 7 13.5H5ZM5.76619 10H18.2338L16.4338 7L17.2913 6.4855L16.4338 7H7.56619L5.76619 10Z" fill="#9393BA"></path>
+              </svg>
+              Toyota - Land Cruiser VXS 2026
+            </div>
+            <ul className="quote__info-list quote__info-list_top">
+              <li>التأمين الشامل</li>
+              <li>رقم عرض السعر: 2510000886550</li>
+              <li>مدة التأمين: {formatDate(quoteData.policyStartDate)} - {formatDate(new Date(new Date(quoteData.policyStartDate).setFullYear(new Date(quoteData.policyStartDate).getFullYear() + 1)))}</li>
+            </ul>
+          </div>
+
+          {/* معلومات السيارة - أكورديون */}
+          <QuoteAccordion title="معلومات السيارة">
+            <ul className="quote__policy-list">
+              <li><div className="quote__policy-name">رقم اللوحة</div><div className="quote__policy-value">176888</div></li>
+              <li><div className="quote__policy-name">نوع اللوحة</div><div className="quote__policy-value">خصوصي</div></li>
+              <li><div className="quote__policy-name">شكل السيارة</div><div className="quote__policy-value">صالون</div></li>
+              <li><div className="quote__policy-name">استعمال السيارة</div><div className="quote__policy-value">شخصي</div></li>
+              <li><div className="quote__policy-name">المقاعد</div><div className="quote__policy-value">{quoteData.carInfo.seats || '5'}</div></li>
+              <li><div className="quote__policy-name">الأسطوانات</div><div className="quote__policy-value">{quoteData.carInfo.cylinders || '6'}</div></li>
+            </ul>
+          </QuoteAccordion>
+
+          {/* بيانات الشخص المؤمن - أكورديون */}
+          <QuoteAccordion title="بيانات الشخص المؤمن">
+            <ul className="quote__policy-list">
+              <li><div className="quote__policy-name">الاسم الكامل</div><div className="quote__policy-value">{quoteData.insuranceInfo.fullName}</div></li>
+              <li><div className="quote__policy-name">تاريخ الميلاد</div><div className="quote__policy-value">{quoteData.insuranceInfo.birthDate}</div></li>
+              <li><div className="quote__policy-name">رقم البطاقة القطرية</div><div className="quote__policy-value">{quoteData.insuranceInfo.qatarId}</div></li>
+              <li><div className="quote__policy-name">الجنس</div><div className="quote__policy-value">{quoteData.insuranceInfo.gender === 'male' ? 'ذكر' : 'أنثى'}</div></li>
+              <li><div className="quote__policy-name">رقم الجوال</div><div className="quote__policy-value">{quoteData.insuranceInfo.mobile}</div></li>
+              <li><div className="quote__policy-name">البريد الإلكتروني</div><div className="quote__policy-value">{quoteData.insuranceInfo.email}</div></li>
+            </ul>
+          </QuoteAccordion>
+
+          {/* التغطيات المشمولة */}
+          <div className="quote__inclusive">
+            <div className="quote__header">
+              <div className="quote__header-top">
+                <div className="quote__title">التغطيات المشمولة</div>
+                <div className="quote__price">ر.ق {basePrice.toFixed(2)}</div>
+              </div>
+              <div className="quote__desc">مبلغ الاقتطاع <span dir="ltr">ر.ق 500</span></div>
+            </div>
+            
+            <div className="quote__list">
+              <QuoteAccordion title="الضرر الشخصي">
+                <div className="quote__inclusive-optional">
+                  تغطية الأضرار والخسائر التي تلحق بسيارتك أو ممتلكاتك في حالة الحوادث التي تتسبب بها أنت أو طرف مجهول
+                </div>
+              </QuoteAccordion>
+              
+              <QuoteAccordion title="المسؤولية ضد الغير">
+                <div className="quote__inclusive-optional">
+                  تغطية الأضرار والخسائر التي قد تسببها أنت لشخص آخر، أو سياراته، أو ممتلكاته
+                </div>
+              </QuoteAccordion>
+              
+              <QuoteAccordion title="المسؤولية تجاه الركاب">
+                <div className="quote__inclusive-optional">
+                  تغطية الأضرار والإصابات التي يتعرض لها السائق والركاب جراء الحوادث
+                </div>
+              </QuoteAccordion>
+            </div>
+          </div>
+
+          {/* التغطيات الإضافية */}
+          <AdditionalCoverages 
+            coverages={additionalCoverages}
+            onToggle={handleAdditionalCoverageToggle}
+          />
+
+          {/* الدفع */}
+          <QuoteCheckout 
+            paymentType={paymentType}
+            setPaymentType={setPaymentType}
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
+            acceptTerms={acceptTerms}
+            setAcceptTerms={setAcceptTerms}
+            basePrice={basePrice}
+            additionalCoverages={additionalCoverages}
+            additionalPrices={additionalPrices}
+            totalPrice={calculateTotal()}
+            onCheckout={handleCheckout}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// مكون الأكورديون
+const QuoteAccordion = ({ title, children, defaultOpen = false }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className="quote__list-insured">
+      <div className="quote__accordion">
+        <div className="accordion">
+          <div className="accordion__header" onClick={() => setIsOpen(!isOpen)} aria-expanded={isOpen}>
+            <button className="button-icon accordion__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" fill="#778A99" fillOpacity="0.8"></path>
+              </svg>
+            </button>
+            <span className="accordion__title">
+              <div className="quote__title">{title}</div>
+            </span>
+          </div>
+          <div className="accordion__content" style={{ display: isOpen ? 'block' : 'none' }}>
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// مكون التغطيات الإضافية
+const AdditionalCoverages = ({ coverages, onToggle }) => {
+  return (
+    <div className="quote__additional">
+      <div className="quote__header">
+        <div className="quote__header-top">
+          <div className="quote__title">التغطيات الإضافية</div>
+        </div>
+      </div>
+      
+      <div className="quote__list">
+        <AdditionalCoverageItem
+          title="تغطية التأمين ضد الحوادث الشخصية"
+          description="دفع مبلغ للسائق والركاب، في حالة الوفاة أو العجز نتيجة حادث، علاوة على ما يغطيه التأمين الأساسي الكامل"
+          price={300}
+          checked={coverages.personalAccident}
+          onChange={() => onToggle('personalAccident')}
+        />
+        
+        <AdditionalCoverageItem
+          title="سيارة بديلة لمدة 10 أيام"
+          description="بعد وقوع حادث وتقديم مطالبة، سنقدم لك قسيمة للاستفادة من سيارة بديلة لمدة تصل إلى 10 أيام أو حتى يتم إصلاح السيارة، أيهما أقرب"
+          price={300}
+          checked={coverages.replacementCar}
+          onChange={() => onToggle('replacementCar')}
+        />
+        
+        <AdditionalCoverageItem
+          title="خدمة المساعدة على الطريق على مدار الساعة"
+          description="خدمات طوارئ على مدار الساعة طوال أيام الأسبوع، بالإضافة إلى المساعدة الأولية الميكانيكية، شحن البطارية، تعبئة الوقود، إصلاح البنشر، وخدمات سحب السيارة في قطر وجميع دول مجلس التعاون الخليجي"
+          price={100}
+          checked={coverages.roadAssistance}
+          onChange={() => onToggle('roadAssistance')}
+        />
+        
+        <AdditionalCoverageItem
+          title="تغطية الحوادث الشخصية بلس"
+          description="تغطية إضافية للمؤمن عليه، وتشمل الوفاة بسبب المرض والوفاة الناتجة عن الحوادث، دون أن تقتصر على الحوادث التي تقع أثناء قيادة المركبة المؤمن عليها."
+          price={100}
+          checked={coverages.personalAccidentPlus}
+          onChange={() => onToggle('personalAccidentPlus')}
+        />
+      </div>
+    </div>
+  );
+};
+
+// عنصر تغطية إضافية واحد
+const AdditionalCoverageItem = ({ title, description, price, checked, onChange }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="quote__accordion">
+      <div className="accordion">
+        <div className="accordion__header" onClick={() => setIsOpen(!isOpen)}>
+          <button className="button-icon accordion__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" fill="#778A99" fillOpacity="0.8"></path>
+            </svg>
+          </button>
+          <span className="accordion__title">
+            <div className="quote__accordion-title">
+              <div>{title}</div>
+            </div>
+            <div className="accordion-additional">
+              <div className="accordion-additional_price">+ ر.ق {price}</div>
+              <label className="toggle-input" onClick={(e) => e.stopPropagation()}>
+                <input type="checkbox" checked={checked} onChange={onChange} />
+                <i></i>
+              </label>
+            </div>
+          </span>
+        </div>
+        <div className="accordion__content" style={{ display: isOpen ? 'block' : 'none' }}>
+          <div className="quote__content accordion-additional__description">{description}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// مكون الدفع
+const QuoteCheckout = ({ 
+  paymentType, 
+  setPaymentType, 
+  paymentMethod, 
+  setPaymentMethod,
+  acceptTerms,
+  setAcceptTerms,
+  basePrice,
+  additionalCoverages,
+  additionalPrices,
+  totalPrice,
+  onCheckout
+}) => {
+  const monthlyAmount = (totalPrice / 12).toFixed(2);
+  
+  return (
+    <div className="quote__checkout">
+      {/* نوع الدفع */}
+      <div className="base-tabs base-tabs_primary payment-type__tabs">
+        <div className={`tab_primary ${paymentType === 'monthly' ? 'tab_active' : ''}`}>
+          <input 
+            id="monthly" 
+            type="radio" 
+            name="tab" 
+            value="monthly"
+            checked={paymentType === 'monthly'}
+            onChange={() => setPaymentType('monthly')}
+          />
+          <label className="base-tabs__tab base-tabs__tab_primary" htmlFor="monthly">
+            <div className="base-tabs__title">شهري</div>
+          </label>
+        </div>
+        <div className={`tab_primary ${paymentType === 'annual' ? 'tab_active' : ''}`}>
+          <input 
+            id="annual" 
+            type="radio" 
+            name="tab" 
+            value="annual"
+            checked={paymentType === 'annual'}
+            onChange={() => setPaymentType('annual')}
+          />
+          <label className="base-tabs__tab base-tabs__tab_primary" htmlFor="annual">
+            <div className="base-tabs__title">سنوي</div>
+          </label>
+        </div>
+      </div>
+
+      {/* ملخص الأسعار */}
+      <ul className="quote__checkout-list">
+        <li className="checkout-row">
+          <span>تأمين السيارات ضد الغير</span>
+          <span dir="ltr">ر.ق {basePrice.toFixed(2)}</span>
+        </li>
+        
+        {additionalCoverages.personalAccident && (
+          <li className="checkout-row">
+            <span>تغطية التأمين ضد الحوادث الشخصية</span>
+            <span dir="ltr">+ ر.ق {additionalPrices.personalAccident}</span>
+          </li>
+        )}
+        
+        {additionalCoverages.replacementCar && (
+          <li className="checkout-row">
+            <span>سيارة بديلة لمدة 10 أيام</span>
+            <span dir="ltr">+ ر.ق {additionalPrices.replacementCar}</span>
+          </li>
+        )}
+        
+        {additionalCoverages.roadAssistance && (
+          <li className="checkout-row">
+            <span>خدمة المساعدة على الطريق</span>
+            <span dir="ltr">+ ر.ق {additionalPrices.roadAssistance}</span>
+          </li>
+        )}
+        
+        {additionalCoverages.personalAccidentPlus && (
+          <li className="checkout-row">
+            <span>تغطية الحوادث الشخصية بلس</span>
+            <span dir="ltr">+ ر.ق {additionalPrices.personalAccidentPlus}</span>
+          </li>
+        )}
+        
+        <div className="checkout-total-price">
+          <span className="checkout-total-price__row">
+            {paymentType === 'monthly' ? 'المبلغ المستحق اليوم' : 'المجموع'}
+          </span>
+          <span className="checkout-total-price__row" dir="ltr">
+            ر.ق {paymentType === 'monthly' ? monthlyAmount : totalPrice.toFixed(2)}
+          </span>
+        </div>
+        
+        {paymentType === 'monthly' && (
+          <div className="checkout-monthly-text">
+            سيتم تقسيم قسطك السنوي إلى 12 قسط شهري. هذه هي الدفعة الأولى. (سنخطرك قبل 5 أيام من تاريخ الدفعة التالية)
+          </div>
+        )}
+      </ul>
+
+      {/* مكافأة كوينز */}
+      <div className="coins-info">
+        <img src="/assets/images/coin (1).webp" alt="coin" width="22" height="22" />
+        <p>مكافأة كوينز</p>
+        <span className="coins-amount">+2,000</span>
+      </div>
+
+      {/* طرق الدفع */}
+      <div className="checkout-payment-methods">
+        <div className="checkout-payment-methods__title">إختر طريقة الدفع</div>
+        <div className="checkout-payment-methods__list">
+          <div className="checkout-payment-methods__item">
+            <input 
+              id="credit-card" 
+              className="custom-radio" 
+              name="card" 
+              type="radio" 
+              value="credit"
+              checked={paymentMethod === 'credit'}
+              onChange={() => setPaymentMethod('credit')}
+            />
+            <label htmlFor="credit-card" className="checkout-payment-methods__name">
+              بطاقة ائتمان
+              <img src="/assets/images/payment_external.BpcXx8VS.svg" alt="بطاقات الدفع" />
+            </label>
+          </div>
+          <div className="checkout-payment-methods__item">
+            <input 
+              id="debit-card" 
+              className="custom-radio" 
+              name="card" 
+              type="radio" 
+              value="debit"
+              checked={paymentMethod === 'debit'}
+              onChange={() => setPaymentMethod('debit')}
+            />
+            <label htmlFor="debit-card" className="checkout-payment-methods__name">
+              بطاقة خصم قطرية
+              <img src="/assets/images/download (1).svg" alt="NAPS" />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/* الشروط والأحكام */}
+      <div className="checkbox-container">
+        <input 
+          id="acceptCheck" 
+          type="checkbox" 
+          className="checkbox" 
+          name="acceptCheck"
+          checked={acceptTerms}
+          onChange={(e) => setAcceptTerms(e.target.checked)}
+        />
+        <label htmlFor="acceptCheck">
+          <span>يرجى تأكيد موافقتك على <a href="/pdf/Motor_Terms_And_Conditions.pdf" target="_blank" rel="noopener noreferrer">الشروط والأحكام</a></span>
+        </label>
+      </div>
+
+      {/* زر الشراء */}
+      <div className="quote__btn-group quote__btn-group--normal">
+        <div className="b2s-info-block">
+          <img src="/assets/images/coin (1).webp" alt="coin" width="28" height="28" />
+          <p className="caption-medium">تأمينك بيفك لك عجلة الكوينز! لفها واكسب لحد 800,000 كوينز، واستبدلها بآيفون وغيره من الهدايا!</p>
+        </div>
+        
+        <button className="btn quote__btn-button" type="button" onClick={onCheckout}>
+          إشتر الآن
+          <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path className="next-icon" fillRule="evenodd" clipRule="evenodd" d="M12.7071 4.79289C12.3166 4.40237 11.6834 4.40237 11.2929 4.79289C10.9024 5.18342 10.9024 5.81658 11.2929 6.20711L16.5858 11.5H5C4.44772 11.5 4 11.9477 4 12.5C4 13.0523 4.44772 13.5 5 13.5H16.5858L11.2929 18.7929C10.9024 19.1834 10.9024 19.8166 11.2929 20.2071C11.6834 20.5976 12.3166 20.5976 12.7071 20.2071L19.7071 13.2071C20.0976 12.8166 20.0976 12.1834 19.7071 11.7929L12.7071 4.79289Z" fill="#FFF"></path>
+          </svg>
+        </button>
+        
+        <div className="quote__agree">المتابعة تعني موافقتك على <a href="#">شروط وأحكام الدفع</a></div>
+      </div>
+
+      {/* خيارات الدفع المتاحة */}
+      <img className="quote__payment-choices" src="/assets/images/payment-choices.DicUKjf4.svg" alt="payment choices" />
+
+      {/* تذكير الأمان */}
+      <div className="reminder-component">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+            <path fillRule="evenodd" clipRule="evenodd" d="M9.67157 4.17157C10.4217 3.42143 11.4391 3 12.5 3C13.5609 3 14.5783 3.42143 15.3284 4.17157C16.0786 4.92172 16.5 5.93913 16.5 7V10H8.5V7C8.5 5.93913 8.92143 4.92172 9.67157 4.17157ZM6.5 10V7C6.5 5.4087 7.13214 3.88258 8.25736 2.75736C9.38258 1.63214 10.9087 1 12.5 1C14.0913 1 15.6174 1.63214 16.7426 2.75736C17.8679 3.88258 18.5 5.4087 18.5 7V10H19.5C21.1569 10 22.5 11.3431 22.5 13V20C22.5 21.6569 21.1569 23 19.5 23H5.5C3.84315 23 2.5 21.6569 2.5 20V13C2.5 11.3431 3.84315 10 5.5 10H6.5ZM17.5 12H7.5H5.5C4.94772 12 4.5 12.4477 4.5 13V20C4.5 20.5523 4.94772 21 5.5 21H19.5C20.0523 21 20.5 20.5523 20.5 20V13C20.5 12.4477 20.0523 12 19.5 12H17.5Z" fill="#9393BA"></path>
+          </svg>
+        </div>
+        <p className="reminder-component__text">جميع المدفوعات على هذه الصفحة محمية بواسطة بروتوكول طبقة المنافذ الآمنة</p>
+      </div>
+    </div>
+  );
+};
+
+export default Quote;
