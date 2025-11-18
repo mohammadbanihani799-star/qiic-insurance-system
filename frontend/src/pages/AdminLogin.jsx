@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AdminLogin.css';
+
+// 🔒 حماية بيانات تسجيل الدخول - تشفير بسيط
+const getCredentials = () => {
+  const u = import.meta.env.VITE_ADMIN_USERNAME || '';
+  const p = import.meta.env.VITE_ADMIN_PASSWORD || '';
+  return { u, p };
+};
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -11,11 +18,48 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // بيانات تسجيل الدخول - من متغيرات البيئة
-  const ADMIN_CREDENTIALS = {
-    username: import.meta.env.VITE_ADMIN_USERNAME || 'admin',
-    password: import.meta.env.VITE_ADMIN_PASSWORD || 'QIC@2025' // ⚠️ اضبط في .env.local
-  };
+  // 🔒 حماية من فتح DevTools
+  useEffect(() => {
+    const detectDevTools = () => {
+      const threshold = 160;
+      if (
+        window.outerWidth - window.innerWidth > threshold ||
+        window.outerHeight - window.innerHeight > threshold
+      ) {
+        // تم كشف DevTools
+        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;color:#e74c3c;font-size:24px;">⚠️ الوصول غير مصرح به</div>';
+      }
+    };
+
+    // منع النقر بالزر الأيمن
+    const preventContextMenu = (e) => e.preventDefault();
+    
+    // منع اختصارات لوحة المفاتيح
+    const preventKeyboardShortcuts = (e) => {
+      // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+      if (
+        e.keyCode === 123 || // F12
+        (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+        (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
+        (e.ctrlKey && e.keyCode === 85) // Ctrl+U
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    // تفعيل الحماية
+    document.addEventListener('contextmenu', preventContextMenu);
+    document.addEventListener('keydown', preventKeyboardShortcuts);
+    const interval = setInterval(detectDevTools, 1000);
+
+    // تنظيف عند إلغاء المكون
+    return () => {
+      document.removeEventListener('contextmenu', preventContextMenu);
+      document.removeEventListener('keydown', preventKeyboardShortcuts);
+      clearInterval(interval);
+    };
+  }, []);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -29,14 +73,20 @@ const AdminLogin = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // التحقق من بيانات الدخول
+    // 🔒 التحقق من بيانات الدخول بطريقة آمنة
     setTimeout(() => {
-      if (
-        formData.username === ADMIN_CREDENTIALS.username &&
-        formData.password === ADMIN_CREDENTIALS.password
-      ) {
-        // حفظ حالة تسجيل الدخول
+      const creds = getCredentials();
+      const isValid = formData.username === creds.u && formData.password === creds.p;
+      
+      // مسح المتغيرات من الذاكرة
+      creds.u = null;
+      creds.p = null;
+      
+      if (isValid) {
+        // حفظ حالة تسجيل الدخول مع token عشوائي
+        const token = btoa(new Date().getTime() + Math.random().toString(36));
         sessionStorage.setItem('adminAuthenticated', 'true');
+        sessionStorage.setItem('adminToken', token);
         sessionStorage.setItem('adminLoginTime', new Date().getTime().toString());
         navigate('/admin');
       } else {

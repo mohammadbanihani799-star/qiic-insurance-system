@@ -21,11 +21,13 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false
 }));
 
-// 🔒 Security: Rate Limiting
+// 🔒 Security: Rate Limiting (increased for production)
 const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 min
-  max: parseInt(process.env.RATE_LIMIT_MAX) || 100, // limit each IP
-  message: '❌ Too many requests, please try again later.'
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // 1000 requests per 15 min per IP (increased from 100)
+  message: '❌ Too many requests, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use('/api/', limiter);
 

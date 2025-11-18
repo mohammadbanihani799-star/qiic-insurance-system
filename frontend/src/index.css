@@ -4326,36 +4326,58 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 .flow__logo--center {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .rtl .flow__logo--center {
   left: 50%;
   right: auto;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
 }
 
 .flow__logo--center img {
   display: block;
-  height: 32px;
+  height: 40px;
   width: auto;
+  max-width: 150px;
 }
 
 /* Responsive adjustments for centered logo */
 @media (max-width: 768px) {
   .flow__logo--center img {
-    height: 28px;
+    height: 36px;
+    max-width: 130px;
   }
 }
 
 @media (max-width: 480px) {
   .flow__logo--center img {
-    height: 24px;
+    height: 32px;
+    max-width: 110px;
   }
   
   .flow__header-return {
-    padding: 4px;
+    padding: 6px;
+    font-size: 14px;
+  }
+  
+  /* تحسين تجربة المستخدم على الهاتف */
+  .flow__header {
+    min-height: 60px;
+    padding: 0 12px;
+  }
+  
+  .flow__body {
+    padding: 20px 16px;
+  }
+  
+  input, select, textarea {
+    font-size: 16px !important; /* منع تكبير الشاشة عند التركيز على iOS */
   }
 }
 

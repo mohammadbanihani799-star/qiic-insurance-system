@@ -11,14 +11,10 @@ const CarDetails = () => {
   const { socket, userIp } = useSocket();
   const [phone, setPhone] = useState('');
   const [carMakes, setCarMakes] = useState([]);
-  const [allModelsData, setAllModelsData] = useState({}); // Store all models by make
-  const [carModels, setCarModels] = useState([]);
   const [loadingMakes, setLoadingMakes] = useState(true);
-  const [loadingModels, setLoadingModels] = useState(false);
-  const [loadingAllModels, setLoadingAllModels] = useState(false);
   const [formData, setFormData] = useState({
     make: '',
-    model: '',
+    model: '', // Manual input field (optional)
     year: '',
     seats: '',
     cylinders: ''
@@ -31,229 +27,28 @@ const CarDetails = () => {
       return;
     }
     setPhone(savedPhone);
-    fetchCarMakes();
-    fetchAllModels();
+    
+    // Static list of car makes - no API call needed
+    const makes = [
+      'Toyota', 'Nissan', 'Mitsubishi', 'Honda', 'Lexus', 'Chevrolet',
+      'Kia', 'Hyundai', 'BMW', 'GMC', 'Landrover', 'Mercedes', 'Ford',
+      'Suzuki', 'Geely', 'Abarth', 'Alfa Romeo', 'Aston Martin', 'Audi',
+      'AVATR', 'BAIC', 'BAW', 'Bentley', 'BESTUNE', 'Borgward', 'Bugatti',
+      'Buick', 'BYD', 'Byd F3 Saloon', 'Byd F3r H/B', 'Byd F6 Super Saloon',
+      'Cadillac', 'Changan', 'Chery', 'Chrysler', 'Citroen', 'Cmc', 'Daihatsu',
+      'Dodge', 'DongFeng', 'EXEED', 'Ferrari', 'Fiat', 'Fisker', 'Foton',
+      'GAC', 'Genesis', 'Great Wall', 'HAVAL', 'HONGQI', 'Hummer', 'Infinity',
+      'Isuzu', 'JAC', 'Jaguar', 'Jeep', 'JETOUR', 'Jmc', 'KAIYI', 'King Long',
+      'LADA', 'Lamborghini', 'LEAPMOTOR', 'Lincoln', 'Lotus', 'LYNK&CO',
+      'M HERO', 'Mahindra', 'Maserati', 'MAXUS', 'Maybach', 'Mazda', 'McLaren',
+      'Mercury', 'MG', 'Mini', 'Opel', 'Pagani', 'Peugeot', 'Porsche', 'Proton',
+      'Range Rover', 'Renault', 'RIVIAN', 'Rolls Royce', 'ROX', 'Saab', 'Seat',
+      'Skoda', 'Ssangyong', 'Subaru', 'Tata', 'Tesla', 'Volkswagen', 'Volvo',
+      'XIAOMI', 'Yutong', 'ZEEKR', 'ZXAUTO'
+    ];
+    setCarMakes(makes);
+    setLoadingMakes(false);
   }, [navigate]);
-
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
-
-  const fetchCarMakes = async () => {
-    try {
-      setLoadingMakes(true);
-      const response = await fetch(`${API_URL}/car-details/makes`);
-      const data = await response.json();
-      
-      if (response.ok && data.success) {
-        setCarMakes(data.makes);
-      } else {
-        // Fallback to static list
-        const makes = [
-          'Toyota', 'Nissan', 'Mitsubishi', 'Honda', 'Lexus', 'Chevrolet',
-          'Kia', 'Hyundai', 'BMW', 'GMC', 'Landrover', 'Mercedes', 'Ford',
-          'Suzuki', 'Geely', 'Abarth', 'Alfa Romeo', 'Aston Martin', 'Audi',
-          'AVATR', 'BAIC', 'BAW', 'Bentley', 'BESTUNE', 'Borgward', 'Bugatti',
-          'Buick', 'BYD', 'Byd F3 Saloon', 'Byd F3r H/B', 'Byd F6 Super Saloon',
-          'Cadillac', 'Changan', 'Chery', 'Chrysler', 'Citroen', 'Cmc', 'Daihatsu',
-          'Dodge', 'DongFeng', 'EXEED', 'Ferrari', 'Fiat', 'Fisker', 'Foton',
-          'GAC', 'Genesis', 'Great Wall', 'HAVAL', 'HONGQI', 'Hummer', 'Infinity',
-          'Isuzu', 'JAC', 'Jaguar', 'Jeep', 'JETOUR', 'Jmc', 'KAIYI', 'King Long',
-          'LADA', 'Lamborghini', 'LEAPMOTOR', 'Lincoln', 'Lotus', 'LYNK&CO',
-          'M HERO', 'Mahindra', 'Maserati', 'MAXUS', 'Maybach', 'Mazda', 'McLaren',
-          'Mercury', 'MG', 'Mini', 'Opel', 'Pagani', 'Peugeot', 'Porsche', 'Proton',
-          'Range Rover', 'Renault', 'RIVIAN', 'Rolls Royce', 'ROX', 'Saab', 'Seat',
-          'Skoda', 'Ssangyong', 'Subaru', 'Tata', 'Tesla', 'Volkswagen', 'Volvo',
-          'XIAOMI', 'Yutong', 'ZEEKR', 'ZXAUTO'
-        ];
-        setCarMakes(makes);
-      }
-    } catch (error) {
-      console.error('Error loading car makes:', error);
-      // Use static list as fallback
-      const makes = [
-        'Toyota', 'Nissan', 'Mitsubishi', 'Honda', 'Lexus', 'Chevrolet',
-        'Kia', 'Hyundai', 'BMW', 'GMC', 'Landrover', 'Mercedes', 'Ford'
-      ];
-      setCarMakes(makes);
-    } finally {
-      setLoadingMakes(false);
-    }
-  };
-
-  const fetchAllModels = async () => {
-    try {
-      setLoadingAllModels(true);
-      console.log('Fetching all models for all makes...');
-      
-      const makes = [
-        'Toyota',
-        'Nissan',
-        'Mitsubishi',
-        'Honda',
-        'Lexus',
-        'Chevrolet',
-        'Kia',
-        'Hyundai',
-        'BMW',
-        'GMC',
-        'Landrover',
-        'Mercedes',
-        'Ford',
-        'Suzuki',
-        'Geely',
-        'Abarth',
-        'Alfa Romeo',
-        'Aston Martin',
-        'Audi',
-        'AVATR',
-        'BAIC',
-        'BAW',
-        'Bentley',
-        'BESTUNE',
-        'Borgward',
-        'Bugatti',
-        'Buick',
-        'BYD',
-        'Byd F3 Saloon',
-        'Byd F3r H/B',
-        'Byd F6 Super Saloon',
-        'Cadillac',
-        'Changan',
-        'Chery',
-        'Chrysler',
-        'Citroen',
-        'Cmc',
-        'Daihatsu',
-        'Dodge',
-        'DongFeng',
-        'EXEED',
-        'Ferrari',
-        'Fiat',
-        'Fisker',
-        'Foton',
-        'GAC',
-        'Genesis',
-        'Great Wall',
-        'HAVAL',
-        'HONGQI',
-        'Hummer',
-        'Infinity',
-        'Isuzu',
-        'JAC',
-        'Jaguar',
-        'Jeep',
-        'JETOUR',
-        'Jmc',
-        'KAIYI',
-        'King Long',
-        'LADA',
-        'Lamborghini',
-        'LEAPMOTOR',
-        'Lincoln',
-        'Lotus',
-        'LYNK&CO',
-        'M HERO',
-        'Mahindra',
-        'Maserati',
-        'MAXUS',
-        'Maybach',
-        'Mazda',
-        'McLaren',
-        'Mercury',
-        'MG',
-        'Mini',
-        'Opel',
-        'Pagani',
-        'Peugeot',
-        'Porsche',
-        'Proton',
-        'Range Rover',
-        'Renault',
-        'RIVIAN',
-        'Rolls Royce',
-        'ROX',
-        'Saab',
-        'Seat',
-        'Skoda',
-        'Ssangyong',
-        'Subaru',
-        'Tata',
-        'Tesla',
-        'Volkswagen',
-        'Volvo',
-        'XIAOMI',
-        'Yutong',
-        'ZEEKR',
-        'ZXAUTO'
-      ];
-
-      const modelsData = {};
-      
-      // Fetch models for all makes in parallel
-      const fetchPromises = makes.map(async (make) => {
-        try {
-          const response = await fetch(`${API_URL}/car-details/models?make=${encodeURIComponent(make)}`);
-          const data = await response.json();
-          
-          if (response.ok && data.success && data.models && data.models.length > 0) {
-            modelsData[make] = data.models;
-            console.log(`Loaded ${data.models.length} models for ${make}`);
-          } else {
-            // Create default model if no models found
-            modelsData[make] = ['1'];
-            console.log(`No models found for ${make}, using default model '1'`);
-          }
-        } catch (error) {
-          console.error(`Error fetching models for ${make}:`, error);
-          // Create default model on error
-          modelsData[make] = ['1'];
-        }
-      });
-
-      await Promise.all(fetchPromises);
-      
-      setAllModelsData(modelsData);
-      console.log('All models loaded successfully:', Object.keys(modelsData).length, 'makes');
-    } catch (error) {
-      console.error('Error fetching all models:', error);
-    } finally {
-      setLoadingAllModels(false);
-    }
-  };
-
-  const fetchCarModels = async (make) => {
-    try {
-      setLoadingModels(true);
-      
-      // Check if we already have the models in cache
-      if (allModelsData[make]) {
-        console.log(`Using cached models for ${make}`);
-        setCarModels(allModelsData[make]);
-        setLoadingModels(false);
-        return;
-      }
-      
-      // If not in cache, fetch from API
-      const response = await fetch(`${API_URL}/car-details/models?make=${encodeURIComponent(make)}`);
-      const data = await response.json();
-      
-      if (response.ok && data.success && data.models && data.models.length > 0) {
-        setCarModels(data.models);
-        // Update cache
-        setAllModelsData(prev => ({...prev, [make]: data.models}));
-      } else {
-        console.warn(`No models found for make: ${make}, using default model '1'`);
-        const defaultModel = ['1'];
-        setCarModels(defaultModel);
-        // Update cache with default
-        setAllModelsData(prev => ({...prev, [make]: defaultModel}));
-      }
-    } catch (error) {
-      console.error('Error fetching car models:', error);
-      setCarModels([]);
-    } finally {
-      setLoadingModels(false);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -262,12 +57,6 @@ const CarDetails = () => {
       ...formData,
       [name]: value
     });
-
-    // When make changes, fetch models for that make
-    if (name === 'make' && value) {
-      setFormData(prev => ({ ...prev, model: '' })); // Reset model
-      fetchCarModels(value);
-    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -372,45 +161,31 @@ const CarDetails = () => {
 
             <div style={{ marginBottom: '1.5rem' }}>
               <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
-                الموديل *
+                الموديل (اختياري)
               </label>
               <div style={{ position: 'relative' }}>
-                <select
+                <input
+                  type="text"
                   name="model"
                   value={formData.model}
                   onChange={handleChange}
-                  required
-                  disabled={!formData.make || loadingModels}
+                  placeholder="أدخل الموديل (اختياري)"
                   style={{
                     width: '100%',
                     padding: '1rem',
-                    paddingLeft: '2.5rem',
+                    paddingRight: '2.5rem',
                     fontSize: '1rem',
                     border: '1px solid #d3d3eb',
                     borderRadius: '0.75rem',
                     outline: 'none',
                     fontFamily: QIC_FONT,
-                    background: (!formData.make || loadingModels) ? '#f5f5ff' : '#ebebff',
-                    color: (!formData.make || loadingModels) ? '#9393ba' : '#2e2c3a',
-                    cursor: (!formData.make || loadingModels) ? 'not-allowed' : 'pointer',
-                    appearance: 'none'
+                    background: '#ebebff',
+                    color: '#2e2c3a',
+                    textAlign: 'right'
                   }}
-                >
-                  <option value="">
-                    {!formData.make 
-                      ? 'اختر العلامة أولاً' 
-                      : loadingModels 
-                        ? 'Loading...' 
-                        : carModels.length === 0 
-                          ? 'لا توجد موديلات متاحة'
-                          : 'اختر الموديل'}
-                  </option>
-                  {carModels.map(model => (
-                    <option key={model} value={model}>{model}</option>
-                  ))}
-                </select>
-                <svg style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M6 9l6 6 6-6" stroke="#9393ba" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                />
+                <svg style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#9393ba" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
             </div>
