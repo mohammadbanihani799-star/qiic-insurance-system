@@ -73,16 +73,16 @@ export default function AdminTracker() {
       }
     });
 
-    // Listen for real-time updates
-    newSocket.on('locationUpdated', ({ ip, page }) => {
-      setUsers(prev => {
-        const existing = prev.find(u => u.ip === ip);
-        if (existing) {
-          return prev.map(u => u.ip === ip ? { ...u, currentPage: page } : u);
-        }
-        return [...prev, { ip, currentPage: page, flag: false }];
-      });
-    });
+    // Listen for real-time updates - DISABLED for privacy
+    // newSocket.on('locationUpdated', ({ ip, page }) => {
+    //   setUsers(prev => {
+    //     const existing = prev.find(u => u.ip === ip);
+    //     if (existing) {
+    //       return prev.map(u => u.ip === ip ? { ...u, currentPage: page } : u);
+    //     }
+    //     return [...prev, { ip, currentPage: page, flag: false }];
+    //   });
+    // });
 
     newSocket.on('flagUpdated', ({ ip, flag }) => {
       setUsers(prev => prev.map(u => u.ip === ip ? { ...u, flag } : u));

