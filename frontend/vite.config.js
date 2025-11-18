@@ -28,9 +28,24 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug']
+        drop_console: true, // حذف console
+        drop_debugger: true, // حذف debugger
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        passes: 2, // تمريرتين للضغط الأقصى
+        dead_code: true, // حذف الكود الميت
+        warnings: false, // إخفاء التحذيرات
+        ecma: 2020 // استخدام معايير ES2020
+      },
+      mangle: {
+        toplevel: true, // تشويش أسماء المتغيرات العليا
+        safari10: true,
+        properties: {
+          regex: /^_/ // تشويش الخصائص التي تبدأ بـ _
+        }
+      },
+      format: {
+        comments: false, // حذف كل التعليقات
+        preamble: '/* Protected Code - QIIC Insurance System */'
       }
     },
     rollupOptions: {
@@ -40,9 +55,16 @@ export default defineConfig({
           'react-router': ['react-router-dom'],
           'socket-io': ['socket.io-client'],
           'icons': ['lucide-react']
-        }
+        },
+        // تشفير أسماء الملفات
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    sourcemap: false, // 🔒 منع إنشاء Source Maps
+    cssCodeSplit: true,
+    assetsInlineLimit: 4096
   }
 })
