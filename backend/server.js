@@ -12,6 +12,9 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const server = http.createServer(app);
 
+// 🔒 Trust proxy (required for Nginx reverse proxy)
+app.set('trust proxy', 1);
+
 // 🔒 Security: Helmet middleware
 app.use(helmet({
   contentSecurityPolicy: false, // Disable for Socket.IO
