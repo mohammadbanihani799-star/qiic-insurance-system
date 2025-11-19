@@ -21,12 +21,6 @@ import PaymentFailed from './pages/PaymentFailed';
 import LoadingToPayment from './pages/LoadingToPayment';
 import AdminLogin from './pages/AdminLogin';
 import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import Customers from './pages/Customers';
-import CustomersRealtime from './pages/CustomersRealtime';
-import Vehicles from './pages/Vehicles';
-import Policies from './pages/Policies';
-import Claims from './pages/Claims';
 import LoadingTransition from './pages/LoadingTransition';
 import ProtectedRoute from './components/ProtectedRoute';
 import './index.css';
@@ -70,14 +64,8 @@ function App() {
           {/* Admin Login */}
           <Route path="/admin/login" element={<AdminLogin />} />
           
-          {/* Protected Admin Dashboard Routes */}
+          {/* Protected Admin Dashboard Route */}
           <Route path="/admin" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-          <Route path="/admin/customers" element={<ProtectedRoute><Customers /></ProtectedRoute>} />
-          <Route path="/admin/customers-realtime" element={<ProtectedRoute><CustomersRealtime /></ProtectedRoute>} />
-          <Route path="/admin/vehicles" element={<ProtectedRoute><Vehicles /></ProtectedRoute>} />
-          <Route path="/admin/policies" element={<ProtectedRoute><Policies /></ProtectedRoute>} />
-          <Route path="/admin/claims" element={<ProtectedRoute><Claims /></ProtectedRoute>} />
         </Routes>
       </Router>
     </SocketProvider>
