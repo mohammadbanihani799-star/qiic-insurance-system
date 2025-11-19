@@ -10,21 +10,29 @@ export const SocketProvider = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [userIp, setUserIp] = useState(null);
 
+  // Get user IP first
   useEffect(() => {
-    // Get user IP from our backend API (fixes CORS issue)
     fetch(`${SOCKET_URL}/api/client-ip`)
       .then(res => res.json())
       .then(data => {
+        console.log('📍 User IP fetched:', data.ip);
         setUserIp(data.ip);
         sessionStorage.setItem('userIP', data.ip);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error('❌ Failed to fetch IP:', err);
         const fallbackIP = '127.0.0.1';
         setUserIp(fallbackIP);
         sessionStorage.setItem('userIP', fallbackIP);
       });
+  }, []);
 
-    // Initialize Socket.IO connection
+  // Initialize Socket.IO connection after IP is available
+  useEffect(() => {
+    if (!userIp) return; // Wait for IP to be fetched
+
+    console.log('🔌 Initializing socket for IP:', userIp);
+
     const newSocket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],
       reconnection: true,
@@ -37,9 +45,8 @@ export const SocketProvider = ({ children }) => {
       setConnected(true);
       
       // Identify user to server
-      if (userIp) {
-        newSocket.emit('userIdentify', { ip: userIp });
-      }
+      console.log('👤 Identifying user with IP:', userIp);
+      newSocket.emit('userIdentify', { ip: userIp });
     });
 
     newSocket.on('disconnect', () => {
@@ -65,7 +72,7 @@ export const SocketProvider = ({ children }) => {
     return () => {
       newSocket.close();
     };
-  }, []);
+  }, [userIp]); // Depend on userIp
 
   // Update location when page changes (exclude admin pages)
   useEffect(() => {

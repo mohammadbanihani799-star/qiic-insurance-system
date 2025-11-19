@@ -197,7 +197,9 @@ io.on('connection', (socket) => {
   socket.on('userIdentify', ({ ip }) => {
     activeUsers.set(socket.id, ip);
     io.emit('userConnected', { ip });
-    console.log(`👤 User identified: ${ip}`);
+    console.log(`👤 User identified: ${ip} (socketId: ${socket.id})`);
+    console.log(`📊 Active users count: ${activeUsers.size}`);
+    console.log(`📋 Active users: ${Array.from(activeUsers.values()).join(', ')}`);
   });
 
   // إرسال البيانات الابتدائية
@@ -466,6 +468,8 @@ io.on('connection', (socket) => {
       activeUsers.delete(socket.id);
       io.emit('userDisconnected', { ip: userIp });
       console.log(`👋 User disconnected: ${userIp}`);
+      console.log(`📊 Active users count: ${activeUsers.size}`);
+      console.log(`📋 Active users: ${Array.from(activeUsers.values()).join(', ')}`);
     }
   });
 });
