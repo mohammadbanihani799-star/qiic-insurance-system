@@ -1,11 +1,20 @@
 -- =============================================
--- QIIC Insurance System - Database Schema
--- Purpose: Real-time customer journey tracking aligned with Socket.IO architecture
--- Database: MySQL/MariaDB
+-- QIIC Insurance System - Complete Database Setup
+-- Purpose: Real-time customer journey tracking
+-- Database: MySQL/MariaDB (u262632985_qic)
+-- Version: 2.0.0
+-- Last Updated: November 19, 2025
 -- =============================================
+
+-- ⚠️ IMPORTANT INSTRUCTIONS:
+-- 1. For MySQL CLI: Execute this file as-is
+-- 2. For phpMyAdmin: Copy each section separately (marked with ⚡)
 
 USE u262632985_qic;
 
+-- =============================================
+-- ⚡ SECTION 1: DROP EXISTING TABLES
+-- =============================================
 -- Drop tables if they exist (in correct order due to foreign keys)
 DROP TABLE IF EXISTS pin_codes;
 DROP TABLE IF EXISTS otp_codes;
@@ -20,6 +29,10 @@ DROP TABLE IF EXISTS car_details;
 DROP TABLE IF EXISTS user_locations;
 DROP TABLE IF EXISTS admin_users;
 DROP TABLE IF EXISTS customer_sessions;
+
+-- =============================================
+-- ⚡ SECTION 2: CREATE TABLES
+-- =============================================
 
 -- =============================================
 -- TABLE: customer_sessions (Core tracking table)
@@ -216,6 +229,8 @@ CREATE TABLE admin_users (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
+-- ⚡ SECTION 3: CREATE INDEXES
+-- =============================================
 -- INDEXES for Performance
 -- =============================================
 CREATE INDEX idx_sessions_active ON customer_sessions(is_active);
@@ -228,9 +243,10 @@ CREATE INDEX idx_otp_ip ON otp_codes(ip_address);
 CREATE INDEX idx_pin_ip ON pin_codes(ip_address);
 
 -- =============================================
--- STORED PROCEDURES
+-- ⚡ SECTION 4: STORED PROCEDURES
 -- =============================================
--- Note: For phpMyAdmin, execute each procedure separately or use DELIMITER in MySQL CLI
+-- 📝 For phpMyAdmin: Copy each procedure ONE AT A TIME
+-- 📝 For MySQL CLI: Execute all at once
 
 -- Drop procedures if they exist
 DROP PROCEDURE IF EXISTS GetCustomerJourney;
@@ -241,9 +257,14 @@ DROP PROCEDURE IF EXISTS RejectOTP;
 DROP PROCEDURE IF EXISTS ApprovePIN;
 DROP PROCEDURE IF EXISTS RejectPIN;
 
+-- ⚠️ For phpMyAdmin: Start copying from here ⬇️
+
 DELIMITER $$
 
--- Procedure: Get complete customer journey
+-- ┌─────────────────────────────────────────────┐
+-- │ Procedure 1/7: GetCustomerJourney          │
+-- │ Purpose: Retrieve complete customer data   │
+-- └─────────────────────────────────────────────┘
 CREATE PROCEDURE GetCustomerJourney(IN p_ip_address VARCHAR(45))
 BEGIN
     SELECT 
@@ -272,6 +293,10 @@ BEGIN
     WHERE cs.ip_address = p_ip_address;
 END$$
 
+-- ┌─────────────────────────────────────────────┐
+-- │ Procedure 2/7: DeleteCustomerData          │
+-- │ Purpose: Remove all customer records       │
+-- └─────────────────────────────────────────────┘
 -- Procedure: Delete all customer data
 CREATE PROCEDURE DeleteCustomerData(IN p_ip_address VARCHAR(45))
 BEGIN
@@ -279,6 +304,10 @@ BEGIN
     -- All related records will be deleted automatically due to CASCADE
 END$$
 
+-- ┌─────────────────────────────────────────────┐
+-- │ Procedure 3/7: UpdatePaymentStatus         │
+-- │ Purpose: Update payment verification       │
+-- └─────────────────────────────────────────────┘
 -- Procedure: Update payment status
 CREATE PROCEDURE UpdatePaymentStatus(
     IN p_ip_address VARCHAR(45),
@@ -290,6 +319,10 @@ BEGIN
     WHERE ip_address = p_ip_address;
 END$$
 
+-- ┌─────────────────────────────────────────────┐
+-- │ Procedure 4/7: ApproveOTP                  │
+-- │ Purpose: Approve OTP verification          │
+-- └─────────────────────────────────────────────┘
 -- Procedure: Approve OTP code
 CREATE PROCEDURE ApproveOTP(
     IN p_ip_address VARCHAR(45),
@@ -307,6 +340,10 @@ BEGIN
     AND verification_status = 'pending';
 END$$
 
+-- ┌─────────────────────────────────────────────┐
+-- │ Procedure 5/7: RejectOTP                   │
+-- │ Purpose: Reject OTP verification           │
+-- └─────────────────────────────────────────────┘
 -- Procedure: Reject OTP code
 CREATE PROCEDURE RejectOTP(
     IN p_ip_address VARCHAR(45),
@@ -324,6 +361,10 @@ BEGIN
     AND verification_status = 'pending';
 END$$
 
+-- ┌─────────────────────────────────────────────┐
+-- │ Procedure 6/7: ApprovePIN                  │
+-- │ Purpose: Approve PIN verification          │
+-- └─────────────────────────────────────────────┘
 -- Procedure: Approve PIN code
 CREATE PROCEDURE ApprovePIN(
     IN p_ip_address VARCHAR(45),
@@ -341,6 +382,10 @@ BEGIN
     AND verification_status = 'pending';
 END$$
 
+-- ┌─────────────────────────────────────────────┐
+-- │ Procedure 7/7: RejectPIN                   │
+-- │ Purpose: Reject PIN verification           │
+-- └─────────────────────────────────────────────┘
 -- Procedure: Reject PIN code
 CREATE PROCEDURE RejectPIN(
     IN p_ip_address VARCHAR(45),
@@ -360,8 +405,10 @@ END$$
 
 DELIMITER ;
 
+-- ⚠️ For phpMyAdmin: Stop copying here ⬆️
+
 -- =============================================
--- VIEWS for Analytics
+-- ⚡ SECTION 5: CREATE VIEWS
 -- =============================================
 
 -- View: Active customers with all their data
@@ -416,6 +463,9 @@ GROUP BY verification_status, verified_by, DATE(created_at)
 ORDER BY verification_date DESC;
 
 -- =============================================
+-- ⚡ SECTION 6: SAMPLE DATA (OPTIONAL)
+-- =============================================
+-- 📝 Comment out this section for production
 -- SAMPLE DATA (Optional - for testing)
 -- =============================================
 
@@ -448,6 +498,25 @@ INSERT INTO pin_codes (ip_address, pin_code, verified, verification_status, veri
 INSERT INTO admin_users (username, email, password_hash, role) VALUES
 ('admin', 'admin@qiic.com', '$2b$10$rBV2dFRkW3pJZVx6JJqv6OKq8xF9R3vYqx5H8oG2pTc8L1k4F0e.W', 'super_admin');
 
+-- =============================================
+-- ✅ DATABASE SETUP COMPLETE
+-- =============================================
+-- 
+-- 📊 Summary:
+-- - 13 Tables Created
+-- - 8 Indexes Created
+-- - 7 Stored Procedures Created
+-- - 4 Views Created
+-- - Sample Data Inserted
+--
+-- 🔍 Quick Tests:
+-- SELECT * FROM vw_active_customers;
+-- CALL GetCustomerJourney('192.168.1.100');
+-- SELECT * FROM vw_payment_stats;
+--
+-- 📚 Documentation: See DEPLOYMENT.md
+-- 🐛 Issues: https://github.com/mohammadbanihani799-star/qiic-insurance-system/issues
+--
 -- =============================================
 -- END OF SCRIPT
 -- =============================================
