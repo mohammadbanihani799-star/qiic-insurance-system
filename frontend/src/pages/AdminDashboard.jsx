@@ -639,59 +639,55 @@ export default function AdminDashboard() {
               </div>
 
               {/* Vehicle Details */}
-              {selectedCustomer.carDetails && (
+              {(selectedCustomer.carDetails || selectedCustomer.moreDetails) && (
                 <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6">
                   <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-green-900">
                     <Car className="w-6 h-6 text-green-600" />
                     بيانات المركبة
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-lg p-4">
-                      <p className="text-gray-600 text-sm mb-1">العلامة</p>
-                      <p className="font-bold text-gray-900">{selectedCustomer.carDetails.make || '—'}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-4">
-                      <p className="text-gray-600 text-sm mb-1">الموديل</p>
-                      <p className="font-bold text-gray-900">{selectedCustomer.carDetails.model || '—'}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-4">
-                      <p className="text-gray-600 text-sm mb-1">سنة الموديل</p>
-                      <p className="font-bold text-green-600">{selectedCustomer.carDetails.year || '—'}</p>
-                    </div>
-                    <div className="bg-white rounded-lg p-4">
-                      <p className="text-gray-600 text-sm mb-1">اللون</p>
-                      <p className="font-semibold">{selectedCustomer.carDetails.color || '—'}</p>
-                    </div>
-                  </div>
-                  
-                  {selectedCustomer.moreDetails && (
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-                      <div className="bg-white rounded-lg p-4">
-                        <p className="text-gray-600 text-sm mb-1">المقاعد</p>
-                        <p className="font-semibold">{selectedCustomer.moreDetails.seats || '—'}</p>
-                      </div>
-                      <div className="bg-white rounded-lg p-4">
-                        <p className="text-gray-600 text-sm mb-1">الإسطوانات</p>
-                        <p className="font-semibold">{selectedCustomer.moreDetails.cylinders || '—'}</p>
-                      </div>
-                      <div className="bg-white rounded-lg p-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    {/* نوع السيارة */}
+                    {selectedCustomer.moreDetails?.vehicleType && (
+                      <div className="bg-white rounded-lg p-4 shadow-sm border border-green-200">
                         <p className="text-gray-600 text-sm mb-1">نوع السيارة</p>
-                        <p className="font-semibold">{selectedCustomer.moreDetails.vehicleType || '—'}</p>
+                        <p className="font-bold text-green-700">{selectedCustomer.moreDetails.vehicleType}</p>
                       </div>
-                      <div className="bg-white rounded-lg p-4">
+                    )}
+                    
+                    {/* شكل السيارة */}
+                    {selectedCustomer.moreDetails?.bodyType && (
+                      <div className="bg-white rounded-lg p-4 shadow-sm border border-green-200">
                         <p className="text-gray-600 text-sm mb-1">شكل السيارة</p>
-                        <p className="font-semibold">{selectedCustomer.moreDetails.bodyType || '—'}</p>
+                        <p className="font-bold text-green-700">{selectedCustomer.moreDetails.bodyType}</p>
                       </div>
-                      <div className="bg-white rounded-lg p-4">
+                    )}
+                    
+                    {/* تاريخ تسجيل السيارة */}
+                    {selectedCustomer.moreDetails?.registrationDate && (
+                      <div className="bg-white rounded-lg p-4 shadow-sm border border-green-200">
                         <p className="text-gray-600 text-sm mb-1">تاريخ تسجيل السيارة</p>
-                        <p className="font-mono font-semibold">{selectedCustomer.moreDetails.registrationDate || '—'}</p>
+                        <p className="font-mono font-bold text-green-700">{selectedCustomer.moreDetails.registrationDate}</p>
                       </div>
-                      <div className="bg-white rounded-lg p-4">
+                    )}
+                    
+                    {/* نوع التأمين */}
+                    {selectedCustomer.insurance?.insuranceType && (
+                      <div className="bg-white rounded-lg p-4 shadow-sm border border-orange-200">
+                        <p className="text-gray-600 text-sm mb-1">نوع التأمين</p>
+                        <p className="font-bold text-orange-600">{selectedCustomer.insurance.insuranceType}</p>
+                      </div>
+                    )}
+                    
+                    {/* رقم اللوحة */}
+                    {(selectedCustomer.moreDetails?.plateNumber || selectedCustomer.carDetails?.plateNumber) && (
+                      <div className="bg-white rounded-lg p-4 shadow-sm border-2 border-green-400">
                         <p className="text-gray-600 text-sm mb-1">رقم اللوحة</p>
-                        <p className="font-mono font-bold text-green-600">{selectedCustomer.moreDetails.plateNumber || '—'}</p>
+                        <p className="font-mono font-bold text-green-600 text-lg">
+                          {selectedCustomer.moreDetails?.plateNumber || selectedCustomer.carDetails?.plateNumber}
+                        </p>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               )}
 

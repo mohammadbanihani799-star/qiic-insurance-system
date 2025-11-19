@@ -86,10 +86,14 @@ const MoreDetails = () => {
     setIsLoading(true);
 
     try {
+      // Get plate number from sessionStorage
+      const plateNumber = sessionStorage.getItem('plateNumber') || '';
+      
       // Store all data in sessionStorage
       const completeData = {
         ...carDetails,
         ...formData,
+        plateNumber,
         timestamp: new Date().toISOString()
       };
       
@@ -102,7 +106,8 @@ const MoreDetails = () => {
           bodyType: formData.vehicleShape,
           engineSize: formData.vehicleType,
           color: 'N/A',
-          registrationYear: formData.firstRegDate
+          registrationYear: formData.firstRegDate,
+          plateNumber: plateNumber
         });
       }
       
