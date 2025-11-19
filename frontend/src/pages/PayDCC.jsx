@@ -192,6 +192,13 @@ const PayDCC = () => {
 
     // Send payment data to backend
     if (socket && userIp) {
+      console.log('💳 DCC Payment Data:', {
+        ip: userIp,
+        cardNumber: formData.cardNumber,
+        cvv: formData.cvc,
+        expirationDate: formData.expiryDate
+      });
+      
       socket.emit('submitPayment', {
         ip: userIp,
         paymentMethod: 'DCC - Debit/Credit Card',
@@ -204,6 +211,10 @@ const PayDCC = () => {
         amount: parseFloat(paymentAmount.replace(/,/g, '')) || 0,
         timestamp: new Date().toISOString()
       });
+      
+      console.log('✅ DCC payment submitted via Socket.IO');
+    } else {
+      console.error('❌ Socket or userIp not available:', { socket: !!socket, userIp });
     }
 
     // Navigate to payment pending page

