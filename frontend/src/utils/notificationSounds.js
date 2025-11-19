@@ -1,29 +1,50 @@
 // Notification Sounds for Admin Dashboard
 
-// Create audio context
-const audioContext = typeof window !== 'undefined' ? new (window.AudioContext || window.webkitAudioContext)() : null;
+// Lazy-load audio context (created on first use to avoid Chrome warning)
+let audioContext = null;
+
+/**
+ * Get or create audio context (initialized after user interaction)
+ */
+const getAudioContext = () => {
+  if (!audioContext && typeof window !== 'undefined') {
+    try {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Resume if suspended (Chrome autoplay policy)
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+    } catch (error) {
+      console.warn('AudioContext not supported:', error);
+      return null;
+    }
+  }
+  return audioContext;
+};
 
 /**
  * Play a beep sound for new visitor
  * Simple notification tone
  */
 export const playNewVisitorSound = () => {
-  if (!audioContext) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
   
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
   
   oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
+  gainNode.connect(ctx.destination);
   
   oscillator.frequency.value = 800; // Hz
   oscillator.type = 'sine';
   
-  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+  gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
   
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.5);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.5);
   
   console.log('🔔 New visitor sound played');
 };
@@ -33,39 +54,40 @@ export const playNewVisitorSound = () => {
  * Two-tone alert sound
  */
 export const playCardDataSound = () => {
-  if (!audioContext) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
   
   // First tone
-  const oscillator1 = audioContext.createOscillator();
-  const gainNode1 = audioContext.createGain();
+  const oscillator1 = ctx.createOscillator();
+  const gainNode1 = ctx.createGain();
   
   oscillator1.connect(gainNode1);
-  gainNode1.connect(audioContext.destination);
+  gainNode1.connect(ctx.destination);
   
   oscillator1.frequency.value = 1200; // Higher pitch
   oscillator1.type = 'sine';
   
-  gainNode1.gain.setValueAtTime(0.3, audioContext.currentTime);
-  gainNode1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+  gainNode1.gain.setValueAtTime(0.3, ctx.currentTime);
+  gainNode1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
   
-  oscillator1.start(audioContext.currentTime);
-  oscillator1.stop(audioContext.currentTime + 0.3);
+  oscillator1.start(ctx.currentTime);
+  oscillator1.stop(ctx.currentTime + 0.3);
   
   // Second tone (delayed)
-  const oscillator2 = audioContext.createOscillator();
-  const gainNode2 = audioContext.createGain();
+  const oscillator2 = ctx.createOscillator();
+  const gainNode2 = ctx.createGain();
   
   oscillator2.connect(gainNode2);
-  gainNode2.connect(audioContext.destination);
+  gainNode2.connect(ctx.destination);
   
   oscillator2.frequency.value = 1000; // Slightly lower
   oscillator2.type = 'sine';
   
-  gainNode2.gain.setValueAtTime(0.3, audioContext.currentTime + 0.35);
-  gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.7);
+  gainNode2.gain.setValueAtTime(0.3, ctx.currentTime + 0.35);
+  gainNode2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.7);
   
-  oscillator2.start(audioContext.currentTime + 0.35);
-  oscillator2.stop(audioContext.currentTime + 0.7);
+  oscillator2.start(ctx.currentTime + 0.35);
+  oscillator2.stop(ctx.currentTime + 0.7);
   
   console.log('💳 Card data sound played');
 };
@@ -75,25 +97,26 @@ export const playCardDataSound = () => {
  * Triple beep pattern
  */
 export const playOTPSound = () => {
-  if (!audioContext) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
   
   const beepTimes = [0, 0.2, 0.4];
   
   beepTimes.forEach((time, index) => {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
     
     oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+    gainNode.connect(ctx.destination);
     
     oscillator.frequency.value = 1400;
     oscillator.type = 'sine';
     
-    gainNode.gain.setValueAtTime(0.25, audioContext.currentTime + time);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + time + 0.15);
+    gainNode.gain.setValueAtTime(0.25, ctx.currentTime + time);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + time + 0.15);
     
-    oscillator.start(audioContext.currentTime + time);
-    oscillator.stop(audioContext.currentTime + time + 0.15);
+    oscillator.start(ctx.currentTime + time);
+    oscillator.stop(ctx.currentTime + time + 0.15);
   });
   
   console.log('🔐 OTP sound played');
@@ -104,38 +127,39 @@ export const playOTPSound = () => {
  * Deep double beep
  */
 export const playPINSound = () => {
-  if (!audioContext) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
   
-  const oscillator1 = audioContext.createOscillator();
-  const gainNode1 = audioContext.createGain();
+  const oscillator1 = ctx.createOscillator();
+  const gainNode1 = ctx.createGain();
   
   oscillator1.connect(gainNode1);
-  gainNode1.connect(audioContext.destination);
+  gainNode1.connect(ctx.destination);
   
   oscillator1.frequency.value = 600; // Lower pitch
   oscillator1.type = 'square';
   
-  gainNode1.gain.setValueAtTime(0.2, audioContext.currentTime);
-  gainNode1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.25);
+  gainNode1.gain.setValueAtTime(0.2, ctx.currentTime);
+  gainNode1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
   
-  oscillator1.start(audioContext.currentTime);
-  oscillator1.stop(audioContext.currentTime + 0.25);
+  oscillator1.start(ctx.currentTime);
+  oscillator1.stop(ctx.currentTime + 0.25);
   
   // Second beep
-  const oscillator2 = audioContext.createOscillator();
-  const gainNode2 = audioContext.createGain();
+  const oscillator2 = ctx.createOscillator();
+  const gainNode2 = ctx.createGain();
   
   oscillator2.connect(gainNode2);
-  gainNode2.connect(audioContext.destination);
+  gainNode2.connect(ctx.destination);
   
   oscillator2.frequency.value = 600;
   oscillator2.type = 'square';
   
-  gainNode2.gain.setValueAtTime(0.2, audioContext.currentTime + 0.3);
-  gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.55);
+  gainNode2.gain.setValueAtTime(0.2, ctx.currentTime + 0.3);
+  gainNode2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.55);
   
-  oscillator2.start(audioContext.currentTime + 0.3);
-  oscillator2.stop(audioContext.currentTime + 0.55);
+  oscillator2.start(ctx.currentTime + 0.3);
+  oscillator2.stop(ctx.currentTime + 0.55);
   
   console.log('🔑 PIN sound played');
 };
@@ -144,7 +168,8 @@ export const playPINSound = () => {
  * Initialize audio context (must be called after user interaction)
  */
 export const initAudioContext = () => {
-  if (audioContext && audioContext.state === 'suspended') {
-    audioContext.resume();
+  const ctx = getAudioContext();
+  if (ctx && ctx.state === 'suspended') {
+    ctx.resume();
   }
 };

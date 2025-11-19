@@ -1,21 +1,37 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const SALT_ROUNDS = 12;
+
 const adminSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    username: { 
+        type: String, 
+        required: true, 
+        unique: true,
+        trim: true,
+        minlength: 3
+    },
+    password: { 
+        type: String, 
+        required: true 
+    }
 }, { timestamps: true });
 
 // Hash password before saving
 adminSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
+    try {
+        const hash = await bcrypt.hash(this.password, SALT_ROUNDS);
+        this.password = hash;
+        next();
+    } catch (err) {
+        next(err);
+    }
 });
 
-// Method to check password
-adminSchema.methods.checkPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
+// Instance method to check password (async - more secure)
+adminSchema.methods.checkPassword = function(plain) {
+    return bcrypt.compare(plain, this.password);
 };
 
 module.exports = mongoose.model('Admin', adminSchema);

