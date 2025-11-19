@@ -548,20 +548,70 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Inline Table Styles */}
       <style>{`
+        /* تنسيق عام للجدول */
         .admin-table table {
-          border-collapse: separate !important;
-          border-spacing: 0 !important;
+          width: 100% !important;
+          border-collapse: collapse !important;
+          margin-top: 20px !important;
+          margin-bottom: 20px !important;
+          background-color: #fff !important;
         }
+        
+        /* تنسيق للرؤوس (الـ th) */
         .admin-table thead th {
-          border: 2px solid #000 !important;
+          padding: 12px 15px !important;
+          background-color: #2d3748 !important;
+          color: white !important;
+          text-align: right !important;
+          border: 2px solid black !important;
+          font-size: 14px !important;
+          font-weight: bold !important;
         }
+        
+        /* تنسيق للصفوف (الـ td) */
         .admin-table tbody td {
-          border: 1px solid #cbd5e0 !important;
+          padding: 10px 15px !important;
+          border: 1px solid black !important;
+          text-align: right !important;
+          font-size: 13px !important;
+          background-color: #fff !important;
         }
+        
+        /* إضافة تأثير hover للصفوف */
         .admin-table tbody tr:hover {
-          transform: translateX(-3px) !important;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
-          border-right: 4px solid #8B0000 !important;
+          background-color: #f5f5f5 !important;
+        }
+        
+        /* تنسيق لحالة الصفوف النشطة */
+        .admin-table tbody tr.active,
+        .admin-table tbody tr[class*="from-green"] {
+          background-color: #e0f7fa !important;
+        }
+        
+        /* تنسيق لحالة الصفوف الغير نشطة */
+        .admin-table tbody tr.inactive,
+        .admin-table tbody tr[class*="from-red"] {
+          background-color: #ffebee !important;
+        }
+        
+        /* تنسيق للحدود داخل الخلايا */
+        .admin-table td,
+        .admin-table th {
+          border: 1px solid black !important;
+        }
+        
+        /* تنسيق الأزرار في الجدول */
+        .admin-table button {
+          padding: 5px 10px !important;
+          border: none !important;
+          cursor: pointer !important;
+          border-radius: 5px !important;
+          font-size: 12px !important;
+        }
+        
+        /* تنسيق عند المرور بالفأرة على الأزرار */
+        .admin-table button:hover {
+          transition: background-color 0.3s ease !important;
         }
       `}</style>
 
@@ -1267,17 +1317,7 @@ export default function AdminDashboard() {
           </div>
 
           <div className="overflow-x-auto admin-table">
-            <table 
-              className="w-full" 
-              dir="rtl"
-              style={{
-                borderCollapse: 'separate',
-                borderSpacing: 0,
-                border: '2px solid #1a202c',
-                borderRadius: '12px',
-                overflow: 'hidden'
-              }}
-            >
+            <table className="w-full" dir="rtl">
               <thead className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white sticky top-0 z-10">
                 <tr className="border-b border-gray-700">
                   <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
