@@ -230,6 +230,16 @@ CREATE INDEX idx_pin_ip ON pin_codes(ip_address);
 -- =============================================
 -- STORED PROCEDURES
 -- =============================================
+-- Note: For phpMyAdmin, execute each procedure separately or use DELIMITER in MySQL CLI
+
+-- Drop procedures if they exist
+DROP PROCEDURE IF EXISTS GetCustomerJourney;
+DROP PROCEDURE IF EXISTS DeleteCustomerData;
+DROP PROCEDURE IF EXISTS UpdatePaymentStatus;
+DROP PROCEDURE IF EXISTS ApproveOTP;
+DROP PROCEDURE IF EXISTS RejectOTP;
+DROP PROCEDURE IF EXISTS ApprovePIN;
+DROP PROCEDURE IF EXISTS RejectPIN;
 
 DELIMITER $$
 
