@@ -6,11 +6,17 @@ const SocketContext = createContext(null);
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000';
 
+console.log('🔧 SocketContext initializing...');
+console.log('🔧 SOCKET_URL:', SOCKET_URL);
+console.log('🔧 import.meta.env.VITE_SOCKET_URL:', import.meta.env.VITE_SOCKET_URL);
+
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
   const [userIp, setUserIp] = useState(null);
   const location = useLocation(); // تتبع تغييرات المسار
+  
+  console.log('🔧 SocketProvider rendering...');
 
   // Get user IP first
   useEffect(() => {
