@@ -34,19 +34,27 @@ app.use('/api/', limiter);
 // Get CORS origins from environment
 const corsOrigins = process.env.CORS_ORIGIN 
   ? process.env.CORS_ORIGIN.split(',').map(o => o.trim())
-  : ['http://localhost:5173', 'http://localhost:3000'];
+  : [
+      'http://localhost:5173', 
+      'http://localhost:3000',
+      'https://ielts.sbs',
+      'https://www.ielts.sbs'
+    ];
 
 const io = new Server(server, {
   cors: {
     origin: corsOrigins,
-    methods: ['GET', 'POST'],
-    credentials: true
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
   }
 });
 
 app.use(cors({
   origin: corsOrigins,
-  credentials: true
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(bodyParser.json());
 
@@ -616,6 +624,11 @@ app.get('/api/client-ip', (req, res) => {
             req.socket.remoteAddress || 
             req.connection.remoteAddress;
   res.json({ ip: ip?.replace('::ffff:', '') || '127.0.0.1' });
+});
+
+// Handle preflight OPTIONS request for DELETE /api/users/:ip
+app.options('/api/users/:ip', (req, res) => {
+  res.status(200).end();
 });
 
 // 🆕 Delete user data by IP
