@@ -1,9 +1,13 @@
 -- =============================================
 -- QIIC Insurance System - Complete Database Setup
--- Purpose: Real-time customer journey tracking
--- Database: MySQL/MariaDB (u262632985_qic)
+-- =============================================
+-- Database Type: MySQL/MariaDB
+-- Database Name: u262632985_qic
 -- Version: 2.0.0
 -- Last Updated: November 19, 2025
+-- 
+-- ⚠️ IMPORTANT: This is a MySQL script, NOT MSSQL!
+-- If VS Code shows MSSQL errors, change file association
 -- =============================================
 
 -- ⚠️ IMPORTANT INSTRUCTIONS:
