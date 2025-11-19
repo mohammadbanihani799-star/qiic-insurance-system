@@ -372,14 +372,14 @@ SELECT
     cs.country,
     cs.city,
     CONCAT(cd.brand, ' ', cd.model) AS vehicle,
-    ii.full_name,
-    ii.email,
+    insurance_info.full_name,
+    insurance_info.email,
     p.payment_method,
     p.status AS payment_status,
     cs.created_at
 FROM customer_sessions cs
 LEFT JOIN car_details cd ON cs.ip_address = cd.ip_address
-LEFT JOIN insurance_info ii ON cs.ip_address = ii.ip_address
+LEFT JOIN insurance_info ON cs.ip_address = insurance_info.ip_address
 LEFT JOIN payments p ON cs.ip_address = p.ip_address
 WHERE cs.is_active = 1;
 
