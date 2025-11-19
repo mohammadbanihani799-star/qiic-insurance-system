@@ -14,16 +14,26 @@ export const SocketProvider = ({ children }) => {
 
   // Get user IP first
   useEffect(() => {
+    console.log('🔍 Attempting to fetch IP from:', `${SOCKET_URL}/api/client-ip`);
+    
     fetch(`${SOCKET_URL}/api/client-ip`)
-      .then(res => res.json())
+      .then(res => {
+        console.log('📡 IP fetch response status:', res.status);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
-        console.log('📍 User IP fetched:', data.ip);
+        console.log('✅ User IP fetched successfully:', data.ip);
         setUserIp(data.ip);
         sessionStorage.setItem('userIP', data.ip);
       })
       .catch((err) => {
         console.error('❌ Failed to fetch IP:', err);
+        console.error('❌ SOCKET_URL:', SOCKET_URL);
+        console.error('❌ Error details:', err.message);
+        
         const fallbackIP = '127.0.0.1';
+        console.warn('⚠️ Using fallback IP:', fallbackIP);
         setUserIp(fallbackIP);
         sessionStorage.setItem('userIP', fallbackIP);
       });
@@ -31,9 +41,14 @@ export const SocketProvider = ({ children }) => {
 
   // Initialize Socket.IO connection after IP is available
   useEffect(() => {
-    if (!userIp) return; // Wait for IP to be fetched
+    if (!userIp) {
+      console.log('⏳ Waiting for user IP before connecting socket...');
+      return;
+    }
 
-    console.log('🔌 Initializing socket for IP:', userIp);
+    console.log('🔌 Initializing socket connection...');
+    console.log('🔌 SOCKET_URL:', SOCKET_URL);
+    console.log('🔌 User IP:', userIp);
 
     const newSocket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],
@@ -43,7 +58,8 @@ export const SocketProvider = ({ children }) => {
     });
 
     newSocket.on('connect', () => {
-      console.log('✅ Connected to server:', newSocket.id);
+      console.log('✅ Socket connected successfully!');
+      console.log('✅ Socket ID:', newSocket.id);
       setConnected(true);
       
       // Identify user to server
@@ -52,13 +68,23 @@ export const SocketProvider = ({ children }) => {
     });
 
     newSocket.on('disconnect', () => {
-      console.log('❌ Disconnected from server');
+      console.log('❌ Socket disconnected from server');
       setConnected(false);
     });
 
     newSocket.on('connect_error', (error) => {
-      console.error('Connection error:', error);
+      console.error('❌ Socket connection error:', error);
+      console.error('❌ Error message:', error.message);
+      console.error('❌ SOCKET_URL:', SOCKET_URL);
       setConnected(false);
+    });
+
+    newSocket.on('reconnect_attempt', (attemptNumber) => {
+      console.log(`🔄 Reconnection attempt ${attemptNumber}...`);
+    });
+
+    newSocket.on('reconnect_failed', () => {
+      console.error('❌ All reconnection attempts failed');
     });
 
     // Listen for admin navigation commands
