@@ -546,6 +546,25 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
+      {/* Inline Table Styles */}
+      <style>{`
+        .admin-table table {
+          border-collapse: separate !important;
+          border-spacing: 0 !important;
+        }
+        .admin-table thead th {
+          border: 2px solid #000 !important;
+        }
+        .admin-table tbody td {
+          border: 1px solid #cbd5e0 !important;
+        }
+        .admin-table tbody tr:hover {
+          transform: translateX(-3px) !important;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+          border-right: 4px solid #8B0000 !important;
+        }
+      `}</style>
+
       {/* Notification Toast */}
       {notification.show && (
         <div className={`toast-notification fixed top-4 left-1/2 transform -translate-x-1/2 z-[100] ${
@@ -1248,7 +1267,18 @@ export default function AdminDashboard() {
           </div>
 
           <div className="overflow-x-auto admin-table">
-            <table className="w-full" dir="rtl">\n              <thead className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white sticky top-0 z-10">
+            <table 
+              className="w-full" 
+              dir="rtl"
+              style={{
+                borderCollapse: 'separate',
+                borderSpacing: 0,
+                border: '2px solid #1a202c',
+                borderRadius: '12px',
+                overflow: 'hidden'
+              }}
+            >
+              <thead className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white sticky top-0 z-10">
                 <tr className="border-b border-gray-700">
                   <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
                     <div className="flex items-center gap-2">
