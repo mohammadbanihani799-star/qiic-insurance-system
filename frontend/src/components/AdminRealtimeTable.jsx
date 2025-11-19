@@ -9,11 +9,25 @@ export default function AdminRealtimeTable({
   socketUrl = SOCKET_URL,
   initialLimit = 200 // عدد النتائج الابتدائية للعرض
 }) {
-  const [entries, setEntries] = useState([]); // array of {id, sourcePage, payload, submittedAt}
+  const [entries, setEntries] = useState([]); // array of {id, sourcePage, payload, submittedAt, viewed}
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [pageFilter, setPageFilter] = useState('all');
   const [visibleCount, setVisibleCount] = useState(50); // تحميل تدريجي بسيط
+  const [unreadCount, setUnreadCount] = useState(0); // عدد البيانات غير المقروءة
+
+  // حساب البيانات غير المقروءة
+  useEffect(() => {
+    const unread = entries.filter(e => !e.viewed).length;
+    setUnreadCount(unread);
+    
+    // تحديث عنوان الصفحة
+    if (unread > 0) {
+      document.title = `(${unread}) بيانات جديدة - QIIC Admin`;
+    } else {
+      document.title = 'QIIC Admin Dashboard';
+    }
+  }, [entries]);
 
   useEffect(() => {
     const socket = io(socketUrl, { transports: ['websocket', 'polling'] });
@@ -26,7 +40,7 @@ export default function AdminRealtimeTable({
 
     // Server may send either plain entries or Mongo docs
     socket.on('initialData', (data) => {
-      // normalize each item to structure: { id, sourcePage, payload, submittedAt }
+      // normalize each item to structure: { id, sourcePage, payload, submittedAt, viewed }
       const normalized = (Array.isArray(data) ? data : []).map(normalizeEntry);
       setEntries(normalized.slice(0, initialLimit));
       setLoading(false);
@@ -43,12 +57,22 @@ export default function AdminRealtimeTable({
     // 🆕 Listen for comprehensive new entry event
     socket.on('newEntryAll', (entry) => {
       console.log('🆕 New entry received:', entry);
-      setEntries(prev => [normalizeEntry(entry), ...prev]);
+      const newEntry = { ...normalizeEntry(entry), viewed: false };
+      setEntries(prev => [newEntry, ...prev]);
+      
+      // إشعار صوتي وبصري
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('بيانات جديدة!', {
+          body: `تم إضافة بيانات جديدة من ${newEntry.sourcePage}`,
+          icon: '/vite.svg'
+        });
+      }
     });
 
     // generic fallback event
     socket.on('newEntry', (e) => {
-      setEntries(prev => [normalizeEntry(e), ...prev]);
+      const newEntry = { ...normalizeEntry(e), viewed: false };
+      setEntries(prev => [newEntry, ...prev]);
     });
 
     // page-specific events (as in your mapping). listen to common ones too:
@@ -59,10 +83,16 @@ export default function AdminRealtimeTable({
     ];
     events.forEach(ev => socket.on(ev, (payload) => {
       console.log(`📨 ${ev}:`, payload);
-      setEntries(prev => [normalizeEntry(payload), ...prev]);
+      const newEntry = { ...normalizeEntry(payload), viewed: false };
+      setEntries(prev => [newEntry, ...prev]);
     }));
 
     socket.on('disconnect', () => console.log('Socket disconnected'));
+
+    // طلب إذن الإشعارات عند التحميل
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
 
     return () => {
       socket.disconnect();
@@ -177,9 +207,37 @@ export default function AdminRealtimeTable({
     return <pre style={{ margin: 0, fontSize: 12, maxWidth: 420, overflow: 'auto', whiteSpace: 'pre-wrap' }}>{JSON.stringify(value, null, 2)}</pre>;
   }
 
+  // mark entry as read
+  const markAsRead = (entryId) => {
+    setViewedEntries(prev => new Set([...prev, entryId]));
+    setUnreadCount(prev => Math.max(0, prev - 1));
+  };
+
+  // mark all as read
+  const markAllAsRead = () => {
+    setViewedEntries(new Set(entries.map(e => e.id)));
+    setUnreadCount(0);
+  };
+
   return (
     <div style={{ padding: 18, fontFamily: 'Inter, Tahoma, Arial, sans-serif' }}>
-      <h2 style={{ marginBottom: 8 }}>لوحة الأدمن — تتبع فوري (Realtime)</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <h2 style={{ margin: 0 }}>لوحة الأدمن — تتبع فوري (Realtime)</h2>
+        {unreadCount > 0 && (
+          <span style={{
+            background: '#f44336',
+            color: 'white',
+            borderRadius: '50%',
+            padding: '4px 12px',
+            fontSize: 14,
+            fontWeight: 'bold',
+            minWidth: 28,
+            textAlign: 'center'
+          }}>
+            {unreadCount} جديد
+          </span>
+        )}
+      </div>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 12, alignItems: 'center', flexWrap: 'wrap' }}>
         <input
@@ -208,6 +266,15 @@ export default function AdminRealtimeTable({
           🔄 جلب كل البيانات
         </button>
 
+        {unreadCount > 0 && (
+          <button 
+            onClick={markAllAsRead}
+            style={{ ...btnStyle, background: '#2196F3', color: 'white', fontWeight: 'bold' }}
+          >
+            ✓ تحديد الكل كمقروء
+          </button>
+        )}
+
         <div style={{ marginLeft: 'auto', color: '#666' }}>{loading ? 'جارٍ الاتصال...' : `${filtered.length} نتيجة (عرض ${Math.min(filtered.length, visibleCount)})`}</div>
       </div>
 
@@ -224,13 +291,23 @@ export default function AdminRealtimeTable({
           </thead>
 
           <tbody>
-            {filtered.map((row, rIdx) => (
-              <tr key={row.id + '_' + rIdx} style={{ background: rIdx % 2 ? '#fff' : '#fcfcfc' }}>
-                {columns.map(col => (
-                  <td key={col} style={{ padding: '10px 12px', borderBottom: '1px solid #f5f5f5', verticalAlign: 'top', maxWidth: 420 }}>
-                    {renderCell(row, col)}
-                  </td>
-                ))}
+            {filtered.map((row, rIdx) => {
+              const isUnread = !viewedEntries.has(row.id);
+              return (
+                <tr 
+                  key={row.id + '_' + rIdx} 
+                  style={{ 
+                    background: isUnread ? '#fff3cd' : (rIdx % 2 ? '#fff' : '#fcfcfc'),
+                    fontWeight: isUnread ? 'bold' : 'normal'
+                  }}
+                  onClick={() => isUnread && markAsRead(row.id)}
+                >
+                  {columns.map((col, colIdx) => (
+                    <td key={col} style={{ padding: '10px 12px', borderBottom: '1px solid #f5f5f5', verticalAlign: 'top', maxWidth: 420 }}>
+                      {colIdx === 0 && isUnread && <span style={{ color: '#f44336', marginLeft: 8, fontSize: 16 }}>●</span>}
+                      {renderCell(row, col)}
+                    </td>
+                  ))}
               </tr>
             ))}
 

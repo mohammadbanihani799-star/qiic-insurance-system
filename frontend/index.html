@@ -3,7 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Mobile Optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    
+    <!-- iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="QIIC" />
+    
+    <!-- Android Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#1a365d" />
+    
+    <!-- Prevent auto-zoom on input focus -->
+    <meta name="format-detection" content="telephone=no" />
+    
     <meta name="description" content="شركة قطر للتأمين - احصل على تأمين سيارتك في دقيقتين" />
     <meta name="keywords" content="تأمين, قطر, سيارات, تأمين شامل, تأمين ضد الغير" />
     <meta name="author" content="Qatar Insurance & Indemnity Company" />
@@ -14,6 +29,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <title>QIIC - Qatar Insurance in 2 Minutes</title>
+    
+    <style>
+      /* Prevent bounce effect on iOS */
+      html, body {
+        position: fixed;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+      }
+      
+      #root {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
