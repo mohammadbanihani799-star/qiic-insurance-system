@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 import { playNewVisitorSound, playCardDataSound, playOTPSound, playPINSound } from '../utils/notificationSounds';
 
+// API URL from environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const { socket, connected } = useSocket();
@@ -240,7 +243,6 @@ export default function Dashboard() {
 
   const handleDelete = (ip) => {
     if (confirm(`Are you sure you want to delete customer ${ip}?`)) {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
       fetch(`${API_URL}/api/users/${ip}`, { 
         method: 'DELETE',
         headers: {
