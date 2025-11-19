@@ -1,0 +1,139 @@
+═══════════════════════════════════════════════════════════════
+🚀 دليل رفع الملفات إلى HOSTINGER - URGENT!
+═══════════════════════════════════════════════════════════════
+
+⚠️ المشكلة: أنت ترفع ملفات JavaScript الجديدة لكن لا تقوم برفع index.html
+⚠️ النتيجة: المتصفح يحمل index.html القديم الذي يشير إلى ملفات JS قديمة محذوفة!
+
+═══════════════════════════════════════════════════════════════
+📋 الملفات المطلوب رفعها (MUST UPLOAD ALL):
+═══════════════════════════════════════════════════════════════
+
+1️⃣ الملف الأهم على الإطلاق (CRITICAL):
+   📁 المصدر: C:\developer\QIIC\frontend\dist\index.html
+   📁 الوجهة: public_html/dist/index.html
+   ⚠️ BEZ هذا الملف لن يعمل أي شيء!
+
+2️⃣ ملف JavaScript الرئيسي (NEW FILE):
+   📁 المصدر: C:\developer\QIIC\frontend\dist\assets\index-DNtHMks8.js
+   📁 الوجهة: public_html/dist/assets/index-DNtHMks8.js
+   📊 الحجم: 312.81 kB
+
+3️⃣ ملف CSS المحدث:
+   📁 المصدر: C:\developer\QIIC\frontend\dist\assets\index-Bsy0WF_g.css
+   📁 الوجهة: public_html/dist/assets/index-Bsy0WF_g.css
+   📊 الحجم: 177.72 kB
+
+4️⃣ ملفات JavaScript الإضافية (إذا لم تكن موجودة):
+   📁 assets/react-core-CyvzqkFf.js
+   📁 assets/react-router-I5Oko-29.js
+   📁 assets/socket-io-CUkmNz_4.js
+   📁 assets/icons-vQu4F1pA.js
+
+═══════════════════════════════════════════════════════════════
+🗑️ احذف هذه الملفات القديمة من السيرفر:
+═══════════════════════════════════════════════════════════════
+
+❌ public_html/dist/assets/index-CFVA53ab.js (القديم)
+❌ public_html/dist/assets/index-BrSuvDL4.js (قديم جدًا)
+❌ أي ملف CSS قديم مثل index-*.css (غير Bsy0WF_g)
+
+═══════════════════════════════════════════════════════════════
+✅ خطوات الرفع بالتفصيل:
+═══════════════════════════════════════════════════════════════
+
+الخطوة 1: افتح File Manager في Hostinger
+   🌐 https://hpanel.hostinger.com
+
+الخطوة 2: انتقل إلى:
+   📂 public_html/dist/
+
+الخطوة 3: احذف index.html القديم
+   🗑️ اضغط بالزر الأيمن على index.html → Delete
+
+الخطوة 4: ارفع index.html الجديد
+   📤 Upload → اختر C:\developer\QIIC\frontend\dist\index.html
+   ✅ تأكد من اسم الملف: index.html
+
+الخطوة 5: انتقل إلى:
+   📂 public_html/dist/assets/
+
+الخطوة 6: احذف الملفات القديمة
+   🗑️ index-CFVA53ab.js
+   🗑️ index-BrSuvDL4.js
+   🗑️ أي ملف CSS قديم
+
+الخطوة 7: ارفع الملفات الجديدة
+   📤 Upload:
+   ✅ index-DNtHMks8.js
+   ✅ index-Bsy0WF_g.css
+
+═══════════════════════════════════════════════════════════════
+🧪 التحقق من نجاح الرفع:
+═══════════════════════════════════════════════════════════════
+
+1. افتح متصفح Incognito (Ctrl + Shift + N)
+
+2. افتح الموقع:
+   https://ielts.sbs
+
+3. اضغط F12 → انتقل إلى Network
+
+4. تأكد من تحميل:
+   ✅ index.html (تحقق من محتواه)
+   ✅ index-DNtHMks8.js (الجديد)
+   ❌ ليس index-CFVA53ab.js أو index-BrSuvDL4.js
+
+5. افتح صفحة Admin Login:
+   https://ielts.sbs/admin/login
+
+6. يجب أن تظهر الصفحة بدون رسالة "⚠️ الوصول غير مصرح به"
+
+═══════════════════════════════════════════════════════════════
+🔍 إذا لم يعمل بعد الرفع:
+═══════════════════════════════════════════════════════════════
+
+1. امسح Cache المتصفح: Ctrl + Shift + Delete
+
+2. اضغط Ctrl + F5 عدة مرات (Hard Refresh)
+
+3. تحقق من محتوى index.html في السيرفر:
+   - يجب أن يحتوي على: index-DNtHMks8.js
+   - ليس: index-CFVA53ab.js
+
+4. تحقق من وجود الملف:
+   public_html/dist/assets/index-DNtHMks8.js
+
+═══════════════════════════════════════════════════════════════
+📊 معلومات تقنية:
+═══════════════════════════════════════════════════════════════
+
+تاريخ البناء: 19 نوفمبر 2025
+Commit Hash: d5d5b89
+التغييرات: إزالة نظام DevTools Detection من AdminLogin.jsx
+
+ملف HTML يشير إلى:
+<script type="module" crossorigin src="/assets/index-DNtHMks8.js"></script>
+
+═══════════════════════════════════════════════════════════════
+✅ بعد رفع جميع الملفات، اختبر:
+═══════════════════════════════════════════════════════════════
+
+1. الصفحة الرئيسية: https://ielts.sbs ✓
+2. Admin Login: https://ielts.sbs/admin/login ✓
+3. Admin Dashboard: https://ielts.sbs/admin ✓
+4. تدفق الدفع الكامل ✓
+
+═══════════════════════════════════════════════════════════════
+🎯 ملخص سريع:
+═══════════════════════════════════════════════════════════════
+
+رفع index.html → أهم ملف!
+رفع index-DNtHMks8.js → الكود الجديد
+رفع index-Bsy0WF_g.css → الستايل
+حذف الملفات القديمة → تجنب الفوضى
+اختبار في Incognito → تأكد من النجاح
+
+═══════════════════════════════════════════════════════════════
+
+هل رفعت index.html؟ هذا هو السبب الوحيد للمشكلة! 🚀
