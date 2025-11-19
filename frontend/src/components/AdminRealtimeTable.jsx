@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { io } from 'socket.io-client';
 
 // عدّل هذا إلى عنوان السيرفر لديك
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4001';
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000';
 
 export default function AdminRealtimeTable({
   socketUrl = SOCKET_URL,

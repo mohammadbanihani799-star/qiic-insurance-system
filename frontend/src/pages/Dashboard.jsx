@@ -226,8 +226,8 @@ export default function Dashboard() {
 
   const handleDelete = (ip) => {
     if (confirm(`Are you sure you want to delete customer ${ip}?`)) {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-      fetch(`${apiUrl}/api/users/${ip}`, { 
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+      fetch(`${API_URL}/api/users/${ip}`, { 
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
