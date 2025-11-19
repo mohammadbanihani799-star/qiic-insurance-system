@@ -27,13 +27,13 @@ import './index.css';
 
 function App() {
   return (
-    <SocketProvider>
-      <Router 
-        future={{ 
-          v7_startTransition: true,
-          v7_relativeSplatPath: true 
-        }}
-      >
+    <Router 
+      future={{ 
+        v7_startTransition: true,
+        v7_relativeSplatPath: true 
+      }}
+    >
+      <SocketProvider>
         <Routes>
           {/* Public Landing Page */}
           <Route path="/" element={<Home />} />
@@ -67,8 +67,8 @@ function App() {
           {/* Protected Admin Dashboard Route */}
           <Route path="/admin" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         </Routes>
-      </Router>
-    </SocketProvider>
+      </SocketProvider>
+    </Router>
   );
 }
 
