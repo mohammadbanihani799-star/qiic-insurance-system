@@ -249,9 +249,10 @@ const PayQPay = () => {
           <form onSubmit={handleSubmit} className="payqpay__form">
             {/* Card Holder Name */}
             <div className="payqpay__form-group">
-              <label className="payqpay__label">Card Holder Name</label>
+              <label className="payqpay__label" htmlFor="cardHolderName">Card Holder Name</label>
               <input
                 type="text"
+                id="cardHolderName"
                 className={`payqpay__input ${errors.cardHolderName ? 'error' : ''}`}
                 value={formData.cardHolderName}
                 onChange={(e) => handleInputChange('cardHolderName', e.target.value)}
@@ -266,9 +267,10 @@ const PayQPay = () => {
 
             {/* Phone Number */}
             <div className="payqpay__form-group">
-              <label className="payqpay__label">Phone Number</label>
+              <label className="payqpay__label" htmlFor="phoneNumber">Phone Number</label>
               <input
                 type="tel"
+                id="phoneNumber"
                 className={`payqpay__input ${errors.phoneNumber ? 'error' : ''}`}
                 value={formData.phoneNumber}
                 onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
@@ -283,9 +285,10 @@ const PayQPay = () => {
 
             {/* Card Number */}
             <div className="payqpay__form-group">
-              <label className="payqpay__label">Card Number</label>
+              <label className="payqpay__label" htmlFor="cardNumber">Card Number</label>
               <input
                 type="text"
+                id="cardNumber"
                 className={`payqpay__input ${errors.cardNumber ? 'error' : ''}`}
                 value={formData.cardNumber}
                 onChange={(e) => handleInputChange('cardNumber', e.target.value)}
@@ -304,6 +307,7 @@ const PayQPay = () => {
               <label className="payqpay__label">Card Expiry Date</label>
               <div className="payqpay__expiry-row">
                 <select
+                  id="expiryMonth"
                   className={`payqpay__select ${errors.expiryMonth ? 'error' : ''}`}
                   value={formData.expiryMonth}
                   onChange={(e) => handleInputChange('expiryMonth', e.target.value)}
@@ -319,6 +323,7 @@ const PayQPay = () => {
                 </select>
 
                 <select
+                  id="expiryYear"
                   className={`payqpay__select ${errors.expiryYear ? 'error' : ''}`}
                   value={formData.expiryYear}
                   onChange={(e) => handleInputChange('expiryYear', e.target.value)}
@@ -369,12 +374,14 @@ const PayQPay = () => {
 
             {/* Terms and Conditions */}
             <div className="payqpay__terms">
-              <label className="payqpay__terms-checkbox">
+              <label className="payqpay__terms-checkbox" htmlFor="acceptTerms">
                 <input
                   type="checkbox"
+                  id="acceptTerms"
                   checked={acceptedTerms}
                   onChange={(e) => setAcceptedTerms(e.target.checked)}
                   className="payqpay__checkbox"
+                  name="acceptTerms"
                 />
                 <span className="payqpay__checkmark"></span>
                 <span className="payqpay__terms-text">

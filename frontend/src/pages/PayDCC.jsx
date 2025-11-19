@@ -248,6 +248,7 @@ const PayDCC = () => {
               <div className="paydcc__input-with-icon">
                 <input
                   type="text"
+                  id="cardNumber"
                   className={`paydcc__input ${errors.cardNumber ? 'error' : ''}`}
                   placeholder="0000 0000 0000 0000"
                   value={formData.cardNumber}
@@ -274,6 +275,7 @@ const PayDCC = () => {
                 <div className="paydcc__input-with-icon">
                   <input
                     type="text"
+                    id="cvc"
                     className={`paydcc__input ${errors.cvc ? 'error' : ''}`}
                     placeholder="CVC/CVV"
                     value={formData.cvc}
@@ -317,6 +319,7 @@ const PayDCC = () => {
                   </svg>
                   <input
                     type="text"
+                    id="expiryDate"
                     className={`paydcc__input ${errors.expiryDate ? 'error' : ''}`}
                     placeholder="MM/YY"
                     value={formData.expiryDate}
@@ -335,6 +338,7 @@ const PayDCC = () => {
             <div className="paydcc__input-wrapper">
               <input
                 type="text"
+                id="cardholderName"
                 className={`paydcc__input ${errors.cardholderName ? 'error' : ''}`}
                 placeholder="إسم صاحب البطاقة"
                 value={formData.cardholderName}
