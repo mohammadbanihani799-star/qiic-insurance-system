@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { LogOut, Search, Eye, Trash2, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
-import { playNewVisitorSound, playCardDataSound, playOTPSound, playPINSound, initAudioContext } from '../utils/notificationSounds';
+import { playNewVisitorSound, playCardDataSound, playOTPSound, playPINSound } from '../utils/notificationSounds';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -14,9 +14,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!socket) return;
-
-    // Initialize audio on first interaction
-    initAudioContext();
 
     // Request all data from server initially
     socket.emit('loadData');

