@@ -3788,11 +3788,11 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 .flow__top {
   width: 100%;
-  background: white;
+  background: #f7f7fc;
 }
 
 .flow__content {
-  background: var(--background-color-secondary);
+  background: #ffffff;
   border-radius: 32px;
   margin-inline: auto;
   max-width: 544px;
@@ -3880,15 +3880,16 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 .flow__header {
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-inline: auto;
-  max-width: 1200px;
+  max-width: 544px;
   padding-bottom: 24px;
   padding-top: 28px;
   padding-inline: 24px;
   position: relative;
   width: 100%;
   background: white;
+  border-radius: 0 0 32px 32px;
 }
 
 /* Desktop */
@@ -3896,7 +3897,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   .flow__header {
     padding-bottom: 24px;
     padding-top: 32px;
-    max-width: 1200px;
+    max-width: 544px;
   }
 }
 
@@ -3905,7 +3906,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   .flow__header {
     padding-bottom: 20px;
     padding-top: 24px;
-    max-width: 768px;
+    max-width: 544px;
   }
 }
 
@@ -3915,6 +3916,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
     padding-bottom: 16px;
     padding-top: 16px;
     padding-inline: 20px;
+    max-width: 100%;
   }
 }
 
@@ -3923,6 +3925,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
     padding-bottom: 12px;
     padding-top: 12px;
     padding-inline: 16px;
+    max-width: 100%;
   }
 }
 
