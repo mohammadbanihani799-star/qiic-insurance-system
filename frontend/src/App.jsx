@@ -21,6 +21,7 @@ import PaymentFailed from './pages/PaymentFailed';
 import LoadingToPayment from './pages/LoadingToPayment';
 import AdminLogin from './pages/AdminLogin';
 import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import Customers from './pages/Customers';
 import CustomersRealtime from './pages/CustomersRealtime';
 import Vehicles from './pages/Vehicles';
@@ -71,6 +72,7 @@ function App() {
           
           {/* Protected Admin Dashboard Routes */}
           <Route path="/admin" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/admin/customers" element={<ProtectedRoute><Customers /></ProtectedRoute>} />
           <Route path="/admin/customers-realtime" element={<ProtectedRoute><CustomersRealtime /></ProtectedRoute>} />
           <Route path="/admin/vehicles" element={<ProtectedRoute><Vehicles /></ProtectedRoute>} />
