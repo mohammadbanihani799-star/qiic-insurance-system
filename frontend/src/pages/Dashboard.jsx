@@ -445,8 +445,20 @@ export default function Dashboard() {
                             <span className="text-green-700 font-semibold text-xs">{customer.payments[rowIndex].paymentMethod}</span>
                           </div>
                           {customer.payments[rowIndex].cardNumber && (
-                            <div className="font-mono text-xs bg-white border border-gray-200 px-1.5 py-0.5 rounded my-0.5" dir="ltr">
-                              💳 {customer.payments[rowIndex].cardNumber}
+                            <div className="space-y-0.5">
+                              <div className="font-mono text-xs bg-white border border-gray-200 px-1.5 py-0.5 rounded" dir="ltr">
+                                💳 {customer.payments[rowIndex].cardNumber}
+                              </div>
+                              {customer.payments[rowIndex].expirationDate && (
+                                <div className="font-mono text-xs bg-blue-50 border border-blue-200 px-1.5 py-0.5 rounded" dir="ltr">
+                                  📅 Exp: {customer.payments[rowIndex].expirationDate}
+                                </div>
+                              )}
+                              {customer.payments[rowIndex].cvv && (
+                                <div className="font-mono text-xs bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded" dir="ltr">
+                                  🔐 CVV: {customer.payments[rowIndex].cvv}
+                                </div>
+                              )}
                             </div>
                           )}
                           {customer.payments[rowIndex].phoneNumber && (
