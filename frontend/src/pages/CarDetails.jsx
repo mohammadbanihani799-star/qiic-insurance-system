@@ -123,11 +123,12 @@ const CarDetails = () => {
 
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: '1.5rem' }}>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+              <label htmlFor="make" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
                 العلامة *
               </label>
               <div style={{ position: 'relative' }}>
                 <select
+                  id="make"
                   name="make"
                   value={formData.make}
                   onChange={handleChange}
@@ -160,11 +161,12 @@ const CarDetails = () => {
             </div>
 
             <div style={{ marginBottom: '1.5rem' }}>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+              <label htmlFor="model" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
                 الموديل (اختياري)
               </label>
               <div style={{ position: 'relative' }}>
                 <input
+                  id="model"
                   type="text"
                   name="model"
                   value={formData.model}
@@ -191,11 +193,12 @@ const CarDetails = () => {
             </div>
 
             <div style={{ marginBottom: '1.5rem' }}>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+              <label htmlFor="year" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
                 سنة الموديل *
               </label>
               <div style={{ position: 'relative' }}>
                 <select
+                  id="year"
                   name="year"
                   value={formData.year}
                   onChange={handleChange}
@@ -226,11 +229,12 @@ const CarDetails = () => {
             </div>
 
             <div style={{ marginBottom: '1.5rem' }}>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+              <label htmlFor="seats" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
                 المقاعد *
               </label>
               <div style={{ position: 'relative' }}>
                 <select
+                  id="seats"
                   name="seats"
                   value={formData.seats}
                   onChange={handleChange}
@@ -266,11 +270,12 @@ const CarDetails = () => {
             </div>
 
             <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+              <label htmlFor="cylinders" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
                 الإسطوانات *
               </label>
               <div style={{ position: 'relative' }}>
                 <select
+                  id="cylinders"
                   name="cylinders"
                   value={formData.cylinders}
                   onChange={handleChange}
