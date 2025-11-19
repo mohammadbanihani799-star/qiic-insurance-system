@@ -29,58 +29,58 @@
 
 /* Table structure */
 .admin-table table {
-  border-collapse: separate;
-  border-spacing: 0;
-  border: 2px solid #1a202c;
-  border-radius: 12px;
-  overflow: hidden;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 2px solid #1a202c !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
 }
 
 /* Table headers */
 .admin-table thead th {
-  border: 2px solid #000;
-  border-top: none;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  border: 2px solid #000 !important;
+  border-top: none !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10 !important;
 }
 
 .admin-table thead th:first-child {
-  border-right: 2px solid #000;
+  border-right: 2px solid #000 !important;
 }
 
 .admin-table thead th:last-child {
-  border-left: 2px solid #000;
+  border-left: 2px solid #000 !important;
 }
 
 /* Table cells */
 .admin-table tbody td {
-  border: 1px solid #cbd5e0;
-  border-right: 1px solid #a0aec0;
-  background-color: #fff;
-  vertical-align: middle;
+  border: 1px solid #cbd5e0 !important;
+  border-right: 1px solid #a0aec0 !important;
+  background-color: #fff !important;
+  vertical-align: middle !important;
 }
 
 .admin-table tbody td:first-child {
-  border-right: 2px solid #a0aec0;
+  border-right: 2px solid #a0aec0 !important;
 }
 
 .admin-table tbody td:last-child {
-  border-left: 2px solid #a0aec0;
+  border-left: 2px solid #a0aec0 !important;
 }
 
 /* Table rows */
 .admin-table tbody tr {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
 }
 
 .admin-table tbody tr:last-child td {
-  border-bottom: 2px solid #1a202c;
+  border-bottom: 2px solid #1a202c !important;
 }
 
 /* Active row styling */
@@ -95,9 +95,9 @@
 
 /* Hover effect */
 .admin-table tbody tr:hover {
-  transform: translateX(-3px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  border-right: 4px solid #8B0000;
+  transform: translateX(-3px) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  border-right: 4px solid #8B0000 !important;
   background-color: #f7fafc !important;
 }
 
