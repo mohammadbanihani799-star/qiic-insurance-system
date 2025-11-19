@@ -35,24 +35,6 @@ export default function PaymentFailed() {
           </ul>
         </div>
 
-        {/* معلومات المساعدة */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-right">
-          <h3 className="font-semibold text-gray-800 mb-2">هل تحتاج مساعدة؟</h3>
-          <p className="text-sm text-gray-700 mb-2">
-            يمكنك التواصل مع خدمة العملاء على:
-          </p>
-          <div className="space-y-1 text-sm">
-            <div className="flex items-center gap-2">
-              <span>📞</span>
-              <span className="text-blue-600 font-semibold">920000000</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>✉️</span>
-              <span className="text-blue-600 font-semibold">support@qic.com</span>
-            </div>
-          </div>
-        </div>
-
         {/* الأزرار */}
         <div className="space-y-3">
           <button

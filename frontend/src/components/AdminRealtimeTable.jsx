@@ -203,8 +203,32 @@ export default function AdminRealtimeTable({
       }
       return String(value);
     }
-    // object or array -> pretty JSON with small font, collapsible preview
-    return <pre style={{ margin: 0, fontSize: 12, maxWidth: 420, overflow: 'auto', whiteSpace: 'pre-wrap' }}>{JSON.stringify(value, null, 2)}</pre>;
+    // object or array -> pretty JSON with better formatting and expandable
+    return (
+      <details style={{ cursor: 'pointer' }}>
+        <summary style={{ 
+          fontSize: 12, 
+          color: '#1976d2', 
+          fontWeight: 'bold',
+          userSelect: 'none'
+        }}>
+          عرض التفاصيل
+        </summary>
+        <pre style={{ 
+          margin: '8px 0 0 0', 
+          fontSize: 11, 
+          maxWidth: 500, 
+          overflow: 'auto', 
+          whiteSpace: 'pre-wrap',
+          background: '#f5f5f5',
+          padding: 8,
+          borderRadius: 4,
+          border: '1px solid #e0e0e0'
+        }}>
+          {JSON.stringify(value, null, 2)}
+        </pre>
+      </details>
+    );
   }
 
   // mark entry as read
