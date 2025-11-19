@@ -23,15 +23,100 @@
   background: linear-gradient(180deg, #DC143C, #8B0000);
 }
 
-/* Table hover effects */
-.admin-table tbody tr {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+/* ============================================
+   Enhanced Table Styles with Borders
+   ============================================ */
+
+/* Table structure */
+.admin-table table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #1a202c;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
+/* Table headers */
+.admin-table thead th {
+  border: 2px solid #000;
+  border-top: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.admin-table thead th:first-child {
+  border-right: 2px solid #000;
+}
+
+.admin-table thead th:last-child {
+  border-left: 2px solid #000;
+}
+
+/* Table cells */
+.admin-table tbody td {
+  border: 1px solid #cbd5e0;
+  border-right: 1px solid #a0aec0;
+  background-color: #fff;
+  vertical-align: middle;
+}
+
+.admin-table tbody td:first-child {
+  border-right: 2px solid #a0aec0;
+}
+
+.admin-table tbody td:last-child {
+  border-left: 2px solid #a0aec0;
+}
+
+/* Table rows */
+.admin-table tbody tr {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: 2px solid #1a202c;
+}
+
+/* Active row styling */
+.admin-table tbody tr.bg-gradient-to-r {
+  background: linear-gradient(to right, rgba(16, 185, 129, 0.08), rgba(255, 255, 255, 1), rgba(16, 185, 129, 0.08)) !important;
+}
+
+/* Inactive row styling */
+.admin-table tbody tr.bg-gradient-to-r.from-red-50\/30 {
+  background: linear-gradient(to right, rgba(239, 68, 68, 0.08), rgba(255, 255, 255, 1), rgba(239, 68, 68, 0.08)) !important;
+}
+
+/* Hover effect */
 .admin-table tbody tr:hover {
-  transform: translateX(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-left: 4px solid #8B0000;
+  transform: translateX(-3px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border-right: 4px solid #8B0000;
+  background-color: #f7fafc !important;
+}
+
+/* New data pulse effect */
+.admin-table tbody tr.animate-pulse {
+  background: linear-gradient(90deg, 
+    rgba(16, 185, 129, 0.1) 0%, 
+    rgba(16, 185, 129, 0.2) 50%, 
+    rgba(16, 185, 129, 0.1) 100%) !important;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+  }
 }
 
 /* Card hover effects */
