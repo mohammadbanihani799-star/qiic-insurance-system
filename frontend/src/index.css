@@ -3789,7 +3789,6 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 .flow__top {
   width: 100%;
   background: white;
-  overflow-y: auto;
 }
 
 .flow__content {
@@ -3929,7 +3928,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 .flow__header-return {
   cursor: pointer;
-  inset-inline-start: 0;
+  inset-inline-end: 0;
   position: absolute;
   transition: 0.2s;
   padding: 8px;
@@ -4471,6 +4470,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
 }
 
 .rtl .flow__logo--center {
@@ -4481,23 +4481,36 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 .flow__logo--center img {
   display: block;
-  height: 40px;
+  height: auto;
+  max-height: 40px;
   width: auto;
-  max-width: 150px;
+}
+
+.flow__logo--center svg {
+  display: block;
+  height: auto;
+  max-height: 44px;
+  width: auto;
 }
 
 /* Responsive adjustments for centered logo */
 @media (max-width: 768px) {
   .flow__logo--center img {
-    height: 36px;
-    max-width: 130px;
+    max-height: 36px;
+  }
+  
+  .flow__logo--center svg {
+    max-height: 40px;
   }
 }
 
 @media (max-width: 480px) {
   .flow__logo--center img {
-    height: 32px;
-    max-width: 110px;
+    max-height: 32px;
+  }
+  
+  .flow__logo--center svg {
+    max-height: 36px;
   }
   
   .flow__header-return {
