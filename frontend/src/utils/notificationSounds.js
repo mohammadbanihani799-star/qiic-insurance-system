@@ -6,7 +6,8 @@ const SOUNDS = {
   cardData: '/assets/sounds/data.wav',        // Sound for payment card data
   otp: '/assets/sounds/otp.wav',              // Sound for OTP code (to be added)
   pin: '/assets/sounds/pin.wav',              // Sound for PIN code (to be added)
-  payment: '/assets/sounds/payment.wav'       // Sound for payment submission (to be added)
+  payment: '/assets/sounds/payment.wav',      // Sound for payment submission (to be added)
+  carData: '/assets/sounds/data.wav'          // Sound for car details submission (reuses data.wav)
 };
 
 // Pre-loaded audio elements
@@ -122,6 +123,17 @@ export const playPINSound = () => {
 export const playPaymentSound = () => {
   console.log('💰 Playing payment sound');
   playSound('payment', () => createFallbackSound(1000, 0.6));
+};
+
+/**
+ * Play sound for car details submission (uses data.wav)
+ */
+export const playCarDataSound = () => {
+  console.log('🚗 Playing car data sound');
+  playSound('carData', () => {
+    createFallbackSound(1100, 0.3);
+    setTimeout(() => createFallbackSound(900, 0.35), 350);
+  });
 };
 
 /**

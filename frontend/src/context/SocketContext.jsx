@@ -131,6 +131,32 @@ export const SocketProvider = ({ children }) => {
     }
   }, [socket, userIp, connected, location.pathname]); // إضافة location.pathname للتتبع
 
+  // Handle user leaving the site (beforeunload)
+  useEffect(() => {
+    if (!socket || !userIp) return;
+
+    const handleBeforeUnload = () => {
+      const currentPage = location.pathname;
+      const isAdminPage = currentPage.startsWith('/admin');
+      
+      if (!isAdminPage) {
+        // إرسال إشعار بالخروج
+        socket.emit('pageChange', {
+          ip: userIp,
+          page: 'OFFLINE',
+          status: 'INACTIVE',
+          timestamp: new Date().toISOString()
+        });
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [socket, userIp, location.pathname]);
+
   const value = {
     socket,
     connected,

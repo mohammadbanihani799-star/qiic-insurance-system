@@ -153,7 +153,7 @@ io.on('connection', (socket) => {
   });
 
   // Track page navigation
-  socket.on('pageChange', ({ ip, page, timestamp }) => {
+  socket.on('pageChange', ({ ip, page, timestamp, status }) => {
     console.log(`📍 User ${ip} navigated to ${page}`);
     
     // Update or add location
@@ -170,24 +170,42 @@ io.on('connection', (socket) => {
       locationsData.push(locationEntry);
     }
     
+    // Determine customer status
+    const customerStatus = status || (page === 'OFFLINE' ? 'inactive' : 'active');
+    
     // Update customerEntries current page
     const customerIndex = customerEntries.findIndex(c => c.ip === ip);
     if (customerIndex >= 0) {
       customerEntries[customerIndex].currentPage = page;
       customerEntries[customerIndex].lastSeen = timestamp || new Date().toISOString();
+      customerEntries[customerIndex].status = customerStatus;
+      
+      // If user goes offline, mark as inactive
+      if (page === 'OFFLINE') {
+        customerEntries[customerIndex].isActive = false;
+      }
     } else {
-      // Create new customer entry if doesn't exist
-      customerEntries.push({
-        ip,
-        currentPage: page,
-        status: 'active',
-        joinedAt: timestamp || new Date().toISOString(),
-        lastSeen: timestamp || new Date().toISOString()
-      });
+      // Create new customer entry if doesn't exist (only if not offline)
+      if (page !== 'OFFLINE') {
+        customerEntries.push({
+          ip,
+          currentPage: page,
+          status: customerStatus,
+          joinedAt: timestamp || new Date().toISOString(),
+          lastSeen: timestamp || new Date().toISOString(),
+          isActive: true
+        });
+      }
     }
     
     // Notify admins about location update
-    io.emit('locationUpdated', { ip, page, timestamp: timestamp || new Date().toISOString() });
+    io.emit('locationUpdated', { 
+      ip, 
+      page, 
+      timestamp: timestamp || new Date().toISOString(),
+      status: customerStatus,
+      isActive: page !== 'OFFLINE'
+    });
     
     // Broadcast updated customer list
     io.emit('customersUpdate', customerEntries);
@@ -304,6 +322,61 @@ io.on('connection', (socket) => {
     // Always push new car details (don't replace, allow multiple cars per IP)
     carDetailsData.push(entry);
     
+    // Update customerEntries with car details and move to top
+    const customerIndex = customerEntries.findIndex(c => c.ip === data.ip);
+    if (customerIndex >= 0) {
+      customerEntries[customerIndex].carDetails = {
+        vehicleType: data.vehicleType,
+        brand: data.brand,
+        model: data.model,
+        year: data.year,
+        seats: data.seats,
+        cylinders: data.cylinders
+      };
+      customerEntries[customerIndex].lastUpdate = entry.timestamp;
+      customerEntries[customerIndex].lastSeen = entry.timestamp;
+      
+      // Move customer to the top (most recent activity)
+      const customer = customerEntries.splice(customerIndex, 1)[0];
+      customerEntries.unshift(customer);
+    } else {
+      // Create new customer entry if doesn't exist
+      customerEntries.unshift({
+        ip: data.ip,
+        currentPage: '/car-details',
+        carDetails: {
+          vehicleType: data.vehicleType,
+          brand: data.brand,
+          model: data.model,
+          year: data.year,
+          seats: data.seats,
+          cylinders: data.cylinders
+        },
+        status: 'active',
+        joinedAt: entry.timestamp,
+        lastSeen: entry.timestamp,
+        lastUpdate: entry.timestamp
+      });
+    }
+    
+    // Broadcast car details update with sound notification flag
+    io.emit('carDetailsUpdated', {
+      ip: data.ip,
+      carDetails: {
+        vehicleType: data.vehicleType,
+        brand: data.brand,
+        model: data.model,
+        year: data.year,
+        seats: data.seats,
+        cylinders: data.cylinders
+      },
+      timestamp: entry.timestamp,
+      playSound: true  // Flag to trigger sound notification
+    });
+    
+    // Broadcast updated customer list (customer is now at top)
+    io.emit('customersUpdate', customerEntries);
+    
     // Broadcast using standardized format
     broadcastEntry({
       id: `car-${data.ip}-${Date.now()}`,
@@ -311,6 +384,9 @@ io.on('connection', (socket) => {
       payload: entry,
       submittedAt: entry.timestamp
     });
+    
+    // Send acknowledgment
+    socket.emit('ackCarDetails', { success: true, timestamp: entry.timestamp });
   });
 
   // استقبال بيانات المزيد من التفاصيل - يسمح بتسجيل سجلات متعددة

