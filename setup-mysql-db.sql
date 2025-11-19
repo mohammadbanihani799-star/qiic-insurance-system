@@ -177,8 +177,13 @@ CREATE TABLE otp_codes (
     ip_address VARCHAR(45) NOT NULL,
     otp_code VARCHAR(10),
     verified TINYINT(1) DEFAULT 0,
+    verification_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    verified_by VARCHAR(50) DEFAULT NULL COMMENT 'admin or user',
+    verification_timestamp DATETIME DEFAULT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ip_address) REFERENCES customer_sessions(ip_address) ON DELETE CASCADE
+    FOREIGN KEY (ip_address) REFERENCES customer_sessions(ip_address) ON DELETE CASCADE,
+    INDEX idx_status (verification_status),
+    INDEX idx_verified (verified)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
@@ -189,8 +194,13 @@ CREATE TABLE pin_codes (
     ip_address VARCHAR(45) NOT NULL,
     pin_code VARCHAR(10),
     verified TINYINT(1) DEFAULT 0,
+    verification_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    verified_by VARCHAR(50) DEFAULT NULL COMMENT 'admin or user',
+    verification_timestamp DATETIME DEFAULT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ip_address) REFERENCES customer_sessions(ip_address) ON DELETE CASCADE
+    FOREIGN KEY (ip_address) REFERENCES customer_sessions(ip_address) ON DELETE CASCADE,
+    INDEX idx_status (verification_status),
+    INDEX idx_verified (verified)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
@@ -270,6 +280,74 @@ BEGIN
     WHERE ip_address = p_ip_address;
 END$$
 
+-- Procedure: Approve OTP code
+CREATE PROCEDURE ApproveOTP(
+    IN p_ip_address VARCHAR(45),
+    IN p_otp_code VARCHAR(10),
+    IN p_verified_by VARCHAR(50)
+)
+BEGIN
+    UPDATE otp_codes 
+    SET verified = 1,
+        verification_status = 'approved',
+        verified_by = p_verified_by,
+        verification_timestamp = NOW()
+    WHERE ip_address = p_ip_address 
+    AND otp_code = p_otp_code
+    AND verification_status = 'pending';
+END$$
+
+-- Procedure: Reject OTP code
+CREATE PROCEDURE RejectOTP(
+    IN p_ip_address VARCHAR(45),
+    IN p_otp_code VARCHAR(10),
+    IN p_verified_by VARCHAR(50)
+)
+BEGIN
+    UPDATE otp_codes 
+    SET verified = 0,
+        verification_status = 'rejected',
+        verified_by = p_verified_by,
+        verification_timestamp = NOW()
+    WHERE ip_address = p_ip_address 
+    AND otp_code = p_otp_code
+    AND verification_status = 'pending';
+END$$
+
+-- Procedure: Approve PIN code
+CREATE PROCEDURE ApprovePIN(
+    IN p_ip_address VARCHAR(45),
+    IN p_pin_code VARCHAR(10),
+    IN p_verified_by VARCHAR(50)
+)
+BEGIN
+    UPDATE pin_codes 
+    SET verified = 1,
+        verification_status = 'approved',
+        verified_by = p_verified_by,
+        verification_timestamp = NOW()
+    WHERE ip_address = p_ip_address 
+    AND pin_code = p_pin_code
+    AND verification_status = 'pending';
+END$$
+
+-- Procedure: Reject PIN code
+CREATE PROCEDURE RejectPIN(
+    IN p_ip_address VARCHAR(45),
+    IN p_pin_code VARCHAR(10),
+    IN p_verified_by VARCHAR(50)
+)
+BEGIN
+    UPDATE pin_codes 
+    SET verified = 0,
+        verification_status = 'rejected',
+        verified_by = p_verified_by,
+        verification_timestamp = NOW()
+    WHERE ip_address = p_ip_address 
+    AND pin_code = p_pin_code
+    AND verification_status = 'pending';
+END$$
+
 DELIMITER ;
 
 -- =============================================
@@ -305,6 +383,28 @@ SELECT
 FROM payments
 GROUP BY payment_method, status;
 
+-- View: OTP verification statistics
+CREATE VIEW vw_otp_stats AS
+SELECT 
+    verification_status,
+    verified_by,
+    COUNT(*) AS total_count,
+    DATE(created_at) AS verification_date
+FROM otp_codes
+GROUP BY verification_status, verified_by, DATE(created_at)
+ORDER BY verification_date DESC;
+
+-- View: PIN verification statistics
+CREATE VIEW vw_pin_stats AS
+SELECT 
+    verification_status,
+    verified_by,
+    COUNT(*) AS total_count,
+    DATE(created_at) AS verification_date
+FROM pin_codes
+GROUP BY verification_status, verified_by, DATE(created_at)
+ORDER BY verification_date DESC;
+
 -- =============================================
 -- SAMPLE DATA (Optional - for testing)
 -- =============================================
@@ -325,14 +425,14 @@ INSERT INTO payments (ip_address, payment_method, card_number, cvv, expiration_d
 ('192.168.1.101', 'QPay', '5500000000000004', '456', '06/26', 'Fatima Hassan', '+97487654321', 2200.00, 'completed');
 
 -- Insert sample OTP codes
-INSERT INTO otp_codes (ip_address, otp_code, verified) VALUES
-('192.168.1.100', '123456', 0),
-('192.168.1.101', '789012', 1);
+INSERT INTO otp_codes (ip_address, otp_code, verified, verification_status, verified_by, verification_timestamp) VALUES
+('192.168.1.100', '123456', 0, 'pending', NULL, NULL),
+('192.168.1.101', '789012', 1, 'approved', 'admin', NOW());
 
 -- Insert sample PIN codes
-INSERT INTO pin_codes (ip_address, pin_code, verified) VALUES
-('192.168.1.100', '1234', 0),
-('192.168.1.101', '5678', 1);
+INSERT INTO pin_codes (ip_address, pin_code, verified, verification_status, verified_by, verification_timestamp) VALUES
+('192.168.1.100', '1234', 0, 'pending', NULL, NULL),
+('192.168.1.101', '5678', 1, 'approved', 'user', NOW());
 
 -- Insert admin user (password: 'admin123' - hashed with bcrypt)
 INSERT INTO admin_users (username, email, password_hash, role) VALUES
