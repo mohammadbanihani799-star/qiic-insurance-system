@@ -271,9 +271,11 @@ const Home = () => {
                       <div className="ds-base-input__inner-value">
                         <input
                           type="tel"
+                          id="phoneNumber"
+                          name="phoneNumber"
                           className="ds-base-input__field text-medium"
                           inputMode="numeric"
-                          autoComplete="off"
+                          autoComplete="tel"
                           placeholder=" "
                           value={phone ? `+974 ${phone}` : '+974 '}
                           onChange={handlePhoneChange}
