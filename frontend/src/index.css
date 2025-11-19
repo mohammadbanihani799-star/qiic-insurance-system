@@ -3783,11 +3783,13 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   align-content: space-between;
   display: grid;
   height: 100vh;
+  overflow: hidden;
 }
 
 .flow__top {
   width: 100%;
   background: white;
+  overflow-y: auto;
 }
 
 .flow__content {
@@ -5133,6 +5135,7 @@ body {
   align-content: space-between;
   display: grid;
   height: 100vh;
+  overflow: hidden;
 }
 
 .flow__header {
