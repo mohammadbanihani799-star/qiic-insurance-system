@@ -18,49 +18,6 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // 🔒 حماية من فتح DevTools
-  useEffect(() => {
-    const detectDevTools = () => {
-      const threshold = 160;
-      if (
-        window.outerWidth - window.innerWidth > threshold ||
-        window.outerHeight - window.innerHeight > threshold
-      ) {
-        // تم كشف DevTools
-        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;color:#e74c3c;font-size:24px;">⚠️ الوصول غير مصرح به</div>';
-      }
-    };
-
-    // منع النقر بالزر الأيمن
-    const preventContextMenu = (e) => e.preventDefault();
-    
-    // منع اختصارات لوحة المفاتيح
-    const preventKeyboardShortcuts = (e) => {
-      // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-      if (
-        e.keyCode === 123 || // F12
-        (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
-        (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
-        (e.ctrlKey && e.keyCode === 85) // Ctrl+U
-      ) {
-        e.preventDefault();
-        return false;
-      }
-    };
-
-    // تفعيل الحماية
-    document.addEventListener('contextmenu', preventContextMenu);
-    document.addEventListener('keydown', preventKeyboardShortcuts);
-    const interval = setInterval(detectDevTools, 1000);
-
-    // تنظيف عند إلغاء المكون
-    return () => {
-      document.removeEventListener('contextmenu', preventContextMenu);
-      document.removeEventListener('keydown', preventKeyboardShortcuts);
-      clearInterval(interval);
-    };
-  }, []);
-
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
