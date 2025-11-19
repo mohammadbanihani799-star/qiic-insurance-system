@@ -777,12 +777,12 @@ app.get('/health', (req, res) => {
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
   console.log(`
-╔═══════════════════════════════════════╗
-║  🚀 QIC Real-time Server Running      ║
-║  📡 Port: ${PORT}                        ║
-║  🔌 Socket.IO: Active                 ║
-║  ⏰ ${new Date().toLocaleString('ar-QA')}     ║
-╚═══════════════════════════════════════╝
+====================================
+  QIIC Real-time Server Running
+  Port: ${PORT}
+  Socket.IO: Active
+  Time: ${new Date().toLocaleString('ar-QA')}
+====================================
   `);
 });
 
