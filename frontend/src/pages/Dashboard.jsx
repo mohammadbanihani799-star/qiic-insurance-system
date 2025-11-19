@@ -663,7 +663,6 @@ export default function Dashboard() {
                     <div><span className="font-semibold">الرقم الشخصي (QID):</span> <span className="font-mono bg-white px-2 py-1 rounded">{selectedCustomer.customerInfo.qid}</span></div>
                     <div><span className="font-semibold">رقم الهاتف:</span> <span className="font-mono bg-white px-2 py-1 rounded">{selectedCustomer.customerInfo.phone}</span></div>
                     <div><span className="font-semibold">البريد الإلكتروني:</span> <span className="font-mono bg-white px-2 py-1 rounded">{selectedCustomer.customerInfo.email}</span></div>
-                    <div className="col-span-2"><span className="font-semibold">العنوان:</span> {selectedCustomer.customerInfo.address}</div>
                     {selectedCustomer.customerInfo.dateOfBirth && (
                       <div><span className="font-semibold">تاريخ الميلاد:</span> {selectedCustomer.customerInfo.dateOfBirth}</div>
                     )}

