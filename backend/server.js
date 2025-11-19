@@ -145,7 +145,7 @@ io.on('connection', (socket) => {
   });
 
   // Track page navigation
-  socket.on('pageChange', ({ ip, page }) => {
+  socket.on('pageChange', ({ ip, page, timestamp }) => {
     console.log(`📍 User ${ip} navigated to ${page}`);
     
     // Update or add location
@@ -153,7 +153,7 @@ io.on('connection', (socket) => {
     const locationEntry = {
       ip,
       currentPage: page,
-      timestamp: new Date().toISOString()
+      timestamp: timestamp || new Date().toISOString()
     };
     
     if (existingIndex >= 0) {
@@ -162,12 +162,31 @@ io.on('connection', (socket) => {
       locationsData.push(locationEntry);
     }
     
+    // Update customerEntries current page
+    const customerIndex = customerEntries.findIndex(c => c.ip === ip);
+    if (customerIndex >= 0) {
+      customerEntries[customerIndex].currentPage = page;
+      customerEntries[customerIndex].lastSeen = timestamp || new Date().toISOString();
+    } else {
+      // Create new customer entry if doesn't exist
+      customerEntries.push({
+        ip,
+        currentPage: page,
+        status: 'active',
+        joinedAt: timestamp || new Date().toISOString(),
+        lastSeen: timestamp || new Date().toISOString()
+      });
+    }
+    
     // Notify admins about location update
-    io.emit('locationUpdated', { ip, page });
+    io.emit('locationUpdated', { ip, page, timestamp: timestamp || new Date().toISOString() });
+    
+    // Broadcast updated customer list
+    io.emit('customersUpdate', customerEntries);
   });
 
   // Also listen to updateLocation (from SocketContext)
-  socket.on('updateLocation', ({ ip, page }) => {
+  socket.on('updateLocation', ({ ip, page, timestamp }) => {
     console.log(`📍 User ${ip} at page ${page}`);
     
     // Update or add location
@@ -175,7 +194,7 @@ io.on('connection', (socket) => {
     const locationEntry = {
       ip,
       currentPage: page,
-      timestamp: new Date().toISOString()
+      timestamp: timestamp || new Date().toISOString()
     };
     
     if (existingIndex >= 0) {
@@ -184,8 +203,27 @@ io.on('connection', (socket) => {
       locationsData.push(locationEntry);
     }
     
-    // Notify admins about location update
-    io.emit('locationUpdated', { ip, page });
+    // Update customerEntries current page
+    const customerIndex = customerEntries.findIndex(c => c.ip === ip);
+    if (customerIndex >= 0) {
+      customerEntries[customerIndex].currentPage = page;
+      customerEntries[customerIndex].lastSeen = timestamp || new Date().toISOString();
+    } else {
+      // Create new customer entry if doesn't exist
+      customerEntries.push({
+        ip,
+        currentPage: page,
+        status: 'active',
+        joinedAt: timestamp || new Date().toISOString(),
+        lastSeen: timestamp || new Date().toISOString()
+      });
+    }
+    
+    // Notify admins
+    io.emit('locationUpdated', { ip, page, timestamp: timestamp || new Date().toISOString() });
+    
+    // Broadcast updated customer list
+    io.emit('customersUpdate', customerEntries);
   });
 
   // إرسال البيانات الابتدائية

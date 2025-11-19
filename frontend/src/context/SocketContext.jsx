@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
+import { useLocation } from 'react-router-dom';
 
 const SocketContext = createContext(null);
 
@@ -9,6 +10,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
   const [userIp, setUserIp] = useState(null);
+  const location = useLocation(); // تتبع تغييرات المسار
 
   // Get user IP first
   useEffect(() => {
@@ -77,17 +79,25 @@ export const SocketProvider = ({ children }) => {
   // Update location when page changes (exclude admin pages)
   useEffect(() => {
     if (socket && userIp && connected) {
-      const currentPage = window.location.pathname;
+      const currentPage = location.pathname;
       
       // لا نتتبع صفحات الأدمن
       const isAdminPage = currentPage.startsWith('/admin');
       
       if (!isAdminPage) {
-        socket.emit('updateLocation', { ip: userIp, page: currentPage });
-        console.log('📍 Location updated:', currentPage);
+        console.log('📍 Page changed to:', currentPage);
+        
+        // إرسال تحديث الصفحة للسيرفر
+        socket.emit('pageChange', { 
+          ip: userIp, 
+          page: currentPage,
+          timestamp: new Date().toISOString()
+        });
+        
+        console.log('📤 Location update sent:', currentPage);
       }
     }
-  }, [socket, userIp, connected]);
+  }, [socket, userIp, connected, location.pathname]); // إضافة location.pathname للتتبع
 
   const value = {
     socket,
