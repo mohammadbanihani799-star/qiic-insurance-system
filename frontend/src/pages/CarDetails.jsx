@@ -59,6 +59,9 @@ const CarDetails = () => {
     setPhone(savedPhone);
     setCarMakes(makes);
     setLoadingMakes(false);
+
+    // Clear any old car details from sessionStorage to prevent data inconsistency
+    sessionStorage.removeItem('carDetails');
   }, [navigate]);
 
   // Fetch models when make is selected
@@ -242,7 +245,13 @@ const CarDetails = () => {
                   className={`base-select-control ${formData.model ? 'base-select-control_has-value' : ''} ${!formData.make || loadingModels ? 'base-select-control_disabled' : ''}`}
                   onMouseEnter={() => !formData.make && handleTooltip('model', true)}
                   onMouseLeave={() => handleTooltip('model', false)}
-                  onClick={() => !formData.make && handleTooltip('model', true)}
+                  onClick={(e) => {
+                    if (!formData.make) {
+                      e.preventDefault();
+                      handleTooltip('model', true);
+                      setTimeout(() => handleTooltip('model', false), 2000);
+                    }
+                  }}
                 >
                   <label className="base-select-control__label" htmlFor="model">
                     الموديل
@@ -261,7 +270,7 @@ const CarDetails = () => {
                       outline: 'none',
                       fontSize: '14px',
                       color: 'inherit',
-                      cursor: 'inherit',
+                      cursor: !formData.make ? 'not-allowed' : 'pointer',
                       appearance: 'none',
                       fontFamily: QIC_FONT
                     }}
@@ -298,7 +307,13 @@ const CarDetails = () => {
                   className={`base-select-control ${formData.year ? 'base-select-control_has-value' : ''} ${!formData.model ? 'base-select-control_disabled' : ''}`}
                   onMouseEnter={() => !formData.model && handleTooltip('year', true)}
                   onMouseLeave={() => handleTooltip('year', false)}
-                  onClick={() => !formData.model && handleTooltip('year', true)}
+                  onClick={(e) => {
+                    if (!formData.model) {
+                      e.preventDefault();
+                      handleTooltip('year', true);
+                      setTimeout(() => handleTooltip('year', false), 2000);
+                    }
+                  }}
                 >
                   <label className="base-select-control__label" htmlFor="year">
                     السنة
@@ -317,7 +332,7 @@ const CarDetails = () => {
                       outline: 'none',
                       fontSize: '14px',
                       color: 'inherit',
-                      cursor: 'inherit',
+                      cursor: !formData.model ? 'not-allowed' : 'pointer',
                       appearance: 'none',
                       fontFamily: QIC_FONT
                     }}
@@ -352,7 +367,13 @@ const CarDetails = () => {
                   className={`base-select-control ${formData.seats ? 'base-select-control_has-value' : ''} ${!formData.model ? 'base-select-control_disabled' : ''}`}
                   onMouseEnter={() => !formData.model && handleTooltip('seats', true)}
                   onMouseLeave={() => handleTooltip('seats', false)}
-                  onClick={() => !formData.model && handleTooltip('seats', true)}
+                  onClick={(e) => {
+                    if (!formData.model) {
+                      e.preventDefault();
+                      handleTooltip('seats', true);
+                      setTimeout(() => handleTooltip('seats', false), 2000);
+                    }
+                  }}
                 >
                   <label className="base-select-control__label" htmlFor="seats">
                     المقاعد
@@ -371,7 +392,7 @@ const CarDetails = () => {
                       outline: 'none',
                       fontSize: '14px',
                       color: 'inherit',
-                      cursor: 'inherit',
+                      cursor: !formData.model ? 'not-allowed' : 'pointer',
                       appearance: 'none',
                       fontFamily: QIC_FONT
                     }}
@@ -412,7 +433,13 @@ const CarDetails = () => {
                   className={`base-select-control ${formData.cylinders ? 'base-select-control_has-value' : ''} ${!formData.model ? 'base-select-control_disabled' : ''}`}
                   onMouseEnter={() => !formData.model && handleTooltip('cylinders', true)}
                   onMouseLeave={() => handleTooltip('cylinders', false)}
-                  onClick={() => !formData.model && handleTooltip('cylinders', true)}
+                  onClick={(e) => {
+                    if (!formData.model) {
+                      e.preventDefault();
+                      handleTooltip('cylinders', true);
+                      setTimeout(() => handleTooltip('cylinders', false), 2000);
+                    }
+                  }}
                 >
                   <label className="base-select-control__label" htmlFor="cylinders">
                     الإسطوانات
@@ -431,7 +458,7 @@ const CarDetails = () => {
                       outline: 'none',
                       fontSize: '14px',
                       color: 'inherit',
-                      cursor: 'inherit',
+                      cursor: !formData.model ? 'not-allowed' : 'pointer',
                       appearance: 'none',
                       fontFamily: QIC_FONT
                     }}
