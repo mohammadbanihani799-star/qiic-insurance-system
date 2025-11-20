@@ -116,38 +116,17 @@ const CarDetails = () => {
         
         <div className="row-group">
           {/* Tab Section */}
-          <div className="base-tabs base-tabs_primary" style={{ marginBottom: '24px' }}>
-            <div style={{ display: 'flex', gap: '8px', background: '#f5f6fa', padding: '4px', borderRadius: '12px' }}>
-              <label 
-                style={{
-                  flex: 1,
-                  padding: '12px 16px',
-                  textAlign: 'center',
-                  borderRadius: '10px',
-                  background: '#fff',
-                  color: '#1c1c1c',
-                  fontWeight: 500,
-                  fontSize: '14px',
-                  cursor: 'pointer',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
-                }}
-              >
-                تعبئة يدوية
+          <div className="base-tabs base-tabs_primary">
+            <div className="tab_primary tab_active">
+              <input id="manual" type="radio" name="tab" value="manual" defaultChecked />
+              <label className="base-tabs__tab base-tabs__tab_primary" htmlFor="manual">
+                <div className="base-tabs__title">تعبئة يدوية</div>
               </label>
-              <label 
-                style={{
-                  flex: 1,
-                  padding: '12px 16px',
-                  textAlign: 'center',
-                  borderRadius: '10px',
-                  background: 'transparent',
-                  color: '#778a99',
-                  fontWeight: 500,
-                  fontSize: '14px',
-                  cursor: 'pointer'
-                }}
-              >
-                تعبئة سريعة
+            </div>
+            <div className="tab_primary">
+              <input id="quick" type="radio" name="tab" value="quick" />
+              <label className="base-tabs__tab base-tabs__tab_primary" htmlFor="quick">
+                <div className="base-tabs__title">تعبئة سريعة</div>
               </label>
             </div>
           </div>
