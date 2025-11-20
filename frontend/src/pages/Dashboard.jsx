@@ -335,7 +335,7 @@ export default function Dashboard() {
 
       {/* Customers Table */}
       <div className="card overflow-hidden shadow-lg">
-        <div className="overflow-x-auto">
+        <div>
           <table className="w-full table-auto" dir="ltr">
             <thead className="bg-gradient-to-r from-gray-700 to-gray-800 text-white">
               <tr>
@@ -619,7 +619,7 @@ export default function Dashboard() {
       {/* Details Modal */}
       {showDetailsModal && selectedCustomer && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowDetailsModal(false)}>
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
             <div className="sticky top-0 bg-white border-b p-6 flex items-center justify-between">
               <h2 className="text-2xl font-bold">تفاصيل العميل - {selectedCustomer.ip}</h2>
               <button onClick={() => setShowDetailsModal(false)} className="text-gray-500 hover:text-gray-700 text-2xl">×</button>

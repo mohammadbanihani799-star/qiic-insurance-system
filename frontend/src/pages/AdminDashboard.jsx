@@ -765,7 +765,7 @@ export default function AdminDashboard() {
 
       {/* Details Modal */}
       {showDetailsModal && selectedCustomer && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4 overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40 p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full my-8">
             <div className="bg-gradient-to-r from-qiic-maroon to-red-900 text-white p-6 rounded-t-2xl sticky top-0 z-10">
               <div className="flex items-center justify-between">
@@ -793,7 +793,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+            <div className="p-6 space-y-6 max-h-[70vh]">
               {/* Customer Personal Info */}
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6">
                 <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-blue-900">
@@ -1316,7 +1316,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="overflow-x-auto admin-table">
+          <div className="admin-table">
             <table className="w-full" dir="rtl">
               <thead className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white sticky top-0 z-10">
                 <tr className="border-b border-gray-700">

@@ -756,7 +756,6 @@
   max-width: 800px;
   width: 90%;
   max-height: 90vh;
-  overflow-y: auto;
   background: white;
   border-radius: 24px;
   padding: 32px;
