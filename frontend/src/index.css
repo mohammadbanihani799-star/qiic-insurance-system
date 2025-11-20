@@ -5652,6 +5652,24 @@ body {
   position: relative;
 }
 
+/* عندما يكون هناك تاب واحد فقط */
+.base-tabs_single {
+  background: transparent;
+  padding: 0;
+}
+
+.base-tabs_single .tab_primary {
+  width: 100%;
+}
+
+.base-tabs_single .base-tabs__tab {
+  background: #f5f6fa;
+  color: #1c1c1c;
+  font-weight: 600;
+  box-shadow: none;
+  cursor: default;
+}
+
 .tab_primary {
   flex: 1;
   position: relative;
