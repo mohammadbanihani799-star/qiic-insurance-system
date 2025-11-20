@@ -3788,9 +3788,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 .flow {
   align-content: space-between;
   display: grid;
-  height: 100vh;
-  overflow: hidden;
-  overflow-x: hidden;
+  min-height: 100vh;
 }
 
 .flow__top {
@@ -3805,7 +3803,6 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   max-width: 544px;
   padding: 24px;
   width: 100%;
-  overflow: hidden;
 }
 
 .flow__content--expanded {
@@ -5171,8 +5168,7 @@ body {
 .flow {
   align-content: space-between;
   display: grid;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
 .flow__header {
