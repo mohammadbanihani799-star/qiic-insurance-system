@@ -3796,12 +3796,6 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   overflow-x: hidden;
 }
 
-/* Car Details specific - allow vertical scroll only */
-.flow--car-details {
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 .flow__top {
   width: 100%;
   background: #f7f7fc;
@@ -3814,6 +3808,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   max-width: 544px;
   padding: 40px;
   width: 100%;
+  overflow: hidden;
 }
 
 .flow__content--expanded {
