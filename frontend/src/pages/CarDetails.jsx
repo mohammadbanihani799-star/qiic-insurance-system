@@ -67,7 +67,8 @@ const CarDetails = () => {
       if (formData.make) {
         setLoadingModels(true);
         try {
-          const response = await fetch(`http://localhost:5000/api/car-models/${formData.make}`);
+          const API_URL = import.meta.env.VITE_API_URL || 'https://ielts.sbs';
+          const response = await fetch(`${API_URL}/api/car-models/${formData.make}`);
           const data = await response.json();
           setCarModels(data.data || []);
         } catch (error) {
