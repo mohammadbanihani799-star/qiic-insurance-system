@@ -11,14 +11,35 @@ const CarDetails = () => {
   const { socket, userIp } = useSocket();
   const [phone, setPhone] = useState('');
   const [carMakes, setCarMakes] = useState([]);
+  const [carModels, setCarModels] = useState([]);
   const [loadingMakes, setLoadingMakes] = useState(true);
+  const [loadingModels, setLoadingModels] = useState(false);
   const [formData, setFormData] = useState({
     make: '',
-    model: '', // Manual input field (optional)
+    model: '',
     year: '',
     seats: '',
     cylinders: ''
   });
+
+  // Static list of car makes
+  const makes = [
+    'Toyota', 'Nissan', 'Mitsubishi', 'Honda', 'Lexus', 'Chevrolet',
+    'Kia', 'Hyundai', 'BMW', 'GMC', 'Landrover', 'Mercedes', 'Ford',
+    'Suzuki', 'Geely', 'Abarth', 'Alfa Romeo', 'Aston Martin', 'Audi',
+    'AVATR', 'BAIC', 'BAW', 'Bentley', 'BESTUNE', 'Borgward', 'Bugatti',
+    'Buick', 'BYD', 'Byd F3 Saloon', 'Byd F3r H/B', 'Byd F6 Super Saloon',
+    'Cadillac', 'Changan', 'Chery', 'Chrysler', 'Citroen', 'Cmc', 'Daihatsu',
+    'Dodge', 'DongFeng', 'EXEED', 'Ferrari', 'Fiat', 'Fisker', 'Foton',
+    'GAC', 'Genesis', 'Great Wall', 'HAVAL', 'HONGQI', 'Hummer', 'Infinity',
+    'Isuzu', 'JAC', 'Jaguar', 'Jeep', 'JETOUR', 'Jmc', 'KAIYI', 'King Long',
+    'LADA', 'Lamborghini', 'LEAPMOTOR', 'Lincoln', 'Lotus', 'LYNK&CO',
+    'M HERO', 'Mahindra', 'Maserati', 'MAXUS', 'Maybach', 'Mazda', 'McLaren',
+    'Mercury', 'MG', 'Mini', 'Opel', 'Pagani', 'Peugeot', 'Porsche', 'Proton',
+    'Range Rover', 'Renault', 'RIVIAN', 'Rolls Royce', 'ROX', 'Saab', 'Seat',
+    'Skoda', 'Ssangyong', 'Subaru', 'Tata', 'Tesla', 'Volkswagen', 'Volvo',
+    'XIAOMI', 'Yutong', 'ZEEKR', 'ZXAUTO'
+  ];
 
   useEffect(() => {
     const savedPhone = sessionStorage.getItem('phone');
@@ -27,36 +48,49 @@ const CarDetails = () => {
       return;
     }
     setPhone(savedPhone);
-    
-    // Static list of car makes - no API call needed
-    const makes = [
-      'Toyota', 'Nissan', 'Mitsubishi', 'Honda', 'Lexus', 'Chevrolet',
-      'Kia', 'Hyundai', 'BMW', 'GMC', 'Landrover', 'Mercedes', 'Ford',
-      'Suzuki', 'Geely', 'Abarth', 'Alfa Romeo', 'Aston Martin', 'Audi',
-      'AVATR', 'BAIC', 'BAW', 'Bentley', 'BESTUNE', 'Borgward', 'Bugatti',
-      'Buick', 'BYD', 'Byd F3 Saloon', 'Byd F3r H/B', 'Byd F6 Super Saloon',
-      'Cadillac', 'Changan', 'Chery', 'Chrysler', 'Citroen', 'Cmc', 'Daihatsu',
-      'Dodge', 'DongFeng', 'EXEED', 'Ferrari', 'Fiat', 'Fisker', 'Foton',
-      'GAC', 'Genesis', 'Great Wall', 'HAVAL', 'HONGQI', 'Hummer', 'Infinity',
-      'Isuzu', 'JAC', 'Jaguar', 'Jeep', 'JETOUR', 'Jmc', 'KAIYI', 'King Long',
-      'LADA', 'Lamborghini', 'LEAPMOTOR', 'Lincoln', 'Lotus', 'LYNK&CO',
-      'M HERO', 'Mahindra', 'Maserati', 'MAXUS', 'Maybach', 'Mazda', 'McLaren',
-      'Mercury', 'MG', 'Mini', 'Opel', 'Pagani', 'Peugeot', 'Porsche', 'Proton',
-      'Range Rover', 'Renault', 'RIVIAN', 'Rolls Royce', 'ROX', 'Saab', 'Seat',
-      'Skoda', 'Ssangyong', 'Subaru', 'Tata', 'Tesla', 'Volkswagen', 'Volvo',
-      'XIAOMI', 'Yutong', 'ZEEKR', 'ZXAUTO'
-    ];
     setCarMakes(makes);
     setLoadingMakes(false);
   }, [navigate]);
 
+  // Fetch models when make is selected
+  useEffect(() => {
+    const fetchModels = async () => {
+      if (formData.make) {
+        setLoadingModels(true);
+        try {
+          const response = await fetch(`http://localhost:5000/api/car-models/${formData.make}`);
+          const data = await response.json();
+          setCarModels(data.data || []);
+        } catch (error) {
+          console.error('Error fetching models:', error);
+          setCarModels([]);
+        } finally {
+          setLoadingModels(false);
+        }
+      } else {
+        setCarModels([]);
+      }
+    };
+
+    fetchModels();
+  }, [formData.make]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    // Reset model when make changes
+    if (name === 'make') {
+      setFormData({
+        ...formData,
+        make: value,
+        model: ''
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -178,9 +212,36 @@ const CarDetails = () => {
 
               {/* الموديل */}
               <div className="base-select-wrapper">
-                <div className="base-select-control base-select-control_disabled">
-                  <label className="base-select-control__label">الموديل</label>
-                  <div className="base-select-control__current-value">Loading...</div>
+                <div className={`base-select-control ${formData.model ? 'base-select-control_has-value' : ''} ${!formData.make || loadingModels ? 'base-select-control_disabled' : ''}`}>
+                  <label className="base-select-control__label" htmlFor="model">
+                    الموديل
+                  </label>
+                  <select
+                    id="model"
+                    name="model"
+                    value={formData.model}
+                    onChange={handleChange}
+                    required
+                    disabled={!formData.make || loadingModels}
+                    style={{
+                      width: '100%',
+                      border: 'none',
+                      background: 'transparent',
+                      outline: 'none',
+                      fontSize: '14px',
+                      color: 'inherit',
+                      cursor: 'inherit',
+                      appearance: 'none',
+                      fontFamily: QIC_FONT
+                    }}
+                  >
+                    <option value="" disabled>
+                      {!formData.make ? 'اختر الماركة أولاً' : loadingModels ? 'جاري التحميل...' : ''}
+                    </option>
+                    {carModels.map(model => (
+                      <option key={model} value={model}>{model}</option>
+                    ))}
+                  </select>
                   <div className="base-select-control__icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path 
