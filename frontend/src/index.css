@@ -3866,55 +3866,49 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
    Flow Header Styles
    ================================ */
 
-.flow__header {
+.flow__header-wrapper {
   align-items: center;
   display: flex;
   justify-content: center;
   margin-inline: auto;
-  max-width: 544px;
+  max-width: 100%;
   padding-bottom: 24px;
   padding-top: 28px;
   padding-inline: 24px;
   position: relative;
   width: 100%;
-  background: white;
-  border-radius: 0 0 32px 32px;
 }
 
 /* Desktop */
 @media (min-width: 1024px) {
-  .flow__header {
+  .flow__header-wrapper {
     padding-bottom: 24px;
     padding-top: 32px;
-    max-width: 544px;
   }
 }
 
 /* Tablet */
 @media (max-width: 1023px) and (min-width: 768px) {
-  .flow__header {
+  .flow__header-wrapper {
     padding-bottom: 20px;
     padding-top: 24px;
-    max-width: 544px;
   }
 }
 
 /* Mobile */
 @media (max-width: 767px) {
-  .flow__header {
+  .flow__header-wrapper {
     padding-bottom: 16px;
     padding-top: 16px;
     padding-inline: 20px;
-    max-width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .flow__header {
+  .flow__header-wrapper {
     padding-bottom: 12px;
     padding-top: 12px;
     padding-inline: 16px;
-    max-width: 100%;
   }
 }
 
@@ -3987,24 +3981,26 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 }
 
 /* RTL Support for Flow Header */
-.rtl .flow__header {
+.rtl .flow__header-wrapper {
   direction: rtl;
 }
 
 .rtl .flow__header-return {
-  left: auto;
-  right: 24px;
+  left: 24px;
+  right: auto;
 }
 
 @media (max-width: 767px) {
   .rtl .flow__header-return {
-    right: 20px;
+    left: 20px;
+    right: auto;
   }
 }
 
 @media (max-width: 480px) {
   .rtl .flow__header-return {
-    right: 16px;
+    left: 16px;
+    right: auto;
   }
 }
 
