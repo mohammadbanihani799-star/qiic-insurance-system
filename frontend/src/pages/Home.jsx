@@ -210,23 +210,21 @@ const Home = () => {
 
           {/* Mobile Menu */}
           <div className={`navbar__mobile-menu ${isMobileMenuOpen ? 'navbar__mobile-menu--open' : ''}`}>
-            <ul className="navbar__mobile-menu-list">
-              <li className="navbar__mobile-menu-item">
-                <a href="/car-insurance" className="navbar__mobile-menu-link">السيارة</a>
-              </li>
-              <li className="navbar__mobile-menu-item">
-                <a href="/visitors" className="navbar__mobile-menu-link">الزائرون</a>
-              </li>
-              <li className="navbar__mobile-menu-item">
-                <a href="/travel-insurance" className="navbar__mobile-menu-link">السفر</a>
-              </li>
-              <li className="navbar__mobile-menu-item">
-                <a href="#" className="navbar__mobile-menu-link">مزيد من الفئات</a>
-              </li>
-              <li className="navbar__mobile-menu-item">
-                <a href="#" className="navbar__mobile-menu-link">خدمات المدينة</a>
-              </li>
-            </ul>
+            <div className="navbar__mobile-menu-item">
+              <a href="/car-insurance" className="navbar__mobile-menu-link">السيارة</a>
+            </div>
+            <div className="navbar__mobile-menu-item">
+              <a href="/visitors" className="navbar__mobile-menu-link">الزائرون</a>
+            </div>
+            <div className="navbar__mobile-menu-item">
+              <a href="/travel-insurance" className="navbar__mobile-menu-link">السفر</a>
+            </div>
+            <div className="navbar__mobile-menu-item">
+              <a href="#" className="navbar__mobile-menu-link">مزيد من الفئات</a>
+            </div>
+            <div className="navbar__mobile-menu-item">
+              <a href="#" className="navbar__mobile-menu-link">خدمات المدينة</a>
+            </div>
           </div>
         </div>
       </nav>

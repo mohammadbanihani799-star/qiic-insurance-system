@@ -609,12 +609,6 @@ body.rtl {
   border-bottom: 1px solid var(--colorPearlGray200);
 }
 
-.navbar__mobile-menu-list {
-  list-style: none;
-  margin: 0;
-  padding: var(--spacing-4) 0;
-}
-
 .navbar__mobile-menu-item {
   list-style: none;
 }
@@ -649,12 +643,6 @@ body.rtl {
   border-right-color: transparent;
 }
 
-/* RTL Support for Mobile Menu List */
-.rtl .navbar__mobile-menu-list {
-  direction: rtl;
-  text-align: right;
-}
-
 .rtl .navbar__mobile-menu-item {
   text-align: right;
 }
@@ -668,11 +656,6 @@ body.rtl {
   outline: 2px solid var(--colorAccentPurple500);
   outline-offset: -2px;
   background: var(--colorPearlGray50);
-}
-
-/* Smooth Transitions */
-.navbar__mobile-menu-list {
-  animation: slideDown 0.3s ease-out;
 }
 
 @keyframes slideDown {
