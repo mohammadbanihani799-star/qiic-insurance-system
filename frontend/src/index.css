@@ -3806,7 +3806,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   border-radius: 32px;
   margin-inline: auto;
   max-width: 544px;
-  padding: 40px;
+  padding: 24px;
   width: 100%;
   overflow: hidden;
 }
@@ -3824,24 +3824,25 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
     width: auto;
   }
   .flow__content {
-    padding: 32px 16px 16px;
+    padding: 16px 12px 12px;
   }
 }
 
 .flow__content h1 {
   color: var(--text-color-hight);
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 500;
-  line-height: 48px;
-  margin-bottom: 32px;
+  line-height: 44px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
 @media (max-width: 544px) {
   .flow__content h1 {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 500;
-    line-height: 40px;
+    line-height: 36px;
+    margin-bottom: 16px;
   }
 }
 
@@ -5267,7 +5268,7 @@ body {
     width: auto;
   }
   .flow__content {
-    padding: 32px 16px 16px;
+    padding: 16px 12px 12px;
   }
 }
 
