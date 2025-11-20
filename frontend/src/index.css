@@ -3820,6 +3820,9 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   line-height: 44px;
   margin-bottom: 20px;
   text-align: center;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 @media (max-width: 544px) {
@@ -5263,6 +5266,9 @@ body {
   line-height: 32px;
   margin-bottom: 24px;
   text-align: center;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 @media (max-width: 544px) {
