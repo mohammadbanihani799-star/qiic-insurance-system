@@ -5853,3 +5853,383 @@ body {
   overflow: hidden !important;
 }
 
+/* ============================================
+   🎨 INPUT & POPUP STYLES
+   ============================================ */
+
+/* تنسيق خلفية الإدخال */
+.input__bg[data-v-0e1fe59b] {
+  background-color: #daffce;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+/* تنسيق تسمية الإدخال */
+.popup__input-label[data-v-0e1fe59b] {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+/* تنسيق ساعات العمل */
+.hours[data-v-e0173af4] {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 8px;
+}
+
+/* تنسيق عنصر الساعة */
+.hours__item[data-v-e0173af4] {
+  align-items: center;
+  border: 1px solid #ebebff;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  height: 48px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* تنسيق الساعة المختارة */
+.hours__item_selected[data-v-e0173af4] {
+  background-color: #ebebff;
+}
+
+/* تنسيق عنوان الساعة */
+.hours__title[data-v-e0173af4] {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+/* ============================================
+   📷 CAR OCR STYLES
+   ============================================ */
+
+/* زر تحميل المسار */
+.upload-row-btn path {
+  fill: transparent;
+}
+
+/* تنسيق التلميح المنبثق داخل نافذة OCR */
+.car-ocr-popup__tooltip[data-v-059666a5] {
+  background: #526c82cc;
+  border-radius: 16px;
+  max-width: 386px;
+  opacity: 0;
+  padding: 8px;
+  position: absolute;
+  transition: .2s;
+  visibility: hidden;
+  z-index: 2;
+}
+
+/* التلميح المنبثق */
+.car-ocr-popup__tooltip[data-v-059666a5]:before {
+  content: "";
+  display: block;
+  height: 6px;
+  inset-inline-end: 32px;
+  position: absolute;
+  width: 12px;
+}
+
+/* تلميح منبثق للأعلى */
+.car-ocr-popup__tooltip--top[data-v-059666a5] {
+  top: -280px;
+}
+
+.car-ocr-popup__tooltip--top[data-v-059666a5]:before {
+  bottom: -6px;
+  top: unset;
+  transform: rotate(180deg);
+}
+
+/* تلميح منبثق للأسفل */
+.car-ocr-popup__tooltip--bottom[data-v-059666a5] {
+  top: 65px;
+}
+
+.car-ocr-popup__tooltip--bottom[data-v-059666a5]:before {
+  top: -6px;
+}
+
+/* الصور داخل التلميحات المنبثقة */
+.car-ocr-popup__tooltip img[data-v-059666a5] {
+  max-width: 100%;
+}
+
+/* تنسيق العناصر داخل نافذة OCR */
+.car-ocr-popup__item[data-v-059666a5] {
+  display: grid;
+  gap: 8px;
+}
+
+.rtl .car-ocr-popup__item[data-v-059666a5] {
+  direction: rtl;
+}
+
+/* العنصر العلوي في نافذة OCR */
+.car-ocr-popup__item-top[data-v-059666a5] {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 90px;
+  position: relative;
+}
+
+.car-ocr-popup__item-top input[data-v-059666a5] {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+/* شريط التقدم داخل نافذة OCR */
+.car-ocr-popup__item-progress[data-v-059666a5] {
+  background: #ebebff;
+  border-radius: 15px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.car-ocr-popup__item-progress i[data-v-059666a5] {
+  background: #57c863;
+  border-radius: 15px;
+  display: block;
+  height: 8px;
+  transition: .2s;
+}
+
+/* تنسيق صورة العنصر في نافذة OCR */
+.car-ocr-popup__item-img[data-v-059666a5] {
+  border-radius: 4px;
+  box-shadow: 0 2px 2px #210e564d;
+  cursor: pointer;
+  height: auto;
+  max-width: 90px;
+  overflow: hidden;
+}
+
+.car-ocr-popup__item-img[data-v-059666a5]:hover {
+  box-shadow: 0 4px 6px #210e5633;
+}
+
+/* إظهار التلميح عند التمرير فوق الصورة */
+.car-ocr-popup__item-img:hover + .car-ocr-popup__tooltip[data-v-059666a5] {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* وصف العنصر في نافذة OCR */
+.car-ocr-popup__item-desc[data-v-059666a5] {
+  color: #526c82cc;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+/* خطأ في المسح */
+.error-scan[data-v-059666a5] {
+  color: #f94c27;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+/* تنسيق التلميح في نافذة OCR على الشاشات الصغيرة */
+@media (max-width: 544px) {
+  .tooltip-popup .popup[data-v-059666a5] {
+    text-align: center;
+  }
+
+  .tooltip-popup .car-ocr-popup__tooltip[data-v-059666a5] {
+    background: #f1f4f6;
+    display: block;
+    margin-block: 24px;
+    opacity: 1;
+    padding: 16px;
+    position: static;
+    visibility: visible;
+  }
+}
+
+/* تنسيق العناصر داخل نافذة OCR */
+.inputList[data-v-6a85611d] {
+  display: grid;
+  gap: 24px;
+}
+
+.ocr-proceed[data-v-6a85611d] {
+  margin-block: 24px 8px;
+}
+
+@media (max-width: 544px) {
+  .car-ocr-popup__title[data-v-6a85611d] {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 40px;
+  }
+
+  .car-ocr-popup__desc[data-v-6a85611d] {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 32px;
+  }
+
+  .car-ocr-popup__scan[data-v-6a85611d] {
+    margin-top: 24px;
+  }
+}
+
+/* تنسيق نافذة OCR */
+.car-ocr {
+  border: 1px solid #ebebff;
+  border-radius: 16px;
+  margin-top: 24px;
+  padding: 24px;
+}
+
+@media (max-width: 550px) {
+  .car-ocr {
+    padding: 16px;
+  }
+}
+
+/* تنسيق العنصر العلوي في نافذة OCR */
+.car-ocr__top[data-v-6a85611d] {
+  align-items: center;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 48px 1fr;
+}
+
+.car-ocr__top p[data-v-6a85611d] {
+  color: #1c1c1c;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+@media (max-width: 550px) {
+  .car-ocr__top p[data-v-6a85611d] {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* تنسيق الأزرار */
+.car-ocr .btn-second {
+  margin-top: 16px !important;
+}
+
+.icon-scan path {
+  fill: transparent !important;
+}
+
+/* إعدادات صورة المسح داخل نافذة OCR */
+.car-ocr-popup img[data-v-059666a5] {
+  pointer-events: all !important;
+}
+
+/* عنوان نافذة OCR */
+.car-ocr-popup__title[data-v-059666a5] {
+  color: #1c1c1c;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 48px;
+  text-align: center;
+}
+
+/* وصف نافذة OCR */
+.car-ocr-popup__desc[data-v-059666a5] {
+  color: #526c82cc;
+  font-size: 22px;
+  line-height: 32px;
+  text-align: center;
+}
+
+/* تنسيق العناصر داخل نافذة OCR */
+.car-ocr-popup__scan[data-v-059666a5] {
+  display: grid;
+  gap: 24px;
+  margin-inline: auto;
+  margin-bottom: 24px;
+  margin-top: 40px;
+  max-width: 416px;
+  width: 100%;
+}
+
+/* ============================================
+   🎯 ENHANCED MODAL STYLES WITH DATA ATTRIBUTES
+   ============================================ */
+
+/* تنسيق modal عند الفتح */
+.modal[open][data-v-0a011878] {
+  overflow: hidden;
+}
+
+/* تنسيق الخلفية عند الفتح مع تأثير التمويه */
+.modal[open][data-v-0a011878]::backdrop {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: #000000b3;
+}
+
+/* تنسيق محتوى الـ modal */
+.modal__content[data-v-0a011878] {
+  background: #fff;
+  display: grid;
+  justify-items: center;
+  max-height: 99dvh;
+  padding-block: clamp(20px, 6dvw, 40px);
+  padding-inline: clamp(12px, 4dvw, 40px);
+  position: fixed;
+}
+
+/* تخصيص الـ modal لأجهزة الشاشات الكبيرة */
+@media (width >= 551px) {
+  .modal__content[data-v-0a011878] {
+    border-radius: 32px;
+    left: 50%;
+    min-width: 540px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* تخصيص الـ modal لأجهزة الشاشات الصغيرة */
+@media (width <= 550px) {
+  .modal__content[data-v-0a011878] {
+    border-radius: 32px 32px 0 0;
+    bottom: 0;
+    max-height: 80dvh;
+    overflow-y: scroll;
+    overscroll-behavior-y: none;
+    padding-bottom: 40px;
+    width: 100%;
+  }
+}
+
+/* اتجاه النصوص في الـ modal في وضع RTL */
+.rtl .modal[data-v-0a011878] {
+  direction: ltr;
+}
+
+.rtl .modal__content[data-v-0a011878] {
+  direction: rtl;
+}
+
+/* تأثير حركة الانتقال عند ظهور الـ modal */
+.modal__content--animate[data-v-0a011878] {
+  transition: transform 0.3s ease;
+}
+
+/* تنسيق زر الإغلاق داخل الـ modal */
+.modal__close-icon-wrapper[data-v-0a011878] {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.modal__close-icon[data-v-0a011878] {
+  cursor: pointer;
+}
+
