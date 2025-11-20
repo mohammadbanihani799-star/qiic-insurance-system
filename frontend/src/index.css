@@ -3775,6 +3775,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 .flow__top {
   width: 100%;
   background: #f7f7fc;
+  padding-bottom: 16px;
 }
 
 .flow__content {
@@ -3784,6 +3785,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   max-width: 544px;
   padding: 24px;
   width: 100%;
+  margin-top: -8px;
 }
 
 .flow__content--expanded {
@@ -4237,6 +4239,21 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   outline: none;
 }
 
+.base-select-control select {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: inherit;
+  cursor: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0;
+  margin: 0;
+}
+
 .base-select-control:hover {
   border-color: #d4d4f0;
 }
@@ -4294,10 +4311,16 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   transform: translateY(-50%);
   pointer-events: none;
   transition: transform 0.2s ease;
+  z-index: 1;
 }
 
 .base-select-control_open .base-select-control__icon {
   transform: translateY(-50%) rotate(180deg);
+}
+
+/* إخفاء السهم الافتراضي للـ select */
+.base-select-control select::-ms-expand {
+  display: none;
 }
 
 .question-button {
