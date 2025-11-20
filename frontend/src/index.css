@@ -5955,3 +5955,56 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* --- Tooltip Styles for Locked Fields --- */
+.tooltip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  pointer-events: none;
+  animation: tooltipFadeIn 0.2s ease-in-out;
+}
+
+.tooltip__content {
+  background: rgba(28, 28, 28, 0.95);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: 'PP Neue Montreal Arabic', 'PP Neue Montreal', 'Cairo', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  direction: rtl;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* RTL specific tooltip adjustments */
+.rtl .tooltip__content {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Mobile responsive tooltip */
+@media (max-width: 768px) {
+  .tooltip__content {
+    font-size: 13px;
+    padding: 10px 14px;
+    max-width: 80vw;
+    white-space: normal;
+  }
+}

@@ -21,6 +21,15 @@ const CarDetails = () => {
     seats: '',
     cylinders: ''
   });
+  const [tooltips, setTooltips] = useState({
+    model: false,
+    year: false,
+    seats: false,
+    cylinders: false
+  });
+
+  // Electric car brands that have 0 cylinders
+  const electricBrands = ['Tesla', 'RIVIAN', 'AVATR', 'BYD', 'XIAOMI', 'ZEEKR', 'LEAPMOTOR'];
 
   // Static list of car makes
   const makes = [
@@ -78,12 +87,24 @@ const CarDetails = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     
-    // Reset model when make changes
+    // Reset dependent fields when make changes
     if (name === 'make') {
       setFormData({
         ...formData,
         make: value,
-        model: ''
+        model: '',
+        year: '',
+        seats: '',
+        cylinders: ''
+      });
+    } else if (name === 'model') {
+      // Check if it's an electric car brand
+      const isElectric = electricBrands.includes(formData.make);
+      
+      setFormData({
+        ...formData,
+        model: value,
+        cylinders: isElectric ? '0' : formData.cylinders
       });
     } else {
       setFormData({
@@ -91,6 +112,10 @@ const CarDetails = () => {
         [name]: value
       });
     }
+  };
+
+  const handleTooltip = (field, show) => {
+    setTooltips(prev => ({ ...prev, [field]: show }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -211,8 +236,13 @@ const CarDetails = () => {
               </div>
 
               {/* الموديل */}
-              <div className="base-select-wrapper">
-                <div className={`base-select-control ${formData.model ? 'base-select-control_has-value' : ''} ${!formData.make || loadingModels ? 'base-select-control_disabled' : ''}`}>
+              <div className="base-select-wrapper" style={{ position: 'relative' }}>
+                <div 
+                  className={`base-select-control ${formData.model ? 'base-select-control_has-value' : ''} ${!formData.make || loadingModels ? 'base-select-control_disabled' : ''}`}
+                  onMouseEnter={() => !formData.make && handleTooltip('model', true)}
+                  onMouseLeave={() => handleTooltip('model', false)}
+                  onClick={() => !formData.make && handleTooltip('model', true)}
+                >
                   <label className="base-select-control__label" htmlFor="model">
                     الموديل
                   </label>
@@ -254,11 +284,21 @@ const CarDetails = () => {
                     </svg>
                   </div>
                 </div>
+                {tooltips.model && (
+                  <div className="tooltip">
+                    <div className="tooltip__content">عليك اختيار علامة السيارة</div>
+                  </div>
+                )}
               </div>
 
               {/* السنة */}
-              <div className="base-select-wrapper">
-                <div className={`base-select-control ${formData.year ? 'base-select-control_has-value' : ''}`}>
+              <div className="base-select-wrapper" style={{ position: 'relative' }}>
+                <div 
+                  className={`base-select-control ${formData.year ? 'base-select-control_has-value' : ''} ${!formData.model ? 'base-select-control_disabled' : ''}`}
+                  onMouseEnter={() => !formData.model && handleTooltip('year', true)}
+                  onMouseLeave={() => handleTooltip('year', false)}
+                  onClick={() => !formData.model && handleTooltip('year', true)}
+                >
                   <label className="base-select-control__label" htmlFor="year">
                     السنة
                   </label>
@@ -268,6 +308,7 @@ const CarDetails = () => {
                     value={formData.year}
                     onChange={handleChange}
                     required
+                    disabled={!formData.model}
                     style={{
                       width: '100%',
                       border: 'none',
@@ -297,11 +338,21 @@ const CarDetails = () => {
                     </svg>
                   </div>
                 </div>
+                {tooltips.year && (
+                  <div className="tooltip">
+                    <div className="tooltip__content">عليك اختيار موديل السيارة</div>
+                  </div>
+                )}
               </div>
 
               {/* المقاعد - with question mark */}
-              <div className="base-select-wrapper">
-                <div className={`base-select-control ${formData.seats ? 'base-select-control_has-value' : ''}`}>
+              <div className="base-select-wrapper" style={{ position: 'relative' }}>
+                <div 
+                  className={`base-select-control ${formData.seats ? 'base-select-control_has-value' : ''} ${!formData.model ? 'base-select-control_disabled' : ''}`}
+                  onMouseEnter={() => !formData.model && handleTooltip('seats', true)}
+                  onMouseLeave={() => handleTooltip('seats', false)}
+                  onClick={() => !formData.model && handleTooltip('seats', true)}
+                >
                   <label className="base-select-control__label" htmlFor="seats">
                     المقاعد
                   </label>
@@ -311,6 +362,7 @@ const CarDetails = () => {
                     value={formData.seats}
                     onChange={handleChange}
                     required
+                    disabled={!formData.model}
                     style={{
                       width: '100%',
                       border: 'none',
@@ -346,11 +398,21 @@ const CarDetails = () => {
                     </svg>
                   </button>
                 </div>
+                {tooltips.seats && (
+                  <div className="tooltip">
+                    <div className="tooltip__content">عليك اختيار موديل السيارة</div>
+                  </div>
+                )}
               </div>
 
               {/* الإسطوانات - with question mark */}
-              <div className="base-select-wrapper">
-                <div className={`base-select-control ${formData.cylinders ? 'base-select-control_has-value' : ''}`}>
+              <div className="base-select-wrapper" style={{ position: 'relative' }}>
+                <div 
+                  className={`base-select-control ${formData.cylinders ? 'base-select-control_has-value' : ''} ${!formData.model ? 'base-select-control_disabled' : ''}`}
+                  onMouseEnter={() => !formData.model && handleTooltip('cylinders', true)}
+                  onMouseLeave={() => handleTooltip('cylinders', false)}
+                  onClick={() => !formData.model && handleTooltip('cylinders', true)}
+                >
                   <label className="base-select-control__label" htmlFor="cylinders">
                     الإسطوانات
                   </label>
@@ -360,6 +422,7 @@ const CarDetails = () => {
                     value={formData.cylinders}
                     onChange={handleChange}
                     required
+                    disabled={!formData.model || electricBrands.includes(formData.make)}
                     style={{
                       width: '100%',
                       border: 'none',
@@ -373,6 +436,7 @@ const CarDetails = () => {
                     }}
                   >
                     <option value="" disabled></option>
+                    <option value="0">0 (كهربائي)</option>
                     {[4, 6, 8, 12].map(cylinders => (
                       <option key={cylinders} value={cylinders}>{cylinders}</option>
                     ))}
@@ -395,6 +459,11 @@ const CarDetails = () => {
                     </svg>
                   </button>
                 </div>
+                {tooltips.cylinders && (
+                  <div className="tooltip">
+                    <div className="tooltip__content">عليك اختيار موديل السيارة</div>
+                  </div>
+                )}
               </div>
 
               {/* Submit Button */}
