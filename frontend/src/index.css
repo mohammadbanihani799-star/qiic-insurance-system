@@ -6233,3 +6233,40 @@ body {
   cursor: pointer;
 }
 
+/* ============================================
+   📝 FLOW DESCRIPTION STYLES
+   ============================================ */
+
+/* تنسيق وصف التدفق */
+.flow__description[data-v-e78affa1] {
+  color: #1c1c1c;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* تنسيق النص البارز داخل الوصف */
+.flow__description strong[data-v-e78affa1] {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
+/* تخصيص على الشاشات الصغيرة */
+@media (max-width: 544px) {
+  .flow__description[data-v-e78affa1] {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .flow__description strong[data-v-e78affa1] {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+}
+
