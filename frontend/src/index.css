@@ -1101,6 +1101,9 @@ body.rtl {
   line-height: 110px;
   margin-bottom: 16px;
   text-shadow: 0 8px 12px rgba(0, 0, 0, .08), 0 20px 24px rgba(0, 0, 0, .04);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 @media (max-width: 1920px) {
