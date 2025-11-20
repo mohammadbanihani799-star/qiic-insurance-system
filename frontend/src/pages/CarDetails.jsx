@@ -91,7 +91,7 @@ const CarDetails = () => {
   };
 
   return (
-    <div className="flow rtl">
+    <div className="flow flow--car-details rtl">
       <div className="flow__top">
         <div className="flow__header">
           <div className="flow__header-return" onClick={() => navigate(-1)}>

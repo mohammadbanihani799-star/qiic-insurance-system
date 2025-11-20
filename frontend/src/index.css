@@ -61,6 +61,15 @@
 }
 
 /* ===== QIC Design System ===== */
+* {
+  overflow-x: hidden;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 :root {
   /* Font Families */
   --font-family-main: "PP Neue Montreal", sans-serif;
@@ -3784,6 +3793,13 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   display: grid;
   height: 100vh;
   overflow: hidden;
+  overflow-x: hidden;
+}
+
+/* Car Details specific - allow vertical scroll only */
+.flow--car-details {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .flow__top {
@@ -3931,13 +3947,25 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 .flow__header-return {
   cursor: pointer;
-  inset-inline-end: 0;
+  right: 24px;
   position: absolute;
   transition: 0.2s;
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .flow__header-return {
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flow__header-return {
+    right: 16px;
+  }
 }
 
 .flow__header-return:hover {
