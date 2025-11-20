@@ -3775,7 +3775,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 .flow__top {
   width: 100%;
   background: #f7f7fc;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
 }
 
 .flow__content {
@@ -3785,7 +3785,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   max-width: 544px;
   padding: 24px;
   width: 100%;
-  margin-top: -8px;
+  margin-top: -4px;
 }
 
 .flow__content--expanded {
