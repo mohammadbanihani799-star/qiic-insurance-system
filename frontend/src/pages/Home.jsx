@@ -205,25 +205,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
-          {/* Mobile Menu */}
-          <div className={`navbar__mobile-menu ${isMobileMenuOpen ? 'navbar__mobile-menu--open' : ''}`}>
-            <div className="navbar__mobile-menu-item">
-              <a href="/car-insurance" className="navbar__mobile-menu-link">السيارة</a>
-            </div>
-            <div className="navbar__mobile-menu-item">
-              <a href="/visitors" className="navbar__mobile-menu-link">الزائرون</a>
-            </div>
-            <div className="navbar__mobile-menu-item">
-              <a href="/travel-insurance" className="navbar__mobile-menu-link">السفر</a>
-            </div>
-            <div className="navbar__mobile-menu-item">
-              <a href="#" className="navbar__mobile-menu-link">مزيد من الفئات</a>
-            </div>
-            <div className="navbar__mobile-menu-item">
-              <a href="#" className="navbar__mobile-menu-link">خدمات المدينة</a>
-            </div>
-          </div>
         </div>
       </nav>
 
