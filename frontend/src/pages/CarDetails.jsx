@@ -113,17 +113,17 @@ const CarDetails = () => {
 
       <div className="flow__content">
         <div className="container" style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <div style={{ background: 'white', borderRadius: '1.5rem', padding: '2.5rem', boxShadow: '0 8px 32px rgba(101,104,244,0.12)' }}>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#2e2c3a', marginBottom: '0.5rem', textAlign: 'center' }}>
+          <div style={{ background: 'white', borderRadius: '1.5rem', padding: '1rem', boxShadow: '0 8px 32px rgba(101,104,244,0.12)' }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#2e2c3a', marginBottom: '0.25rem', textAlign: 'center' }}>
             بيانات سيارتك
           </h1>
-          <p style={{ fontSize: '0.875rem', color: '#9393ba', marginBottom: '2rem', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.875rem', color: '#9393ba', marginBottom: '1rem', textAlign: 'center' }}>
             تعبئة يدوية
           </p>
 
           <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '1.5rem' }}>
-              <label htmlFor="make" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+            <div style={{ marginBottom: '0.75rem' }}>
+              <label htmlFor="make" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.25rem' }}>
                 العلامة *
               </label>
               <div style={{ position: 'relative' }}>
@@ -136,9 +136,9 @@ const CarDetails = () => {
                   disabled={loadingMakes}
                   style={{
                     width: '100%',
-                    padding: '1rem',
+                    padding: '0.65rem',
                     paddingLeft: '2.5rem',
-                    fontSize: '1rem',
+                    fontSize: '0.95rem',
                     border: '1px solid #d3d3eb',
                     borderRadius: '0.75rem',
                     outline: 'none',
@@ -160,8 +160,8 @@ const CarDetails = () => {
               </div>
             </div>
 
-            <div style={{ marginBottom: '1.5rem' }}>
-              <label htmlFor="model" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+            <div style={{ marginBottom: '0.75rem' }}>
+              <label htmlFor="model" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.25rem' }}>
                 الموديل (اختياري)
               </label>
               <div style={{ position: 'relative' }}>
@@ -174,9 +174,9 @@ const CarDetails = () => {
                   placeholder="أدخل الموديل (اختياري)"
                   style={{
                     width: '100%',
-                    padding: '1rem',
+                    padding: '0.65rem',
                     paddingRight: '2.5rem',
-                    fontSize: '1rem',
+                    fontSize: '0.95rem',
                     border: '1px solid #d3d3eb',
                     borderRadius: '0.75rem',
                     outline: 'none',
@@ -192,8 +192,8 @@ const CarDetails = () => {
               </div>
             </div>
 
-            <div style={{ marginBottom: '1.5rem' }}>
-              <label htmlFor="year" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+            <div style={{ marginBottom: '0.75rem' }}>
+              <label htmlFor="year" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.25rem' }}>
                 سنة الموديل *
               </label>
               <div style={{ position: 'relative' }}>
@@ -205,9 +205,9 @@ const CarDetails = () => {
                   required
                   style={{
                     width: '100%',
-                    padding: '1rem',
+                    padding: '0.65rem',
                     paddingLeft: '2.5rem',
-                    fontSize: '1rem',
+                    fontSize: '0.95rem',
                     border: '1px solid #d3d3eb',
                     borderRadius: '0.75rem',
                     outline: 'none',
@@ -228,8 +228,8 @@ const CarDetails = () => {
               </div>
             </div>
 
-            <div style={{ marginBottom: '1.5rem' }}>
-              <label htmlFor="seats" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+            <div style={{ marginBottom: '0.75rem' }}>
+              <label htmlFor="seats" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.25rem' }}>
                 المقاعد *
               </label>
               <div style={{ position: 'relative' }}>
@@ -241,9 +241,9 @@ const CarDetails = () => {
                   required
                   style={{
                     width: '100%',
-                    padding: '1rem',
+                    padding: '0.65rem',
                     paddingLeft: '2.5rem',
-                    fontSize: '1rem',
+                    fontSize: '0.95rem',
                     border: '1px solid #d3d3eb',
                     borderRadius: '0.75rem',
                     outline: 'none',
@@ -269,8 +269,8 @@ const CarDetails = () => {
               </div>
             </div>
 
-            <div style={{ marginBottom: '2rem' }}>
-              <label htmlFor="cylinders" style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.5rem' }}>
+            <div style={{ marginBottom: '1rem' }}>
+              <label htmlFor="cylinders" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#5e597a', marginBottom: '0.25rem' }}>
                 الإسطوانات *
               </label>
               <div style={{ position: 'relative' }}>
@@ -282,9 +282,9 @@ const CarDetails = () => {
                   required
                   style={{
                     width: '100%',
-                    padding: '1rem',
+                    padding: '0.65rem',
                     paddingLeft: '2.5rem',
-                    fontSize: '1rem',
+                    fontSize: '0.95rem',
                     border: '1px solid #d3d3eb',
                     borderRadius: '0.75rem',
                     outline: 'none',
