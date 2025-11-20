@@ -1101,9 +1101,6 @@ body.rtl {
   line-height: 110px;
   margin-bottom: 16px;
   text-shadow: 0 8px 12px rgba(0, 0, 0, .08), 0 20px 24px rgba(0, 0, 0, .04);
-  overflow-wrap: break-word;
-  word-break: break-word;
-  max-width: 100%;
 }
 
 @media (max-width: 1920px) {
@@ -3780,6 +3777,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   align-content: space-between;
   display: grid;
   min-height: 100vh;
+  background: #f7f7fc;
 }
 
 .flow__top {
@@ -3820,9 +3818,6 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   line-height: 44px;
   margin-bottom: 20px;
   text-align: center;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  max-width: 100%;
 }
 
 @media (max-width: 544px) {
@@ -3931,6 +3926,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 .flow__header-return {
   cursor: pointer;
+  left: auto;
   right: 24px;
   position: absolute;
   transition: 0.2s;
@@ -4002,7 +3998,20 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 }
 
 .rtl .flow__header-return {
-  transform: scaleX(-1);
+  left: auto;
+  right: 24px;
+}
+
+@media (max-width: 767px) {
+  .rtl .flow__header-return {
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtl .flow__header-return {
+    right: 16px;
+  }
 }
 
 
@@ -5266,9 +5275,6 @@ body {
   line-height: 32px;
   margin-bottom: 24px;
   text-align: center;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  max-width: 100%;
 }
 
 @media (max-width: 544px) {
