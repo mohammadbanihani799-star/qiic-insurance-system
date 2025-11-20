@@ -3,116 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
-    <!-- Cache Control -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    
-    <!-- Mobile Optimization -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    
-    <!-- iOS Meta Tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="QIIC" />
-    
-    <!-- Android Meta Tags -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#1a365d" />
-    
-    <!-- Browser-specific theme color fallbacks -->
-    <meta name="msapplication-navbutton-color" content="#1a365d" />
-    <meta name="msapplication-TileColor" content="#1a365d" />
-    <meta name="application-name" content="QIIC" />
-    
-    <!-- Fallback for browsers that don't support theme-color -->
-    <script>
-      (function() {
-        // Check if theme-color is supported
-        var supportsThemeColor = false;
-        try {
-          var testMeta = document.createElement('meta');
-          testMeta.name = 'theme-color';
-          testMeta.content = '#000000';
-          supportsThemeColor = 'content' in testMeta;
-        } catch (e) {
-          supportsThemeColor = false;
-        }
-        
-        // Apply fallbacks for Firefox, Opera and other unsupported browsers
-        if (!supportsThemeColor || navigator.userAgent.indexOf('Firefox') > -1 || navigator.userAgent.indexOf('OPR') > -1) {
-          // Set CSS custom property for manual theme handling
-          document.documentElement.style.setProperty('--theme-color', '#1a365d');
-          
-          // Apply background color to html element for Firefox
-          document.documentElement.style.backgroundColor = '#1a365d';
-          
-          // Add viewport meta background for mobile browsers
-          var viewportMeta = document.querySelector('meta[name="viewport"]');
-          if (viewportMeta && !viewportMeta.content.includes('viewport-fit')) {
-            viewportMeta.content += ', viewport-fit=cover';
-          }
-        }
-      })();
-    </script>
-    
-    <!-- Prevent auto-zoom on input focus -->
-    <meta name="format-detection" content="telephone=no" />
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="شركة قطر للتأمين - احصل على تأمين سيارتك في دقيقتين" />
-    <meta name="keywords" content="تأمين, قطر, سيارات, تأمين شامل, تأمين ضد الغير" />
-    <meta name="author" content="Qatar Insurance & Indemnity Company" />
-    
-    <!-- Arabic Fonts -->
+    <meta name="author" content="Qatar Insurance and Indemnity Company" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
     <title>QIIC - Qatar Insurance in 2 Minutes</title>
-    
-    <style>
-      /* Theme color fallback for browsers that don't support meta[name=theme-color] */
-      :root {
-        --theme-color: #1a365d;
-      }
-      
-      /* Prevent bounce effect on iOS */
-      html, body {
-        position: fixed;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        background-color: var(--theme-color);
-      }
-      
-      #root {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow-y: auto;
-        background-color: white;
-      }
-    </style>
-    
-    <!-- Clear Cache Script -->
-    <script>
-      (function() {
-        'use strict';
-        // Clear all form-related data from storage on page load
-        var keysToRemove = ['carDetails', 'moreDetails', 'selectedInsurance', 'plateNumber', 'insuranceInfo', 'policyDate', 'quote', 'payment'];
-        keysToRemove.forEach(function(key) {
-          try {
-            sessionStorage.removeItem(key);
-            localStorage.removeItem(key);
-          } catch (e) {
-            console.warn('Could not clear storage:', e);
-          }
-        });
-      })();
-    </script>
   </head>
   <body>
     <div id="root"></div>
