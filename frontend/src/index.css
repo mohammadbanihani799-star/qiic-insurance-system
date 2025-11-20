@@ -5364,22 +5364,6 @@ body {
   }
 }
 
-.flow__header-return {
-  cursor: pointer;
-  inset-inline-start: 0;
-  position: absolute;
-  transition: 0.2s;
-}
-
-.flow__header-return:hover {
-  opacity: 0.7;
-}
-
-.flow__logo {
-  cursor: pointer;
-  position: relative;
-}
-
 @media (max-width: 544px) {
   .flow__logo img {
     height: auto;
