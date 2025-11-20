@@ -1659,10 +1659,9 @@ body.rtl {
 
 @media (max-width: 1439px) {
   .benefit__wrapper {
-    grid-template-columns: repeat(4, 240px);
-    margin: 10px -24px 24px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin: 10px 0 24px;
     padding: 40px 24px 0;
-    scroll-padding: 16px;
   }
   
   .benefit__wrapper::-webkit-scrollbar {
