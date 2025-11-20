@@ -1622,10 +1622,6 @@ body.rtl {
   }
 }
 
-.benefit {
-  overflow: hidden;
-}
-
 .benefit h2 {
   color: #2e2c3a;
   font-size: 36px;
