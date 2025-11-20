@@ -3914,8 +3914,8 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 .flow__header-return {
   cursor: pointer;
-  left: auto;
-  right: 24px;
+  left: 24px;
+  right: auto;
   position: absolute;
   transition: 0.2s;
   padding: 8px;
@@ -3926,13 +3926,13 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 @media (max-width: 767px) {
   .flow__header-return {
-    right: 20px;
+    left: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .flow__header-return {
-    right: 16px;
+    left: 16px;
   }
 }
 
@@ -3985,23 +3985,11 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   direction: rtl;
 }
 
-.rtl .flow__header-return {
-  left: 24px;
-  right: auto;
-}
-
-@media (max-width: 767px) {
-  .rtl .flow__header-return {
-    left: 20px;
-    right: auto;
-  }
-}
-
-@media (max-width: 480px) {
-  .rtl .flow__header-return {
-    left: 16px;
-    right: auto;
-  }
+/* Logo centering */
+.flow__logo--center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 
