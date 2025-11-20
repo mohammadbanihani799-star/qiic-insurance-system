@@ -60,8 +60,19 @@ const CarDetails = () => {
     setCarMakes(makes);
     setLoadingMakes(false);
 
-    // Clear any old car details from sessionStorage to prevent data inconsistency
+    // Force clear all car-related data from sessionStorage
     sessionStorage.removeItem('carDetails');
+    sessionStorage.removeItem('moreDetails');
+    sessionStorage.removeItem('selectedInsurance');
+    
+    // Force reset form data to ensure clean state
+    setFormData({
+      make: '',
+      model: '',
+      year: '',
+      seats: '',
+      cylinders: ''
+    });
   }, [navigate]);
 
   // Fetch models when make is selected
