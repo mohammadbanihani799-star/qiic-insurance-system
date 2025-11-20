@@ -702,6 +702,32 @@ app.get('/api/client-ip', (req, res) => {
   res.json({ ip: ip?.replace('::ffff:', '') || '127.0.0.1' });
 });
 
+// 🆕 Get car models by make
+app.get('/api/car-models/:make', (req, res) => {
+  try {
+    const { make } = req.params;
+    const carModelsData = require('./src/data/carModels');
+    
+    if (!carModelsData[make]) {
+      return res.status(404).json({
+        success: false,
+        error: `No models found for make: ${make}`
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: carModelsData[make]
+    });
+  } catch (error) {
+    console.error('Error fetching car models:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
+});
+
 // Handle preflight OPTIONS request for DELETE /api/users/:ip
 app.options('/api/users/:ip', (req, res) => {
   res.status(200).end();
