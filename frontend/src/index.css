@@ -1661,11 +1661,8 @@ body.rtl {
   .benefit__wrapper {
     grid-template-columns: repeat(4, 240px);
     margin: 10px -24px 24px;
-    overflow: scroll hidden;
     padding: 40px 24px 0;
     scroll-padding: 16px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
   }
   
   .benefit__wrapper::-webkit-scrollbar {
