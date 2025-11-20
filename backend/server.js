@@ -733,60 +733,6 @@ app.options('/api/users/:ip', (req, res) => {
   res.status(200).end();
 });
 
-// 🔒 Anti-Fraud: Report suspicious click activity
-app.post('/api/report-fraud', (req, res) => {
-  try {
-    const fraudReport = {
-      ...req.body,
-      ip: req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress,
-      receivedAt: new Date().toISOString()
-    };
-    
-    // Log fraud report for monitoring
-    console.error('🚨 FRAUD ALERT:', JSON.stringify(fraudReport, null, 2));
-    
-    // Store in memory (in production, save to database)
-    if (!global.fraudReports) {
-      global.fraudReports = [];
-    }
-    global.fraudReports.push(fraudReport);
-    
-    // Keep only last 1000 reports to prevent memory issues
-    if (global.fraudReports.length > 1000) {
-      global.fraudReports = global.fraudReports.slice(-1000);
-    }
-    
-    // Emit to admin dashboard via Socket.IO
-    io.emit('fraud-alert', fraudReport);
-    
-    res.json({ 
-      success: true, 
-      message: 'Fraud report received',
-      reportId: global.fraudReports.length 
-    });
-  } catch (error) {
-    console.error('Error processing fraud report:', error);
-    res.status(500).json({ success: false, error: 'Failed to process fraud report' });
-  }
-});
-
-// 🔒 Get fraud reports (admin only - add authentication in production)
-app.get('/api/fraud-reports', (req, res) => {
-  try {
-    const reports = global.fraudReports || [];
-    const limit = parseInt(req.query.limit) || 100;
-    
-    res.json({ 
-      success: true, 
-      count: reports.length,
-      reports: reports.slice(-limit).reverse() // Latest first
-    });
-  } catch (error) {
-    console.error('Error fetching fraud reports:', error);
-    res.status(500).json({ success: false, error: 'Failed to fetch fraud reports' });
-  }
-});
-
 // 🆕 Delete user data by IP
 app.delete('/api/users/:ip', (req, res) => {
   try {
