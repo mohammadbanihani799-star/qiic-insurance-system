@@ -649,6 +649,50 @@ body.rtl {
   border-right-color: transparent;
 }
 
+/* RTL Support for Mobile Menu List */
+.rtl .navbar__mobile-menu-list {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl .navbar__mobile-menu-item {
+  text-align: right;
+}
+
+/* Active/Visited Link States */
+.navbar__mobile-menu-link:visited {
+  color: var(--colorPearlGray900);
+}
+
+.navbar__mobile-menu-link:focus {
+  outline: 2px solid var(--colorAccentPurple500);
+  outline-offset: -2px;
+  background: var(--colorPearlGray50);
+}
+
+/* Smooth Transitions */
+.navbar__mobile-menu-list {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) {
+  .navbar__mobile-menu-link {
+    padding: var(--spacing-5) var(--spacing-6);
+  }
+}
+
 .navbar__logo {
   display: flex;
   align-items: center;
