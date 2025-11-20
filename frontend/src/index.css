@@ -5727,3 +5727,129 @@ body {
   direction: rtl;
   text-align: right;
 }
+
+/* ============================================
+   🎯 MODAL / POPUP WINDOW STYLES
+   ============================================ */
+
+/* تنسيق النافذة المنبثقة عند فتحها */
+.modal[open] {
+  overflow: hidden;
+}
+
+/* تأثير الخلفية عند فتح النافذة */
+.modal[open]::backdrop {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* تنسيق المحتوى داخل النافذة المنبثقة */
+.modal__content {
+  background: #fff;
+  display: grid;
+  justify-items: center;
+  max-height: 99dvh;
+  padding-block: clamp(20px, 6dvw, 40px);
+  padding-inline: clamp(12px, 4dvw, 40px);
+  position: fixed;
+  z-index: 9999;
+}
+
+/* تنسيق على الأجهزة ذات العرض الكبير (أكبر من أو يساوي 551px) */
+@media (min-width: 551px) {
+  .modal__content {
+    border-radius: 32px;
+    left: 50%;
+    min-width: 540px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* تنسيق على الأجهزة ذات العرض الصغير (أقل من أو يساوي 550px) */
+@media (max-width: 550px) {
+  .modal__content {
+    border-radius: 32px 32px 0 0;
+    bottom: 0;
+    max-height: 80dvh;
+    overflow-y: auto;
+    overscroll-behavior-y: none;
+    padding-bottom: 40px;
+    width: 100%;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* إعدادات اللغة العكسية (RTL) */
+.rtl .modal {
+  direction: ltr;
+}
+
+.rtl .modal__content {
+  direction: rtl;
+}
+
+/* التحريك عند الفتح */
+.modal__content--animate {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 550px) {
+  @keyframes modalSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* تنسيق زر الإغلاق */
+.modal__close-icon-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.modal__close-icon {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__close-icon:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.modal__close-icon:active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* إخفاء التمرير عند فتح النافذة */
+.no-scroll {
+  overflow: hidden !important;
+}
+
