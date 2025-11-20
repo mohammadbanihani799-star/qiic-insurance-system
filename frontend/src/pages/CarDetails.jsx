@@ -135,64 +135,37 @@ const CarDetails = () => {
           <form onSubmit={handleSubmit}>
             <div className="row-list">
               {/* العلامة */}
-              <div className="base-select-wrapper" style={{ marginBottom: '12px' }}>
-                <div className="base-select-control-wrapper">
-                  <div className="base-select-control" style={{ position: 'relative' }}>
-                    <select
-                      id="make"
-                      name="make"
-                      value={formData.make}
-                      onChange={handleChange}
-                      required
-                      disabled={loadingMakes}
-                      style={{
-                        width: '100%',
-                        padding: '16px 40px 16px 16px',
-                        fontSize: '14px',
-                        border: '1px solid #e8e8f0',
-                        borderRadius: '12px',
-                        outline: 'none',
-                        fontFamily: QIC_FONT,
-                        background: '#fff',
-                        color: formData.make ? '#1c1c1c' : '#aab4bd',
-                        cursor: loadingMakes ? 'not-allowed' : 'pointer',
-                        appearance: 'none',
-                        transition: 'border-color 0.2s'
-                      }}
-                      onFocus={(e) => e.target.style.borderColor = '#6568f4'}
-                      onBlur={(e) => e.target.style.borderColor = '#e8e8f0'}
-                    >
-                      <option value="" disabled>{loadingMakes ? 'Loading...' : 'العلامة'}</option>
-                      {carMakes.map(make => (
-                        <option key={make} value={make}>{make}</option>
-                      ))}
-                    </select>
-                    {!formData.make && (
-                      <span style={{
-                        position: 'absolute',
-                        right: '16px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        color: '#aab4bd',
-                        fontSize: '14px',
-                        pointerEvents: 'none'
-                      }}>
-                        العلامة
-                      </span>
-                    )}
-                    <svg 
-                      width="24" 
-                      height="24" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      style={{
-                        position: 'absolute',
-                        left: '12px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        pointerEvents: 'none'
-                      }}
-                    >
+              <div className="base-select-wrapper">
+                <div className={`base-select-control ${formData.make ? 'base-select-control_has-value' : ''} ${loadingMakes ? 'base-select-control_disabled' : ''}`}>
+                  <label className="base-select-control__label" htmlFor="make">
+                    العلامة
+                  </label>
+                  <select
+                    id="make"
+                    name="make"
+                    value={formData.make}
+                    onChange={handleChange}
+                    required
+                    disabled={loadingMakes}
+                    style={{
+                      width: '100%',
+                      border: 'none',
+                      background: 'transparent',
+                      outline: 'none',
+                      fontSize: '14px',
+                      color: 'inherit',
+                      cursor: 'inherit',
+                      appearance: 'none',
+                      fontFamily: QIC_FONT
+                    }}
+                  >
+                    <option value="" disabled>{loadingMakes ? 'Loading...' : ''}</option>
+                    {carMakes.map(make => (
+                      <option key={make} value={make}>{make}</option>
+                    ))}
+                  </select>
+                  <div className="base-select-control__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path 
                         fillRule="evenodd" 
                         clipRule="evenodd" 
@@ -206,235 +179,95 @@ const CarDetails = () => {
               </div>
 
               {/* الموديل */}
-              <div className="tooltip__wrapper" style={{ marginBottom: '12px' }}>
-                <div className="tooltip__parent">
-                  <div className="base-select-wrapper">
-                    <div className="base-select-control-wrapper">
-                      <div className="base-select-control base-select-control_disabled" style={{ position: 'relative', opacity: 0.6 }}>
-                        <div style={{
-                          width: '100%',
-                          padding: '16px 40px 16px 16px',
-                          fontSize: '14px',
-                          border: '1px solid #e8e8f0',
-                          borderRadius: '12px',
-                          background: '#f8f8fa',
-                          color: '#aab4bd',
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}>
-                          Loading...
-                        </div>
-                        <svg 
-                          width="24" 
-                          height="24" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          style={{
-                            position: 'absolute',
-                            left: '12px',
-                            top: '50%',
-                            transform: 'translateY(-50%)'
-                          }}
-                        >
-                          <path 
-                            fillRule="evenodd" 
-                            clipRule="evenodd" 
-                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" 
-                            fill="#778A99" 
-                            fillOpacity="0.8"
-                          />
-                        </svg>
-                      </div>
-                    </div>
+              <div className="base-select-wrapper">
+                <div className="base-select-control base-select-control_disabled">
+                  <label className="base-select-control__label">الموديل</label>
+                  <div className="base-select-control__current-value">Loading...</div>
+                  <div className="base-select-control__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path 
+                        fillRule="evenodd" 
+                        clipRule="evenodd" 
+                        d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" 
+                        fill="#778A99" 
+                        fillOpacity="0.8"
+                      />
+                    </svg>
                   </div>
                 </div>
               </div>
 
               {/* السنة */}
-              <div className="tooltip__wrapper" style={{ marginBottom: '12px' }}>
-                <div className="tooltip__parent">
-                  <div className="base-select-wrapper">
-                    <div className="base-select-control-wrapper">
-                      <div className="base-select-control base-select-control_disabled" style={{ position: 'relative', opacity: 0.6 }}>
-                        <div style={{
-                          width: '100%',
-                          padding: '16px 40px 16px 16px',
-                          fontSize: '14px',
-                          border: '1px solid #e8e8f0',
-                          borderRadius: '12px',
-                          background: '#f8f8fa',
-                          color: '#aab4bd',
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}>
-                          Loading...
-                        </div>
-                        <svg 
-                          width="24" 
-                          height="24" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          style={{
-                            position: 'absolute',
-                            left: '12px',
-                            top: '50%',
-                            transform: 'translateY(-50%)'
-                          }}
-                        >
-                          <path 
-                            fillRule="evenodd" 
-                            clipRule="evenodd" 
-                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" 
-                            fill="#778A99" 
-                            fillOpacity="0.8"
-                          />
-                        </svg>
-                      </div>
-                    </div>
+              <div className="base-select-wrapper">
+                <div className="base-select-control base-select-control_disabled">
+                  <label className="base-select-control__label">السنة</label>
+                  <div className="base-select-control__current-value">Loading...</div>
+                  <div className="base-select-control__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path 
+                        fillRule="evenodd" 
+                        clipRule="evenodd" 
+                        d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" 
+                        fill="#778A99" 
+                        fillOpacity="0.8"
+                      />
+                    </svg>
                   </div>
                 </div>
               </div>
 
               {/* المقاعد - with question mark */}
-              <div className="tooltip__wrapper" style={{ marginBottom: '12px' }}>
-                <div className="tooltip__parent">
-                  <div className="base-select-wrapper">
-                    <div className="base-select-control-wrapper">
-                      <div className="base-select-control base-select-control_disabled" style={{ position: 'relative', opacity: 0.6 }}>
-                        <div style={{
-                          width: '100%',
-                          padding: '16px 40px 16px 16px',
-                          fontSize: '14px',
-                          border: '1px solid #e8e8f0',
-                          borderRadius: '12px',
-                          background: '#f8f8fa',
-                          color: '#aab4bd',
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}>
-                          Loading...
-                        </div>
-                        <svg 
-                          width="24" 
-                          height="24" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          style={{
-                            position: 'absolute',
-                            left: '12px',
-                            top: '50%',
-                            transform: 'translateY(-50%)'
-                          }}
-                        >
-                          <path 
-                            fillRule="evenodd" 
-                            clipRule="evenodd" 
-                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" 
-                            fill="#778A99" 
-                            fillOpacity="0.8"
-                          />
-                        </svg>
-                        {/* Question mark icon */}
-                        <div className="question-button" style={{
-                          position: 'absolute',
-                          left: '44px',
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          cursor: 'pointer'
-                        }}>
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="9" stroke="#526C82" strokeOpacity="0.4" strokeWidth="2"/>
-                            <path d="M8.61621 9.66411C8.61621 10.0561 8.98021 10.5181 9.51221 10.5181C10.1562 10.5181 10.3242 10.0001 10.4082 9.74811C10.6182 9.11811 10.9122 8.26411 12.1162 8.26411C13.0402 8.26411 13.5722 8.90811 13.5722 9.55211C13.5722 10.0421 13.2642 10.3921 12.6062 10.9661C11.7242 11.7361 11.0382 12.3381 11.0382 13.5001C11.0382 13.5981 11.0382 13.8921 11.1502 14.1021C11.2622 14.2981 11.5562 14.4941 11.8782 14.4941C12.5502 14.4941 12.6482 13.9761 12.6902 13.7801C12.8302 13.0941 12.8722 12.9261 13.4882 12.3801C14.9302 11.0641 15.4342 10.6161 15.4342 9.52411C15.4342 8.09611 14.1882 6.80811 12.1442 6.80811C9.28821 6.80811 8.61621 9.02011 8.61621 9.66411ZM12.9702 16.1321C12.9702 15.5721 12.5082 15.1101 11.9342 15.1101C11.3742 15.1101 10.9122 15.5721 10.9122 16.1321C10.9122 16.7061 11.3742 17.1681 11.9342 17.1681C12.5082 17.1681 12.9702 16.7061 12.9702 16.1321Z" fill="#AAB4BD"/>
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
+              <div className="base-select-wrapper">
+                <div className="base-select-control base-select-control_disabled">
+                  <label className="base-select-control__label">المقاعد</label>
+                  <div className="base-select-control__current-value">Loading...</div>
+                  <div className="base-select-control__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path 
+                        fillRule="evenodd" 
+                        clipRule="evenodd" 
+                        d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" 
+                        fill="#778A99" 
+                        fillOpacity="0.8"
+                      />
+                    </svg>
                   </div>
+                  <button type="button" className="question-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="9" stroke="#526C82" strokeOpacity="0.4" strokeWidth="2"/>
+                      <path d="M8.61621 9.66411C8.61621 10.0561 8.98021 10.5181 9.51221 10.5181C10.1562 10.5181 10.3242 10.0001 10.4082 9.74811C10.6182 9.11811 10.9122 8.26411 12.1162 8.26411C13.0402 8.26411 13.5722 8.90811 13.5722 9.55211C13.5722 10.0421 13.2642 10.3921 12.6062 10.9661C11.7242 11.7361 11.0382 12.3381 11.0382 13.5001C11.0382 13.5981 11.0382 13.8921 11.1502 14.1021C11.2622 14.2981 11.5562 14.4941 11.8782 14.4941C12.5502 14.4941 12.6482 13.9761 12.6902 13.7801C12.8302 13.0941 12.8722 12.9261 13.4882 12.3801C14.9302 11.0641 15.4342 10.6161 15.4342 9.52411C15.4342 8.09611 14.1882 6.80811 12.1442 6.80811C9.28821 6.80811 8.61621 9.02011 8.61621 9.66411ZM12.9702 16.1321C12.9702 15.5721 12.5082 15.1101 11.9342 15.1101C11.3742 15.1101 10.9122 15.5721 10.9122 16.1321C10.9122 16.7061 11.3742 17.1681 11.9342 17.1681C12.5082 17.1681 12.9702 16.7061 12.9702 16.1321Z" fill="#AAB4BD"/>
+                    </svg>
+                  </button>
                 </div>
               </div>
 
               {/* الإسطوانات - with question mark */}
-              <div className="tooltip__wrapper" style={{ marginBottom: '24px' }}>
-                <div className="tooltip__parent">
-                  <div className="base-select-wrapper">
-                    <div className="base-select-control-wrapper">
-                      <div className="base-select-control base-select-control_disabled" style={{ position: 'relative', opacity: 0.6 }}>
-                        <div style={{
-                          width: '100%',
-                          padding: '16px 40px 16px 16px',
-                          fontSize: '14px',
-                          border: '1px solid #e8e8f0',
-                          borderRadius: '12px',
-                          background: '#f8f8fa',
-                          color: '#aab4bd',
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}>
-                          Loading...
-                        </div>
-                        <svg 
-                          width="24" 
-                          height="24" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          style={{
-                            position: 'absolute',
-                            left: '12px',
-                            top: '50%',
-                            transform: 'translateY(-50%)'
-                          }}
-                        >
-                          <path 
-                            fillRule="evenodd" 
-                            clipRule="evenodd" 
-                            d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" 
-                            fill="#778A99" 
-                            fillOpacity="0.8"
-                          />
-                        </svg>
-                        {/* Question mark icon */}
-                        <div className="question-button" style={{
-                          position: 'absolute',
-                          left: '44px',
-                          top: '50%',
-                          transform: 'translateY(-50%)',
-                          cursor: 'pointer'
-                        }}>
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="9" stroke="#526C82" strokeOpacity="0.4" strokeWidth="2"/>
-                            <path d="M8.61621 9.66411C8.61621 10.0561 8.98021 10.5181 9.51221 10.5181C10.1562 10.5181 10.3242 10.0001 10.4082 9.74811C10.6182 9.11811 10.9122 8.26411 12.1162 8.26411C13.0402 8.26411 13.5722 8.90811 13.5722 9.55211C13.5722 10.0421 13.2642 10.3921 12.6062 10.9661C11.7242 11.7361 11.0382 12.3381 11.0382 13.5001C11.0382 13.5981 11.0382 13.8921 11.1502 14.1021C11.2622 14.2981 11.5562 14.4941 11.8782 14.4941C12.5502 14.4941 12.6482 13.9761 12.6902 13.7801C12.8302 13.0941 12.8722 12.9261 13.4882 12.3801C14.9302 11.0641 15.4342 10.6161 15.4342 9.52411C15.4342 8.09611 14.1882 6.80811 12.1442 6.80811C9.28821 6.80811 8.61621 9.02011 8.61621 9.66411ZM12.9702 16.1321C12.9702 15.5721 12.5082 15.1101 11.9342 15.1101C11.3742 15.1101 10.9122 15.5721 10.9122 16.1321C10.9122 16.7061 11.3742 17.1681 11.9342 17.1681C12.5082 17.1681 12.9702 16.7061 12.9702 16.1321Z" fill="#AAB4BD"/>
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
+              <div className="base-select-wrapper">
+                <div className="base-select-control base-select-control_disabled">
+                  <label className="base-select-control__label">الإسطوانات</label>
+                  <div className="base-select-control__current-value">Loading...</div>
+                  <div className="base-select-control__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path 
+                        fillRule="evenodd" 
+                        clipRule="evenodd" 
+                        d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" 
+                        fill="#778A99" 
+                        fillOpacity="0.8"
+                      />
+                    </svg>
                   </div>
+                  <button type="button" className="question-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="9" stroke="#526C82" strokeOpacity="0.4" strokeWidth="2"/>
+                      <path d="M8.61621 9.66411C8.61621 10.0561 8.98021 10.5181 9.51221 10.5181C10.1562 10.5181 10.3242 10.0001 10.4082 9.74811C10.6182 9.11811 10.9122 8.26411 12.1162 8.26411C13.0402 8.26411 13.5722 8.90811 13.5722 9.55211C13.5722 10.0421 13.2642 10.3921 12.6062 10.9661C11.7242 11.7361 11.0382 12.3381 11.0382 13.5001C11.0382 13.5981 11.0382 13.8921 11.1502 14.1021C11.2622 14.2981 11.5562 14.4941 11.8782 14.4941C12.5502 14.4941 12.6482 13.9761 12.6902 13.7801C12.8302 13.0941 12.8722 12.9261 13.4882 12.3801C14.9302 11.0641 15.4342 10.6161 15.4342 9.52411C15.4342 8.09611 14.1882 6.80811 12.1442 6.80811C9.28821 6.80811 8.61621 9.02011 8.61621 9.66411ZM12.9702 16.1321C12.9702 15.5721 12.5082 15.1101 11.9342 15.1101C11.3742 15.1101 10.9122 15.5721 10.9122 16.1321C10.9122 16.7061 11.3742 17.1681 11.9342 17.1681C12.5082 17.1681 12.9702 16.7061 12.9702 16.1321Z" fill="#AAB4BD"/>
+                    </svg>
+                  </button>
                 </div>
               </div>
 
               {/* Submit Button */}
-              <button
-                type="submit"
-                className="btn btn--medium"
-                style={{
-                  width: '100%',
-                  padding: '16px 24px',
-                  background: '#6568f4',
-                  color: '#fff',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  border: 'none',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  fontFamily: QIC_FONT,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  transition: 'background 0.2s'
-                }}
-                onMouseOver={(e) => e.target.style.background = '#5356d8'}
-                onMouseOut={(e) => e.target.style.background = '#6568f4'}
-              >
+              <button type="submit" className="btn btn--medium">
                 متابعة
                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none">
                   <path 
