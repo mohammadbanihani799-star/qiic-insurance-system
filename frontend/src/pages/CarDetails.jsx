@@ -197,9 +197,33 @@ const CarDetails = () => {
 
               {/* السنة */}
               <div className="base-select-wrapper">
-                <div className="base-select-control base-select-control_disabled">
-                  <label className="base-select-control__label">السنة</label>
-                  <div className="base-select-control__current-value">Loading...</div>
+                <div className={`base-select-control ${formData.year ? 'base-select-control_has-value' : ''}`}>
+                  <label className="base-select-control__label" htmlFor="year">
+                    السنة
+                  </label>
+                  <select
+                    id="year"
+                    name="year"
+                    value={formData.year}
+                    onChange={handleChange}
+                    required
+                    style={{
+                      width: '100%',
+                      border: 'none',
+                      background: 'transparent',
+                      outline: 'none',
+                      fontSize: '14px',
+                      color: 'inherit',
+                      cursor: 'inherit',
+                      appearance: 'none',
+                      fontFamily: QIC_FONT
+                    }}
+                  >
+                    <option value="" disabled></option>
+                    {[2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990].map(year => (
+                      <option key={year} value={year}>{year}</option>
+                    ))}
+                  </select>
                   <div className="base-select-control__icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path 
@@ -216,9 +240,33 @@ const CarDetails = () => {
 
               {/* المقاعد - with question mark */}
               <div className="base-select-wrapper">
-                <div className="base-select-control base-select-control_disabled">
-                  <label className="base-select-control__label">المقاعد</label>
-                  <div className="base-select-control__current-value">Loading...</div>
+                <div className={`base-select-control ${formData.seats ? 'base-select-control_has-value' : ''}`}>
+                  <label className="base-select-control__label" htmlFor="seats">
+                    المقاعد
+                  </label>
+                  <select
+                    id="seats"
+                    name="seats"
+                    value={formData.seats}
+                    onChange={handleChange}
+                    required
+                    style={{
+                      width: '100%',
+                      border: 'none',
+                      background: 'transparent',
+                      outline: 'none',
+                      fontSize: '14px',
+                      color: 'inherit',
+                      cursor: 'inherit',
+                      appearance: 'none',
+                      fontFamily: QIC_FONT
+                    }}
+                  >
+                    <option value="" disabled></option>
+                    {[2, 5, 7, 9].map(seats => (
+                      <option key={seats} value={seats}>{seats}</option>
+                    ))}
+                  </select>
                   <div className="base-select-control__icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path 
@@ -241,9 +289,33 @@ const CarDetails = () => {
 
               {/* الإسطوانات - with question mark */}
               <div className="base-select-wrapper">
-                <div className="base-select-control base-select-control_disabled">
-                  <label className="base-select-control__label">الإسطوانات</label>
-                  <div className="base-select-control__current-value">Loading...</div>
+                <div className={`base-select-control ${formData.cylinders ? 'base-select-control_has-value' : ''}`}>
+                  <label className="base-select-control__label" htmlFor="cylinders">
+                    الإسطوانات
+                  </label>
+                  <select
+                    id="cylinders"
+                    name="cylinders"
+                    value={formData.cylinders}
+                    onChange={handleChange}
+                    required
+                    style={{
+                      width: '100%',
+                      border: 'none',
+                      background: 'transparent',
+                      outline: 'none',
+                      fontSize: '14px',
+                      color: 'inherit',
+                      cursor: 'inherit',
+                      appearance: 'none',
+                      fontFamily: QIC_FONT
+                    }}
+                  >
+                    <option value="" disabled></option>
+                    {[4, 6, 8, 12].map(cylinders => (
+                      <option key={cylinders} value={cylinders}>{cylinders}</option>
+                    ))}
+                  </select>
                   <div className="base-select-control__icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path 
