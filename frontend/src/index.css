@@ -6270,3 +6270,228 @@ body {
   }
 }
 
+/* ============================================
+   🔗 FLOW DESCRIPTION LINK STYLES
+   ============================================ */
+
+/* تنسيق الروابط داخل وصف التدفق */
+.flow__description__link[data-v-e78affa1] {
+  color: #4a90e2;
+  font-weight: 500;
+  text-decoration: underline;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+}
+
+/* تأثير التمرير على الروابط */
+.flow__description__link[data-v-e78affa1]:hover {
+  color: #357abd;
+  opacity: 0.8;
+}
+
+.flow__description__link[data-v-e78affa1]:active {
+  color: #2a5f8f;
+}
+
+/* ============================================
+   🚨 ALERT POPUP STYLES
+   ============================================ */
+
+/* تنسيق عنوان التنبيه */
+.alert-popup-title[data-v-a1b2c3d4] {
+  color: #1c1c1c;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* تنسيق العنوان الفرعي للتنبيه */
+.alert-popup-subtitle[data-v-a1b2c3d4] {
+  color: #526c82cc;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* تنسيق أزرار التنبيه */
+.alert-buttons[data-v-a1b2c3d4] {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+@media (min-width: 545px) {
+  .alert-buttons[data-v-a1b2c3d4] {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+/* ============================================
+   📱 POPUP CONTAINER ENHANCEMENTS
+   ============================================ */
+
+/* تنسيق محتوى النافذة المنبثقة */
+.popup[data-v-popup-base] {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 32px 24px;
+  max-width: 540px;
+  width: 90%;
+  position: relative;
+  animation: popupFadeIn 0.3s ease-out;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 544px) {
+  .popup[data-v-popup-base] {
+    padding: 24px 16px;
+    width: 95%;
+    border-radius: 20px;
+  }
+}
+
+/* ============================================
+   🎨 ENHANCED TOOLTIP TRANSITIONS
+   ============================================ */
+
+/* تحسين انتقالات التلميحات */
+.car-ocr-popup__tooltip[data-v-059666a5] {
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  transform: translateY(0);
+}
+
+.car-ocr-popup__tooltip--top[data-v-059666a5] {
+  transform: translateY(-5px);
+}
+
+.car-ocr-popup__tooltip--bottom[data-v-059666a5] {
+  transform: translateY(5px);
+}
+
+/* إظهار التلميح مع تأثير الحركة */
+.car-ocr-popup__item-img:hover + .car-ocr-popup__tooltip[data-v-059666a5] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ============================================
+   ♿ ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* تحسين الوصول للعناصر التفاعلية */
+.car-ocr-popup__item-img[data-v-059666a5]:focus,
+.flow__description__link[data-v-e78affa1]:focus,
+.modal__close-icon[data-v-0a011878]:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+/* تحسين التباين للنصوص على الخلفيات الداكنة */
+.car-ocr-popup__tooltip[data-v-059666a5] {
+  color: #ffffff;
+  font-weight: 400;
+}
+
+/* ============================================
+   🎯 INTERACTIVE STATES
+   ============================================ */
+
+/* حالات تفاعلية محسّنة للأزرار */
+.alert-buttons button,
+.car-ocr .btn-second {
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.alert-buttons button:hover,
+.car-ocr .btn-second:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.alert-buttons button:active,
+.car-ocr .btn-second:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* تأثير الموجة عند النقر */
+.alert-buttons button::after,
+.car-ocr .btn-second::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+}
+
+.alert-buttons button:active::after,
+.car-ocr .btn-second:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+/* ============================================
+   📊 PROGRESS BAR ENHANCEMENTS
+   ============================================ */
+
+/* تحسين شريط التقدم */
+.car-ocr-popup__item-progress[data-v-059666a5] {
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.car-ocr-popup__item-progress i[data-v-059666a5] {
+  animation: progressGlow 2s ease-in-out infinite;
+}
+
+@keyframes progressGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(87, 200, 99, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(87, 200, 99, 0.8);
+  }
+}
+
+/* ============================================
+   🌐 RTL ENHANCEMENTS
+   ============================================ */
+
+/* تحسينات إضافية لـ RTL */
+.rtl .alert-buttons[data-v-a1b2c3d4] {
+  direction: rtl;
+}
+
+.rtl .flow__description__link[data-v-e78affa1] {
+  direction: rtl;
+}
+
+.rtl .popup[data-v-popup-base] {
+  direction: rtl;
+}
+
