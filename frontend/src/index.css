@@ -2079,24 +2079,16 @@ body.rtl {
   animation: fade-in 0.3s ease-out;
 }
 
-/* Admin Dashboard Custom Scrollbar */
+/* Hide all scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
-::-webkit-scrollbar-track {
-  background: #f5f5ff;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #b0bbff;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a4a5eb;
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 /* ===== Footer ===== */
