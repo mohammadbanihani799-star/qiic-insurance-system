@@ -1693,7 +1693,6 @@ body.rtl {
   min-height: 300px;
   padding: 24px;
   position: relative;
-  scroll-snap-align: start;
 }
 
 @media (max-width: 1087px) {
