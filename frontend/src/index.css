@@ -61,14 +61,6 @@
 }
 
 /* ===== QIC Design System ===== */
-* {
-  overflow-x: hidden;
-}
-
-html, body {
-  overflow-x: hidden;
-  max-width: 100vw;
-}
 
 :root {
   /* Font Families */
