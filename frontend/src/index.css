@@ -3906,9 +3906,8 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 .flow__header-return {
   cursor: pointer;
-  left: 24px;
-  right: auto;
   position: absolute;
+  right: 24px;
   transition: 0.2s;
   padding: 8px;
   display: flex;
@@ -3918,13 +3917,13 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 @media (max-width: 767px) {
   .flow__header-return {
-    left: 20px;
+    right: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .flow__header-return {
-    left: 16px;
+    right: 16px;
   }
 }
 
@@ -3977,11 +3976,12 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   direction: rtl;
 }
 
-/* Logo centering */
+/* Logo centering - works in both LTR and RTL */
 .flow__logo--center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 
