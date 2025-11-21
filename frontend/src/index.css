@@ -3858,10 +3858,6 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   direction: rtl;
 }
 
-.rtl .flow__header-return {
-  transform: scaleX(1);
-}
-
 /* Responsive Flow Container */
 @media (max-width: 768px) {
   .flow__content {
@@ -3891,13 +3887,15 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   align-items: center;
   display: flex;
   justify-content: center;
-  margin-inline: auto;
+  margin: 0 auto;
   max-width: 544px;
   padding-bottom: 24px;
   padding-top: 28px;
-  padding-inline: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
   position: relative;
   width: 100%;
+  direction: ltr;
 }
 
 /* Desktop */
@@ -3921,7 +3919,8 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   .flow__header-wrapper {
     padding-bottom: 16px;
     padding-top: 16px;
-    padding-inline: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
@@ -3929,7 +3928,8 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   .flow__header-wrapper {
     padding-bottom: 12px;
     padding-top: 12px;
-    padding-inline: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 
@@ -4001,12 +4001,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   }
 }
 
-/* RTL Support for Flow Header */
-.rtl .flow__header-wrapper {
-  direction: rtl;
-}
-
-/* Logo centering - works in both LTR and RTL */
+/* Logo centering */
 .flow__logo--center {
   position: relative;
   display: flex;
@@ -5624,10 +5619,6 @@ body {
 .rtl .flow__content,
 .rtl .flow__header {
   direction: rtl;
-}
-
-.rtl .flow__header-return {
-  transform: scaleX(1);
 }
 
 /* ============================================
@@ -7304,10 +7295,6 @@ body {
 .rtl .flow__content,
 .rtl .flow__header {
   direction: rtl;
-}
-
-.rtl .flow__header-return {
-  transform: scaleX(-1);
 }
 
 .affinity-logo-wrapper {
