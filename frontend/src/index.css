@@ -4696,6 +4696,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .rtl .flow__logo--center {
@@ -4731,11 +4732,15 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 @media (max-width: 480px) {
   .flow__logo--center img {
-    max-height: 32px;
+    max-height: 28px;
   }
   
   .flow__logo--center svg {
-    max-height: 36px;
+    max-height: 32px;
+  }
+  
+  .flow__logo--center {
+    gap: 6px;
   }
   
   .flow__header-return {
