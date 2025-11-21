@@ -4004,7 +4004,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 
 /* Logo centering */
 .flow__logo--center {
-  position: relative;
+  position: absolute;
   display: flex;
   justify-content: center;
   margin: 0 auto;
