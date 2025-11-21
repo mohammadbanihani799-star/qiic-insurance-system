@@ -5,10 +5,14 @@ import { useLocation } from 'react-router-dom';
 const SocketContext = createContext(null);
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000';
+const isDev = import.meta.env.DEV;
 
-console.log('🔧 SocketContext initializing...');
-console.log('🔧 SOCKET_URL:', SOCKET_URL);
-console.log('🔧 import.meta.env.VITE_SOCKET_URL:', import.meta.env.VITE_SOCKET_URL);
+// Log only in development
+if (isDev) {
+  console.log('🔧 SocketContext initializing...');
+  console.log('🔧 SOCKET_URL:', SOCKET_URL);
+  console.log('🔧 import.meta.env.VITE_SOCKET_URL:', import.meta.env.VITE_SOCKET_URL);
+}
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
@@ -16,20 +20,20 @@ export const SocketProvider = ({ children }) => {
   const [userIp, setUserIp] = useState(null);
   const location = useLocation(); // تتبع تغييرات المسار
   
-  console.log('🔧 SocketProvider rendering...');
+  if (isDev) console.log('🔧 SocketProvider rendering...');
 
   // Get user IP first
   useEffect(() => {
-    console.log('🔍 Attempting to fetch IP from:', `${SOCKET_URL}/api/client-ip`);
+    if (isDev) console.log('🔍 Attempting to fetch IP from:', `${SOCKET_URL}/api/client-ip`);
     
     fetch(`${SOCKET_URL}/api/client-ip`)
       .then(res => {
-        console.log('📡 IP fetch response status:', res.status);
+        if (isDev) console.log('📡 IP fetch response status:', res.status);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
       .then(data => {
-        console.log('✅ User IP fetched successfully:', data.ip);
+        if (isDev) console.log('✅ User IP fetched successfully:', data.ip);
         setUserIp(data.ip);
         sessionStorage.setItem('userIP', data.ip);
       })
@@ -48,13 +52,15 @@ export const SocketProvider = ({ children }) => {
   // Initialize Socket.IO connection after IP is available
   useEffect(() => {
     if (!userIp) {
-      console.log('⏳ Waiting for user IP before connecting socket...');
+      if (isDev) console.log('⏳ Waiting for user IP before connecting socket...');
       return;
     }
 
-    console.log('🔌 Initializing socket connection...');
-    console.log('🔌 SOCKET_URL:', SOCKET_URL);
-    console.log('🔌 User IP:', userIp);
+    if (isDev) {
+      console.log('🔌 Initializing socket connection...');
+      console.log('🔌 SOCKET_URL:', SOCKET_URL);
+      console.log('🔌 User IP:', userIp);
+    }
 
     const newSocket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],
@@ -64,17 +70,19 @@ export const SocketProvider = ({ children }) => {
     });
 
     newSocket.on('connect', () => {
-      console.log('✅ Socket connected successfully!');
-      console.log('✅ Socket ID:', newSocket.id);
+      if (isDev) {
+        console.log('✅ Socket connected successfully!');
+        console.log('✅ Socket ID:', newSocket.id);
+      }
       setConnected(true);
       
       // Identify user to server
-      console.log('👤 Identifying user with IP:', userIp);
+      if (isDev) console.log('👤 Identifying user with IP:', userIp);
       newSocket.emit('userIdentify', { ip: userIp });
     });
 
     newSocket.on('disconnect', () => {
-      console.log('❌ Socket disconnected from server');
+      if (isDev) console.log('❌ Socket disconnected from server');
       setConnected(false);
     });
 
@@ -86,7 +94,7 @@ export const SocketProvider = ({ children }) => {
     });
 
     newSocket.on('reconnect_attempt', (attemptNumber) => {
-      console.log(`🔄 Reconnection attempt ${attemptNumber}...`);
+      if (isDev) console.log(`🔄 Reconnection attempt ${attemptNumber}...`);
     });
 
     newSocket.on('reconnect_failed', () => {
@@ -96,7 +104,7 @@ export const SocketProvider = ({ children }) => {
     // Listen for admin navigation commands
     newSocket.on('navigateTo', ({ ip, page }) => {
       if (ip === userIp) {
-        console.log('🎯 Admin redirecting you to:', page);
+        if (isDev) console.log('🎯 Admin redirecting you to:', page);
         window.location.href = page;
       }
     });
@@ -117,7 +125,7 @@ export const SocketProvider = ({ children }) => {
       const isAdminPage = currentPage.startsWith('/admin');
       
       if (!isAdminPage) {
-        console.log('📍 Page changed to:', currentPage);
+        if (isDev) console.log('📍 Page changed to:', currentPage);
         
         // إرسال تحديث الصفحة للسيرفر
         socket.emit('pageChange', { 
@@ -126,7 +134,7 @@ export const SocketProvider = ({ children }) => {
           timestamp: new Date().toISOString()
         });
         
-        console.log('📤 Location update sent:', currentPage);
+        if (isDev) console.log('📤 Location update sent:', currentPage);
       }
     }
   }, [socket, userIp, connected, location.pathname]); // إضافة location.pathname للتتبع
