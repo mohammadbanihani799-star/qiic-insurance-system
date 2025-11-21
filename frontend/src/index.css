@@ -7110,7 +7110,7 @@ body {
 
 .flow__logo {
   cursor: pointer;
-  position: relative;
+  /* position: relative removed - conflicts with flow__logo--center */
 }
 
 @media (max-width: 544px) {
