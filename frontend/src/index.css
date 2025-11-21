@@ -3896,6 +3896,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   position: relative;
   width: 100%;
   direction: ltr;
+  min-height: 80px;
 }
 
 /* Desktop */
@@ -4692,6 +4693,7 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   justify-content: center;
   gap: 8px;
   flex-shrink: 0;
+  width: auto;
 }
 
 .rtl .flow__logo--center {
@@ -4703,8 +4705,9 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
 .flow__logo--center img {
   display: block;
   height: auto;
-  max-height: 40px;
+  max-height: 32px;
   width: auto;
+  object-fit: contain;
 }
 
 .flow__logo--center svg {
@@ -4712,30 +4715,58 @@ swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
   height: auto;
   max-height: 44px;
   width: auto;
+  flex-shrink: 0;
 }
 
-/* Responsive adjustments for centered logo */
-@media (max-width: 768px) {
+/* Desktop - larger logos */
+@media (min-width: 1024px) {
+  .flow__logo--center img {
+    max-height: 40px;
+  }
+  
+  .flow__logo--center svg {
+    max-height: 48px;
+  }
+}
+
+/* Tablet - medium logos */
+@media (max-width: 1023px) and (min-width: 768px) {
   .flow__logo--center img {
     max-height: 36px;
   }
   
   .flow__logo--center svg {
-    max-height: 40px;
+    max-height: 44px;
   }
 }
 
-@media (max-width: 480px) {
+/* Mobile - smaller logos */
+@media (max-width: 767px) {
   .flow__logo--center img {
-    max-height: 28px;
+    max-height: 30px;
   }
   
   .flow__logo--center svg {
-    max-height: 32px;
+    max-height: 40px;
   }
   
   .flow__logo--center {
     gap: 6px;
+  }
+}
+
+/* Small Mobile - smallest logos */
+@media (max-width: 480px) {
+  .flow__logo--center img {
+    max-height: 26px;
+  }
+  
+  .flow__logo--center svg {
+    max-height: 36px;
+  }
+  
+  .flow__logo--center {
+    gap: 5px;
   }
   
   .flow__header-return {
