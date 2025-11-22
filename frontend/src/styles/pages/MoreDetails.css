@@ -1,0 +1,436 @@
+/* More Details Page */
+.more-details-page {
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', 'Cairo', sans-serif;
+}
+
+.more-details-page.rtl {
+  direction: rtl;
+}
+
+/* Unified Header Styles */
+.more-details-page .flow {
+  background: #f7f7fc;
+}
+
+.more-details-page .flow__top {
+  background: #f7f7fc;
+  padding: 16px 20px;
+}
+
+.more-details-page .flow__header {
+  max-width: 360px;
+  margin: 0 auto 24px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #f7f7fc;
+}
+
+.more-details-page .flow__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.more-details-page .flow__logo img,
+.more-details-page .flow__logo svg {
+  display: block;
+}
+
+/* Content */
+.more-details-page .flow__content {
+  flex: 1;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 16px 32px;
+}
+
+.more-details-page .flow__content h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1c1c1c;
+  margin-bottom: 24px;
+  text-align: right;
+}
+
+/* Car Details Summary */
+.more-details-page .details-car {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #f7f7fc;
+  border: 1px solid #e5e3ff;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.more-details-page .details-car__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+}
+
+.more-details-page .details-car__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.more-details-page .details-car__content-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1c1c1c;
+  margin-bottom: 4px;
+}
+
+.more-details-page .details-car__content-desc {
+  font-size: 14px;
+  color: #746c96;
+}
+
+.more-details-page .details-car__content-desc-row {
+  display: flex;
+  gap: 16px;
+}
+
+.more-details-page .details-car__action-button {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.more-details-page .details-car__action-button:hover {
+  background-color: #e5e3ff;
+}
+
+/* Form Fields */
+.more-details-page .more-details__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Select Wrapper */
+.more-details-page .base-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Select Control */
+.more-details-page .base-select-control {
+  position: relative;
+  background: #f7f7fc;
+  border: 1px solid #e5e3ff;
+  border-radius: 12px;
+  padding: 8px 16px;
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.more-details-page .base-select-control:hover:not(.base-select-control_disabled) {
+  background: #f5f5ff;
+  border-color: #d5ddff;
+}
+
+.more-details-page .base-select-control:focus-within:not(.base-select-control_disabled) {
+  background: #fff;
+  border-color: #6568f4;
+  box-shadow: 0 0 0 2px rgba(101, 104, 244, 0.08);
+}
+
+/* Has Value State */
+.more-details-page .base-select-control_has-value {
+  padding-top: 16px;
+  padding-bottom: 4px;
+}
+
+.more-details-page .base-select-control_has-value .base-select-control__label {
+  font-size: 12px;
+  color: #746c96;
+  transform: translateY(-6px);
+}
+
+/* Label */
+.more-details-page .base-select-control__label {
+  font-size: 14px;
+  color: #746c96;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 16px;
+}
+
+.more-details-page .base-select-control:focus-within .base-select-control__label,
+.more-details-page .base-select-control_has-value .base-select-control__label {
+  font-size: 12px;
+  color: #2e2c3a;
+  top: 12px;
+  transform: none;
+}
+
+/* Icon */
+.more-details-page .base-select-control__icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Input Container */
+.more-details-page .input-container {
+  position: relative;
+  width: 100%;
+}
+
+.more-details-page .input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.more-details-page .input {
+  width: 100%;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #1c1c1c;
+  background: #f7f7fc;
+  border: 1px solid #e5e3ff;
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.2s;
+  font-family: inherit;
+  direction: ltr;
+  text-align: right;
+}
+
+.more-details-page .input_rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.more-details-page .input:focus {
+  background: #fff;
+  border-color: #6568f4;
+  box-shadow: 0 0 0 2px rgba(101, 104, 244, 0.08);
+}
+
+.more-details-page .input_error {
+  border-color: #ff5252;
+}
+
+.more-details-page .input:not(:placeholder-shown) ~ .label,
+.more-details-page .input:focus ~ .label {
+  top: -10px;
+  right: 12px;
+  font-size: 12px;
+  background: white;
+  padding: 0 4px;
+  color: #6568f4;
+}
+
+.more-details-page .label {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #746c96;
+  pointer-events: none;
+  transition: all 0.2s;
+  background: transparent;
+}
+
+.more-details-page .input-error-message {
+  display: block;
+  color: #ff5252;
+  font-size: 13px;
+  margin-top: 6px;
+  margin-right: 4px;
+}
+
+/* Question Button */
+.more-details-page .question-button {
+  position: absolute;
+  left: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.more-details-page .question-button:hover {
+  background-color: rgba(101, 104, 244, 0.1);
+}
+
+/* Promocode Section */
+.more-details-page .more-details__promocode {
+  margin-top: 8px;
+}
+
+.more-details-page .promocode-input {
+  background: #f7f7fc;
+  border: 1px solid #e5e3ff;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.more-details-page .promocode-input__header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.more-details-page .promocode-input__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6568f4;
+}
+
+.more-details-page .promocode-input__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.more-details-page .promocode-input__content {
+  padding: 0 16px 16px;
+}
+
+/* Submit Button */
+.more-details-page .btn {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  margin-top: 24px;
+}
+
+.more-details-page .btn--primary {
+  background: #6568f4;
+  color: white;
+  box-shadow: 0 4px 12px rgba(101, 104, 244, 0.3);
+}
+
+.more-details-page .btn--primary:hover {
+  background: #5558e3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(101, 104, 244, 0.4);
+}
+
+.more-details-page .btn--primary:active {
+  transform: translateY(0);
+  background: #4548d2;
+}
+
+.more-details-page .btn--primary:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .more-details-page .flow__content {
+    padding: 20px 16px 32px;
+  }
+
+  .more-details-page .flow__content h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .more-details-page .details-car {
+    padding: 12px;
+  }
+
+  .more-details-page .base-select-control {
+    min-height: 52px;
+  }
+
+  .more-details-page .input {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .more-details-page .flow__content {
+    padding: 16px 12px 32px;
+  }
+
+  .more-details-page .flow__content h1 {
+    font-size: 20px;
+  }
+
+  .more-details-page .details-car {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .more-details-page .details-car__content-title {
+    font-size: 15px;
+  }
+
+  .more-details-page .details-car__content-desc {
+    font-size: 13px;
+  }
+
+  .more-details-page .base-select-control {
+    min-height: 50px;
+    font-size: 14px;
+  }
+
+  .more-details-page .input {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .more-details-page .label {
+    font-size: 13px;
+  }
+}

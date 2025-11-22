@@ -1,0 +1,431 @@
+/* ========================================
+   CONTACTS POPUP COMPONENT - COMPLETE STYLESHEET
+   نافذة التواصل المنبثقة - CSS كامل
+   ======================================== */
+
+/* ========================================
+   1. ERROR MESSAGE
+   رسالة الخطأ
+   ======================================== */
+
+p.error-message {
+  color: #f3405e; /* أحمر للإشارة للخطأ */
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+  line-height: 130%;
+  text-align: center;
+}
+
+/* ========================================
+   2. SEPARATOR LINE
+   الخط الفاصل
+   ======================================== */
+
+.separator {
+  background: #dae2e8;
+  height: 1px;
+  margin-top: 32px;
+}
+
+@media (max-width: 767px) {
+  .separator {
+    margin-top: 24px;
+  }
+}
+
+/* ========================================
+   3. POPUP TITLE
+   عنوان النافذة المنبثقة
+   ======================================== */
+
+.contacts-popup__title {
+  color: #2e2c3a;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+/* ========================================
+   4. ERROR STATE SECTION
+   قسم حالة الخطأ
+   ======================================== */
+
+.contacts-popup__error {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contacts-popup__error img {
+  margin: 0 auto 8px;
+  max-width: 160px;
+}
+
+.contacts-popup__error h4 {
+  color: #2e2c3a;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__error h4 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+.contacts-popup__error p {
+  color: #2e2c3a;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__error p {
+    font-size: 14px;
+  }
+}
+
+/* Try Again Button */
+.contacts-popup__error .try-again {
+  margin-top: 16px;
+}
+
+/* ========================================
+   5. SUCCESS STATE SECTION
+   قسم حالة النجاح
+   ======================================== */
+
+.contacts-popup__sent {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contacts-popup__sent img {
+  margin: 0 auto 8px;
+  max-width: 160px;
+}
+
+.contacts-popup__sent h4 {
+  color: #2e2c3a;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__sent h4 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+.contacts-popup__sent p {
+  color: #2e2c3a;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__sent p {
+    font-size: 14px;
+  }
+}
+
+/* Link Button in Success State */
+.contacts-popup__sent .dc-link-button {
+  margin-top: 32px;
+}
+
+/* ========================================
+   6. POPUP FOOTER
+   تذييل النافذة المنبثقة
+   ======================================== */
+
+.contacts-popup__footer {
+  display: grid;
+  gap: 24px;
+  margin: 0 auto 24px;
+  max-width: 416px;
+  padding-top: 32px;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__footer {
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-top: 24px;
+  }
+}
+
+.contacts-popup__footer p {
+  color: #1c1c1c;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__footer p {
+    font-size: 14px;
+  }
+}
+
+/* ========================================
+   7. RTL SUPPORT (دعم اللغة العربية)
+   ======================================== */
+
+/* Base Button SVG Icons - RTL */
+.rtl .contacts-popup .ds-base-button svg {
+  transform: scaleX(-1);
+}
+
+/* Popup Button SVG Icons - RTL */
+.contacts-popup__btn.rtl svg {
+  transform: scaleX(-1);
+}
+
+/* ========================================
+   8. ADDITIONAL STATES & VARIATIONS
+   حالات وأشكال إضافية
+   ======================================== */
+
+/* Loading State (if needed) */
+.contacts-popup__loading {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 0;
+}
+
+/* Close Button (common pattern) */
+.contacts-popup__close {
+  cursor: pointer;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  transition: opacity 0.2s ease;
+}
+
+.contacts-popup__close:hover {
+  opacity: 0.7;
+}
+
+.rtl .contacts-popup__close {
+  left: 16px;
+  right: auto;
+}
+
+/* Overlay Background */
+.contacts-popup__overlay {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 9999;
+}
+
+/* Popup Container */
+.contacts-popup__container {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  max-height: 90vh;
+  max-width: 500px;
+  overflow-y: auto;
+  padding: 32px;
+  position: relative;
+  width: 90%;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__container {
+    padding: 24px;
+  }
+}
+
+/* ========================================
+   9. FORM ELEMENTS (if applicable)
+   عناصر النموذج
+   ======================================== */
+
+.contacts-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.contacts-popup__input {
+  border: 1px solid #dae2e8;
+  border-radius: 12px;
+  font-size: 16px;
+  padding: 12px 16px;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.contacts-popup__input:focus {
+  border-color: #6b4eff;
+  outline: none;
+}
+
+.contacts-popup__input.error {
+  border-color: #f3405e;
+}
+
+.contacts-popup__textarea {
+  border: 1px solid #dae2e8;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 16px;
+  min-height: 120px;
+  padding: 12px 16px;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.contacts-popup__textarea:focus {
+  border-color: #6b4eff;
+  outline: none;
+}
+
+.contacts-popup__textarea.error {
+  border-color: #f3405e;
+}
+
+/* ========================================
+   10. BUTTON STYLES
+   أنماط الأزرار
+   ======================================== */
+
+.contacts-popup__submit {
+  background: #6b4eff;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 24px;
+  transition: background 0.2s ease;
+  width: 100%;
+}
+
+.contacts-popup__submit:hover {
+  background: #5a3ed6;
+}
+
+.contacts-popup__submit:disabled {
+  background: #dae2e8;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.contacts-popup__cancel {
+  background: transparent;
+  border: 1px solid #dae2e8;
+  border-radius: 12px;
+  color: #2e2c3a;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 14px 24px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.contacts-popup__cancel:hover {
+  background: #f5f5f5;
+  border-color: #2e2c3a;
+}
+
+/* ========================================
+   11. ANIMATIONS
+   الحركات المتحركة
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contacts-popup__overlay {
+  animation: fadeIn 0.3s ease;
+}
+
+.contacts-popup__container {
+  animation: slideUp 0.4s ease;
+}
+
+/* ========================================
+   12. ACCESSIBILITY
+   إمكانية الوصول
+   ======================================== */
+
+.contacts-popup__container:focus {
+  outline: 2px solid #6b4eff;
+  outline-offset: 4px;
+}
+
+.contacts-popup__input:focus,
+.contacts-popup__textarea:focus {
+  box-shadow: 0 0 0 3px rgba(107, 78, 255, 0.1);
+}
+
+/* Screen Reader Only Text */
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* ========================================
+   END OF STYLESHEET
+   ======================================== */

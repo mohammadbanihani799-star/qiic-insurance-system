@@ -1,0 +1,51 @@
+/* ===================================================
+   Phone Input Styles
+   ملف CSS خاص بحقل إدخال الهاتف (Phone Input)
+   يدعم RTL و LTR
+=================================================== */
+
+/* الأكواد المخصصة لكل رقم */
+.ds-base-phone-input__code-1:nth-child(-n+1),
+.ds-base-phone-input__code-2:nth-child(-n+2),
+.ds-base-phone-input__code-3:nth-child(-n+3),
+.ds-base-phone-input__code-4:nth-child(-n+4),
+.ds-base-phone-input__code-5:nth-child(-n+5),
+.ds-base-phone-input__code-6:nth-child(-n+6) {
+    color: var(--colorTxtInputValueDefault) !important;
+}
+
+/* placeholder */
+.ds-base-phone-input .ds-base-input__input-placeholder {
+    position: relative;
+    direction: ltr;
+}
+
+/* إخفاء بعض الأحرف في RTL */
+.rtl .ds-base-phone-input .ds-base-input__input-placeholder-letter--hidden {
+    display: none;
+}
+
+/* تنسيق الحقل */
+.rtl .ds-base-phone-input .ds-base-input__field {
+    direction: ltr;
+    text-align: right;
+    flex: 1;
+}
+
+/* الحقل الأساسي */
+.ds-base-phone-input__input {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* التركيز */
+.ds-base-phone-input__input:focus {
+    border-color: #2563eb; /* أزرق */
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}

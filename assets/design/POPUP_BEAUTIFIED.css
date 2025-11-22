@@ -1,0 +1,472 @@
+/* ========================================
+   POPUP COMPONENT - COMPLETE STYLESHEET
+   مكون النافذة المنبثقة - CSS كامل
+   ======================================== */
+
+/* ========================================
+   1. MAIN POPUP CONTAINER
+   الحاوية الرئيسية للنافذة المنبثقة
+   ======================================== */
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-height: calc(100% - 80px);
+  max-width: 464px;
+  position: relative;
+  transition: transform 0.3s ease;
+  width: 100%;
+  z-index: 9999;
+}
+
+/* Mobile - Full Screen Bottom Sheet */
+@media (max-width: 540px) {
+  .popup {
+    bottom: 0;
+    max-height: 100%;
+    position: absolute;
+  }
+}
+
+/* ========================================
+   2. POPUP CONTENT BOX
+   صندوق محتوى النافذة
+   ======================================== */
+
+.popup__content {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px 16px;
+  scrollbar-width: none;
+}
+
+/* Mobile - Bottom Sheet Style */
+@media (max-width: 544px) {
+  .popup__content {
+    border-radius: 32px 32px 0 0; /* زوايا علوية فقط */
+    bottom: 0;
+    max-height: 90vh;
+    padding: 16px 4px;
+    top: inherit;
+  }
+}
+
+/* ========================================
+   3. SCROLLABLE INNER CONTENT
+   المحتوى الداخلي القابل للتمرير
+   ======================================== */
+
+.popup__content-inner {
+  flex: 1;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0 16px 4px;
+  scrollbar-color: #cacad8 #f5f5f9; /* Firefox */
+  scrollbar-width: thin; /* Firefox */
+}
+
+/* Custom Scrollbar - Webkit Browsers (Chrome, Safari, Edge) */
+.popup__content-inner::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+}
+
+.popup__content-inner::-webkit-scrollbar-thumb {
+  background: #cacad8;
+  border-radius: 10px;
+}
+
+.popup__content-inner::-webkit-scrollbar-track {
+  background: #f5f5f9;
+  border-radius: 10px;
+}
+
+/* ========================================
+   4. CLOSE BUTTON
+   زر الإغلاق
+   ======================================== */
+
+.popup__close {
+  align-items: center;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  height: 44px;
+  inset-inline-end: -52px; /* يعمل مع RTL/LTR */
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  transition: 0.2s;
+  width: 44px;
+  z-index: 2;
+}
+
+/* Hover State */
+.popup__close:hover {
+  background: #ffffff26;
+}
+
+/* Active State */
+.popup__close:active {
+  background: #ffffff40;
+}
+
+/* Mobile - No Blur, Inside Content */
+@media (max-width: 544px) {
+  .popup__close {
+    backdrop-filter: none;
+    background: #2d2d361a;
+    inset-inline-end: 8px;
+    right: 8px;
+    top: 8px;
+  }
+}
+
+/* ========================================
+   5. POPUP WRAPPER (Full Screen Overlay)
+   الغلاف الخارجي (طبقة كاملة الشاشة)
+   ======================================== */
+
+.popup-wrapper {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/* Mobile - Align to Bottom */
+@media (max-width: 540px) {
+  .popup-wrapper {
+    align-items: flex-end;
+  }
+}
+
+/* ========================================
+   6. POPUP BACKGROUND (Blurred Overlay)
+   خلفية النافذة (طبقة ضبابية)
+   ======================================== */
+
+.popup__bg {
+  backdrop-filter: blur(10px);
+  background: #2d2d36cc; /* شفاف داكن */
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9000;
+}
+
+/* ========================================
+   7. POPUP SIZE VARIATIONS
+   أحجام مختلفة للنافذة
+   ======================================== */
+
+/* Big Popup - Larger Width */
+.popup_big {
+  max-width: 544px;
+}
+
+/* Compare Popup - Extra Wide */
+.popup_compare {
+  max-width: 700px;
+}
+
+/* ========================================
+   8. BUTTON WRAPPER & BUTTONS
+   غلاف الأزرار والأزرار
+   ======================================== */
+
+.popup__wrap-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.popup__btn {
+  max-width: 416px;
+  width: 100%;
+}
+
+/* ========================================
+   9. POPUP HEADER (Optional)
+   رأس النافذة (اختياري)
+   ======================================== */
+
+.popup__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 0 16px;
+}
+
+.popup__title {
+  color: #2e2c3a;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+@media (max-width: 767px) {
+  .popup__title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+/* ========================================
+   10. POPUP FOOTER (Optional)
+   تذييل النافذة (اختياري)
+   ======================================== */
+
+.popup__footer {
+  border-top: 1px solid #e5e5e5;
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 24px 16px 0;
+}
+
+@media (max-width: 767px) {
+  .popup__footer {
+    flex-direction: column;
+    padding-top: 16px;
+  }
+}
+
+/* ========================================
+   11. ANIMATIONS
+   الحركات المتحركة
+   ======================================== */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide From Bottom (Mobile) */
+@keyframes slideFromBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Apply Animations */
+.popup-wrapper {
+  animation: fadeIn 0.3s ease;
+}
+
+.popup {
+  animation: slideUp 0.4s ease;
+}
+
+@media (max-width: 540px) {
+  .popup {
+    animation: slideFromBottom 0.3s ease;
+  }
+}
+
+/* Exit Animations */
+.popup-wrapper.closing {
+  animation: fadeIn 0.3s ease reverse;
+}
+
+.popup.closing {
+  animation: slideUp 0.4s ease reverse;
+}
+
+@media (max-width: 540px) {
+  .popup.closing {
+    animation: slideFromBottom 0.3s ease reverse;
+  }
+}
+
+/* ========================================
+   12. RTL SUPPORT
+   دعم اللغة العربية
+   ======================================== */
+
+.rtl .popup__close {
+  inset-inline-end: auto;
+  inset-inline-start: -52px;
+}
+
+@media (max-width: 544px) {
+  .rtl .popup__close {
+    inset-inline-start: 8px;
+    left: 8px;
+    right: auto;
+  }
+}
+
+/* ========================================
+   13. ACCESSIBILITY
+   إمكانية الوصول
+   ======================================== */
+
+/* Focus States */
+.popup__close:focus {
+  outline: 2px solid #6b4eff;
+  outline-offset: 2px;
+}
+
+.popup__close:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Keyboard Navigation */
+.popup__content:focus {
+  outline: none;
+}
+
+/* Reduce Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .popup,
+  .popup-wrapper,
+  .popup__close {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* ========================================
+   14. LOADING STATE (Optional)
+   حالة التحميل (اختياري)
+   ======================================== */
+
+.popup__loading {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.popup__spinner {
+  animation: spin 1s linear infinite;
+  border: 3px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 3px solid #6b4eff;
+  height: 40px;
+  width: 40px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   15. SPECIAL STATES
+   حالات خاصة
+   ======================================== */
+
+/* Disabled Scrolling on Body */
+body.popup-open {
+  overflow: hidden;
+}
+
+/* Full Screen Mode */
+.popup_fullscreen {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.popup_fullscreen .popup__content {
+  border-radius: 0;
+  height: 100vh;
+}
+
+/* Compact Mode */
+.popup_compact {
+  max-width: 360px;
+}
+
+.popup_compact .popup__content {
+  padding: 24px 12px;
+}
+
+/* ========================================
+   16. TRANSITIONS & EFFECTS
+   الانتقالات والتأثيرات
+   ======================================== */
+
+/* Smooth Transitions */
+.popup,
+.popup__bg,
+.popup__close,
+.popup__content {
+  transition: all 0.3s ease;
+}
+
+/* Glass Morphism Effect (Alternative) */
+.popup__content.glass {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Shadow Depth Levels */
+.popup__content.shadow-sm {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.popup__content.shadow-md {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.popup__content.shadow-lg {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+}
+
+/* ========================================
+   17. RESPONSIVE UTILITIES
+   أدوات متجاوبة
+   ======================================== */
+
+/* Hide on Desktop */
+@media (min-width: 768px) {
+  .popup__mobile-only {
+    display: none;
+  }
+}
+
+/* Hide on Mobile */
+@media (max-width: 767px) {
+  .popup__desktop-only {
+    display: none;
+  }
+}
+
+/* ========================================
+   END OF STYLESHEET
+   ======================================== */

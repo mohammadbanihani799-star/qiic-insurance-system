@@ -1,0 +1,810 @@
+/*
+═══════════════════════════════════════════════════════════════════════════════
+  ❓ FAQ SECTION COMPONENT - BEAUTIFIED CSS
+  قسم الأسئلة الشائعة - CSS منسق ومنظم
+═══════════════════════════════════════════════════════════════════════════════
+
+  Component Structure / هيكل المكونات:
+  1. 🔄 Icon Rotation Animation - رسوم متحركة لدوران الأيقونة
+  2. ✨ Fade In/Out Transitions - انتقالات الظهور والاختفاء
+  3. 📝 FAQ Title - عنوان الأسئلة الشائعة
+  4. 📦 FAQ Wrapper Container - حاوية الأسئلة
+  5. 🎴 FAQ Item Cards - بطاقات الأسئلة
+  6. 📌 Item Title (Question) - عنوان السؤال
+  7. 📄 Item Description (Answer) - وصف الإجابة
+  8. 🔗 Links in Answers - الروابط في الإجابات
+  9. 📱 Responsive Design - التصميم المتجاوب
+  10. 🌐 RTL Support - دعم اللغة العربية
+  11. 🎭 Hover & Active States - حالات التفاعل
+  12. ♿ Accessibility Features - ميزات إمكانية الوصول
+  13. 🎨 Advanced Features - ميزات متقدمة
+
+═══════════════════════════════════════════════════════════════════════════════
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. 🔄 ICON ROTATION ANIMATION - رسوم متحركة لدوران الأيقونة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Vertical Icon (Plus Sign Vertical Bar)
+ * الأيقونة العمودية (الشريط العمودي لعلامة الزائد)
+ * 
+ * Purpose: Rotate from + to − when FAQ item is expanded
+ * الغرض: الدوران من + إلى − عند توسيع عنصر الأسئلة الشائعة
+ * 
+ * Transform: 0deg (closed) → 90deg (open)
+ * التحويل: 0 درجة (مغلق) → 90 درجة (مفتوح)
+ */
+.vertical[data-v-49ef9649] {
+  transform-origin: center; /* Rotate from center point / دوران من نقطة المركز */
+  transition: transform 0.2s ease-out; /* Smooth rotation / دوران سلس */
+}
+
+/**
+ * Minus State (Expanded FAQ Item)
+ * حالة الناقص (عنصر الأسئلة الشائعة الموسع)
+ */
+.minus .vertical[data-v-49ef9649] {
+  transform: rotate(90deg); /* Rotate to horizontal, creating minus sign / دوران للأفقي، مما يخلق علامة الناقص */
+}
+
+/**
+ * Icon SVG Styling
+ * تنسيق SVG الأيقونة
+ */
+.faq__item-icon[data-v-49ef9649] {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0; /* Prevent icon from shrinking / منع تقلص الأيقونة */
+}
+
+.faq__item-icon[data-v-49ef9649] path {
+  fill: #5927ff; /* Purple color / لون بنفسجي */
+  transition: fill 0.2s ease-out;
+}
+
+.faq__item:hover .faq__item-icon[data-v-49ef9649] path {
+  fill: #3d1ab3; /* Darker purple on hover / بنفسجي أغمق عند التمرير */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. ✨ FADE IN/OUT TRANSITIONS - انتقالات الظهور والاختفاء
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Fade Enter Animation (Opening FAQ Answer)
+ * رسوم متحركة للدخول (فتح إجابة الأسئلة الشائعة)
+ * 
+ * Properties Animated:
+ * - opacity: 0 → 1
+ * - max-height: 0 → 1000px
+ * - padding: 0 → normal
+ * 
+ * Duration: 200ms (0.2s)
+ * المدة: 200 مللي ثانية
+ */
+.fade-enter-active {
+  overflow: hidden; /* Hide overflow during animation / إخفاء الفائض أثناء الرسوم المتحركة */
+  transition: opacity 0.2s linear, 
+              max-height 0.2s linear, 
+              padding 0.2s linear;
+}
+
+/**
+ * Fade Leave Animation (Closing FAQ Answer)
+ * رسوم متحركة للخروج (إغلاق إجابة الأسئلة الشائعة)
+ * 
+ * Instant collapse (0s duration) for faster closing
+ * انهيار فوري (مدة 0 ثانية) لإغلاق أسرع
+ */
+.fade-leave-active {
+  overflow: hidden;
+  transition: opacity 0s, 
+              max-height 0s, 
+              padding 0s;
+}
+
+/**
+ * Start State (Enter From / Leave To)
+ * حالة البداية (الدخول من / المغادرة إلى)
+ */
+.fade-enter-from,
+.fade-leave-to {
+  max-height: 0; /* Collapsed height / ارتفاع منهار */
+  opacity: 0; /* Invisible / غير مرئي */
+  padding-top: 0; /* Remove top padding / إزالة الحشوة العلوية */
+  padding-bottom: 0; /* Remove bottom padding / إزالة الحشوة السفلية */
+}
+
+/**
+ * End State (Enter To / Leave From)
+ * حالة النهاية (الدخول إلى / المغادرة من)
+ */
+.fade-enter-to,
+.fade-leave-from {
+  max-height: 1000px; /* Large enough for any content / كبير بما يكفي لأي محتوى */
+  opacity: 1; /* Fully visible / مرئي بالكامل */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. 📝 FAQ TITLE - عنوان الأسئلة الشائعة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * FAQ Section Title
+ * عنوان قسم الأسئلة الشائعة
+ * 
+ * Typography Scale:
+ * - Desktop: 36px / 44px line-height
+ * - Mobile (≤767px): 28px / 32px line-height
+ */
+.faq__title {
+  color: #2e2c3a; /* Dark purple-gray / رمادي بنفسجي داكن */
+  font-size: 36px; /* Large title / عنوان كبير */
+  font-weight: 600; /* Semi-bold / شبه عريض */
+  line-height: 44px; /* 122% line-height / ارتفاع سطر 122% */
+  margin-bottom: 32px; /* Spacing below title / مسافة أسفل العنوان */
+  text-align: center; /* Center alignment / محاذاة مركزية */
+}
+
+@media (max-width: 767px) {
+  .faq__title {
+    font-size: 28px; /* Smaller on mobile / أصغر على الجوال */
+    line-height: 32px; /* 114% line-height / ارتفاع سطر 114% */
+    margin-bottom: 16px; /* Reduced spacing / مسافة مخفضة */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. 📦 FAQ WRAPPER CONTAINER - حاوية الأسئلة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * FAQ Items Wrapper
+ * غلاف عناصر الأسئلة الشائعة
+ * 
+ * Layout: Grid with 8px gap between items
+ * التخطيط: شبكة مع مسافة 8px بين العناصر
+ */
+.faq__wrapper {
+  border-radius: 28px; /* Rounded container / حاوية دائرية */
+  display: grid;
+  gap: 8px; /* Spacing between FAQ items / مسافة بين عناصر الأسئلة الشائعة */
+}
+
+/**
+ * Wrapper with Padding
+ * غلاف مع حشوة
+ */
+.faq__wrapper--padding {
+  padding: 0 24px; /* Horizontal padding only / حشوة أفقية فقط */
+}
+
+/**
+ * White Background Variant
+ * نوع الخلفية البيضاء
+ */
+.faq__wrapper--white-bg {
+  background: #ffffff; /* White background / خلفية بيضاء */
+}
+
+/**
+ * White Background with Padding
+ * خلفية بيضاء مع حشوة
+ */
+.faq__wrapper--white-bg.faq__wrapper--padding {
+  padding: 24px; /* All-around padding / حشوة شاملة */
+}
+
+@media (max-width: 767px) {
+  .faq__wrapper--padding {
+    padding: 24px 16px; /* Reduced horizontal padding / حشوة أفقية مخفضة */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. 🎴 FAQ ITEM CARDS - بطاقات الأسئلة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Individual FAQ Item Card
+ * بطاقة عنصر الأسئلة الشائعة الفردية
+ * 
+ * Features:
+ * - White background with rounded corners
+ * - Clickable cursor
+ * - Smooth hover transition
+ * - Grid layout for icon + text
+ * 
+ * Padding:
+ * - Desktop: 24px vertical, 16px horizontal
+ * - Mobile: 16px all around
+ */
+.faq__item {
+  background: #ffffff; /* White card background / خلفية بطاقة بيضاء */
+  border-radius: 16px; /* Rounded corners / زوايا دائرية */
+  cursor: pointer; /* Clickable cursor / مؤشر قابل للنقر */
+  display: grid;
+  padding: 24px 16px; /* Vertical 24px, Horizontal 16px / عمودي 24px، أفقي 16px */
+  transition: 0.2s ease-out; /* Smooth transitions / انتقالات سلسة */
+}
+
+/**
+ * Hover State
+ * حالة التمرير
+ */
+.faq__item:hover {
+  background: #f5f5ff; /* Light purple background / خلفية بنفسجية فاتحة */
+}
+
+@media (max-width: 767px) {
+  .faq__item {
+    padding: 16px; /* Reduced padding on mobile / حشوة مخفضة على الجوال */
+  }
+}
+
+/**
+ * Active/Expanded State
+ * حالة النشاط/التوسع
+ */
+.faq__item.minus {
+  background: #f5f5ff; /* Light purple when expanded / بنفسجي فاتح عند التوسع */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. 📌 ITEM TITLE (QUESTION) - عنوان السؤال
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * FAQ Item Title
+ * عنوان عنصر الأسئلة الشائعة
+ * 
+ * Layout: Grid with 24px icon column + flexible text column
+ * التخطيط: شبكة مع عمود أيقونة 24px + عمود نص مرن
+ * 
+ * Grid Structure: [Icon 24px] [Text 1fr]
+ * هيكل الشبكة: [أيقونة 24px] [نص 1fr]
+ */
+.faq__item-title {
+  align-items: center; /* Vertical center alignment / محاذاة عمودية للمركز */
+  color: #2e2c3a; /* Dark purple-gray / رمادي بنفسجي داكن */
+  display: grid;
+  font-size: 16px; /* Medium-large font / خط متوسط كبير */
+  font-weight: 500; /* Medium weight / وزن متوسط */
+  gap: 12px; /* Space between icon and text / مسافة بين الأيقونة والنص */
+  grid-template-columns: 24px 1fr; /* Icon + Text columns / أعمدة الأيقونة + النص */
+  line-height: 24px; /* 150% line-height / ارتفاع سطر 150% */
+  transition: 0.2s ease-out;
+}
+
+@media (max-width: 767px) {
+  .faq__item-title {
+    font-size: 15px; /* Slightly smaller on mobile / أصغر قليلاً على الجوال */
+    line-height: 22px;
+  }
+}
+
+/**
+ * Title Text Wrapper
+ * غلاف نص العنوان
+ */
+.faq__item-title span {
+  user-select: none; /* Prevent text selection / منع تحديد النص */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. 📄 ITEM DESCRIPTION (ANSWER) - وصف الإجابة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * FAQ Item Description (Answer Content)
+ * وصف عنصر الأسئلة الشائعة (محتوى الإجابة)
+ * 
+ * Purpose: Display answer text with proper spacing from icon
+ * الغرض: عرض نص الإجابة مع مسافة مناسبة من الأيقونة
+ * 
+ * Padding Calculation:
+ * - Icon: 24px
+ * - Gap: 12px
+ * - Total: 36px (padding-inline-start)
+ */
+.faq__item-description {
+  color: #57575e; /* Gray text / نص رمادي */
+  font-size: 16px; /* Regular font size / حجم خط عادي */
+  font-weight: 400; /* Regular weight / وزن عادي */
+  line-height: 24px; /* 150% line-height / ارتفاع سطر 150% */
+  padding-top: 8px; /* Spacing above / مسافة أعلى */
+  padding-inline-start: 36px; /* Align with title text (24px icon + 12px gap) / محاذاة مع نص العنوان */
+}
+
+@media (max-width: 767px) {
+  .faq__item-description {
+    font-size: 14px; /* Smaller text on mobile / نص أصغر على الجوال */
+    line-height: 20px;
+    padding-inline-start: 32px; /* Adjusted for smaller icon gap / معدل لفجوة أيقونة أصغر */
+  }
+}
+
+/**
+ * Description Paragraphs
+ * فقرات الوصف
+ */
+.faq__item-description p {
+  cursor: text; /* Text cursor for selection / مؤشر نص للتحديد */
+  margin-bottom: 12px; /* Spacing between paragraphs / مسافة بين الفقرات */
+}
+
+.faq__item-description p:last-child {
+  margin-bottom: 0; /* Remove margin from last paragraph / إزالة الهامش من الفقرة الأخيرة */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. 🔗 LINKS IN ANSWERS - الروابط في الإجابات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Links within FAQ Answers
+ * الروابط داخل إجابات الأسئلة الشائعة
+ * 
+ * Color Scheme:
+ * - Default: #494bb5 (Medium purple)
+ * - Hover: #22245e (Dark purple)
+ */
+.faq__item-description p a {
+  color: #494bb5; /* Medium purple / بنفسجي متوسط */
+  text-decoration: underline; /* Underline for accessibility / تسطير لإمكانية الوصول */
+  transition: color 0.2s ease-out;
+}
+
+.faq__item-description p a:hover {
+  color: #22245e; /* Dark purple on hover / بنفسجي داكن عند التمرير */
+  text-decoration: none; /* Remove underline on hover / إزالة التسطير عند التمرير */
+}
+
+.faq__item-description p a:focus {
+  outline: 2px solid #5927ff; /* Purple focus outline / مخطط تركيز بنفسجي */
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/**
+ * External Link Indicator
+ * مؤشر الرابط الخارجي
+ */
+.faq__item-description p a[target="_blank"]::after {
+  content: " ↗"; /* External link arrow / سهم الرابط الخارجي */
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. 📱 RESPONSIVE DESIGN - التصميم المتجاوب
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Responsive Breakpoints Summary
+ * ملخص نقاط التوقف المتجاوبة
+ * 
+ * ┌──────────────┬────────────────────────────────────────────────┐
+ * │ Breakpoint   │ Changes Applied                                │
+ * ├──────────────┼────────────────────────────────────────────────┤
+ * │ >767px       │ Full size: 36px title, 24px padding           │
+ * │ ≤767px       │ Reduced: 28px title, 16px padding             │
+ * │ ≤480px       │ Further reduced spacing                        │
+ * └──────────────┴────────────────────────────────────────────────┘
+ */
+
+/* Mobile Responsive (≤767px) - Already defined above */
+
+/* Small Mobile (≤480px) */
+@media (max-width: 480px) {
+  .faq__title {
+    font-size: 24px; /* Smaller title / عنوان أصغر */
+    line-height: 28px;
+    margin-bottom: 12px;
+  }
+  
+  .faq__wrapper {
+    gap: 6px; /* Tighter gap / فجوة أضيق */
+  }
+  
+  .faq__item {
+    padding: 12px; /* Minimal padding / حشوة بسيطة */
+    border-radius: 12px; /* Smaller radius / نصف قطر أصغر */
+  }
+  
+  .faq__item-title {
+    font-size: 14px;
+    line-height: 20px;
+    gap: 8px; /* Smaller gap / فجوة أصغر */
+  }
+  
+  .faq__item-description {
+    font-size: 13px;
+    line-height: 18px;
+    padding-inline-start: 28px; /* Adjusted for smaller icon / معدل لأيقونة أصغر */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. 🌐 RTL SUPPORT - دعم اللغة العربية
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * RTL Layout Adjustments
+ * تعديلات تخطيط RTL
+ */
+.rtl .faq__item-title {
+  direction: rtl; /* Right-to-left direction / اتجاه من اليمين لليسار */
+}
+
+.rtl .faq__item-description {
+  direction: rtl;
+  padding-inline-start: 0;
+  padding-inline-end: 36px; /* Flip padding for RTL / قلب الحشوة لـ RTL */
+}
+
+@media (max-width: 767px) {
+  .rtl .faq__item-description {
+    padding-inline-end: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtl .faq__item-description {
+    padding-inline-end: 28px;
+  }
+}
+
+/**
+ * RTL Icon Rotation
+ * دوران الأيقونة RTL
+ */
+.rtl .minus .vertical[data-v-49ef9649] {
+  transform: rotate(-90deg); /* Opposite rotation for RTL / دوران معاكس لـ RTL */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   11. 🎭 HOVER & ACTIVE STATES - حالات التفاعل
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Enhanced Hover Effects
+ * تأثيرات التمرير المحسنة
+ */
+.faq__item:hover {
+  box-shadow: 0 2px 8px rgba(89, 39, 255, 0.1); /* Subtle purple shadow / ظل بنفسجي خفيف */
+  transform: translateY(-2px); /* Slight lift / رفع خفيف */
+}
+
+/**
+ * Focus States
+ * حالات التركيز
+ */
+.faq__item:focus-visible {
+  outline: 3px solid #5927ff;
+  outline-offset: 2px;
+  border-radius: 16px;
+}
+
+/**
+ * Active State (Clicked)
+ * حالة النشاط (تم النقر)
+ */
+.faq__item:active {
+  transform: translateY(0); /* Remove lift on click / إزالة الرفع عند النقر */
+}
+
+/**
+ * Disabled State
+ * حالة التعطيل
+ */
+.faq__item--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   12. ♿ ACCESSIBILITY FEATURES - ميزات إمكانية الوصول
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * High Contrast Mode
+ * وضع التباين العالي
+ */
+@media (prefers-contrast: high) {
+  .faq__item {
+    border: 2px solid #2e2c3a; /* Add border for clarity / إضافة حد للوضوح */
+  }
+  
+  .faq__item-title,
+  .faq__item-description {
+    color: #000000; /* Pure black / أسود نقي */
+  }
+  
+  .faq__item-description p a {
+    color: #0000ee; /* Standard link blue / أزرق الرابط القياسي */
+    font-weight: 600;
+  }
+}
+
+/**
+ * Reduced Motion
+ * حركة مخفضة
+ */
+@media (prefers-reduced-motion: reduce) {
+  .vertical[data-v-49ef9649],
+  .faq__item,
+  .faq__item:hover,
+  .fade-enter-active,
+  .fade-leave-active {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+}
+
+/**
+ * Screen Reader Text
+ * نص قارئ الشاشة
+ */
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/**
+ * ARIA Labels
+ * تسميات ARIA
+ */
+.faq__item[aria-expanded="true"] {
+  background: #f5f5ff; /* Indicate expanded state / الإشارة إلى حالة التوسع */
+}
+
+.faq__item[aria-expanded="false"] {
+  background: #ffffff;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   13. 🎨 ADVANCED FEATURES - ميزات متقدمة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Dark Mode Support
+ * دعم الوضع الداكن
+ */
+@media (prefers-color-scheme: dark) {
+  .faq__title {
+    color: #ffffff; /* White title / عنوان أبيض */
+  }
+  
+  .faq__wrapper--white-bg {
+    background: #1a1a1a; /* Dark background / خلفية داكنة */
+  }
+  
+  .faq__item {
+    background: #2a2a2a; /* Dark card / بطاقة داكنة */
+  }
+  
+  .faq__item:hover,
+  .faq__item.minus {
+    background: #3a3a3a; /* Lighter dark on hover / داكن أفتح عند التمرير */
+  }
+  
+  .faq__item-title {
+    color: #e0e0e0; /* Light gray text / نص رمادي فاتح */
+  }
+  
+  .faq__item-description {
+    color: #b0b0b0; /* Muted gray / رمادي خافت */
+  }
+  
+  .faq__item-description p a {
+    color: #8b8dff; /* Light purple links / روابط بنفسجية فاتحة */
+  }
+  
+  .faq__item-description p a:hover {
+    color: #a5a7ff; /* Lighter purple on hover / بنفسجي أفتح عند التمرير */
+  }
+  
+  .faq__item-icon[data-v-49ef9649] path {
+    fill: #8b8dff; /* Light purple icon / أيقونة بنفسجية فاتحة */
+  }
+}
+
+/**
+ * Print Styles
+ * أنماط الطباعة
+ */
+@media print {
+  .faq__item {
+    page-break-inside: avoid; /* Avoid breaking cards / تجنب كسر البطاقات */
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .faq__item-icon[data-v-49ef9649] {
+    display: none; /* Hide icons in print / إخفاء الأيقونات في الطباعة */
+  }
+  
+  .faq__item-description {
+    display: block !important; /* Show all answers / عرض جميع الإجابات */
+    max-height: none !important;
+    opacity: 1 !important;
+  }
+  
+  .faq__item-description p a::after {
+    content: " (" attr(href) ")"; /* Show URLs in print / عرض عناوين URL في الطباعة */
+    font-size: 0.8em;
+    color: #666;
+  }
+}
+
+/**
+ * Smooth Transitions
+ * انتقالات سلسة
+ */
+.faq__item,
+.faq__item-title,
+.faq__item-description p a,
+.vertical[data-v-49ef9649] {
+  transition: all 0.2s ease-out;
+}
+
+/**
+ * Performance Optimization
+ * تحسين الأداء
+ */
+.faq__item {
+  will-change: transform, background-color; /* Hint for GPU acceleration / تلميح لتسريع GPU */
+}
+
+/**
+ * Custom Scrollbar for Long Answers
+ * شريط تمرير مخصص للإجابات الطويلة
+ */
+.faq__item-description {
+  scrollbar-width: thin; /* Firefox / فايرفوكس */
+  scrollbar-color: #5927ff #f5f5ff; /* Firefox / فايرفوكس */
+}
+
+.faq__item-description::-webkit-scrollbar {
+  width: 8px; /* Chrome/Safari / كروم/سفاري */
+}
+
+.faq__item-description::-webkit-scrollbar-track {
+  background: #f5f5ff;
+  border-radius: 4px;
+}
+
+.faq__item-description::-webkit-scrollbar-thumb {
+  background: #5927ff;
+  border-radius: 4px;
+}
+
+.faq__item-description::-webkit-scrollbar-thumb:hover {
+  background: #3d1ab3;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   📚 USAGE EXAMPLES - أمثلة الاستخدام
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  1. Basic FAQ Section:
+  ────────────────────────────────────────────────────────────────
+  <section class="faq">
+    <h2 class="faq__title">الأسئلة الشائعة</h2>
+    
+    <div class="faq__wrapper faq__wrapper--padding faq__wrapper--white-bg">
+      <div class="faq__item" @click="toggle(0)" :class="{ minus: isOpen[0] }" 
+           aria-expanded="false" role="button">
+        <div class="faq__item-title">
+          <svg class="faq__item-icon" data-v-49ef9649>
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line class="vertical" x1="5" y1="12" x2="19" y2="12" data-v-49ef9649></line>
+          </svg>
+          <span>ما هي أنواع التأمين المتاحة؟</span>
+        </div>
+        
+        <transition name="fade">
+          <div v-if="isOpen[0]" class="faq__item-description">
+            <p>نوفر تأمين شامل، تأمين ضد الغير، وتأمين على السائق.</p>
+            <p>لمزيد من التفاصيل، <a href="/insurance-types">انقر هنا</a>.</p>
+          </div>
+        </transition>
+      </div>
+      
+      <!-- More FAQ items -->
+    </div>
+  </section>
+
+  2. With External Link:
+  ────────────────────────────────────────────────────────────────
+  <div class="faq__item-description">
+    <p>يمكنك قراءة المزيد في <a href="https://example.com" target="_blank">الموقع الرسمي</a>.</p>
+  </div>
+
+  3. Screen Reader Support:
+  ────────────────────────────────────────────────────────────────
+  <div class="faq__item" aria-expanded="true">
+    <div class="faq__item-title">
+      <svg aria-hidden="true">...</svg>
+      <span>السؤال هنا</span>
+      <span class="sr-only">اضغط للتوسيع أو الطي</span>
+    </div>
+  </div>
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   📊 COMPONENT SPECIFICATIONS TABLE
+   جدول مواصفات المكونات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  ┌──────────────────────┬─────────────┬──────────────┬────────────────┐
+  │ Element              │ Desktop     │ Tablet       │ Mobile         │
+  │ العنصر               │ سطح المكتب  │ الجهاز اللوحي│ الجوال         │
+  ├──────────────────────┼─────────────┼──────────────┼────────────────┤
+  │ Title Font Size      │ 36px        │ 28px         │ 24px           │
+  │ Item Padding         │ 24px 16px   │ 16px         │ 12px           │
+  │ Title Font Size      │ 16px        │ 15px         │ 14px           │
+  │ Description Size     │ 16px        │ 14px         │ 13px           │
+  │ Icon Size            │ 24px        │ 24px         │ 20px           │
+  │ Gap (Icon-Text)      │ 12px        │ 12px         │ 8px            │
+  │ Wrapper Gap          │ 8px         │ 8px          │ 6px            │
+  └──────────────────────┴─────────────┴──────────────┴────────────────┘
+
+  Animation Timing:
+  ┌────────────────────┬──────────────┬──────────────────────────────┐
+  │ Animation          │ Duration     │ Easing                       │
+  ├────────────────────┼──────────────┼──────────────────────────────┤
+  │ Icon Rotation      │ 0.2s         │ ease-out                     │
+  │ Fade In            │ 0.2s         │ linear                       │
+  │ Fade Out           │ 0s (instant) │ -                            │
+  │ Hover Effects      │ 0.2s         │ ease-out                     │
+  └────────────────────┴──────────────┴──────────────────────────────┘
+
+  Color Palette:
+  ┌────────────────────┬─────────────┬──────────────────────────────┐
+  │ Usage              │ Color       │ Description                  │
+  ├────────────────────┼─────────────┼──────────────────────────────┤
+  │ Title Text         │ #2e2c3a     │ Dark purple-gray             │
+  │ Question Text      │ #2e2c3a     │ Dark purple-gray             │
+  │ Answer Text        │ #57575e     │ Medium gray                  │
+  │ Link (Default)     │ #494bb5     │ Medium purple                │
+  │ Link (Hover)       │ #22245e     │ Dark purple                  │
+  │ Icon Color         │ #5927ff     │ Bright purple                │
+  │ Card Background    │ #ffffff     │ White                        │
+  │ Hover Background   │ #f5f5ff     │ Light purple                 │
+  └────────────────────┴─────────────┴──────────────────────────────┘
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ✅ END OF FILE - نهاية الملف
+   ═══════════════════════════════════════════════════════════════════════════ */

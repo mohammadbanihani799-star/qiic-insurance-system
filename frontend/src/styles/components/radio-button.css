@@ -1,0 +1,93 @@
+/* ===================================================
+   Radio Button Styles
+   ملف CSS خاص بالأزرار الاختيارية (Radio)
+=================================================== */
+
+.ds-base-radio-button {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.ds-base-radio-button>* {
+    box-sizing: border-box;
+}
+
+/* Small variant */
+.ds-base-radio-button.ds-base-radio-button--small .ds-base-radio-button__checkmark {
+    min-width: 16px;
+    height: 16px;
+}
+.ds-base-radio-button.ds-base-radio-button--small .ds-base-radio-button__checkmark:after {
+    width: 8px;
+    height: 8px;
+}
+
+/* Disabled state */
+.ds-base-radio-button.ds-base-radio-button--disabled {
+    cursor: not-allowed;
+}
+.ds-base-radio-button.ds-base-radio-button--disabled .ds-base-radio-button__checkmark {
+    background-color: var(--colorBgRadioOffDisabled);
+    border-color: transparent;
+}
+
+/* Hover, active, focus */
+.ds-base-radio-button:not(.ds-base-radio-button--disabled):hover .ds-base-radio-button__checkmark {
+    box-shadow: var(--shadowHoverFocus);
+    background-color: var(--colorBgRadioOffHover);
+    border-color: var(--colorBrdrRadioOffHover);
+}
+.ds-base-radio-button:not(.ds-base-radio-button--disabled):focus-visible .ds-base-radio-button__checkmark,
+.ds-base-radio-button:not(.ds-base-radio-button--disabled):active .ds-base-radio-button__checkmark {
+    box-shadow: var(--shadowHoverFocus);
+    background-color: var(--colorBgRadioOffPressed);
+    border-color: var(--colorBrdrRadioOffPressed);
+}
+
+/* Checked state */
+.ds-base-radio-button.ds-base-radio-button--checked .ds-base-radio-button__checkmark:after {
+    display: block;
+}
+
+/* Checkmark element */
+.ds-base-radio-button__checkmark {
+    min-width: 20px;
+    height: 20px;
+    border: 2px solid var(--colorBrdrRadioOffDefault);
+    border-radius: 50%;
+    background-color: var(--colorBgRadioOffDefault);
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+/* Inner dot for checked state */
+.ds-base-radio-button__checkmark:after {
+    content: "";
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--colorBgRadioOnDefault);
+}
+
+/* Label text */
+.ds-base-radio-button__label {
+    margin-inline-start: 8px;
+    color: var(--colorTxtDefault);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+/* Disabled label */
+.ds-base-radio-button--disabled .ds-base-radio-button__label {
+    color: var(--colorTxtDisabled);
+}

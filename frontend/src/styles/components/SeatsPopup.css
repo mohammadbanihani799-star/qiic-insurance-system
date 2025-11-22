@@ -1,0 +1,184 @@
+/* ================================================
+   SEATS POPUP COMPONENT
+   ================================================ */
+
+.popup-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+}
+
+.popup {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1002;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: popupSlideIn 0.3s ease-out;
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.popup.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.popup__close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1003;
+}
+
+.popup.rtl .popup__close {
+  left: auto;
+  right: 16px;
+}
+
+.popup__close-icon {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.popup__close-icon:hover {
+  background: rgba(119, 138, 153, 0.1);
+}
+
+.popup__close-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.popup__bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.istimara-popup {
+  margin-top: 32px;
+}
+
+.istimara-popup h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1c1c1c;
+  margin-bottom: 16px;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+.istimara-popup p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4a5568;
+  margin-bottom: 24px;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+.istimara {
+  background: #f7f7fc;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.istimara img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  width: 100%;
+}
+
+.btn--medium {
+  padding: 12px 24px;
+  font-size: 16px;
+  min-height: 48px;
+}
+
+.btn--secondary {
+  background: #f7f7fc;
+  color: #1c1c1c;
+  border: 1px solid #e2e8f0;
+}
+
+.btn--secondary:hover {
+  background: #edf1f7;
+  border-color: #cbd5e0;
+}
+
+.btn--secondary:active {
+  background: #e2e8f0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .popup {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .istimara-popup h3 {
+    font-size: 20px;
+  }
+
+  .istimara-popup p {
+    font-size: 14px;
+  }
+}

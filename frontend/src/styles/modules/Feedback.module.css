@@ -1,0 +1,353 @@
+/* ═══════════════════════════════════════════════════════════════
+   💬 Feedback Component - مكون التقييمات
+   ═══════════════════════════════════════════════════════════════
+   Feedback/Reviews slider with Swiper integration
+   Use: import styles from './Feedback.module.css';
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────
+   📦 Feedback Container - حاوية التقييمات
+   ───────────────────────────────────────────────────────────── */
+
+.feedback__section {
+  width: 100%;
+  padding-inline: 16px;
+  padding-block: 48px;
+  background-color: var(--color-bg-secondary, #f5f5f9);
+}
+
+.feedback__title {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--color-text-primary, #2e2c3a);
+}
+
+@media (max-width: 1087px) {
+  .feedback__title {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .feedback__title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎡 Swiper Container - حاوية السويبر
+   ───────────────────────────────────────────────────────────── */
+
+.swiper__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 48px;
+  overflow: hidden;
+}
+
+.swiper__wrapper {
+  display: flex;
+  transition-timing-function: ease-in-out;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎴 Feedback Card - بطاقة التقييم
+   ───────────────────────────────────────────────────────────── */
+
+.feedback__card {
+  background-color: var(--color-bg-primary, #ffffff);
+  border-radius: 24px;
+  padding: 32px;
+  min-height: 280px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.feedback__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 767px) {
+  .feedback__card {
+    padding: 24px;
+    min-height: 240px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   👤 User Info - معلومات المستخدم
+   ───────────────────────────────────────────────────────────── */
+
+.user__info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-primary-light, #494bb5);
+}
+
+.user__details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user__name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary, #2e2c3a);
+}
+
+.user__role {
+  font-size: 14px;
+  color: var(--color-text-secondary, #57575e);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ⭐ Rating Stars - نجوم التقييم
+   ───────────────────────────────────────────────────────────── */
+
+.rating__stars {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
+  color: #ffd700;
+}
+
+.star--empty {
+  color: #e0e0e0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   💬 Feedback Text - نص التقييم
+   ───────────────────────────────────────────────────────────── */
+
+.feedback__text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-secondary, #57575e);
+  flex-grow: 1;
+}
+
+@media (max-width: 767px) {
+  .feedback__text {
+    font-size: 15px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   📅 Feedback Date - تاريخ التقييم
+   ───────────────────────────────────────────────────────────── */
+
+.feedback__date {
+  font-size: 14px;
+  color: var(--color-text-tertiary, #8e8e93);
+  align-self: flex-end;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎯 Swiper Navigation - أزرار التنقل
+   ───────────────────────────────────────────────────────────── */
+
+.swiper__button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-bg-primary, #ffffff);
+  border: 1px solid rgba(46, 44, 58, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.swiper__button:hover {
+  background-color: var(--color-primary, #5927ff);
+  color: #ffffff;
+  border-color: var(--color-primary, #5927ff);
+}
+
+.swiper__button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.swiper__button--prev {
+  position: absolute;
+  left: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.swiper__button--next {
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+/* RTL Support - دعم اللغة العربية */
+[dir="rtl"] .swiper__button--prev {
+  left: auto;
+  right: -24px;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+[dir="rtl"] .swiper__button--next {
+  right: auto;
+  left: -24px;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+@media (max-width: 767px) {
+  .swiper__button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .swiper__button--prev,
+  .swiper__button--next {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ⚫ Swiper Pagination - نقاط التنقل
+   ───────────────────────────────────────────────────────────── */
+
+.swiper__pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 24px;
+}
+
+.pagination__bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(46, 44, 58, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.pagination__bullet--active {
+  background-color: var(--color-primary, #5927ff);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🏷️ Verified Badge - شارة التحقق
+   ───────────────────────────────────────────────────────────── */
+
+.verified__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: var(--color-success-bg, #e8f5e9);
+  color: var(--color-success, #00c853);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.verified__icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🌙 Dark Mode Support - دعم الوضع المظلم
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: dark) {
+  .feedback__section {
+    background-color: #1c1c1e;
+  }
+  
+  .feedback__card {
+    background-color: #2c2c2e;
+  }
+  
+  .feedback__title {
+    color: #ffffff;
+  }
+  
+  .user__name {
+    color: #ffffff;
+  }
+  
+  .user__role,
+  .feedback__text {
+    color: #b0b0b5;
+  }
+  
+  .swiper__button {
+    background-color: #3a3a3c;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .pagination__bullet {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ♿ Accessibility - إمكانية الوصول
+   ═══════════════════════════════════════════════════════════════ */
+
+.swiper__button:focus-visible,
+.pagination__bullet:focus-visible {
+  outline: 2px solid var(--color-primary, #5927ff);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedback__card {
+    transition: none;
+  }
+  
+  .swiper__wrapper {
+    transition: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🖨️ Print Styles - أنماط الطباعة
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  .swiper__button,
+  .swiper__pagination {
+    display: none;
+  }
+  
+  .feedback__card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

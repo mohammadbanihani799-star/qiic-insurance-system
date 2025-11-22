@@ -1,29 +1,37 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { SocketProvider } from './context/SocketContext';
-import Home from './pages/Home';
-import CarDetails from './pages/CarDetails';
-import MoreDetails from './pages/MoreDetails';
-import LoadingScreen from './pages/LoadingScreen';
-import SelectInsurance from './pages/SelectInsurance';
-import PlateNumber from './pages/PlateNumber';
-import InsuranceInfo from './pages/InsuranceInfo';
-import PolicyDate from './pages/PolicyDate';
-import Quote from './pages/Quote';
-import PayDCC from './pages/PayDCC';
-import PayQPay from './pages/PayQPay';
-import PaymentPending from './pages/PaymentPending';
-import PaymentOTP from './pages/PaymentOTP';
-import OTPVerification from './pages/OTPVerification';
-import PaymentPIN from './pages/PaymentPIN';
-import PINVerification from './pages/PINVerification';
-import PaymentSuccess from './pages/PaymentSuccess';
-import PaymentFailed from './pages/PaymentFailed';
-import LoadingToPayment from './pages/LoadingToPayment';
-import AdminLogin from './pages/AdminLogin';
-import Dashboard from './pages/Dashboard';
-import LoadingTransition from './pages/LoadingTransition';
-import ProtectedRoute from './components/ProtectedRoute';
+import Home from './pages/public/Home';
+import CarDetails from './pages/insurance-flow/CarDetails';
+import MoreDetails from './pages/insurance-flow/MoreDetails';
+import LoadingScreen from './pages/public/LoadingScreen';
+import SelectInsurance from './pages/insurance-flow/SelectInsurance';
+import PlateNumber from './pages/insurance-flow/PlateNumber';
+import InsuranceInfo from './pages/insurance-flow/InsuranceInfo';
+import PolicyDate from './pages/insurance-flow/PolicyDate';
+import Quote from './pages/insurance-flow/Quote';
+import PayDCC from './pages/payment/PayDCC';
+import PayQPay from './pages/payment/PayQPay';
+import PaymentPending from './pages/payment/PaymentPending';
+import PaymentOTP from './pages/payment/PaymentOTP';
+import OTPVerification from './pages/public/OTPVerification';
+import PaymentPIN from './pages/payment/PaymentPIN';
+import PINVerification from './pages/public/PINVerification';
+import PaymentSuccess from './pages/payment/PaymentSuccess';
+import PaymentFailed from './pages/payment/PaymentFailed';
+import LoadingToPayment from './pages/public/LoadingToPayment';
+import AdminLogin from './pages/admin/AdminLogin';
+import Dashboard from './pages/admin/Dashboard';
+import LoadingTransition from './pages/public/LoadingTransition';
+import ProtectedRoute from './components/features/insurance/ProtectedRoute';
+import VisitorsInsurance from './pages/insurance-flow/VisitorsInsurance';
+import VisitorsQuote from './pages/insurance-flow/VisitorsQuote';
+import HolderInfo from './pages/insurance-flow/HolderInfo';
+import DemoPage from './pages/public/DemoPage';
 import './index.css';
+
+// Import CSS Modules global variables
+import './styles/modules/variables.module.css';
+import './styles/modules/animations.module.css';
 
 function App() {
   return (
@@ -37,6 +45,16 @@ function App() {
         <Routes>
           {/* Public Landing Page */}
           <Route path="/" element={<Home />} />
+          
+          {/* CSS Modules Demo Page */}
+          <Route path="/demo" element={<DemoPage />} />
+          
+          {/* Visitors Health Insurance */}
+          <Route path="/visitors" element={<VisitorsInsurance />} />
+          <Route path="/visitors/quote" element={<VisitorsQuote />} />
+          <Route path="/visitors/holder-info" element={<HolderInfo />} />
+          
+          {/* Car Insurance Flow */}
           <Route path="/car-details" element={<CarDetails />} />
           <Route path="/more-details" element={<MoreDetails />} />
           <Route path="/loading" element={<LoadingScreen />} />

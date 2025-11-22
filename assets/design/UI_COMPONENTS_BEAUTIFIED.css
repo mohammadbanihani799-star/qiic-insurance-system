@@ -1,0 +1,780 @@
+/*
+═══════════════════════════════════════════════════════════════════════════════
+  🎨 UI COMPONENTS - SSL, CONTACT, ERROR, FLOW - BEAUTIFIED CSS
+  مكونات الواجهة - SSL، الاتصال، الأخطاء، المراحل - CSS منسق ومنظم
+═══════════════════════════════════════════════════════════════════════════════
+
+  Component Structure / هيكل المكونات:
+  1. 🔒 SSL Protection Component - مكون حماية SSL
+  2. 📞 Contact Us Component - مكون تواصل معنا
+  3. ⚠️  Network Error Component - مكون خطأ الشبكة
+  4. 🔄 Flow Component (Process Steps) - مكون مراحل العمليات
+  5. 📱 Responsive Design - التصميم المتجاوب
+  6. 🌐 RTL Support - دعم اللغة العربية
+  7. 🎭 States & Interactions - الحالات والتفاعلات
+  8. ♿ Accessibility Features - ميزات إمكانية الوصول
+  9. 🎨 Advanced Features - ميزات متقدمة
+
+═══════════════════════════════════════════════════════════════════════════════
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. 🔒 SSL PROTECTION COMPONENT - مكون حماية SSL
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * SSL Protection Badge
+ * شارة حماية SSL
+ * 
+ * Purpose: Display security indicator with icon and text
+ * الغرض: عرض مؤشر الأمان مع أيقونة ونص
+ * 
+ * Layout: Grid with 24px icon column + flexible text column
+ * التخطيط: شبكة مع عمود أيقونة 24px + عمود نص مرن
+ */
+.ssl-protection[data-v-203497c3] {
+  display: grid;
+  grid-template-columns: 24px 1fr; /* Icon + Text layout / أيقونة + نص */
+  align-items: center; /* Vertical center alignment / محاذاة عمودية للمركز */
+  gap: 16px; /* Space between icon and text / مسافة بين الأيقونة والنص */
+  font-size: 12px; /* Small font for subtle badge / خط صغير لشارة خفية */
+  line-height: 16px;
+  max-width: 397px; /* Constrained width / عرض محدود */
+  width: 100%;
+  margin: 0 auto; /* Center horizontally / توسيط أفقي */
+}
+
+/**
+ * SSL Icon Styling
+ * تنسيق أيقونة SSL
+ */
+.ssl-protection[data-v-203497c3] svg {
+  width: 24px;
+  height: 24px;
+}
+
+.ssl-protection[data-v-203497c3] svg path {
+  fill: #22c55e; /* Green for security / أخضر للأمان */
+}
+
+/**
+ * SSL Text Styling
+ * تنسيق نص SSL
+ */
+.ssl-protection__text[data-v-203497c3] {
+  color: #526c82; /* Muted text color / لون نص خافت */
+  font-weight: 500;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. 📞 CONTACT US COMPONENT - مكون تواصل معنا
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Contact Us Container
+ * حاوية تواصل معنا
+ * 
+ * Purpose: Vertical layout for contact information and action buttons
+ * الغرض: تخطيط عمودي لمعلومات الاتصال وأزرار الإجراءات
+ * 
+ * Structure:
+ * - Title (24px, 600 weight)
+ * - Description (16px, 400 weight)
+ * - Buttons (vertical stack with 16px gap)
+ */
+.contact-us[data-v-895dd450] {
+  display: flex;
+  flex-direction: column; /* Vertical stacking / تكديس عمودي */
+  gap: 32px; /* Large spacing between sections / مسافة كبيرة بين الأقسام */
+  align-items: center; /* Center all content / توسيط جميع المحتوى */
+  width: 100%;
+}
+
+/**
+ * Contact Content Wrapper
+ * غلاف محتوى الاتصال
+ */
+.contact-us__content[data-v-895dd450] {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+/**
+ * Buttons Container
+ * حاوية الأزرار
+ */
+.contact-us__buttons[data-v-895dd450] {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Spacing between buttons / مسافة بين الأزرار */
+  width: 100%;
+}
+
+/**
+ * Contact Title
+ * عنوان الاتصال
+ */
+.contact-us__title[data-v-895dd450] {
+  font-size: 24px;
+  font-weight: 600; /* Semi-bold for emphasis / شبه عريض للتأكيد */
+  line-height: 32px;
+  color: #2d2d36;
+  text-align: center;
+}
+
+/**
+ * Contact Description
+ * وصف الاتصال
+ */
+.contact-us__description[data-v-895dd450] {
+  font-size: 16px;
+  font-weight: 400; /* Regular weight / وزن عادي */
+  line-height: 24px;
+  color: #57575e;
+  text-align: center;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. ⚠️ NETWORK ERROR COMPONENT - مكون خطأ الشبكة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Network Error Container
+ * حاوية خطأ الشبكة
+ * 
+ * Purpose: Display network/connection errors with retry options
+ * الغرض: عرض أخطاء الشبكة/الاتصال مع خيارات إعادة المحاولة
+ * 
+ * Color Scheme:
+ * - Background: #ffe6e0 (Light orange/peach)
+ * - Text: #f94c27 (Red-orange for alert)
+ */
+.network-error[data-v-ac10267c] {
+  display: grid;
+  gap: 16px; /* Spacing between error card and button / مسافة بين بطاقة الخطأ والزر */
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(82, 108, 130, 0.2); /* Subtle separator / فاصل خفيف */
+  margin-inline: auto; /* RTL-friendly centering / توسيط متوافق مع RTL */
+}
+
+/**
+ * Error Card
+ * بطاقة الخطأ
+ */
+.network-error__error[data-v-ac10267c] {
+  background-color: #ffe6e0; /* Light orange background / خلفية برتقالية فاتحة */
+  border-radius: 16px;
+  color: #f94c27; /* Red-orange text for alert / نص أحمر برتقالي للتنبيه */
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/**
+ * Error Title
+ * عنوان الخطأ
+ */
+.network-error__error h1[data-v-ac10267c] {
+  font-size: 24px;
+  font-weight: 500; /* Medium weight / وزن متوسط */
+  line-height: 32px;
+  color: #f94c27; /* Matches container color / يطابق لون الحاوية */
+  margin-bottom: 8px;
+}
+
+/**
+ * Error Message
+ * رسالة الخطأ
+ */
+.network-error__error p[data-v-ac10267c] {
+  font-size: 16px;
+  line-height: 24px;
+  max-width: 320px; /* Constrain text width for readability / تقييد عرض النص للقراءة */
+  margin: 0 auto; /* Center the text / توسيط النص */
+}
+
+/**
+ * Error Action Button
+ * زر إجراء الخطأ
+ */
+.network-error__button[data-v-ac10267c] {
+  display: block;
+  font-size: 18px;
+  font-weight: 600; /* Bold for CTA / عريض لزر الإجراء */
+  line-height: 28px;
+  margin: 0 auto;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. 🔄 FLOW COMPONENT (PROCESS STEPS) - مكون مراحل العمليات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Flow Container
+ * حاوية المراحل
+ * 
+ * Purpose: Display multi-step processes or workflows
+ * الغرض: عرض العمليات أو سير العمل متعدد الخطوات
+ * 
+ * Layout:
+ * - White card on light gray background
+ * - Vertical centered layout
+ * - Large title (36px) for step identification
+ * - Minimum height: 556px
+ */
+.flow[data-v-1133ed16] {
+  display: flex;
+  flex-direction: column; /* Vertical layout / تخطيط عمودي */
+  align-items: center; /* Center all content / توسيط جميع المحتوى */
+  gap: 36px; /* Spacing between elements / مسافة بين العناصر */
+  background-color: #ffffff; /* White card / بطاقة بيضاء */
+  border-radius: 32px; /* Rounded corners / زوايا دائرية */
+  max-width: 504px; /* Fixed width for consistency / عرض ثابت للاتساق */
+  margin: 0 auto; /* Center the card / توسيط البطاقة */
+  padding: 48px 48px 56px; /* More padding at bottom / حشوة أكبر في الأسفل */
+}
+
+/**
+ * Flow Title
+ * عنوان المرحلة
+ */
+.flow__title[data-v-1133ed16] {
+  font-size: 36px; /* Large title for emphasis / عنوان كبير للتأكيد */
+  font-weight: 600; /* Semi-bold / شبه عريض */
+  line-height: 115%; /* Tight line-height for impact / ارتفاع سطر ضيق للتأثير */
+  text-align: center;
+  color: #2d2d36; /* Dark gray / رمادي داكن */
+}
+
+/**
+ * Flow Wrapper (Background Container)
+ * غلاف المراحل (حاوية الخلفية)
+ */
+.flow__wrapper[data-v-1133ed16] {
+  background-color: #f5f5f9; /* Light gray background / خلفية رمادية فاتحة */
+  min-height: 556px; /* Minimum height for consistency / ارتفاع أدنى للاتساق */
+  padding: 64px 0; /* Vertical padding only / حشوة عمودية فقط */
+}
+
+/**
+ * Flow Loader
+ * محمّل المراحل
+ */
+.flow__loader[data-v-1133ed16] {
+  height: 36px;
+  width: 36px;
+  animation: rotate 1s linear infinite; /* Rotate animation / رسوم متحركة دوران */
+}
+
+/**
+ * Flow Content Area
+ * منطقة محتوى المراحل
+ */
+.flow__content[data-v-1133ed16] {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/**
+ * Flow Step Indicator
+ * مؤشر خطوة المراحل
+ */
+.flow__step[data-v-1133ed16] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #57575e;
+}
+
+.flow__step-number[data-v-1133ed16] {
+  background-color: #5927ff;
+  color: #ffffff;
+  border-radius: 50%; /* Circular / دائري */
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0; /* Prevent shrinking / منع الانكماش */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. 📱 RESPONSIVE DESIGN - التصميم المتجاوب
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Mobile Responsive Styles (≤767px)
+ * أنماط الاستجابة للجوال
+ */
+@media (max-width: 767px) {
+  /* Flow Component */
+  .flow[data-v-1133ed16] {
+    padding: 32px 16px; /* Reduced padding on mobile / تقليل الحشوة على الجوال */
+    gap: 24px; /* Smaller gap / فجوة أصغر */
+  }
+  
+  .flow__title[data-v-1133ed16] {
+    font-size: 28px; /* Smaller title / عنوان أصغر */
+    line-height: 120%;
+  }
+  
+  .flow__wrapper[data-v-1133ed16] {
+    padding: 40px 16px; /* Add horizontal padding / إضافة حشوة أفقية */
+    min-height: auto; /* Remove fixed height / إزالة الارتفاع الثابت */
+  }
+  
+  /* Contact Us Component */
+  .contact-us__title[data-v-895dd450] {
+    font-size: 20px; /* Smaller title / عنوان أصغر */
+    line-height: 28px;
+  }
+  
+  .contact-us__description[data-v-895dd450] {
+    font-size: 14px; /* Smaller text / نص أصغر */
+    line-height: 20px;
+  }
+  
+  .contact-us[data-v-895dd450],
+  .contact-us__content[data-v-895dd450] {
+    gap: 24px; /* Reduced gap / تقليل المسافة */
+  }
+  
+  .contact-us__buttons[data-v-895dd450] {
+    gap: 12px; /* Tighter button spacing / تباعد أزرار أضيق */
+  }
+  
+  /* Network Error Component */
+  .network-error__error[data-v-ac10267c] {
+    padding: 16px; /* Reduced padding / تقليل الحشوة */
+  }
+  
+  .network-error__error h1[data-v-ac10267c] {
+    font-size: 20px; /* Smaller title / عنوان أصغر */
+    line-height: 28px;
+  }
+  
+  .network-error__error p[data-v-ac10267c] {
+    font-size: 14px; /* Smaller text / نص أصغر */
+    line-height: 20px;
+  }
+  
+  .network-error__button[data-v-ac10267c] {
+    font-size: 16px; /* Smaller button text / نص زر أصغر */
+    line-height: 24px;
+  }
+  
+  /* SSL Protection Component */
+  .ssl-protection[data-v-203497c3] {
+    font-size: 11px; /* Slightly smaller / أصغر قليلاً */
+    line-height: 14px;
+    gap: 12px; /* Reduced gap / تقليل المسافة */
+  }
+}
+
+/**
+ * Tablet Responsive Styles (768px - 1023px)
+ * أنماط الاستجابة للأجهزة اللوحية
+ */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .flow[data-v-1133ed16] {
+    padding: 40px 32px 48px; /* Medium padding / حشوة متوسطة */
+  }
+  
+  .flow__title[data-v-1133ed16] {
+    font-size: 32px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. 🌐 RTL SUPPORT - دعم اللغة العربية
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * RTL Layout Adjustments
+ * تعديلات تخطيط RTL
+ */
+.rtl .ssl-protection[data-v-203497c3] {
+  direction: rtl; /* Right-to-left direction / اتجاه من اليمين لليسار */
+}
+
+.rtl .flow__step[data-v-1133ed16] {
+  flex-direction: row-reverse; /* Reverse step layout / عكس تخطيط الخطوة */
+}
+
+.rtl .ssl-protection[data-v-203497c3] svg {
+  margin-left: 0;
+  margin-right: 0; /* Reset margins / إعادة تعيين الهوامش */
+}
+
+/**
+ * RTL Text Alignment
+ * محاذاة النص RTL
+ */
+.rtl .contact-us__title[data-v-895dd450],
+.rtl .contact-us__description[data-v-895dd450],
+.rtl .network-error__error h1[data-v-ac10267c],
+.rtl .network-error__error p[data-v-ac10267c],
+.rtl .flow__title[data-v-1133ed16] {
+  text-align: center; /* Keep centered in RTL / الحفاظ على التوسيط في RTL */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. 🎭 STATES & INTERACTIONS - الحالات والتفاعلات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Hover States
+ * حالات التمرير
+ */
+.network-error__button[data-v-ac10267c]:hover {
+  background-color: #5927ff;
+  color: #ffffff;
+  transform: translateY(-2px); /* Subtle lift effect / تأثير رفع خفيف */
+  box-shadow: 0 4px 12px rgba(89, 39, 255, 0.2); /* Purple shadow / ظل بنفسجي */
+}
+
+.contact-us__buttons[data-v-895dd450] button:hover {
+  transform: scale(1.02); /* Slight scale on hover / تكبير طفيف عند التمرير */
+}
+
+/**
+ * Focus States
+ * حالات التركيز
+ */
+.network-error__button[data-v-ac10267c]:focus-visible,
+.contact-us__buttons[data-v-895dd450] button:focus-visible {
+  outline: 3px solid #5927ff;
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+/**
+ * Active States
+ * حالات النشاط
+ */
+.network-error__button[data-v-ac10267c]:active {
+  transform: translateY(0); /* Remove lift on click / إزالة الرفع عند النقر */
+}
+
+/**
+ * Disabled States
+ * حالات التعطيل
+ */
+.network-error__button[data-v-ac10267c]:disabled,
+.contact-us__buttons[data-v-895dd450] button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/**
+ * Loading State for Flow
+ * حالة التحميل للمراحل
+ */
+.flow--loading[data-v-1133ed16] {
+  pointer-events: none; /* Disable interactions / تعطيل التفاعلات */
+}
+
+.flow--loading[data-v-1133ed16] .flow__loader {
+  display: block;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. ♿ ACCESSIBILITY FEATURES - ميزات إمكانية الوصول
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * High Contrast Mode
+ * وضع التباين العالي
+ */
+@media (prefers-contrast: high) {
+  .network-error__error[data-v-ac10267c] {
+    border: 2px solid #f94c27; /* Add border for clarity / إضافة حد للوضوح */
+  }
+  
+  .flow[data-v-1133ed16] {
+    border: 2px solid #e0e0e0; /* Card border / حد البطاقة */
+  }
+  
+  .ssl-protection[data-v-203497c3] {
+    border: 1px solid #22c55e; /* Green border / حد أخضر */
+    padding: 8px;
+    border-radius: 8px;
+  }
+}
+
+/**
+ * Reduced Motion
+ * حركة مخفضة
+ */
+@media (prefers-reduced-motion: reduce) {
+  .flow__loader[data-v-1133ed16],
+  .network-error__button[data-v-ac10267c],
+  .contact-us__buttons[data-v-895dd450] button {
+    animation: none;
+    transition: none;
+  }
+  
+  .network-error__button[data-v-ac10267c]:hover,
+  .contact-us__buttons[data-v-895dd450] button:hover {
+    transform: none; /* Disable transforms / تعطيل التحويلات */
+  }
+}
+
+/**
+ * Screen Reader Text
+ * نص قارئ الشاشة
+ */
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/**
+ * Focus Indicators
+ * مؤشرات التركيز
+ */
+.ssl-protection[data-v-203497c3]:focus-within,
+.contact-us[data-v-895dd450]:focus-within,
+.network-error[data-v-ac10267c]:focus-within,
+.flow[data-v-1133ed16]:focus-within {
+  outline: 2px solid #5927ff;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. 🎨 ADVANCED FEATURES - ميزات متقدمة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Dark Mode Support
+ * دعم الوضع الداكن
+ */
+@media (prefers-color-scheme: dark) {
+  .flow[data-v-1133ed16] {
+    background-color: #1a1a1a; /* Dark background / خلفية داكنة */
+    color: #ffffff;
+  }
+  
+  .flow__wrapper[data-v-1133ed16] {
+    background-color: #0a0a0a; /* Darker wrapper / غلاف أغمق */
+  }
+  
+  .flow__title[data-v-1133ed16] {
+    color: #ffffff;
+  }
+  
+  .contact-us__title[data-v-895dd450],
+  .contact-us__description[data-v-895dd450] {
+    color: #ffffff;
+  }
+  
+  .network-error__error[data-v-ac10267c] {
+    background-color: #3d1f1f; /* Dark red background / خلفية حمراء داكنة */
+    color: #ff6b6b; /* Lighter red text / نص أحمر فاتح */
+  }
+  
+  .network-error__error h1[data-v-ac10267c] {
+    color: #ff6b6b;
+  }
+  
+  .ssl-protection[data-v-203497c3] {
+    color: #b0b0b0; /* Light gray text / نص رمادي فاتح */
+  }
+  
+  .ssl-protection[data-v-203497c3] svg path {
+    fill: #4ade80; /* Brighter green in dark mode / أخضر أكثر إشراقًا في الوضع الداكن */
+  }
+}
+
+/**
+ * Print Styles
+ * أنماط الطباعة
+ */
+@media print {
+  .flow__loader[data-v-1133ed16],
+  .network-error__button[data-v-ac10267c],
+  .contact-us__buttons[data-v-895dd450] {
+    display: none; /* Hide interactive elements / إخفاء العناصر التفاعلية */
+  }
+  
+  .flow[data-v-1133ed16],
+  .network-error[data-v-ac10267c] {
+    page-break-inside: avoid; /* Avoid breaking inside / تجنب الكسر داخل */
+  }
+  
+  .ssl-protection[data-v-203497c3] {
+    border: 1px solid #000000;
+  }
+}
+
+/**
+ * Animations
+ * الرسوم المتحركة
+ */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flow[data-v-1133ed16],
+.network-error[data-v-ac10267c] {
+  animation: fadeIn 0.3s ease-out; /* Smooth appearance / ظهور سلس */
+}
+
+/**
+ * Skeleton Loading
+ * تحميل الهيكل
+ */
+.flow--skeleton[data-v-1133ed16] {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/**
+ * Smooth Transitions
+ * انتقالات سلسة
+ */
+.flow[data-v-1133ed16],
+.network-error__button[data-v-ac10267c],
+.contact-us__buttons[data-v-895dd450] button {
+  transition: all 0.2s ease-out;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   📚 USAGE EXAMPLES - أمثلة الاستخدام
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  1. SSL Protection Badge:
+  ────────────────────────────────────────────────────────────────
+  <div class="ssl-protection" data-v-203497c3>
+    <svg><!-- Lock icon --></svg>
+    <span class="ssl-protection__text">Secure SSL Connection</span>
+  </div>
+
+  2. Contact Us Section:
+  ────────────────────────────────────────────────────────────────
+  <div class="contact-us" data-v-895dd450>
+    <div class="contact-us__content">
+      <h2 class="contact-us__title">تواصل معنا</h2>
+      <p class="contact-us__description">نحن هنا لمساعدتك</p>
+      <div class="contact-us__buttons">
+        <button>اتصل الآن</button>
+        <button>واتساب</button>
+      </div>
+    </div>
+  </div>
+
+  3. Network Error Display:
+  ────────────────────────────────────────────────────────────────
+  <div class="network-error" data-v-ac10267c>
+    <div class="network-error__error">
+      <h1>خطأ في الاتصال</h1>
+      <p>تحقق من اتصالك بالإنترنت</p>
+    </div>
+    <button class="network-error__button">إعادة المحاولة</button>
+  </div>
+
+  4. Flow Process Steps:
+  ────────────────────────────────────────────────────────────────
+  <div class="flow__wrapper" data-v-1133ed16>
+    <div class="flow">
+      <h2 class="flow__title">الخطوة 1: إدخال البيانات</h2>
+      <div class="flow__content">
+        <div class="flow__step">
+          <span class="flow__step-number">1</span>
+          <span>املأ النموذج</span>
+        </div>
+      </div>
+      <div class="flow__loader"></div>
+    </div>
+  </div>
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   📊 COMPONENT SPECIFICATIONS TABLE
+   جدول مواصفات المكونات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  ┌─────────────────────┬──────────────┬──────────────┬─────────────────┐
+  │ Component           │ Max Width    │ Font Size    │ Primary Color   │
+  │ المكون              │ العرض الأقصى │ حجم الخط     │ اللون الأساسي    │
+  ├─────────────────────┼──────────────┼──────────────┼─────────────────┤
+  │ SSL Protection      │ 397px        │ 12px         │ #22c55e (Green) │
+  │ Contact Us          │ 100%         │ 24px (title) │ #2d2d36 (Gray)  │
+  │ Network Error       │ 100%         │ 24px (title) │ #f94c27 (Red)   │
+  │ Flow Container      │ 504px        │ 36px (title) │ #5927ff (Purple)│
+  └─────────────────────┴──────────────┴──────────────┴─────────────────┘
+
+  Responsive Breakpoints:
+  ┌─────────────┬──────────────────────────────────────────────────────┐
+  │ Breakpoint  │ Changes                                              │
+  ├─────────────┼──────────────────────────────────────────────────────┤
+  │ ≤767px      │ Reduced padding, smaller fonts, tighter gaps        │
+  │ 768-1023px  │ Medium padding, adjusted title sizes                │
+  └─────────────┴──────────────────────────────────────────────────────┘
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ✅ END OF FILE - نهاية الملف
+   ═══════════════════════════════════════════════════════════════════════════ */

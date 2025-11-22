@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
+import path from 'path'
 
 export default defineConfig({
   plugins: [
@@ -12,6 +13,27 @@ export default defineConfig({
       filename: 'dist/stats.html'
     })
   ],
+  
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@modules': path.resolve(__dirname, './modules'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@services': path.resolve(__dirname, './src/services'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+    },
+  },
+  
+  css: {
+    modules: {
+      // Generate scoped class names for CSS Modules
+      generateScopedName: '[name]__[local]__[hash:base64:5]',
+      // Convert hyphenated class names to camelCase
+      localsConvention: 'camelCaseOnly',
+    },
+  },
+  
   server: {
     port: 3000,
     strictPort: false,

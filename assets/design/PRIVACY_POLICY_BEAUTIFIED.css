@@ -1,0 +1,444 @@
+/* ========================================
+   PRIVACY POLICY COMPONENT - COMPLETE STYLESHEET
+   مكون سياسة الخصوصية - CSS كامل
+   ======================================== */
+
+/* ========================================
+   1. BASE PRIVACY POLICY STYLES
+   الأنماط الأساسية لسياسة الخصوصية
+   ======================================== */
+
+.privpolicy {
+  color: #5e597a;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: center;
+}
+
+/* ========================================
+   2. PRIVACY POLICY LINKS
+   روابط سياسة الخصوصية
+   ======================================== */
+
+.privpolicy a {
+  color: #494bb5;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.privpolicy a:hover {
+  color: #22245e;
+}
+
+.privpolicy a:active {
+  color: #1a1c4a;
+}
+
+/* Underline on Hover (Optional) */
+.privpolicy a:hover {
+  text-decoration: underline;
+}
+
+/* ========================================
+   3. RESPONSIVE DESIGN
+   التصميم المتجاوب
+   ======================================== */
+
+@media (max-width: 767px) {
+  .privpolicy {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .privpolicy {
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+
+/* ========================================
+   4. CONTAINER & SPACING
+   الحاوية والمسافات
+   ======================================== */
+
+.privpolicy__container {
+  margin: 24px auto;
+  max-width: 640px;
+  padding: 0 16px;
+}
+
+.privpolicy__wrapper {
+  margin-top: 32px;
+  padding: 16px 0;
+}
+
+@media (max-width: 767px) {
+  .privpolicy__container {
+    margin: 16px auto;
+  }
+  
+  .privpolicy__wrapper {
+    margin-top: 24px;
+    padding: 12px 0;
+  }
+}
+
+/* ========================================
+   5. VARIATIONS & MODIFIERS
+   الأشكال المختلفة
+   ======================================== */
+
+/* Left Aligned */
+.privpolicy--left {
+  text-align: left;
+}
+
+/* Right Aligned */
+.privpolicy--right {
+  text-align: right;
+}
+
+/* Smaller Text */
+.privpolicy--small {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* Larger Text */
+.privpolicy--large {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* Light Color */
+.privpolicy--light {
+  color: #9e9ea8;
+}
+
+/* Dark Color */
+.privpolicy--dark {
+  color: #2e2c3a;
+}
+
+/* ========================================
+   6. RTL SUPPORT
+   دعم اللغة العربية
+   ======================================== */
+
+.rtl .privpolicy {
+  text-align: center; /* يبقى في الوسط */
+}
+
+.rtl .privpolicy--left {
+  text-align: right;
+}
+
+.rtl .privpolicy--right {
+  text-align: left;
+}
+
+/* ========================================
+   7. DIVIDER / SEPARATOR
+   الفاصل
+   ======================================== */
+
+.privpolicy__divider {
+  color: #9e9ea8;
+  display: inline-block;
+  margin: 0 8px;
+}
+
+/* Example: Privacy Policy • Terms of Service */
+.privpolicy a + .privpolicy__divider + a {
+  margin-left: 0;
+}
+
+/* ========================================
+   8. BADGE / TAG (Optional)
+   شارة أو وسم (اختياري)
+   ======================================== */
+
+.privpolicy__badge {
+  background: #f5f5ff;
+  border-radius: 4px;
+  color: #494bb5;
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  margin-left: 4px;
+  padding: 2px 6px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+/* Example: Privacy Policy [NEW] */
+
+/* ========================================
+   9. ICON INTEGRATION
+   دمج الأيقونات
+   ======================================== */
+
+.privpolicy__icon {
+  display: inline-block;
+  height: 14px;
+  margin-right: 4px;
+  vertical-align: middle;
+  width: 14px;
+}
+
+.rtl .privpolicy__icon {
+  margin-left: 4px;
+  margin-right: 0;
+}
+
+/* ========================================
+   10. FOOTER PLACEMENT
+   موضع التذييل
+   ======================================== */
+
+.privpolicy--footer {
+  border-top: 1px solid #e5e5e5;
+  margin-top: 40px;
+  padding-top: 24px;
+}
+
+@media (max-width: 767px) {
+  .privpolicy--footer {
+    margin-top: 32px;
+    padding-top: 16px;
+  }
+}
+
+/* ========================================
+   11. INLINE VS BLOCK LAYOUT
+   التخطيط السطري مقابل الكتلي
+   ======================================== */
+
+/* Inline Links (Default) */
+.privpolicy--inline a {
+  display: inline;
+  margin: 0 4px;
+}
+
+/* Block Links (Stacked) */
+.privpolicy--block a {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.privpolicy--block a:last-child {
+  margin-bottom: 0;
+}
+
+/* ========================================
+   12. EMPHASIS & STRONG TEXT
+   التأكيد والنص القوي
+   ======================================== */
+
+.privpolicy strong,
+.privpolicy b {
+  color: #2e2c3a;
+  font-weight: 600;
+}
+
+.privpolicy em,
+.privpolicy i {
+  font-style: italic;
+}
+
+/* ========================================
+   13. ACCESSIBILITY
+   إمكانية الوصول
+   ======================================== */
+
+.privpolicy a:focus {
+  outline: 2px solid #494bb5;
+  outline-offset: 2px;
+}
+
+.privpolicy a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .privpolicy {
+    color: #000;
+  }
+  
+  .privpolicy a {
+    color: #0000ee;
+    text-decoration: underline;
+  }
+  
+  .privpolicy a:hover {
+    color: #551a8b;
+  }
+}
+
+/* ========================================
+   14. DARK MODE SUPPORT
+   دعم الوضع الداكن
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  .privpolicy {
+    color: #9e9ea8;
+  }
+  
+  .privpolicy a {
+    color: #8b8dff;
+  }
+  
+  .privpolicy a:hover {
+    color: #b3b5ff;
+  }
+  
+  .privpolicy--footer {
+    border-top-color: #38383a;
+  }
+  
+  .privpolicy__badge {
+    background: #2c2c2e;
+    color: #8b8dff;
+  }
+}
+
+/* ========================================
+   15. PRINT STYLES
+   أنماط الطباعة
+   ======================================== */
+
+@media print {
+  .privpolicy {
+    color: #000;
+    font-size: 10pt;
+  }
+  
+  .privpolicy a {
+    color: #000;
+    text-decoration: underline;
+  }
+  
+  .privpolicy a:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+  }
+}
+
+/* ========================================
+   16. ANIMATION EFFECTS (Optional)
+   التأثيرات المتحركة (اختياري)
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.privpolicy.animated {
+  animation: fadeIn 0.5s ease;
+}
+
+/* ========================================
+   17. CUSTOM CHECKBOX/AGREEMENT LAYOUT
+   تخطيط مربع الموافقة المخصص
+   ======================================== */
+
+.privpolicy__agreement {
+  align-items: flex-start;
+  display: flex;
+  gap: 8px;
+  text-align: left;
+}
+
+.privpolicy__checkbox {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.privpolicy__label {
+  color: #5e597a;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.rtl .privpolicy__agreement {
+  text-align: right;
+}
+
+/* ========================================
+   18. TOOLTIP INTEGRATION (Optional)
+   دمج التلميحات (اختياري)
+   ======================================== */
+
+.privpolicy__tooltip {
+  border-bottom: 1px dotted #494bb5;
+  cursor: help;
+  position: relative;
+}
+
+.privpolicy__tooltip:hover:after {
+  background: #2e2c3a;
+  border-radius: 4px;
+  color: #fff;
+  content: attr(data-tooltip);
+  font-size: 12px;
+  left: 50%;
+  padding: 8px 12px;
+  position: absolute;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* ========================================
+   19. COMMON PATTERNS & EXAMPLES
+   الأنماط الشائعة والأمثلة
+   ======================================== */
+
+/* Pattern 1: Footer with Multiple Links */
+/*
+<div class="privpolicy privpolicy--footer">
+  <a href="/privacy">Privacy Policy</a>
+  <span class="privpolicy__divider">•</span>
+  <a href="/terms">Terms of Service</a>
+  <span class="privpolicy__divider">•</span>
+  <a href="/cookies">Cookie Policy</a>
+</div>
+*/
+
+/* Pattern 2: Agreement Checkbox */
+/*
+<div class="privpolicy__agreement">
+  <input type="checkbox" class="privpolicy__checkbox" id="agree">
+  <label class="privpolicy__label" for="agree">
+    I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>
+  </label>
+</div>
+*/
+
+/* Pattern 3: Inline Notice */
+/*
+<p class="privpolicy">
+  By continuing, you agree to our 
+  <a href="/terms">Terms</a> and 
+  <a href="/privacy">Privacy Policy</a>.
+</p>
+*/
+
+/* ========================================
+   END OF STYLESHEET
+   ======================================== */

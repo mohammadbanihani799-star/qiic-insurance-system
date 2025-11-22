@@ -1,0 +1,775 @@
+/*
+═══════════════════════════════════════════════════════════════════════════════
+  🎁 BENEFITS SECTION COMPONENT - BEAUTIFIED CSS
+  قسم الفوائد - CSS منسق ومنظم
+═══════════════════════════════════════════════════════════════════════════════
+
+  Component Structure / هيكل المكونات:
+  1. 📝 Title Alignment - محاذاة العنوان
+  2. 🎁 Benefit Container - حاوية الفوائد
+  3. 📋 Grid Wrapper Layout - تخطيط الشبكة
+  4. 🎴 Benefit Items (Cards) - بطاقات الفوائد
+  5. 🖼️  Item Images - صور العناصر
+  6. 📝 Item Text Content - محتوى نص العناصر
+  7. 📱 Horizontal Scrolling - التمرير الأفقي
+  8. 📱 Responsive Design - التصميم المتجاوب
+  9. 🌐 RTL Support - دعم اللغة العربية
+  10. 🎭 Hover & Active States - حالات التفاعل
+  11. ♿ Accessibility Features - ميزات إمكانية الوصول
+  12. 🎨 Advanced Features - ميزات متقدمة
+
+═══════════════════════════════════════════════════════════════════════════════
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. 📝 TITLE ALIGNMENT - محاذاة العنوان
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Title Start Alignment
+ * محاذاة العنوان من البداية
+ * 
+ * Purpose: Left-align title on large screens, center on smaller screens
+ * الغرض: محاذاة يسارية على الشاشات الكبيرة، مركزية على الصغيرة
+ */
+.title--start[data-v-37a0ef33] {
+  text-align: start; /* Left in LTR, Right in RTL / يسار في LTR، يمين في RTL */
+}
+
+@media (max-width: 1087px) {
+  .title--start[data-v-37a0ef33] {
+    text-align: center; /* Center on tablets/mobile / مركزي على الأجهزة اللوحية/الجوال */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. 🎁 BENEFIT CONTAINER - حاوية الفوائد
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Benefit Section Container
+ * حاوية قسم الفوائد
+ * 
+ * Purpose: Main container for benefits section with responsive typography
+ * الغرض: حاوية رئيسية لقسم الفوائد مع طباعة متجاوبة
+ * 
+ * Responsive Typography Scale:
+ * - Desktop (>767px): 36px / 44px line-height
+ * - Tablet (≤767px): 28px / 32px line-height
+ * - Mobile (≤389px): 24px / 28px line-height
+ */
+.benefit[data-v-37a0ef33] {
+  overflow: hidden; /* Contain floated/absolute elements / احتواء العناصر العائمة/المطلقة */
+}
+
+.benefit h2[data-v-37a0ef33] {
+  color: #2e2c3a; /* Dark purple-gray / رمادي بنفسجي داكن */
+  font-size: 36px; /* Large heading / عنوان كبير */
+  font-weight: 600; /* Semi-bold / شبه عريض */
+  line-height: 44px; /* 122% line-height for readability / ارتفاع سطر 122% للقراءة */
+  margin-bottom: 56px; /* Large spacing below / مسافة كبيرة أسفل */
+  max-width: 625px; /* Constrain width for readability / تقييد العرض للقراءة */
+}
+
+@media (max-width: 767px) {
+  .benefit h2[data-v-37a0ef33] {
+    font-size: 28px; /* Reduced size for tablets / حجم مخفض للأجهزة اللوحية */
+    line-height: 32px; /* 114% line-height / ارتفاع سطر 114% */
+    margin-bottom: 40px; /* Reduced spacing / مسافة مخفضة */
+  }
+}
+
+@media (max-width: 389px) {
+  .benefit h2[data-v-37a0ef33] {
+    font-size: 24px; /* Smallest size for mobile / أصغر حجم للجوال */
+    line-height: 28px; /* 117% line-height / ارتفاع سطر 117% */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. 📋 GRID WRAPPER LAYOUT - تخطيط الشبكة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Benefit Items Grid Wrapper
+ * غلاف شبكة عناصر الفوائد
+ * 
+ * Layout System:
+ * - Desktop (>1439px): 4-column grid with flexible width
+ * - Large Tablet (≤1439px): Fixed 240px columns with horizontal scroll
+ * - Medium (≤1087px): Maintains scroll with reduced padding
+ * 
+ * Grid Structure: repeat(4, 1fr) on desktop, auto-columns on scroll mode
+ * هيكل الشبكة: تكرار(4، 1fr) على سطح المكتب، أعمدة تلقائية في وضع التمرير
+ */
+.benefit__wrapper[data-v-37a0ef33] {
+  display: grid;
+  gap: 16px; /* Spacing between cards / مسافة بين البطاقات */
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns / 4 أعمدة متساوية */
+  margin-bottom: 32px; /* Spacing below section / مسافة أسفل القسم */
+}
+
+/**
+ * Horizontal Scrolling for Tablets
+ * التمرير الأفقي للأجهزة اللوحية
+ */
+@media (max-width: 1439px) {
+  .benefit__wrapper[data-v-37a0ef33] {
+    grid-auto-columns: 240px; /* Fixed column width / عرض عمود ثابت */
+    grid-auto-flow: column; /* Horizontal flow / تدفق أفقي */
+    grid-template-columns: unset; /* Remove repeat columns / إزالة الأعمدة المتكررة */
+    overflow-x: auto; /* Enable horizontal scroll / تمكين التمرير الأفقي */
+    scroll-behavior: smooth; /* Smooth scrolling / تمرير سلس */
+    scroll-snap-type: x mandatory; /* Snap to items when scrolling / الالتصاق بالعناصر عند التمرير */
+    scrollbar-width: none; /* Hide scrollbar (Firefox) / إخفاء شريط التمرير (فايرفوكس) */
+    -ms-overflow-style: none; /* Hide scrollbar (IE/Edge) / إخفاء شريط التمرير (IE/Edge) */
+  }
+  
+  /* Hide scrollbar (Chrome/Safari/Opera) / إخفاء شريط التمرير (كروم/سفاري/أوبرا) */
+  .benefit__wrapper[data-v-37a0ef33]::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 1087px) {
+  .benefit__wrapper[data-v-37a0ef33] {
+    padding-inline: 0; /* Remove inline padding / إزالة الحشوة الداخلية */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. 🎴 BENEFIT ITEMS (CARDS) - بطاقات الفوائد
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Individual Benefit Card
+ * بطاقة فائدة فردية
+ * 
+ * Design Features:
+ * - Light purple background (#f5f5ff)
+ * - Rounded corners (24px radius)
+ * - Flexbox column layout
+ * - Bottom-aligned content
+ * - Absolute positioned image
+ * - Scroll snap alignment
+ * 
+ * Card Dimensions:
+ * - Desktop: min-height 300px, padding 24px
+ * - Tablet: min-height 270px, padding 16px
+ */
+.benefit__item[data-v-37a0ef33] {
+  background: #f5f5ff; /* Light purple background / خلفية بنفسجية فاتحة */
+  border-radius: 24px; /* Rounded corners / زوايا دائرية */
+  display: flex;
+  flex-direction: column; /* Vertical layout / تخطيط عمودي */
+  justify-content: flex-end; /* Align content to bottom / محاذاة المحتوى للأسفل */
+  min-height: 300px; /* Minimum card height / ارتفاع بطاقة أدنى */
+  padding: 24px; /* Internal spacing / مسافة داخلية */
+  position: relative; /* For absolute image positioning / لتحديد موضع الصورة المطلقة */
+  scroll-snap-align: start; /* Snap to start when scrolling / الالتصاق بالبداية عند التمرير */
+}
+
+@media (max-width: 1087px) {
+  .benefit__item[data-v-37a0ef33] {
+    min-height: 270px; /* Reduced height for tablets / ارتفاع مخفض للأجهزة اللوحية */
+    padding: 16px; /* Reduced padding / حشوة مخفضة */
+    gap: 16px; /* Spacing between flex items / مسافة بين عناصر الفليكس */
+  }
+}
+
+/**
+ * Benefit Card Variants
+ * أنواع بطاقات الفوائد
+ */
+.benefit__item--primary[data-v-37a0ef33] {
+  background: linear-gradient(135deg, #f5f5ff 0%, #e8e8ff 100%); /* Gradient background / خلفية متدرجة */
+}
+
+.benefit__item--secondary[data-v-37a0ef33] {
+  background: #fff5f5; /* Light pink background / خلفية وردية فاتحة */
+}
+
+.benefit__item--tertiary[data-v-37a0ef33] {
+  background: #f0fff4; /* Light green background / خلفية خضراء فاتحة */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. 🖼️ ITEM IMAGES - صور العناصر
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Benefit Item Images
+ * صور عناصر الفوائد
+ * 
+ * Positioning Strategy:
+ * - Absolute positioning at top of card
+ * - Overflow above card boundary (top: -40px)
+ * - Constrained to max-height for consistency
+ * - Object-fit: contain to preserve aspect ratio
+ * 
+ * Image Sizes:
+ * - Desktop: max-height 200px, top -40px
+ * - Tablet: max-height 170px, top -20px
+ */
+.benefit__item img[data-v-37a0ef33] {
+  height: 100%;
+  inset-inline-start: 0; /* RTL-friendly left position / موضع يسار متوافق مع RTL */
+  margin-bottom: 16px; /* Spacing below image / مسافة أسفل الصورة */
+  max-height: 200px; /* Constrain image height / تقييد ارتفاع الصورة */
+  object-fit: contain; /* Preserve aspect ratio / الحفاظ على نسبة العرض إلى الارتفاع */
+  -o-object-fit: contain; /* Opera support / دعم أوبرا */
+  position: absolute; /* Position relative to card / موضع بالنسبة للبطاقة */
+  top: -40px; /* Overflow above card / فائض فوق البطاقة */
+  width: auto; /* Auto width based on height / عرض تلقائي بناءً على الارتفاع */
+}
+
+@media (max-width: 1087px) {
+  .benefit__item img[data-v-37a0ef33] {
+    max-height: 170px; /* Reduced height for tablets / ارتفاع مخفض للأجهزة اللوحية */
+    top: -20px; /* Less overflow on tablets / فائض أقل على الأجهزة اللوحية */
+  }
+}
+
+/**
+ * Image Loading State
+ * حالة تحميل الصورة
+ */
+.benefit__item img[data-v-37a0ef33]:not([src]),
+.benefit__item img[data-v-37a0ef33][src=""] {
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. 📝 ITEM TEXT CONTENT - محتوى نص العناصر
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Benefit Item Text
+ * نص عنصر الفائدة
+ * 
+ * Typography:
+ * - Font size: 18px (readable size)
+ * - Font weight: 600 (semi-bold for emphasis)
+ * - Line height: 28px (156% for readability)
+ * - Color: #2e2c3a (dark purple-gray)
+ */
+.benefit__item p[data-v-37a0ef33] {
+  color: #2e2c3a; /* Dark purple-gray text / نص رمادي بنفسجي داكن */
+  font-size: 18px; /* Medium-large size / حجم متوسط كبير */
+  font-weight: 600; /* Semi-bold / شبه عريض */
+  line-height: 28px; /* 156% line-height / ارتفاع سطر 156% */
+}
+
+@media (max-width: 767px) {
+  .benefit__item p[data-v-37a0ef33] {
+    font-size: 16px; /* Slightly smaller on mobile / أصغر قليلاً على الجوال */
+    line-height: 24px; /* 150% line-height / ارتفاع سطر 150% */
+  }
+}
+
+/**
+ * Benefit Item Title (if present)
+ * عنوان عنصر الفائدة (إذا كان موجودًا)
+ */
+.benefit__item h3[data-v-37a0ef33] {
+  color: #2e2c3a;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 767px) {
+  .benefit__item h3[data-v-37a0ef33] {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. 📱 HORIZONTAL SCROLLING - التمرير الأفقي
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Scroll Indicators (Optional)
+ * مؤشرات التمرير (اختياري)
+ * 
+ * Purpose: Visual cue that content is scrollable
+ * الغرض: إشارة مرئية بأن المحتوى قابل للتمرير
+ */
+@media (max-width: 1439px) {
+  .benefit__wrapper[data-v-37a0ef33]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0; /* Gradient fade on right side / تلاشي التدرج على الجانب الأيمن */
+    width: 80px;
+    height: 100%;
+    background: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none; /* Allow clicks through / السماح بالنقرات من خلال */
+  }
+  
+  /* RTL version of scroll indicator / نسخة RTL من مؤشر التمرير */
+  .rtl .benefit__wrapper[data-v-37a0ef33]::after {
+    right: auto;
+    left: 0;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+}
+
+/**
+ * Scroll Snap Points
+ * نقاط التمرير السريع
+ */
+@media (max-width: 1439px) {
+  .benefit__item[data-v-37a0ef33]:first-child {
+    scroll-snap-align: start; /* First item aligns to start / العنصر الأول يتماشى مع البداية */
+  }
+  
+  .benefit__item[data-v-37a0ef33]:last-child {
+    scroll-snap-align: end; /* Last item aligns to end / العنصر الأخير يتماشى مع النهاية */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. 📱 RESPONSIVE DESIGN - التصميم المتجاوب
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Responsive Breakpoints Summary
+ * ملخص نقاط التوقف المتجاوبة
+ * 
+ * Breakpoint Map:
+ * ┌──────────────┬────────────────────────────────────────────────────┐
+ * │ Breakpoint   │ Changes Applied                                    │
+ * ├──────────────┼────────────────────────────────────────────────────┤
+ * │ >1439px      │ 4-column grid, no scroll                          │
+ * │ ≤1439px      │ Fixed 240px columns, horizontal scroll, hidden bar │
+ * │ ≤1087px      │ Centered title, reduced padding                    │
+ * │ ≤767px       │ Smaller typography (28px→24px)                     │
+ * │ ≤389px       │ Smallest typography (24px title)                   │
+ * └──────────────┴────────────────────────────────────────────────────┘
+ */
+
+/* Desktop Large (>1439px) - Default styles above */
+
+/* Desktop/Tablet (≤1439px) */
+@media (max-width: 1439px) {
+  .benefit__wrapper[data-v-37a0ef33] {
+    /* Horizontal scrolling enabled - see Grid Wrapper section */
+    /* التمرير الأفقي مفعّل - انظر قسم غلاف الشبكة */
+  }
+}
+
+/* Tablet (≤1087px) */
+@media (max-width: 1087px) {
+  .benefit[data-v-37a0ef33] {
+    text-align: center; /* Center all content / توسيط جميع المحتوى */
+  }
+  
+  .benefit h2[data-v-37a0ef33] {
+    margin-left: auto;
+    margin-right: auto; /* Center the title / توسيط العنوان */
+  }
+}
+
+/* Mobile (≤767px) */
+@media (max-width: 767px) {
+  .benefit__wrapper[data-v-37a0ef33] {
+    gap: 12px; /* Tighter gap / فجوة أضيق */
+    margin-bottom: 24px; /* Reduced bottom margin / هامش سفلي مخفض */
+  }
+  
+  .benefit__item[data-v-37a0ef33] {
+    border-radius: 16px; /* Smaller radius / نصف قطر أصغر */
+  }
+}
+
+/* Small Mobile (≤389px) */
+@media (max-width: 389px) {
+  .benefit__wrapper[data-v-37a0ef33] {
+    grid-auto-columns: 200px; /* Narrower columns / أعمدة أضيق */
+  }
+  
+  .benefit__item[data-v-37a0ef33] {
+    min-height: 240px; /* Reduced height / ارتفاع مخفض */
+    padding: 12px; /* Minimal padding / حشوة بسيطة */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. 🌐 RTL SUPPORT - دعم اللغة العربية
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * RTL Layout Adjustments
+ * تعديلات تخطيط RTL
+ */
+.rtl .benefit__wrapper[data-v-37a0ef33] {
+  direction: rtl; /* Right-to-left direction / اتجاه من اليمين لليسار */
+}
+
+.rtl .benefit__item img[data-v-37a0ef33] {
+  inset-inline-start: auto;
+  inset-inline-end: 0; /* Position on right side / موضع على الجانب الأيمن */
+}
+
+/**
+ * RTL Text Alignment
+ * محاذاة النص RTL
+ */
+.rtl .title--start[data-v-37a0ef33] {
+  text-align: right; /* Right-align in RTL / محاذاة يمينية في RTL */
+}
+
+@media (max-width: 1087px) {
+  .rtl .title--start[data-v-37a0ef33] {
+    text-align: center; /* Center in RTL on mobile / توسيط في RTL على الجوال */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. 🎭 HOVER & ACTIVE STATES - حالات التفاعل
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Hover Effects
+ * تأثيرات التمرير
+ */
+.benefit__item[data-v-37a0ef33]:hover {
+  transform: translateY(-8px); /* Lift effect / تأثير الرفع */
+  box-shadow: 0 12px 24px rgba(89, 39, 255, 0.15); /* Purple shadow / ظل بنفسجي */
+  transition: all 0.3s ease-out;
+}
+
+.benefit__item[data-v-37a0ef33]:hover img {
+  transform: scale(1.05); /* Slight image zoom / تكبير خفيف للصورة */
+  transition: transform 0.3s ease-out;
+}
+
+/**
+ * Focus States
+ * حالات التركيز
+ */
+.benefit__item[data-v-37a0ef33]:focus-visible {
+  outline: 3px solid #5927ff;
+  outline-offset: 2px;
+  border-radius: 24px;
+}
+
+/**
+ * Active States
+ * حالات النشاط
+ */
+.benefit__item[data-v-37a0ef33]:active {
+  transform: translateY(-4px); /* Reduced lift on click / رفع مخفض عند النقر */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   11. ♿ ACCESSIBILITY FEATURES - ميزات إمكانية الوصول
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * High Contrast Mode
+ * وضع التباين العالي
+ */
+@media (prefers-contrast: high) {
+  .benefit__item[data-v-37a0ef33] {
+    border: 2px solid #2e2c3a; /* Add border for clarity / إضافة حد للوضوح */
+  }
+  
+  .benefit__item p[data-v-37a0ef33],
+  .benefit h2[data-v-37a0ef33] {
+    color: #000000; /* Pure black for maximum contrast / أسود نقي لأقصى تباين */
+  }
+}
+
+/**
+ * Reduced Motion
+ * حركة مخفضة
+ */
+@media (prefers-reduced-motion: reduce) {
+  .benefit__item[data-v-37a0ef33],
+  .benefit__item[data-v-37a0ef33]:hover,
+  .benefit__item img[data-v-37a0ef33]:hover {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+  
+  .benefit__wrapper[data-v-37a0ef33] {
+    scroll-behavior: auto; /* Instant scroll / تمرير فوري */
+  }
+}
+
+/**
+ * Screen Reader Text
+ * نص قارئ الشاشة
+ */
+.benefit__item-sr-text {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/**
+ * Focus Within
+ * التركيز داخل
+ */
+.benefit__wrapper[data-v-37a0ef33]:focus-within {
+  outline: 2px solid #5927ff;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   12. 🎨 ADVANCED FEATURES - ميزات متقدمة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Dark Mode Support
+ * دعم الوضع الداكن
+ */
+@media (prefers-color-scheme: dark) {
+  .benefit[data-v-37a0ef33] {
+    background-color: #0a0a0a; /* Dark background / خلفية داكنة */
+  }
+  
+  .benefit h2[data-v-37a0ef33] {
+    color: #ffffff; /* White title / عنوان أبيض */
+  }
+  
+  .benefit__item[data-v-37a0ef33] {
+    background: #1a1a1a; /* Dark card background / خلفية بطاقة داكنة */
+  }
+  
+  .benefit__item p[data-v-37a0ef33],
+  .benefit__item h3[data-v-37a0ef33] {
+    color: #e0e0e0; /* Light text / نص فاتح */
+  }
+  
+  .benefit__item--primary[data-v-37a0ef33] {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+  
+  .benefit__item--secondary[data-v-37a0ef33] {
+    background: #2d1b1b; /* Dark pink / وردي داكن */
+  }
+  
+  .benefit__item--tertiary[data-v-37a0ef33] {
+    background: #1b2d1b; /* Dark green / أخضر داكن */
+  }
+}
+
+/**
+ * Print Styles
+ * أنماط الطباعة
+ */
+@media print {
+  .benefit__wrapper[data-v-37a0ef33] {
+    display: block; /* Stack vertically / تكديس عمودي */
+    overflow: visible; /* Show all content / عرض جميع المحتوى */
+  }
+  
+  .benefit__item[data-v-37a0ef33] {
+    page-break-inside: avoid; /* Avoid breaking cards / تجنب كسر البطاقات */
+    margin-bottom: 16px;
+    box-shadow: none;
+  }
+  
+  .benefit__item img[data-v-37a0ef33] {
+    position: relative; /* Reset for print / إعادة تعيين للطباعة */
+    top: 0;
+  }
+}
+
+/**
+ * Animations
+ * الرسوم المتحركة
+ */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.benefit__item[data-v-37a0ef33] {
+  animation: fadeInUp 0.5s ease-out; /* Smooth entrance / دخول سلس */
+}
+
+.benefit__item[data-v-37a0ef33]:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.benefit__item[data-v-37a0ef33]:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.benefit__item[data-v-37a0ef33]:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.benefit__item[data-v-37a0ef33]:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+/**
+ * Smooth Transitions
+ * انتقالات سلسة
+ */
+.benefit__item[data-v-37a0ef33],
+.benefit__item img[data-v-37a0ef33] {
+  transition: all 0.3s ease-out;
+}
+
+/**
+ * Performance Optimization
+ * تحسين الأداء
+ */
+.benefit__item[data-v-37a0ef33] {
+  will-change: transform; /* Hint for GPU acceleration / تلميح لتسريع GPU */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   📚 USAGE EXAMPLES - أمثلة الاستخدام
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  1. Basic Benefits Section:
+  ────────────────────────────────────────────────────────────────
+  <section class="benefit" data-v-37a0ef33>
+    <h2 class="title--start">مزايا التأمين لدينا</h2>
+    
+    <div class="benefit__wrapper">
+      <div class="benefit__item">
+        <img src="icon1.png" alt="تغطية شاملة" />
+        <p>تغطية شاملة لجميع المركبات</p>
+      </div>
+      
+      <div class="benefit__item benefit__item--secondary">
+        <img src="icon2.png" alt="دعم 24/7" />
+        <p>دعم العملاء على مدار الساعة</p>
+      </div>
+      
+      <div class="benefit__item benefit__item--tertiary">
+        <img src="icon3.png" alt="أسعار تنافسية" />
+        <p>أسعار تنافسية ومناسبة للجميع</p>
+      </div>
+      
+      <div class="benefit__item benefit__item--primary">
+        <img src="icon4.png" alt="إجراءات سريعة" />
+        <p>معالجة المطالبات في أقل من 24 ساعة</p>
+      </div>
+    </div>
+  </section>
+
+  2. With Title and Description:
+  ────────────────────────────────────────────────────────────────
+  <div class="benefit__item">
+    <img src="icon.png" alt="Feature" />
+    <h3>عنوان الفائدة</h3>
+    <p>وصف تفصيلي للفائدة</p>
+    <span class="benefit__item-sr-text">معلومات إضافية لقارئ الشاشة</span>
+  </div>
+
+  3. Horizontal Scrolling Version (Auto on ≤1439px):
+  ────────────────────────────────────────────────────────────────
+  <!-- Same HTML structure, scroll enabled automatically -->
+  <!-- نفس هيكل HTML، التمرير مفعّل تلقائيًا -->
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   📊 COMPONENT SPECIFICATIONS TABLE
+   جدول مواصفات المكونات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  ┌──────────────────────┬─────────────┬──────────────┬────────────────┐
+  │ Element              │ Desktop     │ Tablet       │ Mobile         │
+  │ العنصر               │ سطح المكتب  │ الجهاز اللوحي│ الجوال         │
+  ├──────────────────────┼─────────────┼──────────────┼────────────────┤
+  │ Title Font Size      │ 36px        │ 28px         │ 24px           │
+  │ Card Min-Height      │ 300px       │ 270px        │ 240px          │
+  │ Card Padding         │ 24px        │ 16px         │ 12px           │
+  │ Image Max-Height     │ 200px       │ 170px        │ 170px          │
+  │ Grid Columns         │ 4 (flex)    │ Scroll       │ Scroll         │
+  │ Column Width         │ 1fr         │ 240px        │ 200px          │
+  │ Text Font Size       │ 18px        │ 18px         │ 16px           │
+  └──────────────────────┴─────────────┴──────────────┴────────────────┘
+
+  Color Palette:
+  ┌────────────────────┬─────────────┬──────────────────────────────┐
+  │ Usage              │ Color       │ Description                  │
+  ├────────────────────┼─────────────┼──────────────────────────────┤
+  │ Primary Card BG    │ #f5f5ff     │ Light purple                 │
+  │ Secondary Card BG  │ #fff5f5     │ Light pink                   │
+  │ Tertiary Card BG   │ #f0fff4     │ Light green                  │
+  │ Text Color         │ #2e2c3a     │ Dark purple-gray             │
+  │ Hover Shadow       │ #5927ff 15% │ Purple with transparency     │
+  └────────────────────┴─────────────┴──────────────────────────────┘
+
+  Responsive Behavior:
+  ┌────────────────┬──────────────────────────────────────────────────┐
+  │ Breakpoint     │ Behavior                                         │
+  ├────────────────┼──────────────────────────────────────────────────┤
+  │ >1439px        │ 4-column grid, full width cards                 │
+  │ ≤1439px        │ Horizontal scroll, 240px fixed width cards      │
+  │ ≤1087px        │ Centered title, reduced padding                  │
+  │ ≤767px         │ Smaller typography, tighter spacing             │
+  │ ≤389px         │ 200px cards, minimal padding (12px)             │
+  └────────────────┴──────────────────────────────────────────────────┘
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ✅ END OF FILE - نهاية الملف
+   ═══════════════════════════════════════════════════════════════════════════ */

@@ -1,0 +1,445 @@
+/* Insurance Info Page - Unified Styles */
+.insurance-info-page {
+  min-height: 100vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+}
+
+/* Unified Header Styles */
+.insurance-info-page .flow {
+  background: #f7f7fc;
+}
+
+.insurance-info-page .flow__top {
+  background: #f7f7fc;
+  padding: 16px 20px;
+}
+
+.insurance-info-page .flow__header {
+  max-width: 360px;
+  margin: 0 auto 24px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #f7f7fc;
+}
+
+.insurance-info-page .flow__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.insurance-info-page .flow__logo img,
+.insurance-info-page .flow__logo svg {
+  display: block;
+}
+
+/* Content Area */
+.flow__content {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  width: 100%;
+}
+
+.flow__content h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1C1C1C;
+  text-align: center;
+  margin-bottom: 32px;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+/* Form Styles */
+.insurance-info-form {
+  width: 100%;
+}
+
+.row-group {
+  width: 100%;
+}
+
+.row-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2e2c3a;
+  margin: 24px 0 16px;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+.section-name:first-child {
+  margin-top: 0;
+}
+
+/* Base Select Control - Unified Pattern */
+.base-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.base-select-control {
+  position: relative;
+  background: #f7f7fc;
+  border: 1px solid #e5e3ff;
+  border-radius: 12px;
+  min-height: 56px;
+  padding: 8px 48px 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.base-select-control:hover {
+  background: #f5f5ff;
+  border-color: #d5ddff;
+}
+
+.base-select-control:focus-within {
+  background: white;
+  border-color: #6568f4;
+  box-shadow: 0 0 0 3px rgba(101, 104, 244, 0.08);
+}
+
+.base-select-control_has-value {
+  padding-top: 16px;
+  padding-bottom: 4px;
+}
+
+.base-select-control__label {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #746c96;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+.base-select-control:focus-within .base-select-control__label,
+.base-select-control_has-value .base-select-control__label {
+  top: 12px;
+  font-size: 11px;
+  color: #6568f4;
+  transform: none;
+}
+
+.base-select-control__icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base Input Control - Unified Pattern */
+.base-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.base-input-control {
+  position: relative;
+  background: #f7f7fc;
+  border: 1px solid #e5e3ff;
+  border-radius: 12px;
+  min-height: 56px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.base-input-control:hover {
+  background: #f5f5ff;
+  border-color: #d5ddff;
+}
+
+.base-input-control:focus-within {
+  background: white;
+  border-color: #6568f4;
+  box-shadow: 0 0 0 3px rgba(101, 104, 244, 0.08);
+}
+
+.base-input-control_has-value {
+  padding-top: 16px;
+  padding-bottom: 4px;
+}
+
+.base-input-control_error {
+  border-color: #ff5252;
+}
+
+.base-input-control_error:focus-within {
+  border-color: #ff5252;
+  box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.08);
+}
+
+.base-input-control input {
+  flex: 1;
+}
+
+.base-input-control__label {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #746c96;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+.base-input-control:focus-within .base-input-control__label,
+.base-input-control_has-value .base-input-control__label {
+  top: 12px;
+  font-size: 11px;
+  color: #6568f4;
+  transform: none;
+}
+
+/* Error Message */
+.error-message {
+  display: block;
+  font-size: 12px;
+  color: #ff5252;
+  margin-top: 6px;
+  margin-right: 16px;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+/* Submit Button */
+.btn {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+  direction: rtl;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, #6568F4 0%, #8B8EFF 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(101, 104, 244, 0.3);
+}
+
+.btn--primary:hover {
+  box-shadow: 0 6px 16px rgba(101, 104, 244, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+}
+
+.btn--medium {
+  padding: 16px 24px;
+  font-size: 16px;
+}
+
+/* Privacy Notice */
+.privacy-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: #f7f8ff;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+.privacy-notice svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.privacy-notice__text {
+  font-size: 13px;
+  color: #526C82;
+  line-height: 1.5;
+  margin: 0;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+/* Bottom Help Section */
+.flow__bottom {
+  padding: 20px 24px;
+  background: white;
+  border-top: 1px solid #E5E7EB;
+}
+
+.need-help {
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 15px;
+  font-weight: 500;
+  color: #526C82;
+  font-family: 'URWGeometricArabic', 'PP Neue Montreal Arabic', sans-serif;
+}
+
+.need-help:hover {
+  color: #1C1C1C;
+  background: #F9F9FF;
+  border-radius: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .flow__content {
+    padding: 24px 20px;
+  }
+
+  .flow__content h1 {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .base-select-control,
+  .base-input-control {
+    min-height: 52px;
+  }
+
+  .section-name {
+    font-size: 17px;
+    margin: 20px 0 14px;
+  }
+
+  .btn {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+
+  .privacy-notice {
+    padding: 14px;
+  }
+
+  .privacy-notice__text {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flow__content {
+    padding: 20px 16px;
+  }
+
+  .flow__content h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .row-list {
+    gap: 14px;
+  }
+
+  .base-select-control,
+  .base-input-control {
+    min-height: 50px;
+    padding: 8px 44px 8px 14px;
+  }
+
+  .base-input-control {
+    padding: 8px 14px;
+  }
+
+  .base-select-control_has-value,
+  .base-input-control_has-value {
+    padding-top: 14px;
+    padding-bottom: 4px;
+  }
+
+  .base-select-control__label,
+  .base-input-control__label {
+    font-size: 13px;
+    right: 14px;
+  }
+
+  .base-select-control:focus-within .base-select-control__label,
+  .base-select-control_has-value .base-select-control__label,
+  .base-input-control:focus-within .base-input-control__label,
+  .base-input-control_has-value .base-input-control__label {
+    top: 10px;
+    font-size: 10px;
+  }
+
+  .base-select-control__icon {
+    left: 14px;
+  }
+
+  .base-select-control input,
+  .base-input-control input,
+  .base-select-control select {
+    font-size: 13px !important;
+  }
+
+  .section-name {
+    font-size: 16px;
+    margin: 18px 0 12px;
+  }
+
+  .error-message {
+    font-size: 11px;
+    margin-right: 14px;
+  }
+
+  .btn {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+
+  .privacy-notice {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .privacy-notice svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .privacy-notice__text {
+    font-size: 11px;
+  }
+
+  .need-help {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}

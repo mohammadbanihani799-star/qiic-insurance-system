@@ -1,0 +1,361 @@
+/* ═══════════════════════════════════════════════════════════════
+   🔘 Buttons & Loader Component - مكون الأزرار واللودر
+   ═══════════════════════════════════════════════════════════════
+   Button variants and loading states
+   Use: import styles from './Buttons.module.css';
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────
+   🎯 Base Button Styles - أنماط الأزرار الأساسية
+   ───────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 767px) {
+  .btn {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎨 Button Variants - أشكال الأزرار
+   ───────────────────────────────────────────────────────────── */
+
+/* Primary Button - الزر الأساسي */
+.btn--primary {
+  background-color: var(--color-primary, #5927ff);
+  color: #ffffff;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-dark, #22245e);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(89, 39, 255, 0.3);
+}
+
+.btn--primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Secondary Button - الزر الثانوي */
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-primary, #5927ff);
+  border: 2px solid var(--color-primary, #5927ff);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background-color: var(--color-primary-pale, #f5f5ff);
+}
+
+/* Tertiary Button - الزر الثلاثي */
+.btn--tertiary {
+  background-color: var(--color-bg-secondary, #f5f5f9);
+  color: var(--color-text-primary, #2e2c3a);
+}
+
+.btn--tertiary:hover:not(:disabled) {
+  background-color: var(--color-bg-tertiary, #f5f5ff);
+}
+
+/* Success Button - زر النجاح */
+.btn--success {
+  background-color: var(--color-success, #00c853);
+  color: #ffffff;
+}
+
+.btn--success:hover:not(:disabled) {
+  background-color: #00a043;
+}
+
+/* Error Button - زر الخطأ */
+.btn--error {
+  background-color: var(--color-error, #f94c27);
+  color: #ffffff;
+}
+
+.btn--error:hover:not(:disabled) {
+  background-color: #d63c1d;
+}
+
+/* Warning Button - زر التحذير */
+.btn--warning {
+  background-color: var(--color-warning, #ff9800);
+  color: #ffffff;
+}
+
+.btn--warning:hover:not(:disabled) {
+  background-color: #e68900;
+}
+
+/* Ghost Button - زر شفاف */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-text-primary, #2e2c3a);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background-color: rgba(46, 44, 58, 0.05);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   📏 Button Sizes - أحجام الأزرار
+   ───────────────────────────────────────────────────────────── */
+
+.btn--small {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+.btn--large {
+  padding: 20px 40px;
+  font-size: 18px;
+  border-radius: 16px;
+}
+
+@media (max-width: 767px) {
+  .btn--large {
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   📦 Button with Icon - زر مع أيقونة
+   ───────────────────────────────────────────────────────────── */
+
+.btn__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.btn--icon-only {
+  padding: 12px;
+  aspect-ratio: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   💯 Full Width Button - زر بعرض كامل
+   ───────────────────────────────────────────────────────────── */
+
+.btn--full {
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🔄 Loading State - حالة التحميل
+   ───────────────────────────────────────────────────────────── */
+
+.btn--loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn--loading .btn__text {
+  opacity: 0;
+}
+
+.btn__loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: rotate 0.8s linear infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎭 Standalone Loader - لودر مستقل
+   ───────────────────────────────────────────────────────────── */
+
+.loader {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(89, 39, 255, 0.3);
+  border-top-color: var(--color-primary, #5927ff);
+  border-radius: 50%;
+  animation: rotate 1s linear infinite;
+}
+
+.loader--small {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+}
+
+.loader--large {
+  width: 64px;
+  height: 64px;
+  border-width: 4px;
+}
+
+/* Loader on Light Background - لودر على خلفية فاتحة */
+.loader--light {
+  border-color: rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎯 Button Group - مجموعة أزرار
+   ───────────────────────────────────────────────────────────── */
+
+.btn__group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn__group--vertical {
+  flex-direction: column;
+}
+
+.btn__group--center {
+  justify-content: center;
+}
+
+.btn__group--end {
+  justify-content: flex-end;
+}
+
+@media (max-width: 767px) {
+  .btn__group {
+    gap: 8px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ✨ Pulse Effect - تأثير النبض
+   ───────────────────────────────────────────────────────────── */
+
+.btn--pulse::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: inherit;
+  opacity: 0;
+  animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.05);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🌈 Gradient Buttons - أزرار متدرجة
+   ───────────────────────────────────────────────────────────── */
+
+.btn--gradient {
+  background: linear-gradient(135deg, #5927ff 0%, #7b4fff 100%);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn--gradient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #7b4fff 0%, #9d6fff 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.btn--gradient:hover::after {
+  opacity: 1;
+}
+
+.btn--gradient span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🌙 Dark Mode Support - دعم الوضع المظلم
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: dark) {
+  .btn--tertiary {
+    background-color: #3a3a3c;
+    color: #ffffff;
+  }
+  
+  .btn--tertiary:hover:not(:disabled) {
+    background-color: #48484a;
+  }
+  
+  .btn--ghost {
+    color: #ffffff;
+  }
+  
+  .btn--ghost:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ♿ Accessibility - إمكانية الوصول
+   ═══════════════════════════════════════════════════════════════ */
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary, #5927ff);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .loader,
+  .btn--pulse::before {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🖨️ Print Styles - أنماط الطباعة
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  .btn {
+    border: 1px solid #000;
+    background-color: transparent;
+    color: #000;
+  }
+  
+  .loader {
+    display: none;
+  }
+}

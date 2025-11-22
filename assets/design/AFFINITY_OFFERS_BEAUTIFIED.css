@@ -1,0 +1,1448 @@
+/*
+═══════════════════════════════════════════════════════════════════════════════
+  🎨 AFFINITY OFFERS & CUSTOMER CARE COMPONENTS - BEAUTIFIED CSS
+  نظام عروض الشراكة ورعاية العملاء - CSS منسق ومنظم
+═══════════════════════════════════════════════════════════════════════════════
+
+  Component Structure / هيكل المكونات:
+  1. ⚙️  Loader Animation (Rotate) - رسوم متحركة للتحميل
+  2. 🎁 Affinity Offers Container - حاوية عروض الشراكة
+  3. 📋 Offers List & Grid Layout - قائمة العروض والشبكة
+  4. 🖼️  Offer Items (Cards) - بطاقات العروض
+  5. 📝 Typography (Title, Text) - الطباعة
+  6. 🔘 Buttons (CTA, Renew) - أزرار الإجراءات
+  7. 🖼️  Images & Backgrounds - الصور والخلفيات
+  8. 🏫 Affinity School Component - مكون عروض المدارس
+  9. 📞 Affinity Claims Component - مكون المطالبات
+  10. 💼 Affinity Massoun Component - مكون ماسون
+  11. 📝 Textarea Form Component - مكون نموذج النص
+  12. 💬 Contacts Popup - نافذة الاتصال المنبثقة
+  13. 📞 Customer Care Component - مكون رعاية العملاء
+  14. ⭐ Feedback Component - مكون التقييمات
+  15. 🏢 Affinity Brand Header - رأس العلامة التجارية
+  16. 📱 Responsive Design (Mobile-First) - التصميم المتجاوب
+  17. 🌐 RTL Support - دعم اللغة العربية
+  18. 🎭 Hover & Active States - حالات التفاعل
+  19. ♿ Accessibility Features - ميزات إمكانية الوصول
+  20. 🎨 Advanced Features - ميزات متقدمة
+
+═══════════════════════════════════════════════════════════════════════════════
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. ⚙️ LOADER ANIMATION - رسوم متحركة للتحميل
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.loader[data-v-2b8cc5a9] {
+  animation: rotate-2b8cc5a9 1s linear infinite;
+}
+
+@keyframes rotate-2b8cc5a9 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg); /* Full rotation / دورة كاملة */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. 🎁 AFFINITY OFFERS CONTAINER - حاوية عروض الشراكة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-offers {
+  margin-bottom: 48px; /* Spacing below section / المسافة أسفل القسم */
+}
+
+.affinity-offers__content {
+  position: relative;
+  z-index: 1; /* Above background / فوق الخلفية */
+}
+
+.affinity-offers .dc-link-button {
+  margin-top: 40px;
+}
+
+@media (max-width: 767px) {
+  .affinity-offers .dc-link-button {
+    margin-top: 36px; /* Reduced spacing on mobile / تقليل المسافة على الجوال */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. 🖼️ OFFER ITEMS (CARDS) - بطاقات العروض
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-offers__item {
+  border-radius: 48px;
+  min-height: 360px;
+  overflow: hidden;
+  padding: 24px 32px;
+  position: relative;
+}
+
+/* Broker variant with gradient background / نوع الوسيط مع خلفية متدرجة */
+.affinity-offers__item--broker {
+  background: linear-gradient(97deg, #f1f4f600, #e3fee100), #f1f4f6;
+  min-height: 312px;
+}
+
+@media (max-width: 767px) {
+  .affinity-offers__item {
+    border-radius: 24px; /* Smaller radius on mobile / زاوية أصغر على الجوال */
+    min-height: 200px;
+    padding: 16px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. 📋 OFFERS LIST & GRID LAYOUT - قائمة العروض والشبكة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-offers__list {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns / عمودين */
+  margin-bottom: 16px;
+}
+
+@media (max-width: 767px) {
+  .affinity-offers__list {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+}
+
+/* First item spans full width / العنصر الأول يمتد بالكامل */
+.affinity-offers__columns .affinity-offers__item:first-child {
+  grid-column: 1 / -1; /* Span all columns / يمتد عبر جميع الأعمدة */
+}
+
+.affinity-offers__columns .affinity-offers__item:first-child img {
+  height: 100%;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. 📝 TYPOGRAPHY (TITLE, TEXT) - الطباعة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-offers__title {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -1.2px; /* Tight spacing for impact / تقليل المسافة للتأثير */
+  line-height: 60px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1439px) {
+  .affinity-offers__title {
+    font-size: 38px;
+    line-height: 120%;
+  }
+}
+
+@media (max-width: 1023px) {
+  .affinity-offers__title {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 767px) {
+  .affinity-offers__title {
+    font-size: 20px;
+    line-height: 27px;
+    margin-bottom: 8px;
+  }
+}
+
+.affinity-offers__text {
+  color: #57575e; /* Muted text color / لون نص خافت */
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  line-height: 126%;
+}
+
+@media (max-width: 767px) {
+  .affinity-offers__text {
+    font-size: 12px;
+    line-height: 16px;
+    max-width: 159px; /* Constrained width on mobile / عرض محدود على الجوال */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. 🔘 BUTTONS (CTA, RENEW) - أزرار الإجراءات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-offers__btn {
+  align-items: center;
+  backdrop-filter: blur(10px); /* Frosted glass effect / تأثير الزجاج المصنفر */
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white / أبيض شبه شفاف */
+  border-radius: 50px;
+  bottom: 12px;
+  color: #5927ff; /* Purple primary color / اللون الأساسي البنفسجي */
+  display: flex;
+  font-size: 24px;
+  font-weight: 600;
+  height: 84px;
+  justify-content: center;
+  left: 12px;
+  line-height: 32px;
+  max-width: 276px;
+  position: absolute;
+  text-align: center;
+  transition: 0.15s ease-out;
+  width: 100%;
+  z-index: 1;
+}
+
+@media (max-width: 1023px) {
+  .affinity-offers__btn {
+    left: 12px;
+    max-width: inherit;
+    right: 12px;
+    width: auto; /* Full width on tablets / عرض كامل على الأجهزة اللوحية */
+  }
+}
+
+@media (max-width: 767px) {
+  .affinity-offers__btn {
+    height: 56px;
+    width: 56px; /* Circular icon button on mobile / زر أيقونة دائري على الجوال */
+  }
+  
+  .affinity-offers__btn span {
+    display: none; /* Hide text, show icon only / إخفاء النص، عرض الأيقونة فقط */
+  }
+}
+
+.affinity-offers__btn svg {
+  height: 32px;
+  margin-left: 12px;
+  position: relative;
+  top: 2px;
+  width: 32px;
+}
+
+@media (max-width: 767px) {
+  .affinity-offers__btn svg {
+    height: 16px;
+    margin-left: 0;
+    top: 0;
+    width: 16px;
+  }
+}
+
+.affinity-offers__btn svg path {
+  fill: #5927ff;
+  transition: 0.15s ease-out;
+}
+
+/* Hover state - purple background / حالة التمرير - خلفية بنفسجية */
+.affinity-offers__btn:hover {
+  background: var(--primary);
+  color: #ffffff !important;
+}
+
+.affinity-offers__btn:hover svg path {
+  fill: #ffffff; /* White icon on hover / أيقونة بيضاء عند التمرير */
+}
+
+/* Renew button variant / نوع زر التجديد */
+.affinity-offers__renew {
+  align-items: center;
+  border: 1px solid rgba(82, 108, 130, 0.2);
+  border-radius: 48px;
+  display: flex;
+  font-size: 24px;
+  font-weight: 600;
+  height: 96px;
+  justify-content: center;
+  line-height: 30px;
+  transition: 0.15s ease-out;
+  width: 100%;
+}
+
+.affinity-offers__renew svg {
+  margin-right: 24px;
+}
+
+.affinity-offers__renew:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary); /* Double border effect / تأثير حد مزدوج */
+  color: var(--primary);
+}
+
+@media (max-width: 767px) {
+  .affinity-offers__renew {
+    font-size: 16px;
+    height: 64px;
+    line-height: 18px;
+  }
+  
+  .affinity-offers__renew svg {
+    height: 24px;
+    margin-right: 16px;
+    width: auto;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. 🖼️ IMAGES & BACKGROUNDS - الصور والخلفيات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-offers__image {
+  bottom: 0;
+  height: 100%;
+  object-fit: cover;
+  -o-object-fit: cover; /* Opera support / دعم أوبرا */
+  position: absolute;
+  right: 0;
+  width: auto;
+}
+
+@media (max-width: 1439px) {
+  .affinity-offers__image {
+    bottom: -15px;
+    height: 85%;
+    right: -30px; /* Slight overflow for effect / تجاوز طفيف للتأثير */
+  }
+}
+
+@media (max-width: 1023px) {
+  .affinity-offers__image {
+    height: 75%;
+  }
+}
+
+@media (max-width: 767px) {
+  .affinity-offers__image {
+    bottom: 0;
+    height: 70%;
+    right: 0;
+  }
+}
+
+@media (max-width: 479px) {
+  .affinity-offers__image {
+    height: 65%;
+  }
+  
+  .affinity-offers__image--broker {
+    bottom: -3px;
+    height: 50%; /* Smaller image for broker variant / صورة أصغر لنوع الوسيط */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. 🏫 AFFINITY SCHOOL COMPONENT - مكون عروض المدارس
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-scool__item {
+  align-items: center;
+  background: #efeafe; /* Light purple background / خلفية بنفسجية فاتحة */
+  border-radius: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 40px 0;
+  max-height: 118px;
+  overflow: hidden;
+  padding: 24px 32px;
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 1088px) {
+  .affinity-scool__item {
+    margin-top: 48px;
+  }
+}
+
+@media (max-width: 992px) {
+  .affinity-scool__item {
+    max-height: 164px; /* Taller on tablets / أطول على الأجهزة اللوحية */
+  }
+}
+
+@media (max-width: 700px) {
+  .affinity-scool__item {
+    flex-wrap: wrap;
+    margin: 36px 0;
+    max-height: 216px;
+    padding: 24px 8px 8px;
+  }
+}
+
+.affinity-scool__item .paragraph-default {
+  color: #57575e;
+  margin-top: 10px;
+}
+
+.affinity-scool__description .paragraph-default {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+@media (max-width: 992px) {
+  .affinity-scool__description {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .affinity-scool__description .heading-3 {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+
+@media (max-width: 700px) {
+  .affinity-scool__description {
+    margin-bottom: 16px;
+    padding: 0 8px;
+    width: 100%;
+  }
+  
+  .affinity-scool__description .heading-3 {
+    font-size: 20px;
+    line-height: 24px;
+    padding-right: 160px; /* Space for image / مساحة للصورة */
+  }
+  
+  .affinity-scool__description .paragraph-default {
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 4px;
+    padding-right: 160px;
+  }
+}
+
+@media (max-width: 420px) {
+  .affinity-scool__description .heading-3,
+  .affinity-scool__description .paragraph-default {
+    max-width: 156px;
+    padding: 0;
+  }
+}
+
+.affinity-scool__picture {
+  align-self: baseline;
+  margin: auto;
+}
+
+.affinity-scool__picture img {
+  margin-top: -24px; /* Negative margin for overflow effect / هامش سالب لتأثير الفائض */
+  max-width: 220px;
+  position: relative;
+}
+
+@media (max-width: 700px) {
+  .affinity-scool__picture {
+    bottom: 8px;
+    order: 1; /* Move to end in flex order / نقل إلى النهاية في ترتيب الفليكس */
+    position: absolute;
+    right: -34px;
+  }
+  
+  .affinity-scool__picture img {
+    max-width: 169px;
+  }
+}
+
+.affinity-scool__btn {
+  border-color: transparent !important;
+  border-radius: 50px !important;
+  color: #5927ff !important;
+  white-space: nowrap; /* Prevent text wrapping / منع التفاف النص */
+}
+
+.affinity-scool__btn svg path {
+  fill: #5927ff;
+}
+
+.affinity-scool__btn:hover {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+.affinity-scool__btn:hover svg path {
+  fill: #ffffff;
+}
+
+@media (max-width: 700px) {
+  .affinity-scool__btn {
+    height: 56px;
+    width: 56px; /* Icon-only button / زر أيقونة فقط */
+  }
+  
+  .affinity-scool__btn .ds-base-button__content-inner {
+    display: none; /* Hide text content / إخفاء محتوى النص */
+  }
+  
+  .affinity-scool__btn svg {
+    max-width: 16px;
+    min-width: 16px !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. 📞 AFFINITY CLAIMS COMPONENT - مكون المطالبات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-claims__wrapper[data-v-1ef30dc5] {
+  background: #ffffff;
+  border: 2px solid #e9e9f3;
+  border-radius: 48px;
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns layout / تخطيط عمودين */
+  padding: 40px 80px;
+}
+
+@media (max-width: 1087px) {
+  .affinity-claims__wrapper[data-v-1ef30dc5] {
+    grid-template-columns: 1fr; /* Single column / عمود واحد */
+    padding: 40px 100px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .affinity-claims__wrapper[data-v-1ef30dc5] {
+    padding: 40px 24px;
+  }
+}
+
+.affinity-claims__img[data-v-1ef30dc5] {
+  display: block;
+  height: 206px;
+  margin: 0 auto;
+}
+
+.affinity-claims__content[data-v-1ef30dc5] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.affinity-claims__content h3[data-v-1ef30dc5] {
+  color: #000000;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 115%;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 767px) {
+  .affinity-claims__content h3[data-v-1ef30dc5] {
+    font-size: 24px;
+  }
+}
+
+.affinity-claims__content p[data-v-1ef30dc5] {
+  color: #1c1c1c;
+  font-size: 16px;
+  letter-spacing: -0.1px;
+  line-height: 130%;
+  margin-bottom: 32px;
+}
+
+.affinity-claims__content .dc-link-button[data-v-1ef30dc5] {
+  max-width: 234px;
+}
+
+@media (max-width: 1087px) {
+  .affinity-claims__content .dc-link-button[data-v-1ef30dc5] {
+    max-width: 100%;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. 💼 AFFINITY MASSOUN COMPONENT - مكون ماسون
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity-massoun__wrapper[data-v-a91130f9] {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns grid / شبكة 4 أعمدة */
+}
+
+@media (max-width: 767px) {
+  .affinity-massoun__wrapper[data-v-a91130f9] {
+    grid-template-columns: 1fr; /* Stack vertically on mobile / تكديس عمودي على الجوال */
+  }
+}
+
+.affinity-massoun__item[data-v-a91130f9] {
+  background: #f5f5f9;
+  border-radius: 32px;
+  display: grid;
+  gap: 32px;
+  justify-content: center;
+  padding: 20px 24px 24px;
+  text-align: center;
+}
+
+@media (max-width: 1439px) {
+  .affinity-massoun__item[data-v-a91130f9] {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 959px) {
+  .affinity-massoun__item[data-v-a91130f9] {
+    padding: 20px 16px 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .affinity-massoun__item[data-v-a91130f9] {
+    align-items: center;
+    grid-template-columns: 74px 1fr; /* Icon + content layout / تخطيط أيقونة + محتوى */
+    text-align: start;
+  }
+}
+
+.affinity-massoun__item p[data-v-a91130f9] {
+  color: #141414;
+  font-size: 16px;
+  letter-spacing: -0.1px;
+  line-height: 130%;
+}
+
+@media (max-width: 767px) {
+  .affinity-massoun__item p[data-v-a91130f9] {
+    font-size: 14px;
+  }
+}
+
+.affinity-massoun__item img[data-v-a91130f9] {
+  margin: 0 auto;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   11. 📝 TEXTAREA FORM COMPONENT - مكون نموذج النص
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.container-textarea[data-v-4d8bae0b] {
+  position: relative;
+}
+
+.textareaForm[data-v-4d8bae0b] {
+  background: #f1f4f6;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  color: #1c1c1c;
+  font-size: 16px;
+  line-height: 24px;
+  min-height: 128px;
+  overflow: hidden;
+  padding: 37px 16px; /* Top padding for floating label / حشوة علوية للتسمية العائمة */
+  resize: none;
+  transition: 0.2s;
+  width: 100%;
+}
+
+/* Hover state / حالة التمرير */
+.textareaForm[data-v-4d8bae0b]:hover {
+  border: 1px solid #dae2e8;
+  box-shadow: 0 0 0 4px #ebf4ff; /* Blue glow / توهج أزرق */
+}
+
+.textareaForm[data-v-4d8bae0b]:hover,
+.textareaForm[data-v-4d8bae0b]:focus {
+  background-color: #ffffff;
+  background-position: right 20px center;
+}
+
+/* Focus state / حالة التركيز */
+.textareaForm[data-v-4d8bae0b]:focus {
+  border: 1px solid rgba(43, 39, 255, 0.8);
+  box-shadow: 0 0 0 4px rgba(43, 39, 255, 0.15); /* Purple focus ring / حلقة تركيز بنفسجية */
+}
+
+/* Active state / حالة النشاط */
+.textareaForm[data-v-4d8bae0b]:active {
+  background-color: #ffffff;
+  background-position: right 20px center;
+  border: 1px solid #dae2e8;
+  box-shadow: none;
+}
+
+/* Floating label / تسمية عائمة */
+.textareaForm + label[data-v-4d8bae0b] {
+  color: rgba(82, 108, 130, 0.8);
+  font-size: 16px;
+  left: 16px;
+  line-height: 24px;
+  pointer-events: none; /* Label doesn't block clicks / التسمية لا تمنع النقرات */
+  position: absolute;
+  top: 16px;
+  transition: 0.2s;
+}
+
+/* Label when focused / التسمية عند التركيز */
+.textareaForm:focus + label[data-v-4d8bae0b] {
+  color: #5927ff;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* Label when has content (Firefox) / التسمية عند وجود محتوى (فايرفوكس) */
+.textareaForm:not(:-moz-placeholder) + label[data-v-4d8bae0b] {
+  color: rgba(82, 108, 130, 0.8);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* Label when has content (Other browsers) / التسمية عند وجود محتوى (متصفحات أخرى) */
+.textareaForm:not(:placeholder-shown) + label[data-v-4d8bae0b] {
+  color: rgba(82, 108, 130, 0.8);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* Focused with content (Firefox) / تركيز مع محتوى (فايرفوكس) */
+.textareaForm:focus:not(:-moz-placeholder) + label[data-v-4d8bae0b] {
+  color: #5927ff;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* Focused with content (Other browsers) / تركيز مع محتوى (متصفحات أخرى) */
+.textareaForm:focus:not(:placeholder-shown) + label[data-v-4d8bae0b] {
+  color: #5927ff;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.separator[data-v-4d8bae0b] {
+  background: #dae2e8;
+  height: 1px;
+  margin-top: 32px;
+}
+
+@media (max-width: 767px) {
+  .separator[data-v-4d8bae0b] {
+    margin-top: 24px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   12. 💬 CONTACTS POPUP - نافذة الاتصال المنبثقة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.contacts-popup__title[data-v-4d8bae0b] {
+  color: #1c1c1c;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 120%;
+}
+
+/* Success and Error states / حالات النجاح والخطأ */
+.contacts-popup__error[data-v-4d8bae0b],
+.contacts-popup__sent[data-v-4d8bae0b] {
+  text-align: center;
+}
+
+.contacts-popup__error img[data-v-4d8bae0b],
+.contacts-popup__sent img[data-v-4d8bae0b] {
+  margin: 0 auto 32px;
+  max-width: 160px;
+}
+
+.contacts-popup__error h4[data-v-4d8bae0b],
+.contacts-popup__sent h4[data-v-4d8bae0b] {
+  color: #2d2d36;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 120%;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__error h4[data-v-4d8bae0b],
+  .contacts-popup__sent h4[data-v-4d8bae0b] {
+    text-align: start; /* Left-align on mobile / محاذاة لليسار على الجوال */
+  }
+}
+
+.contacts-popup__error p[data-v-4d8bae0b],
+.contacts-popup__sent p[data-v-4d8bae0b] {
+  color: #2d2d36;
+  font-size: 16px;
+  letter-spacing: -0.1px;
+  line-height: 130%;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__error p[data-v-4d8bae0b],
+  .contacts-popup__sent p[data-v-4d8bae0b] {
+    text-align: start;
+  }
+}
+
+.contacts-popup__error .dc-link-button[data-v-4d8bae0b],
+.contacts-popup__sent .dc-link-button[data-v-4d8bae0b] {
+  margin-top: 32px;
+}
+
+.contacts-popup__error .dc-link-button[data-v-4d8bae0b],
+.contacts-popup__error .try-again[data-v-4d8bae0b] {
+  margin-top: 16px;
+}
+
+.contacts-popup__footer[data-v-4d8bae0b] {
+  display: grid;
+  gap: 24px;
+  margin: 0 auto 24px;
+  max-width: 416px;
+  padding-top: 32px;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .contacts-popup__footer[data-v-4d8bae0b] {
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-top: 24px;
+  }
+}
+
+.contacts-popup__footer p[data-v-4d8bae0b] {
+  color: #1c1c1c;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+}
+
+.contacts-popup__btn span[data-v-4d8bae0b] {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   13. 📞 CUSTOMER CARE COMPONENT - مكون رعاية العملاء
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.customer-care__title[data-v-d7758827] {
+  color: #2d2d36;
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  line-height: 40px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .customer-care__title[data-v-d7758827] {
+    font-size: 24px;
+  }
+}
+
+.customer-care__list[data-v-d7758827] {
+  display: grid;
+  gap: 32px;
+}
+
+@media (max-width: 1087px) {
+  .customer-care__list[data-v-d7758827] {
+    gap: 16px;
+  }
+}
+
+.customer-care__list li[data-v-d7758827] {
+  align-items: center;
+  color: #2d2d36;
+  display: grid;
+  font-size: 24px;
+  gap: 16px;
+  grid-template-columns: 32px 1fr; /* Icon + text layout / تخطيط أيقونة + نص */
+  letter-spacing: -0.1px;
+  line-height: 38px;
+}
+
+@media (max-width: 1087px) {
+  .customer-care__list li[data-v-d7758827] {
+    font-size: 18px;
+  }
+}
+
+.customer-care__content[data-v-d7758827] {
+  display: grid;
+  flex-shrink: 0;
+  gap: 24px;
+}
+
+.customer-care__content-contact[data-v-d7758827] {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-care__content-contact--broker[data-v-d7758827] {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px;
+}
+
+@media (max-width: 767px) {
+  .customer-care__content-contact--broker[data-v-d7758827] {
+    padding: 20px;
+  }
+}
+
+.customer-care__content-contact h4[data-v-d7758827] {
+  color: #2d2d36;
+  font-size: 18px;
+  font-weight: 600;
+  grid-column: 1 / -1;
+  letter-spacing: -0.1px;
+  line-height: 115%;
+}
+
+.customer-care__phone[data-v-d7758827] {
+  color: #2d2d36;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 115%;
+  margin: 8px 0;
+}
+
+.customer-care__whatsapp[data-v-d7758827] {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #dedeed;
+  border-radius: 12px;
+  color: #2d2d36;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  justify-content: center;
+  line-height: 140%;
+  text-align: center;
+  transition: 0.2s ease-out;
+  width: 100%;
+}
+
+.customer-care__whatsapp img[data-v-d7758827] {
+  margin-inline-end: 8px; /* RTL-friendly spacing / مسافة متوافقة مع RTL */
+}
+
+.customer-care__whatsapp[data-v-d7758827]:hover {
+  border-color: #5927ff;
+}
+
+.customer-care .link[data-v-d7758827] {
+  color: #5927ff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 135%;
+  margin-bottom: 24px;
+}
+
+.customer-care__wrapper[data-v-d7758827] {
+  align-items: center;
+  background: #f8f9fa;
+  border-radius: 24px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1024px;
+  padding: 16px 32px;
+  position: relative;
+  width: 100%;
+}
+
+.customer-care__wrapper--broker[data-v-d7758827] {
+  align-items: flex-start;
+  background: #f5f5f9;
+  display: grid;
+  grid-template-columns: 1fr 360px; /* Content + sidebar layout / تخطيط محتوى + شريط جانبي */
+  padding: 32px;
+}
+
+@media (max-width: 767px) {
+  .customer-care__wrapper--broker[data-v-d7758827] {
+    gap: 16px;
+    grid-template-columns: 1fr;
+    padding: 32px 24px;
+  }
+  
+  .customer-care__wrapper[data-v-d7758827] {
+    display: grid;
+    gap: 32px;
+    justify-content: normal;
+    padding: 24px;
+    width: 100%;
+  }
+}
+
+.customer-care__wrapper--white[data-v-d7758827] {
+  background: #ffffff;
+}
+
+.customer-care__time-work[data-v-d7758827] {
+  color: #57575e;
+  display: grid;
+  font-size: 14px;
+  gap: 8px;
+  line-height: 135%;
+}
+
+.customer-care__time-work ul[data-v-d7758827] {
+  display: grid;
+  gap: 8px;
+}
+
+.customer-care__time-work ul li[data-v-d7758827] {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 80px 1fr; /* Day + hours layout / تخطيط اليوم + الساعات */
+}
+
+.customer-care__img[data-v-d7758827] {
+  margin-inline-end: 140px;
+  width: 220px;
+}
+
+@media (max-width: 767px) {
+  .customer-care__img[data-v-d7758827] {
+    grid-row: 1;
+    margin-inline-end: 0;
+    margin: 0 auto;
+    width: 164px;
+  }
+}
+
+/* RTL support for phone number / دعم RTL لرقم الهاتف */
+.rtl .customer-care__phone[data-v-d7758827] {
+  direction: ltr; /* Always LTR for phone numbers / دائمًا LTR لأرقام الهواتف */
+  text-align: right;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   14. ⭐ FEEDBACK COMPONENT - مكون التقييمات
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.feedback--affinity[data-v-daf4127c] .feedback__title {
+  font-size: 36px;
+  line-height: 42px;
+  margin-bottom: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .feedback--affinity[data-v-daf4127c] .feedback__title {
+    font-size: 28px;
+    line-height: 34px;
+  }
+}
+
+@media (max-width: 420px) {
+  .feedback--affinity[data-v-daf4127c] .feedback__title {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+
+.feedback__sub-title[data-v-daf4127c] {
+  color: #57575e;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .feedback__sub-title[data-v-daf4127c] {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0 auto 32px;
+    max-width: 280px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   15. 🏢 AFFINITY BRAND HEADER - رأس العلامة التجارية
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.affinity[data-v-daf4127c] {
+  margin-bottom: 24px;
+  margin-top: 48px;
+}
+
+.affinity__loading[data-v-daf4127c] {
+  margin: 100px 0;
+  position: relative;
+  text-align: center;
+}
+
+.affinity__header[data-v-daf4127c] {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .affinity__header[data-v-daf4127c] {
+    display: grid;
+    gap: 10px;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.affinity__brand[data-v-daf4127c] {
+  border: 0.604027px solid rgba(82, 108, 130, 0.2);
+  border-radius: 16px;
+  max-width: 180px;
+  overflow: hidden;
+  padding: 16px;
+}
+
+@media (max-width: 767px) {
+  .affinity__brand[data-v-daf4127c] {
+    margin: 0 auto;
+    padding: 8px;
+  }
+}
+
+.affinity__brand img[data-v-daf4127c] {
+  max-width: 180px;
+  object-fit: contain;
+  -o-object-fit: contain; /* Opera support / دعم أوبرا */
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .affinity__brand img[data-v-daf4127c] {
+    max-height: 80px;
+  }
+}
+
+.affinity__title[data-v-daf4127c] {
+  color: #1c1c1c;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 121%;
+  max-width: 728px;
+}
+
+@media (max-width: 1439px) {
+  .affinity__title[data-v-daf4127c] {
+    font-size: 36px;
+    line-height: 115%;
+  }
+}
+
+@media (max-width: 959px) {
+  .affinity__title[data-v-daf4127c] {
+    font-size: 28px;
+    line-height: 121%;
+  }
+}
+
+@media (max-width: 767px) {
+  .affinity__title[data-v-daf4127c] {
+    font-size: 20px;
+    line-height: 110%;
+    text-align: center;
+  }
+}
+
+.affinity__title span[data-v-daf4127c]:first-child {
+  display: block; /* Force line break / إجبار كسر سطر */
+}
+
+.affinity__title span[data-v-daf4127c]:nth-child(2) {
+  color: var(--primary); /* Highlight second line in purple / تسليط الضوء على السطر الثاني بالبنفسجي */
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   16. 📱 RESPONSIVE BREAKPOINTS SUMMARY - ملخص نقاط التوقف المتجاوبة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  Breakpoint Map / خريطة نقاط التوقف:
+  
+  | Breakpoint | Screen Size     | Changes Applied                        |
+  |------------|-----------------|----------------------------------------|
+  | 1439px     | Large Desktop   | Reduce title sizes, adjust spacing     |
+  | 1087px     | Desktop         | Switch to single column layouts        |
+  | 1023px     | Tablet          | Adjust button widths, image sizes      |
+  | 992px      | Tablet          | Increase component heights             |
+  | 959px      | Small Tablet    | Further reduce typography              |
+  | 768px      | Large Mobile    | Adjust title sizes                     |
+  | 767px      | Mobile          | Major layout shifts, icon-only buttons |
+  | 700px      | Small Mobile    | Wrap content, absolute positioning     |
+  | 479px      | Extra Small     | Further reduce image heights           |
+  | 420px      | Tiny Mobile     | Constrain text widths                  |
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   17. 🌐 RTL SUPPORT - دعم اللغة العربية
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  RTL Support Notes / ملاحظات دعم RTL:
+  
+  - margin-inline-end: Used for RTL-friendly spacing / مستخدم للمسافات المتوافقة مع RTL
+  - Phone numbers: Always LTR with text-align: right / أرقام الهواتف: دائمًا LTR مع محاذاة لليمين
+  - Images positioned with "right" / الصور موضوعة بـ "right"
+  - SVG margins use margin-left/margin-right explicitly
+*/
+
+/* Additional RTL improvements / تحسينات RTL إضافية */
+.rtl .affinity-offers__btn svg {
+  margin-left: 0;
+  margin-right: 12px;
+}
+
+.rtl .affinity-offers__renew svg {
+  margin-left: 24px;
+  margin-right: 0;
+}
+
+@media (max-width: 767px) {
+  .rtl .affinity-offers__renew svg {
+    margin-left: 16px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   18. 🎭 HOVER & ACTIVE STATES - حالات التفاعل
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Enhanced focus states for accessibility / حالات تركيز محسّنة لإمكانية الوصول */
+.affinity-offers__btn:focus-visible,
+.affinity-offers__renew:focus-visible,
+.affinity-scool__btn:focus-visible {
+  outline: 3px solid #5927ff;
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements / انتقالات سلسة لجميع العناصر التفاعلية */
+.affinity-offers__btn,
+.affinity-offers__renew,
+.affinity-scool__btn,
+.customer-care__whatsapp,
+.textareaForm {
+  transition: all 0.2s ease-out;
+}
+
+/* Disabled state styling / تنسيق حالة التعطيل */
+.affinity-offers__btn:disabled,
+.affinity-offers__renew:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   19. ♿ ACCESSIBILITY FEATURES - ميزات إمكانية الوصول
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* High contrast mode support / دعم الوضع عالي التباين */
+@media (prefers-contrast: high) {
+  .affinity-offers__btn,
+  .affinity-offers__renew,
+  .customer-care__whatsapp {
+    border-width: 2px;
+  }
+  
+  .affinity-offers__text,
+  .customer-care__time-work,
+  .feedback__sub-title {
+    color: #000000;
+  }
+}
+
+/* Reduced motion for accessibility / حركة مخفضة لإمكانية الوصول */
+@media (prefers-reduced-motion: reduce) {
+  .loader[data-v-2b8cc5a9],
+  .affinity-offers__btn,
+  .affinity-offers__renew,
+  .textareaForm {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Screen reader only text / نص قارئ الشاشة فقط */
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   20. 🎨 ADVANCED FEATURES - ميزات متقدمة
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Print styles / أنماط الطباعة */
+@media print {
+  .affinity-offers__btn,
+  .affinity-scool__btn,
+  .customer-care__whatsapp {
+    border: 2px solid #000000;
+    background: transparent;
+    color: #000000;
+  }
+  
+  .affinity-offers__image,
+  .affinity-scool__picture img {
+    page-break-inside: avoid;
+  }
+}
+
+/* Dark mode support (optional) / دعم الوضع الداكن (اختياري) */
+@media (prefers-color-scheme: dark) {
+  .affinity-offers {
+    --bg-light: #1a1a1a;
+    --text-primary: #ffffff;
+    --text-muted: #b0b0b0;
+    --border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .affinity-offers__item {
+    background: var(--bg-light);
+    color: var(--text-primary);
+  }
+  
+  .affinity-offers__text,
+  .feedback__sub-title,
+  .customer-care__time-work {
+    color: var(--text-muted);
+  }
+  
+  .textareaForm {
+    background: #2a2a2a;
+    color: #ffffff;
+    border-color: var(--border-color);
+  }
+}
+
+/* Loading skeleton animation / رسوم متحركة لهيكل التحميل */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.affinity__loading::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 16px;
+  margin-top: 20px;
+}
+
+/* Smooth scroll behavior / سلوك التمرير السلس */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus trap for modals / حبس التركيز للنوافذ المنبثقة */
+.contacts-popup__footer:focus-within {
+  outline: 2px solid #5927ff;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   📚 USAGE EXAMPLES - أمثلة الاستخدام
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+  1. Affinity Offers Section:
+  <div class="affinity-offers">
+    <div class="affinity-offers__content">
+      <h2 class="affinity-offers__title">Special Offers</h2>
+      <p class="affinity-offers__text">Exclusive deals for partners</p>
+      <div class="affinity-offers__list">
+        <div class="affinity-offers__item">
+          <button class="affinity-offers__btn">
+            <span>View Offer</span>
+            <svg>...</svg>
+          </button>
+          <img class="affinity-offers__image" src="..." alt="Offer" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  2. Customer Care Contact:
+  <div class="customer-care__wrapper">
+    <div class="customer-care__content">
+      <h3 class="customer-care__title">Contact Us</h3>
+      <div class="customer-care__phone">800-QIIC</div>
+      <a href="#" class="customer-care__whatsapp">
+        <img src="whatsapp.svg" alt="WhatsApp" />
+        Chat with us
+      </a>
+    </div>
+  </div>
+
+  3. Textarea Form:
+  <div class="container-textarea">
+    <textarea class="textareaForm" placeholder=" "></textarea>
+    <label>Your message</label>
+  </div>
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ✅ END OF FILE - نهاية الملف
+   ═══════════════════════════════════════════════════════════════════════════ */

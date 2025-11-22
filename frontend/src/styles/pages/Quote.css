@@ -1,0 +1,685 @@
+.quote-page {
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: 'PP Neue Montreal Arabic', 'PP Neue Montreal', 'Cairo', sans-serif;
+}
+
+/* Unified Header Styles */
+.quote-page .flow {
+  background: #f7f7fc;
+}
+
+.quote-page .flow__top {
+  background: #f7f7fc;
+  padding: 16px 20px;
+}
+
+.quote-page .flow__header {
+  max-width: 360px;
+  margin: 0 auto 24px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #f7f7fc;
+}
+
+.quote-page .flow__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.quote-page .flow__logo img,
+.quote-page .flow__logo svg {
+  display: block;
+}
+
+.flow__header-return {
+  position: absolute;
+  right: 24px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.flow__header-return:hover {
+  background-color: #f5f5f5;
+}
+
+.flow__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+/* Content */
+.flow__content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.quote__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.quote__hero-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  color: #1c1c1c;
+}
+
+/* Quote Info */
+.quote__info {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.quote__info-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1c1c1c;
+  margin-bottom: 12px;
+}
+
+.quote__info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quote__info-list li {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.quote__info-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Accordion */
+.quote__list-insured {
+  margin-bottom: 16px;
+}
+
+.accordion {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.accordion__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.accordion__header:hover {
+  background: #f9fafb;
+}
+
+.accordion__header[aria-expanded="true"] .button-icon svg {
+  transform: rotate(180deg);
+}
+
+.button-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.accordion__title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quote__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1c1c1c;
+}
+
+.accordion__content {
+  padding: 0 16px 16px 16px;
+  background: #ffffff;
+}
+
+/* Policy List */
+.quote__policy-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quote__policy-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.quote__policy-list li:last-child {
+  border-bottom: none;
+}
+
+.quote__policy-name {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.quote__policy-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1c1c1c;
+}
+
+/* Inclusive Coverage */
+.quote__inclusive {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.quote__header {
+  margin-bottom: 16px;
+}
+
+.quote__header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-direction: row-reverse;
+}
+
+.quote__price {
+  font-size: 20px;
+  font-weight: 600;
+  color: #6568f4;
+}
+
+.quote__desc {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.quote__inclusive-optional {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Additional Coverages */
+.quote__additional {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.quote__accordion-title {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1c1c1c;
+}
+
+.accordion-additional {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.accordion-additional_price {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6568f4;
+  white-space: nowrap;
+}
+
+/* Toggle Switch */
+.toggle-input {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle-input input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-input i {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d1d5db;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.toggle-input i:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle-input input:checked + i {
+  background-color: #6568f4;
+}
+
+.toggle-input input:checked + i:before {
+  transform: translateX(20px);
+}
+
+.accordion-additional__description {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Checkout */
+.quote__checkout {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* Payment Type Tabs */
+.base-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  background: #f3f4f6;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.tab_primary {
+  flex: 1;
+}
+
+.tab_primary input {
+  display: none;
+}
+
+.base-tabs__tab {
+  display: block;
+  padding: 10px 16px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: transparent;
+  color: #6b7280;
+}
+
+.tab_active .base-tabs__tab {
+  background: #ffffff;
+  color: #1c1c1c;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.base-tabs__title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Checkout List */
+.quote__checkout-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.checkout-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #1c1c1c;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.checkout-row span:first-child {
+  color: #6b7280;
+}
+
+.checkout-row span:last-child {
+  font-weight: 500;
+}
+
+.checkout-total-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  margin-top: 12px;
+  border-top: 2px solid #e5e7eb;
+}
+
+.checkout-total-price__row {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1c1c1c;
+}
+
+.checkout-total-price__row:last-child {
+  order: -1;
+}
+
+.checkout-monthly-text {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-top: 12px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+/* Coins Info */
+.coins-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #fef3c7;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.coins-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.coins-amount {
+  font-size: 16px;
+  font-weight: 600;
+  color: #92400e;
+  margin-right: auto;
+}
+
+/* Payment Methods */
+.checkout-payment-methods {
+  margin-bottom: 20px;
+}
+
+.checkout-payment-methods__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1c1c1c;
+  margin-bottom: 12px;
+}
+
+.checkout-payment-methods__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkout-payment-methods__item {
+  position: relative;
+}
+
+.custom-radio {
+  position: absolute;
+  opacity: 0;
+}
+
+.checkout-payment-methods__name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: #1c1c1c;
+}
+
+.custom-radio:checked + .checkout-payment-methods__name {
+  border-color: #6568f4;
+  background: #f0f4ff;
+}
+
+.checkout-payment-methods__name:hover {
+  border-color: #6568f4;
+}
+
+/* Checkbox */
+.checkbox-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox-container label {
+  display: block;
+  font-size: 13px;
+  color: #6b7280;
+  cursor: pointer;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.checkbox-container a {
+  color: #6568f4;
+  text-decoration: underline;
+}
+
+/* Button Group */
+.quote__btn-group {
+  margin-bottom: 20px;
+}
+
+.b2s-info-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #fef3c7;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.caption-medium {
+  margin: 0;
+  font-size: 13px;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+.quote__btn-button {
+  width: 100%;
+  padding: 16px 24px;
+  background: #6568f4;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s;
+  font-family: 'PP Neue Montreal Arabic', 'PP Neue Montreal', 'Cairo', sans-serif;
+}
+
+.quote__btn-button:hover {
+  background: #5558e3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(101, 104, 244, 0.3);
+}
+
+.quote__btn-button:active {
+  transform: translateY(0);
+}
+
+.quote__agree {
+  text-align: center;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 12px;
+}
+
+.quote__agree a {
+  color: #6568f4;
+  text-decoration: underline;
+}
+
+/* Payment Choices */
+.quote__payment-choices {
+  display: block;
+  max-width: 300px;
+  margin: 20px auto;
+  width: 100%;
+}
+
+/* Reminder */
+.reminder-component {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.reminder-component__text {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* RTL Adjustments */
+.rtl {
+  direction: rtl;
+}
+
+.rtl .flow__header-return {
+  right: auto;
+  left: 24px;
+}
+
+.rtl .toggle-input i:before {
+  left: auto;
+  right: 3px;
+}
+
+.rtl .toggle-input input:checked + i:before {
+  transform: translateX(-20px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .flow__content {
+    padding: 16px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .quote__header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .checkout-total-price {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flow__header {
+    padding: 16px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .quote__info,
+  .quote__inclusive,
+  .quote__additional,
+  .quote__checkout {
+    padding: 12px;
+  }
+}

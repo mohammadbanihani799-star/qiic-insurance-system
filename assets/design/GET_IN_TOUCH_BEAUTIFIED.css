@@ -1,0 +1,224 @@
+/* ========================================
+   GET IN TOUCH COMPONENT - COMPLETE STYLESHEET
+   مكون صفحة التواصل - CSS كامل
+   Component Scope: [data-v-a1dd0be9]
+   ======================================== */
+
+/* ========================================
+   1. BASE LINK STYLES
+   الأنماط الأساسية للروابط
+   ======================================== */
+
+.get-in-touch a[data-v-a1dd0be9] {
+  color: inherit;
+}
+
+/* ========================================
+   2. MAIN HEADING (H2)
+   العنوان الرئيسي
+   ======================================== */
+
+.get-in-touch h2[data-v-a1dd0be9] {
+  color: #2e2c3a;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 56px;
+  margin-bottom: 32px;
+  max-width: 625px;
+}
+
+/* Responsive Typography - Desktop Large */
+@media (max-width: 1439px) {
+  .get-in-touch h2[data-v-a1dd0be9] {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+/* Responsive Typography - Tablet */
+@media (max-width: 1087px) {
+  .get-in-touch h2[data-v-a1dd0be9] {
+    font-size: 28px;
+    line-height: 32px;
+  }
+}
+
+/* Responsive Typography - Mobile */
+@media (max-width: 767px) {
+  .get-in-touch h2[data-v-a1dd0be9] {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+/* ========================================
+   3. WRAPPER - GRID LAYOUT
+   الغلاف الخارجي - شبكة العرض
+   ======================================== */
+
+.get-in-touch__wrapper[data-v-a1dd0be9] {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, 1fr); /* 3 أعمدة على الشاشات الكبيرة */
+}
+
+/* Grid Layout - Tablet (2 Columns) */
+@media (max-width: 1087px) and (min-width: 768px) {
+  .get-in-touch__wrapper[data-v-a1dd0be9] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Grid Layout - Mobile (1 Column) */
+@media (max-width: 767px) {
+  .get-in-touch__wrapper[data-v-a1dd0be9] {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   4. CONTACT ITEM CARD
+   بطاقة عنصر التواصل
+   ======================================== */
+
+.get-in-touch__item[data-v-a1dd0be9] {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e5e3ff;
+  border-radius: 24px;
+  box-shadow: 0 1px 2px #0000000d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  text-align: center;
+}
+
+/* Responsive Padding - Mobile */
+@media (max-width: 767px) {
+  .get-in-touch__item[data-v-a1dd0be9] {
+    padding: 16px;
+  }
+}
+
+/* Special Grid Behavior - Third Item Spans Full Width on Tablet */
+@media (max-width: 1087px) and (min-width: 768px) {
+  .get-in-touch__item[data-v-a1dd0be9]:nth-child(3) {
+    grid-column: 1 / -1; /* العنصر الثالث يأخذ العرض الكامل */
+  }
+}
+
+/* ========================================
+   5. ITEM CONTENT CONTAINER
+   حاوية محتوى العنصر
+   ======================================== */
+
+.get-in-touch__item-content[data-v-a1dd0be9] {
+  width: 100%;
+}
+
+/* ========================================
+   6. ITEM BUTTONS CONTAINER
+   حاوية أزرار العنصر
+   ======================================== */
+
+.get-in-touch__item-buttons[data-v-a1dd0be9] {
+  display: grid;
+  gap: 12px;
+}
+
+/* Call Buttons - Two Columns Layout */
+.get-in-touch__item-buttons--call[data-v-a1dd0be9] {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* All Buttons Full Width */
+.get-in-touch__item-buttons[data-v-a1dd0be9] .button {
+  width: 100%;
+}
+
+/* Phone Numbers - LTR Direction */
+.get-in-touch__item-buttons span[data-v-a1dd0be9] {
+  direction: ltr;
+}
+
+/* ========================================
+   7. ITEM HEADING (H3)
+   عنوان العنصر
+   ======================================== */
+
+.get-in-touch__item h3[data-v-a1dd0be9] {
+  color: #2e2c3a;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* Responsive Typography - Mobile */
+@media (max-width: 767px) {
+  .get-in-touch__item h3[data-v-a1dd0be9] {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+/* ========================================
+   8. ITEM IMAGE/ICON
+   صورة/أيقونة العنصر
+   ======================================== */
+
+.get-in-touch__item img[data-v-a1dd0be9] {
+  margin-bottom: 24px;
+  max-width: 100px;
+}
+
+/* Responsive Image Size - Tablet */
+@media (max-width: 1087px) {
+  .get-in-touch__item img[data-v-a1dd0be9] {
+    max-width: 80px;
+  }
+}
+
+/* ========================================
+   9. ITEM DESCRIPTION (P)
+   نص وصف العنصر
+   ======================================== */
+
+.get-in-touch__item p[data-v-a1dd0be9] {
+  align-items: center;
+  color: #5e597a;
+  display: flex;
+  font-size: 18px;
+  gap: 4px;
+  justify-content: center;
+  line-height: 28px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Responsive Typography - Tablet */
+@media (max-width: 1087px) {
+  .get-in-touch__item p[data-v-a1dd0be9] {
+    font-size: 14px;
+  }
+}
+
+/* ========================================
+   10. RTL SUPPORT (دعم اللغة العربية)
+   ======================================== */
+
+/* Button SVG Icons - RTL */
+.rtl[data-v-a1dd0be9] .button svg {
+  transform: scaleX(1);
+}
+
+/* WhatsApp Icon - RTL */
+.rtl .whatsapp[data-v-a1dd0be9] svg {
+  transform: scaleX(1);
+}
+
+/* ========================================
+   END OF STYLESHEET
+   ======================================== */

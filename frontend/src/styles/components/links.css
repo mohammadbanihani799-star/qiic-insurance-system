@@ -1,0 +1,118 @@
+/* ===================================================
+   Links / Buttons Styles
+   ملف CSS خاص بالروابط والأزرار
+=================================================== */
+
+/* الأساس */
+.ds-base-link {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkDefault);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkDefault);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    text-decoration: none;
+    color: var(--dsBaseLinkTextColor);
+    transition: .5s;
+    padding: 0;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+}
+
+/* أيقونات SVG داخل الرابط */
+.ds-base-link svg path {
+    transition: .2s;
+    fill: var(--dsBaseLinkIconColor);
+}
+
+/* Hover */
+.ds-base-link:hover {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkHover);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkHover);
+}
+
+/* Focus */
+.ds-base-link:focus-visible {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkFocus);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkFocus);
+    outline: none;
+    border-radius: 1px;
+    box-shadow: 0 0 0 2px var(--colorAlphaPurple8);
+}
+
+/* محتوى الرابط */
+.ds-base-link__content {
+    position: relative;
+}
+
+/* خطوط التحتية */
+.ds-base-link__content:before,
+.ds-base-link__content:after {
+    transition: .2s;
+    content: "";
+    display: block;
+    height: 1px;
+    background-color: currentColor;
+    position: absolute;
+    bottom: 0;
+    opacity: 0;
+}
+
+/* خطوط مختلفة */
+.ds-base-link__content:before { width: 1px; inset-inline-end: 0; }
+.ds-base-link__content:after { width: 100%; inset-inline-start: 0; }
+
+/* Hover effect underline */
+.ds-base-link__content:hover:after {
+    animation: underline 1s linear forwards;
+}
+
+/* Disabled */
+.ds-base-link--disabled {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkDisabled);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkDisabled);
+    cursor: not-allowed;
+}
+.ds-base-link--disabled:hover {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkDisabled);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkDisabled);
+}
+.ds-base-link--disabled .ds-base-link__content:after {
+    opacity: 0;
+}
+.ds-base-link--disabled .ds-base-link__content:hover:after {
+    animation: none;
+}
+
+/* Dark variant */
+.ds-base-link--dark {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkDefaultContrast);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkDefaultContrast);
+}
+.ds-base-link--dark:hover {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkHoverContrast);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkHoverContrast);
+}
+.ds-base-link--dark:focus-visible {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkFocusContrast);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkFocusContrast);
+}
+.ds-base-link--dark .ds-base-link--disabled {
+    --dsBaseLinkTextColor: var(--colorTxtBtnLinkDisabledContrast);
+    --dsBaseLinkIconColor: var(--colorIcnBtnLinkDisabledContrast);
+}
+
+/* RTL support */
+.rtl .ds-base-link svg {
+    transform: scaleX(-1);
+}
+
+/* Animation keyframes */
+@keyframes underline {
+    0% { opacity: 1; width: 100%; inset-inline-start: 0; }
+    50% { width: 0; inset-inline-start: 100%; }
+    51% { inset-inline-start: 0; }
+    to { width: 100%; opacity: 1; }
+}

@@ -1,0 +1,225 @@
+/* ═══════════════════════════════════════════════════════════════
+   🏷️ Sitephone Label Component
+   تسمية الويدجت (الأيقونة العائمة)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────
+   💫 Label Bubble Animations - حركات الفقاعات
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes comagic-label-icon-chat {
+    0%, 9%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    3%, 5%, 7% {
+        transform: translate3d(-2px, 0, 0);
+    }
+    4%, 6%, 8% {
+        transform: translate3d(2px, 0, 0);
+    }
+}
+
+@keyframes comagic-label-icon-offline-message {
+    0%, 9%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    3%, 5%, 7% {
+        transform: translate3d(2px, 0, 0) rotate3d(0, 0, 1, -9deg);
+    }
+    4%, 6%, 8% {
+        transform: translate3d(-2px, 0, 0) rotate3d(0, 0, 1, 9deg);
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎨 Label Container - حاوية التسمية
+   ───────────────────────────────────────────────────────────── */
+
+.comagic-c-consultant-label {
+    height: 60px;
+    width: 60px;
+    position: relative;
+    pointer-events: auto;
+    cursor: pointer;
+    text-align: left;
+    transition-property: transform, opacity, height;
+    transition-duration: 0.7s, 0.7s, 1.4s;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🔘 Bubble Elements - عناصر الفقاعات
+   ───────────────────────────────────────────────────────────── */
+
+.comagic-c-consultant-label__bubble {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid #2196F3;
+    border-radius: 100%;
+}
+
+/* الفقاعة الصلبة */
+.comagic-c-consultant-label__bubble--solid {
+    height: 60px;
+    width: 60px;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.09), 0 2px 14px rgba(0, 0, 0, 0.19);
+}
+
+.comagic-c-consultant-label__bubble--solid-color {
+    background-color: #2196F3;
+}
+
+.comagic-c-consultant-label__bubble--solid-animation {
+    animation: comagic-label-bubble-solid 6s ease-in infinite;
+}
+
+/* الفقاعة الخارجية الفارغة */
+.comagic-c-consultant-label__bubble--empty-outer {
+    height: 120px;
+    width: 120px;
+    top: -30px;
+    left: -30px;
+}
+
+.comagic-c-consultant-label__bubble--empty-outer-animation {
+    animation: comagic-label-bubble-empty-outer 6s ease-out infinite;
+}
+
+/* الفقاعة الداخلية الفارغة */
+.comagic-c-consultant-label__bubble--empty-inner {
+    height: 120px;
+    width: 120px;
+    top: -30px;
+    left: -30px;
+}
+
+.comagic-c-consultant-label__bubble--empty-inner-animation {
+    animation: comagic-label-bubble-empty-inner 6s ease-out infinite;
+}
+
+.comagic-c-consultant-label__bubble--with-delay {
+    animation-delay: 3s;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🖼️ Label Icon - الأيقونات
+   ───────────────────────────────────────────────────────────── */
+
+.comagic-c-consultant-label__content {
+    display: none;
+}
+
+.comagic-c-consultant-label__icon {
+    position: absolute;
+    margin-left: 15px;
+    margin-top: 15px;
+    height: 30px;
+    width: 30px;
+    transform: rotate3d(0, 0, 0, 0);
+    background-size: cover;
+}
+
+.comagic-c-consultant-label__icon--with-delay {
+    animation-delay: 1.15s;
+}
+
+/* أيقونة الدردشة */
+.comagic-c-consultant-label__icon--chat {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 38 38'%3E%3Cg style='opacity:0.15'%3E%3Cpath d='M32.7,8.7c-3.4-3-7.9-4.6-12.7-4.6S10.7,5.7,7.3,8.7C3.9,11.7,2,15.7,2,20c0,3.4,1.2,6.7,3.5,9.4c-0.4,0.9-1,1.5-1.8,2.1c-0.6,0.4-0.9,1.2-0.8,1.9c0.2,0.7,0.8,1.3,1.5,1.4c1.5,0.2,4.5,0.3,7.2-1.3c0.6-0.4,0.8-1.2,0.5-1.8c-0.4-0.6-1.2-0.8-1.8-0.5c-1.2,0.7-2.4,1-3.4,1c0.6-0.7,1.1-1.6,1.4-2.5c0.2-0.5,0.1-1-0.3-1.4C5.8,25.9,4.7,23,4.7,20c0-7.3,6.9-13.3,15.3-13.3c8.5,0,15.3,6,15.3,13.3c0,7.3-6.9,13.3-15.3,13.3c-1.2,0-2.4-0.1-3.6-0.4c-0.7-0.2-1.4,0.3-1.6,1c-0.2,0.7,0.3,1.4,1,1.6c1.4,0.3,2.8,0.4,4.2,0.4c4.8,0,9.3-1.6,12.7-4.6c3.4-3,5.3-7,5.3-11.3C38,15.7,36.1,11.7,32.7,8.7L32.7,8.7z M32.7,8.7'/%3E%3Cpath d='M21.7,20c0,1-0.8,1.7-1.7,1.7c-1,0-1.7-0.8-1.7-1.7c0-1,0.8-1.7,1.7-1.7C21,18.3,21.7,19,21.7,20L21.7,20z M21.7,20'/%3E%3Cpath d='M27.2,20c0,1-0.8,1.7-1.7,1.7c-1,0-1.7-0.8-1.7-1.7c0-1,0.8-1.7,1.7-1.7C26.4,18.3,27.2,19,27.2,20L27.2,20z M27.2,20'/%3E%3Cpath d='M16.3,20c0,1-0.8,1.7-1.7,1.7c-1,0-1.7-0.8-1.7-1.7c0-1,0.8-1.7,1.7-1.7C15.5,18.3,16.3,19,16.3,20L16.3,20z M16.3,20'/%3E%3C/g%3E%3Cg fill='%23fff'%3E%3Cpath d='M31.7,7.7c-3.4-3-7.9-4.6-12.7-4.6S9.7,4.7,6.3,7.7C2.9,10.7,1,14.7,1,19c0,3.4,1.2,6.7,3.5,9.4c-0.4,0.9-1,1.5-1.8,2.1c-0.6,0.4-0.9,1.2-0.8,1.9c0.2,0.7,0.8,1.3,1.5,1.4c1.5,0.2,4.5,0.3,7.2-1.3c0.6-0.4,0.8-1.2,0.5-1.8c-0.4-0.6-1.2-0.8-1.8-0.5c-1.2,0.7-2.4,1-3.4,1c0.6-0.7,1.1-1.6,1.4-2.5c0.2-0.5,0.1-1-0.3-1.4C4.8,24.9,3.7,22,3.7,19c0-7.3,6.9-13.3,15.3-13.3c8.5,0,15.3,6,15.3,13.3c0,7.3-6.9,13.3-15.3,13.3c-1.2,0-2.4-0.1-3.6-0.4c-0.7-0.2-1.4,0.3-1.6,1c-0.2,0.7,0.3,1.4,1,1.6c1.4,0.3,2.8,0.4,4.2,0.4c4.8,0,9.3-1.6,12.7-4.6c3.4-3,5.3-7,5.3-11.3C37,14.7,35.1,10.7,31.7,7.7L31.7,7.7z M31.7,7.7'/%3E%3Cpath d='M20.7,19c0,1-0.8,1.7-1.7,1.7c-1,0-1.7-0.8-1.7-1.7c0-1,0.8-1.7,1.7-1.7C20,17.3,20.7,18,20.7,19L20.7,19zM20.7,19'/%3E%3Cpath d='M26.2,19c0,1-0.8,1.7-1.7,1.7c-1,0-1.7-0.8-1.7-1.7c0-1,0.8-1.7,1.7-1.7C25.4,17.3,26.2,18,26.2,19L26.2,19zM26.2,19'/%3E%3Cpath d='M15.3,19c0,1-0.8,1.7-1.7,1.7c-1,0-1.7-0.8-1.7-1.7c0-1,0.8-1.7,1.7-1.7C14.5,17.3,15.3,18,15.3,19L15.3,19zM15.3,19'/%3E%3C/g%3E%3C/svg%3E");
+    animation: comagic-label-icon-chat 6.6s ease-in-out infinite;
+}
+
+/* أيقونة الرسالة (غير متصل) */
+.comagic-c-consultant-label__icon--offline-message {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 38 38'%3E%3Cg style='opacity:0.15'%3E%3Cpath d='M36,6.4H4c-1.1,0-2,0.9-2,2v23.2c0,1.1,0.9,2,2,2H36c1.1,0,2-0.9,2-2V8.4C38,7.3,37.1,6.4,36,6.4L36,6.4z M35.3,30.9H4.7V9.1h29.1L20.2,20.6l-9.8-8.4c-0.6-0.5-1.4-0.4-1.9,0.1c-0.5,0.6-0.4,1.4,0.1,1.9l10.7,9.1c0,0,0,0,0,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0.1c0,0,0,0,0,0c0,0,0.1,0,0.1,0.1c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0l0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0l0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1-0.1c0,0,0,0,0,0c0,0,0.1,0,0.1-0.1c0,0,0,0,0,0c0,0,0,0,0,0l14.3-12.2V30.9z M35.3,30.9'/%3E%3C/g%3E%3Cg fill='%23fff'%3E%3Cpath d='M35,5.4H3c-1.1,0-2,0.9-2,2v23.2c0,1.1,0.9,2,2,2H35c1.1,0,2-0.9,2-2V7.4C37,6.3,36.1,5.4,35,5.4L35,5.4zM34.3,29.9H3.7V8.1h29.1L19.2,19.6l-9.8-8.4c-0.6-0.5-1.4-0.4-1.9,0.1c-0.5,0.6-0.4,1.4,0.1,1.9l10.7,9.1c0,0,0,0,0,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0.1c0,0,0,0,0,0c0,0,0.1,0,0.1,0.1c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0l0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0l0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1-0.1c0,0,0,0,0,0c0,0,0.1,0,0.1-0.1c0,0,0,0,0,0c0,0,0,0,0,0l14.3-12.2V29.9zM34.3,29.9'/%3E%3C/g%3E%3C/svg%3E");
+    animation: comagic-label-icon-offline-message 6.6s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🔢 Counter Badge - عداد الإشعارات
+   ───────────────────────────────────────────────────────────── */
+
+.comagic-c-consultant-label__counter {
+    pointer-events: none;
+    background: #f44336;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.09), 0 2px 30px rgba(0, 0, 0, 0.19);
+    display: flex;
+    color: #ffffff;
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    font: 10px "Open Sans CoMagic", sans-serif;
+    top: 0;
+    left: 0;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    flex-direction: column;
+    justify-content: center;
+    transform: scale(1);
+    transition: transform 0.1s linear;
+}
+
+.comagic-c-consultant-label__counter:empty {
+    width: 0;
+    height: 0;
+    transform: scale(0);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🎬 Label Positioning - مواضع التسمية
+   ───────────────────────────────────────────────────────────── */
+
+.comagic-c-consultant-label--middle,
+.comagic-c-consultant-label--bottom,
+.comagic-c-consultant-label--top {
+    order: -1;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🚀 Label States - حالات التسمية (إظهار/إخفاء)
+   ───────────────────────────────────────────────────────────── */
+
+/* حالة الإخفاء */
+.comagic-js-consultant-label--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.comagic-js-consultant-label--hidden.comagic-c-consultant-label--top {
+    transform: translateY(-50px);
+    height: 0;
+}
+
+.comagic-js-consultant-label--hidden.comagic-c-consultant-label--middle.comagic-c-consultant-label--right {
+    transform: translateX(50px);
+}
+
+.comagic-js-consultant-label--hidden.comagic-c-consultant-label--middle.comagic-c-consultant-label--left {
+    transform: translateX(-50px);
+}
+
+.comagic-js-consultant-label--hidden.comagic-c-consultant-label--bottom {
+    transform: translateY(50px);
+    height: 0;
+}
+
+/* حالة الظهور */
+.comagic-js-consultant-label--shown {
+    opacity: 1;
+    transition-delay: 0.3s, 0.3s, 0s;
+    transform: translateY(0px);
+}
+
+/* عرض المحتوى حسب النوع */
+.comagic-js-consultant-label--chat .comagic-c-consultant-label__content--chat {
+    display: block;
+}
+
+.comagic-js-consultant-label--offline-message .comagic-c-consultant-label__content--offline-message {
+    display: block;
+}
+
+/* تعطيل الحركات */
+.comagic-js-consultant-label--animation-disabled * {
+    animation: none;
+}

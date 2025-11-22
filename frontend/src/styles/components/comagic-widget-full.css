@@ -1,0 +1,1109 @@
+/* ═══════════════════════════════════════════════════════════════
+   🎨 CoMagic Sitephone Widget - Complete CSS
+   جميع أنماط ويدجت CoMagic Sitephone المنظمة في ملف واحد
+   
+   📁 للحصول على ملفات منفصلة، راجع:
+   - /components/rack-scrollbar.css
+   - /components/country-flags.css
+   - /components/select-dropdown.css  
+   - /components/sitephone-label.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* استيراد الملفات المنفصلة */
+@import './animations.css';
+@import './fonts.css';
+@import './rack-scrollbar.css';
+@import './country-flags.css';
+@import './select-dropdown.css';
+@import './sitephone-label.css';
+
+/* ═══════════════════════════════════════════════════════════════
+   📦 CONTAINER - حاوية الويدجت الرئيسية
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-consultant-container {
+    z-index: 100003;
+    position: fixed;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    opacity: 0;
+    transition-property: transform, opacity;
+    transition-duration: 0.7s, 0.7s;
+    pointer-events: none;
+}
+
+.comagic-c-consultant-container--no-transition {
+    transition: none;
+}
+
+.comagic-c-consultant-container * {
+    transform: none;
+    box-sizing: content-box;
+    letter-spacing: normal;
+}
+
+/* Branding & Links */
+.comagic-c-consultant-container__banner-branding {
+    position: absolute;
+    text-align: center;
+    width: 320px;
+}
+
+.comagic-c-consultant-container__banner-branding--default {
+    bottom: 2px;
+}
+
+.comagic-c-consultant-container__banner-branding-text {
+    font-family: "Open Sans CoMagic", sans-serif;
+    font-size: 10px;
+    color: #BDBDBD;
+    text-decoration: none;
+    border: 0;
+    display: block;
+    width: 55px;
+    margin: 0 auto;
+    height: 18px;
+    line-height: 22px;
+}
+
+.comagic-c-consultant-container__banner-branding-text:hover,
+.comagic-c-consultant-container__banner-branding-text:link,
+.comagic-c-consultant-container__banner-branding-text:visited,
+.comagic-c-consultant-container__banner-branding-text:active {
+    color: #BDBDBD;
+    text-decoration: none;
+    cursor: pointer;
+    border: 0;
+}
+
+.comagic-c-consultant-container__widget-link {
+    position: absolute;
+    width: 320px;
+    bottom: 18px;
+    text-align: center;
+    line-height: 14px;
+}
+
+.comagic-c-consultant-container__widget-link-text {
+    font-family: "Open Sans CoMagic", sans-serif;
+    font-size: 10px;
+    color: #9e9e9e;
+    text-decoration: underline;
+    border: 0;
+}
+
+.comagic-c-consultant-container__widget-link-text:hover,
+.comagic-c-consultant-container__widget-link-text:link,
+.comagic-c-consultant-container__widget-link-text:visited,
+.comagic-c-consultant-container__widget-link-text:active {
+    color: #9e9e9e;
+    text-decoration: underline;
+    cursor: pointer;
+    border: 0;
+}
+
+/* Positioning */
+.comagic-c-consultant-container--top {
+    transform-origin: top;
+    justify-content: flex-start;
+}
+
+.comagic-c-consultant-container--middle {
+    justify-content: center;
+}
+
+.comagic-c-consultant-container--bottom {
+    transform-origin: bottom;
+    justify-content: flex-end;
+}
+
+.comagic-c-consultant-container--left {
+    left: 0;
+}
+
+.comagic-c-consultant-container--right {
+    right: 0;
+}
+
+/* Content & Header */
+.comagic-c-consultant-container__content {
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+    position: relative;
+    margin: 25px;
+    pointer-events: auto;
+}
+
+.comagic-c-consultant-container__header {
+    height: 60px;
+    background: #2196F3;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.comagic-c-consultant-container__header-title {
+    text-align: left;
+    font: 19px "Open Sans CoMagic", sans-serif;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+    color: #fff;
+    width: 100%;
+    max-height: 50px;
+}
+
+/* Chat-specific */
+.comagic-c-consultant-container__banner-branding--chat {
+    left: 0;
+    top: 0;
+    z-index: 3;
+}
+
+.comagic-c-consultant-container__widget-link--chat {
+    position: static;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.comagic-c-consultant-container__header--chat {
+    padding: 5px 12px 5px 5px;
+    min-height: 50px;
+    height: auto;
+}
+
+.comagic-c-consultant-container__header-title--chat {
+    font-size: 14px;
+    max-height: 110px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ✉️ OFFLINE MESSAGE - نموذج الرسالة (عند عدم الاتصال)
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-offline-message {
+    width: 320px;
+    height: 460px;
+    overflow: hidden;
+}
+
+.comagic-c-offline-message__header-icon {
+    width: 36px;
+    height: 36px;
+    padding-right: 12px;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 38 38'%3E%3Cg style='opacity:0.15'%3E%3Cpath d='M36,6.4H4c-1.1,0-2,0.9-2,2v23.2c0,1.1,0.9,2,2,2H36c1.1,0,2-0.9,2-2V8.4C38,7.3,37.1,6.4,36,6.4L36,6.4z M35.3,30.9H4.7V9.1h29.1L20.2,20.6l-9.8-8.4c-0.6-0.5-1.4-0.4-1.9,0.1c-0.5,0.6-0.4,1.4,0.1,1.9l10.7,9.1c0,0,0,0,0,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0.1c0,0,0,0,0,0c0,0,0.1,0,0.1,0.1c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0l0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0l0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1-0.1c0,0,0,0,0,0c0,0,0.1,0,0.1-0.1c0,0,0,0,0,0c0,0,0,0,0,0l14.3-12.2V30.9z M35.3,30.9'/%3E%3C/g%3E%3Cg fill='%23fff'%3E%3Cpath d='M35,5.4H3c-1.1,0-2,0.9-2,2v23.2c0,1.1,0.9,2,2,2H35c1.1,0,2-0.9,2-2V7.4C37,6.3,36.1,5.4,35,5.4L35,5.4zM34.3,29.9H3.7V8.1h29.1L19.2,19.6l-9.8-8.4c-0.6-0.5-1.4-0.4-1.9,0.1c-0.5,0.6-0.4,1.4,0.1,1.9l10.7,9.1c0,0,0,0,0,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0.1c0,0,0,0,0,0c0,0,0.1,0,0.1,0.1c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0l0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0l0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1,0c0,0,0,0,0,0c0,0,0.1,0,0.1-0.1c0,0,0,0,0,0c0,0,0.1,0,0.1-0.1c0,0,0,0,0,0c0,0,0,0,0,0l14.3-12.2V29.9zM34.3,29.9'/%3E%3C/g%3E%3C/svg%3E") no-repeat;
+}
+
+.comagic-c-offline-message__body {
+    padding: 0 40px 0;
+}
+
+.comagic-c-offline-message__form {
+    transition: opacity 0.9s linear 0.4s;
+    position: relative;
+    opacity: 1;
+}
+
+.comagic-c-offline-message__feedback {
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comagic-c-offline-message__feedback-icon {
+    width: 64px;
+    height: 64px;
+    margin: 50px 0 20px;
+}
+
+.comagic-c-offline-message__feedback-text {
+    text-align: center;
+    font: 13pt "Open Sans CoMagic", sans-serif;
+    color: #424242;
+}
+
+.comagic-c-offline-message__feedback-title {
+    font-weight: bold;
+}
+
+/* States */
+.comagic-js-consultant-offline-message--hidden {
+    pointer-events: none;
+}
+
+.comagic-js-consultant-offline-message--hidden.comagic-c-consultant-container--bottom.comagic-c-consultant-container--left {
+    transform: translate3d(-130px, -45px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-offline-message--hidden.comagic-c-consultant-container--bottom.comagic-c-consultant-container--right {
+    transform: translate3d(130px, -45px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-offline-message--hidden.comagic-c-consultant-container--middle.comagic-c-consultant-container--left {
+    transform: translate3d(-130px, 0px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-offline-message--hidden.comagic-c-consultant-container--middle.comagic-c-consultant-container--right {
+    transform: translate3d(130px, 0px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-offline-message--hidden.comagic-c-consultant-container--top.comagic-c-consultant-container--left {
+    transform: translate3d(-130px, 45px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-offline-message--hidden.comagic-c-consultant-container--top.comagic-c-consultant-container--right {
+    transform: translate3d(130px, 45px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-offline-message--shown {
+    opacity: 1;
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+}
+
+.comagic-js-show-feedback--success .comagic-c-offline-message__form {
+    display: none;
+}
+
+.comagic-js-show-feedback--success .comagic-c-offline-message__feedback {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.9s linear 0.4s;
+}
+
+.comagic-js-show-feedback--success .comagic-c-offline-message__feedback-icon {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHhtbG5zOnhsaW5rPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rJyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+PGcgZmlsbD0nIzY0REQxNyc+PHBhdGggZD0nTTY0LDBDMjguNywwLDAsMjguNywwLDY0czI4LjcsNjQsNjQsNjRzNjQtMjguNyw2NC02NFM5OS4zLDAsNjQsMEw2NCwweiBNNjQsMTIxLjZDMzIuMiwxMjEuNiw2LjQsOTUuOCw2LjQsNjRDNi40LDMyLjIsMzIuMiw2LjQsNjQsNi40YzMxLjgsMCw1Ny42LDI1LjgsNTcuNiw1Ny42QzEyMS42LDk1LjgsOTUuOCwxMjEuNiw2NCwxMjEuNkw2NCwxMjEuNnpNNjQsMTIxLjYnLz48cGF0aCBkPSdNODAuOCw0OC40TDU2LjIsNzIuOGwtOS05Yy0xLjMtMS4zLTMuMy0xLjMtNC41LDBjLTEuMywxLjItMS4zLDMuMywwLDQuNWwxMS4yLDExLjNjMC42LDAuNiwxLjQsMC45LDIuMywwLjljMC44LDAsMS42LTAuMywyLjItMC45bDI2LjgtMjYuN2MxLjMtMS4zLDEuMy0zLjMsMC00LjVDODQsNDcuMiw4Miw0Ny4yLDgwLjgsNDguNEw4MC44LDQ4LjR6IE04MC44LDQ4LjQnLz48L2c+PC9zdmc+");
+}
+
+.comagic-js-show-feedback--failure .comagic-c-offline-message__form {
+    display: none;
+}
+
+.comagic-js-show-feedback--failure .comagic-c-offline-message__feedback {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.9s linear 0.4s;
+    display: flex;
+}
+
+.comagic-js-show-feedback--failure .comagic-c-offline-message__feedback-icon {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHhtbG5zOnhsaW5rPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rJyB2aWV3Qm94PScwIDAgMTI4IDEyOCc+PGcgZmlsbD0nI0ZGNTI1Mic+PHBhdGggZD0nTTY0LDEyOGMzNS4zLDAsNjQtMjguNyw2NC02NFM5OS4zLDAsNjQsMFMwLDI4LjcsMCw2NFMyOC43LDEyOCw2NCwxMjhMNjQsMTI4eiBNNjQsNi40YzMxLjgsMCw1Ny42LDI1LjgsNTcuNiw1Ny42YzAsMzEuOC0yNS44LDU3LjYtNTcuNiw1Ny42QzMyLjIsMTIxLjYsNi40LDk1LjgsNi40LDY0QzYuNCwzMi4yLDMyLjIsNi40LDY0LDYuNEw2NCw2LjR6IE02NCw2LjQnLz48cGF0aCBkPSdNNDcuMSw4MC45YzAuNiwwLjYsMS40LDAuOSwyLjMsMC45YzAuOCwwLDEuNi0wLjMsMi4zLTAuOUw2NCw2OC41bDEyLjQsMTIuNGMwLjYsMC42LDEuNCwwLjksMi4zLDAuOWMwLjgsMCwxLjYtMC4zLDIuMy0wLjljMS4zLTEuMywxLjMtMy4zLDAtNC41TDY4LjUsNjRsMTIuNC0xMi40YzEuMy0xLjMsMS4zLTMuMywwLTQuNWMtMS4zLTEuMy0zLjMtMS4zLTQuNSwwTDY0LDU5LjVMNTEuNiw0Ny4xYy0xLjMtMS4zLTMuMy0xLjMtNC41LDBjLTEuMywxLjMtMS4zLDMuMywwLDQuNUw1OS41LDY0TDQ3LjEsNzYuNEM0NS44LDc3LjcsNDUuOCw3OS43LDQ3LjEsODAuOUw0Ny4xLDgwLjl6IE00Ny4xLDgwLjknLz48L2c+PC9zdmc+");
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   💬 CHAT - نافذة الدردشة
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-chat {
+    width: 320px;
+    height: 460px;
+    display: flex;
+    flex-direction: column;
+}
+
+.comagic-c-chat__header-icon {
+    width: 36px;
+    height: 36px;
+    padding-right: 12px;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 38 38'%3E%3Cg style='opacity:0.15'%3E%3Cpath d='M31.7,5.3H8.3c-2.5,0-4.6,2-4.6,4.6v15.5c0,2.5,2,4.6,4.6,4.6h4.6v5.5c0,0.3,0.2,0.6,0.4,0.7c0.1,0,0.2,0.1,0.3,0.1c0.2,0,0.3-0.1,0.5-0.2l7.3-6h10.4c2.5,0,4.6-2,4.6-4.6V9.9C36.3,7.3,34.3,5.3,31.7,5.3L31.7,5.3z M33.6,25.5c0,1.1-0.9,1.9-1.9,1.9H20.9c-0.2,0-0.3,0.1-0.5,0.2l-5.1,4.2v-3.7c0-0.4-0.3-0.6-0.6-0.6H8.3c-1.1,0-1.9-0.9-1.9-1.9V9.9c0-1.1,0.9-1.9,1.9-1.9h23.5c1.1,0,1.9,0.9,1.9,1.9V25.5z M33.6,25.5'/%3E%3C/g%3E%3Cg fill='%23fff'%3E%3Cpath d='M30.7,4.3H7.3c-2.5,0-4.6,2-4.6,4.6v15.5c0,2.5,2,4.6,4.6,4.6h4.6v5.5c0,0.3,0.2,0.6,0.4,0.7c0.1,0,0.2,0.1,0.3,0.1c0.2,0,0.3-0.1,0.5-0.2l7.3-6h10.4c2.5,0,4.6-2,4.6-4.6V8.9C35.3,6.3,33.3,4.3,30.7,4.3L30.7,4.3z M32.6,24.5c0,1.1-0.9,1.9-1.9,1.9H19.9c-0.2,0-0.3,0.1-0.5,0.2l-5.1,4.2v-3.7c0-0.4-0.3-0.6-0.6-0.6H7.3c-1.1,0-1.9-0.9-1.9-1.9V8.9c0-1.1,0.9-1.9,1.9-1.9h23.5c1.1,0,1.9,0.9,1.9,1.9V24.5z M32.6,24.5'/%3E%3C/g%3E%3C/svg%3E") no-repeat;
+}
+
+.comagic-c-chat__body {
+    flex: 1;
+    position: relative;
+}
+
+.comagic-c-chat__form {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.comagic-c-chat__form--main {
+    display: flex;
+}
+
+.comagic-c-chat__form--optional {
+    display: none;
+}
+
+.comagic-c-chat__form-item--middle {
+    flex: 1;
+}
+
+.comagic-c-chat__form-item--bottom {
+    flex: 0;
+}
+
+.comagic-c-chat__audio-control {
+    display: none;
+}
+
+/* Chat States */
+.comagic-js-consultant-chat--hidden {
+    pointer-events: none;
+}
+
+.comagic-js-consultant-chat--hidden.comagic-c-consultant-container--bottom.comagic-c-consultant-container--left {
+    transform: translate3d(-130px, -45px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-chat--hidden.comagic-c-consultant-container--bottom.comagic-c-consultant-container--right {
+    transform: translate3d(130px, -45px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-chat--hidden.comagic-c-consultant-container--middle.comagic-c-consultant-container--left {
+    transform: translate3d(-130px, 0px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-chat--hidden.comagic-c-consultant-container--middle.comagic-c-consultant-container--right {
+    transform: translate3d(130px, 0px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-chat--hidden.comagic-c-consultant-container--top.comagic-c-consultant-container--left {
+    transform: translate3d(-130px, 45px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-chat--hidden.comagic-c-consultant-container--top.comagic-c-consultant-container--right {
+    transform: translate3d(130px, 45px, 0px) scale3d(0.001, 0.001, 1);
+}
+
+.comagic-js-consultant-chat--shown {
+    opacity: 1;
+    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+}
+
+.comagic-js-consultant-chat-group-selector--shown .comagic-c-chat__form--main {
+    display: none;
+}
+
+.comagic-js-consultant-chat-group-selector--shown .comagic-c-chat__form--optional {
+    display: flex;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📝 MESSAGES LOG - سجل الرسائل
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-messages-log {
+    display: flex;
+}
+
+.comagic-c-messages-log__boxes-wrapper {
+    width: 100%;
+    padding: 5px 15px 5px 15px;
+    max-height: 345px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.comagic-c-messages-log__message-box {
+    display: flex;
+    flex-direction: column;
+    transition: opacity 1s ease-in 0.5s, max-height 1s ease-in 0.5s;
+    max-height: 500px;
+}
+
+.comagic-c-messages-log__message-box--left {
+    width: 270px;
+}
+
+.comagic-c-messages-log__message-box--right {
+    width: auto;
+}
+
+.comagic-c-messages-log__message-box-row {
+    display: flex;
+}
+
+.comagic-c-messages-log__message-box-row--left {
+    justify-content: flex-start;
+}
+
+.comagic-c-messages-log__message-box-row--right {
+    justify-content: flex-end;
+}
+
+.comagic-c-messages-log__message-bubble {
+    max-width: 200px;
+    word-wrap: break-word;
+    padding: 12px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    font: 12px "Open Sans CoMagic", sans-serif;
+    color: #212121;
+    line-height: 14px;
+    margin-top: 4px;
+    text-align: left;
+}
+
+.comagic-c-messages-log__message-bubble--operator {
+    background: #E1F5FE;
+}
+
+.comagic-c-messages-log__message-bubble--bot {
+    background: #E1F5FE;
+}
+
+.comagic-c-messages-log__message-bubble--visitor {
+    background: #F5F5F5;
+}
+
+.comagic-c-messages-log__message-bubble--file-visitor {
+    background: #F5F5F5;
+    padding: 0;
+    max-width: 270px;
+}
+
+.comagic-c-messages-log__message-bubble--file-operator {
+    background: #E1F5FE;
+    padding: 0;
+    max-width: 270px;
+}
+
+.comagic-c-messages-log__typing-indicator {
+    animation: 2s blink ease infinite;
+    background-color: #E1F5FE;
+    border-radius: 8px;
+    padding: 12px;
+    display: inline-block;
+    margin-top: 4px;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.comagic-c-messages-log__typing-indicator-dot {
+    animation: 1s mercuryTypingAnimation ease-in-out infinite;
+    background-color: #9e9e9e;
+    border-radius: 100%;
+    display: inline-block;
+    height: 6px;
+    margin-right: 2px;
+    width: 6px;
+}
+
+.comagic-c-messages-log__typing-indicator-dot:nth-child(1) {
+    animation-delay: 100ms;
+}
+
+.comagic-c-messages-log__typing-indicator-dot:nth-child(2) {
+    animation-delay: 300ms;
+}
+
+.comagic-c-messages-log__typing-indicator-dot:nth-child(3) {
+    animation-delay: 500ms;
+}
+
+@keyframes mercuryTypingAnimation {
+    0% {
+        transform: translateY(0px);
+        background-color: #9e9e9e;
+    }
+    28% {
+        transform: translateY(-7px);
+        background-color: #616161;
+    }
+    44% {
+        transform: translateY(0px);
+        background-color: #757575;
+    }
+}
+
+.comagic-c-messages-log__message-info {
+    display: none;
+}
+
+.comagic-c-messages-log__message-info-item {
+    font: 10px "Open Sans CoMagic", sans-serif;
+    color: #BDBDBD;
+    margin: 4px 0 0 10px;
+}
+
+.comagic-c-messages-log__file-message-inner-area {
+    height: 55px;
+    background: #eeeeee;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.comagic-c-messages-log__file-icon {
+    width: 35px;
+    height: 35px;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23757575' d='M31.6,18.4v19c0,3.4-2.8,6.2-6.2,6.2H8.6c-3.4,0-6.2-2.8-6.2-6.2V10.6c0-3.4,2.8-6.2,6.2-6.2h12.4L31.6,18.4z M29.2,18.4H21V10.1L29.2,18.4z M27.4,28.3c0-1.4-1.1-2.5-2.5-2.5s-2.5,1.1-2.5,2.5c0,1.4,1.1,2.5,2.5,2.5S27.4,29.6,27.4,28.3L27.4,28.3z M15.8,28.3c0-1.4-1.1-2.5-2.5-2.5c-1.4,0-2.5,1.1-2.5,2.5c0,1.4,1.1,2.5,2.5,2.5C14.7,30.7,15.8,29.6,15.8,28.3L15.8,28.3z M20.8,33.2c0-1.4-1.1-2.5-2.5-2.5s-2.5,1.1-2.5,2.5c0,1.4,1.1,2.5,2.5,2.5S20.8,34.5,20.8,33.2L20.8,33.2z'/%3E%3C/svg%3E") no-repeat;
+}
+
+.comagic-c-messages-log__file-text {
+    margin-left: 10px;
+    width: 205px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font: 12px "Open Sans CoMagic", sans-serif;
+    color: #212121;
+}
+
+.comagic-c-messages-log__avatar {
+    display: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    background: #eeeeee;
+    flex-shrink: 0;
+}
+
+.comagic-c-messages-log__avatar--bot {
+    background: #eeeeee url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%239e9e9e' d='M16,2c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S17.1,2,16,2z M24,9h-2.1C21.5,8.4,20.8,8,20,8h-1V6c0-0.6-0.4-1-1-1h-4c-0.6,0-1,0.4-1,1v2h-1c-0.8,0-1.5,0.4-1.9,1H8c-2.2,0-4,1.8-4,4v11c0,2.2,1.8,4,4,4h16c2.2,0,4-1.8,4-4V13C28,10.8,26.2,9,24,9z M12,23c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S13.7,23,12,23z M20,23c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S21.7,23,20,23z M22,14H10v-1c0-1.1,0.9-2,2-2h8c1.1,0,2,0.9,2,2V14z M12,19c-0.6,0-1,0.4-1,1s0.4,1,1,1s1-0.4,1-1S12.6,19,12,19z M20,19c-0.6,0-1,0.4-1,1s0.4,1,1,1s1-0.4,1-1S20.6,19,20,19z'/%3E%3C/svg%3E") no-repeat center;
+}
+
+.comagic-c-messages-log__rating-item {
+    margin: 0 3px;
+    cursor: pointer;
+}
+
+.comagic-c-messages-log__rating-item--like {
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23BDBDBD' d='M1,21h4V9H1V21z M23,10c0-1.1-0.9-2-2-2h-6.3l0.9-4.6l0-0.3c0-0.4-0.2-0.8-0.4-1.1L14.1,1L7.6,7.6C7.2,7.9,7,8.4,7,9v10c0,1.1,0.9,2,2,2h9c0.8,0,1.5-0.5,1.8-1.2l3-7.1c0.1-0.3,0.2-0.6,0.2-0.9V10L23,10z'/%3E%3C/svg%3E") no-repeat;
+}
+
+.comagic-c-messages-log__rating-item--dislike {
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23BDBDBD' d='M15,3H6C5.2,3,4.5,3.5,4.2,4.2l-3,7.1C1.1,11.6,1,11.8,1,12v1.8c0,1.1,0.9,2,2,2h6.3l-0.9,4.6l0,0.3c0,0.4,0.2,0.8,0.4,1.1l1.1,1.1l6.5-6.6c0.4-0.3,0.6-0.8,0.6-1.4V5C17,3.9,16.1,3,15,3z M19,3v12h4V3H19z'/%3E%3C/svg%3E") no-repeat;
+}
+
+/* Last message styles */
+.comagic-js-last-message .comagic-c-messages-log__avatar {
+    display: flex;
+}
+
+.comagic-js-last-message .comagic-c-messages-log__message-info {
+    display: block;
+}
+
+.comagic-js-last-message.comagic-c-messages-log__message-box--left .comagic-c-messages-log__message-bubble {
+    position: relative;
+}
+
+.comagic-js-last-message.comagic-c-messages-log__message-box--left .comagic-c-messages-log__message-bubble:before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: 8px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 6px 6px 0;
+    border-color: transparent #E1F5FE transparent transparent;
+}
+
+.comagic-js-last-message.comagic-c-messages-log__message-box--left .comagic-c-messages-log__message-bubble--visitor:before {
+    border-color: transparent #F5F5F5 transparent transparent;
+}
+
+.comagic-js-last-message.comagic-c-messages-log__message-box--right .comagic-c-messages-log__message-bubble {
+    position: relative;
+}
+
+.comagic-js-last-message.comagic-c-messages-log__message-box--right .comagic-c-messages-log__message-bubble:after {
+    content: "";
+    position: absolute;
+    right: -5px;
+    top: 8px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 6px 6px;
+    border-color: transparent transparent transparent #F5F5F5;
+}
+
+.comagic-js-last-message.comagic-c-messages-log__message-box-row--left {
+    margin-left: 8px;
+}
+
+.comagic-js-last-message.comagic-c-messages-log__message-box-row--right {
+    margin-right: 8px;
+}
+
+.comagic-js-display-feedback .comagic-c-messages-log__message-bubble {
+    display: none;
+}
+
+.comagic-js-message--hidden {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: scale(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ✏️ MESSAGES EDITOR - محرر الرسائل
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-messages-editor {
+    padding: 10px 20px 10px 15px;
+    border-top: 1px solid #E0E0E0;
+    display: flex;
+}
+
+.comagic-c-messages-editor__creator-wrapper {
+    position: relative;
+    width: 245px;
+}
+
+.comagic-c-messages-editor__creator {
+    font: 12px "Open Sans CoMagic", sans-serif;
+    color: #212121;
+    width: 100%;
+    max-height: 65px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    outline: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.comagic-c-messages-editor__creator:empty:before {
+    content: attr(placeholder);
+    color: #BDBDBD;
+}
+
+.comagic-c-messages-editor__tools-area {
+    display: flex;
+    align-items: flex-end;
+}
+
+.comagic-c-messages-editor__tools {
+    display: flex;
+    margin-left: 5px;
+}
+
+.comagic-c-messages-editor__pusher {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: opacity 0.3s;
+}
+
+.comagic-c-messages-editor__pusher:hover {
+    opacity: 0.7;
+}
+
+.comagic-c-messages-editor__pusher--smile {
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23BDBDBD' d='M11.99,2C6.47,2,2,6.48,2,12s4.47,10,9.99,10C17.52,22,22,17.52,22,12S17.52,2,11.99,2z M12,20c-4.42,0-8-3.58-8-8s3.58-8,8-8s8,3.58,8,8S16.42,20,12,20z M15.5,11c0.83,0,1.5-0.67,1.5-1.5S16.33,8,15.5,8S14,8.67,14,9.5S14.67,11,15.5,11z M8.5,11c0.83,0,1.5-0.67,1.5-1.5S9.33,8,8.5,8S7,8.67,7,9.5S7.67,11,8.5,11z M12,17.5c2.33,0,4.31-1.46,5.11-3.5H6.89C7.69,16.04,9.67,17.5,12,17.5z'/%3E%3C/svg%3E") no-repeat;
+}
+
+.comagic-c-messages-editor__pusher--text {
+    display: none;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232196F3' d='M2.01,21L23,12L2.01,3L2,10l15,2l-15,2L2.01,21z'/%3E%3C/svg%3E") no-repeat;
+}
+
+.comagic-c-messages-editor__pusher--file {
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23BDBDBD' d='M16.5,6v11.5c0,2.2-1.8,4-4,4s-4-1.8-4-4V5c0-1.4,1.1-2.5,2.5-2.5s2.5,1.1,2.5,2.5v10.5c0,0.6-0.4,1-1,1s-1-0.4-1-1V6H10v9.5c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5V5c0-2.2-1.8-4-4-4S7,2.8,7,5v12.5c0,3.0,2.5,5.5,5.5,5.5s5.5-2.5,5.5-5.5V6H16.5z'/%3E%3C/svg%3E") no-repeat;
+}
+
+.comagic-c-messages-editor__input--file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.comagic-c-messages-editor--ready-for-send .comagic-c-messages-editor__pusher--smile {
+    display: none;
+}
+
+.comagic-c-messages-editor--ready-for-send .comagic-c-messages-editor__pusher--text {
+    display: block;
+}
+
+.comagic-c-messages-editor--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.comagic-js-file-area--disabled .comagic-c-messages-editor__pusher--file {
+    display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   👥 CHAT GROUP SELECTOR - اختيار مجموعة الدردشة
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-chat-group-selector {
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 400px;
+    padding: 10px 20px;
+}
+
+.comagic-c-chat-group-selector__item {
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.comagic-c-chat-group-selector__item:hover {
+    background-color: #F5F5F5;
+}
+
+.comagic-c-chat-group-selector__title {
+    font: 14px "Open Sans CoMagic", sans-serif;
+    color: #424242;
+}
+
+.comagic-js-consultant-chat-group-selector--shown {
+    display: flex;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🔘 BUTTONS - الأزرار
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-consultant-button {
+    height: 36px;
+    border-radius: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s;
+    outline: none;
+}
+
+.comagic-c-consultant-button--grey {
+    background: #e0e0e0;
+    color: #9e9e9e;
+}
+
+.comagic-c-consultant-button--widget-color {
+    background: #2196F3;
+    color: #fff;
+}
+
+.comagic-c-consultant-button--default {
+    font: 17px "Open Sans CoMagic", sans-serif;
+}
+
+.comagic-c-consultant-button--small {
+    font: 13.5px "Open Sans CoMagic", sans-serif;
+    width: 128px;
+}
+
+.comagic-js-form-valid .comagic-c-consultant-button--grey {
+    background: #2196F3;
+    color: #fff;
+}
+
+.comagic-js-form-valid .comagic-c-consultant-button--grey:hover {
+    opacity: 0.75;
+}
+
+.comagic-js-button--disabled {
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ☑️ CHECKBOXES - صناديق الاختيار
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-consultant-checkbox {
+    display: inline;
+    position: relative;
+}
+
+.comagic-c-consultant-checkbox--input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.comagic-c-consultant-checkbox--input:checked ~ .comagic-c-consultant-checkbox--checkbox {
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+
+.comagic-c-consultant-checkbox--input:checked ~ .comagic-c-consultant-checkbox--checkbox:after {
+    display: block;
+}
+
+.comagic-c-consultant-checkbox--checkbox {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: 12px;
+    width: 12px;
+    background-color: #fff;
+    border: 1px solid #9e9e9e;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+.comagic-c-consultant-checkbox--checkbox:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 3px;
+    top: 0px;
+    width: 3px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📋 FORM FIELDS - حقول النموذج
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-consultant-field {
+    font: 14px "Open Sans CoMagic", sans-serif;
+    color: #212121;
+    text-align: left;
+    outline: none;
+    border: 0;
+    background: #FAFAFA;
+    box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    padding: 9px 12px;
+}
+
+.comagic-c-consultant-field:empty:before {
+    content: attr(placeholder);
+    color: #BDBDBD;
+}
+
+.comagic-c-consultant-field:focus {
+    box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(33, 150, 243, 0.3);
+}
+
+.comagic-c-consultant-field--cursor-text {
+    cursor: text;
+}
+
+.comagic-c-consultant-field--cursor-pointer {
+    cursor: pointer;
+}
+
+.comagic-c-consultant-field--one-line {
+    white-space: nowrap;
+}
+
+.comagic-c-consultant-field--one-line * {
+    display: none;
+}
+
+.comagic-c-consultant-field--select {
+    position: relative;
+}
+
+.comagic-c-consultant-field--select:after {
+    content: "";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #9e9e9e;
+}
+
+.comagic-c-consultant-field--high {
+    min-height: 90px;
+}
+
+.comagic-c-consultant-field--default {
+    height: 36px;
+}
+
+.comagic-c-consultant-field--time,
+.comagic-c-consultant-field--date {
+    height: 36px;
+    width: 128px;
+}
+
+.comagic-c-consultant-field--captcha {
+    height: 36px;
+    width: 110px;
+}
+
+.comagic-c-consultant-field--small {
+    height: 28px;
+}
+
+.comagic-c-consultant-field--after-country-select {
+    padding-left: 56px;
+}
+
+.comagic-c-consultant-field--country-select {
+    position: absolute;
+    width: 30px;
+    padding: 0;
+    left: 12px;
+    top: 9px;
+}
+
+.comagic-c-consultant-field__image--captcha {
+    height: 68px;
+    width: 34px;
+}
+
+.comagic-js-field--disable-event {
+    pointer-events: none;
+}
+
+.comagic-js-field--not-valid {
+    box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(244, 67, 54, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🛠️ TOOLS - أدوات الويدجت
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-c-consultant-tools {
+    position: absolute;
+    height: 22px;
+    top: -25px;
+    background: #fff;
+    border-radius: 11px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+}
+
+.comagic-c-consultant-tools--any-btns {
+    width: 100px;
+}
+
+.comagic-c-consultant-tools--anchor-right {
+    right: 25px;
+}
+
+.comagic-c-consultant-tools--anchor-left {
+    left: 25px;
+}
+
+.comagic-c-consultant-tools--anchor-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.comagic-c-consultant-tools__btn {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.comagic-c-consultant-tools__btn:hover {
+    opacity: 0.7;
+}
+
+.comagic-c-consultant-tools__btn--sound {
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239e9e9e' d='M3,9v6h4l5,5V4L7,9H3z M16.5,12c0-1.8-1-3.3-2.5-4.0v8.1C15.5,15.3,16.5,13.8,16.5,12z M14,3.2v2.1c2.9,0.9,5,3.5,5,6.7s-2.1,5.8-5,6.7v2.1c4.0-0.9,7-4.5,7-8.7S18.0,4.1,14,3.2z'/%3E%3C/svg%3E") no-repeat center;
+}
+
+.comagic-c-consultant-tools__btn--email {
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239e9e9e' d='M20,4H4C2.9,4,2,4.9,2,6v12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,8l-8,5L4,8V6l8,5l8-5V8z'/%3E%3C/svg%3E") no-repeat center;
+}
+
+.comagic-c-consultant-tools__btn--rating {
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239e9e9e' d='M12,17.3l6.2,3.7l-1.6-7.0l5.4-4.7l-7.2-0.6L12,2.0l-2.8,6.7l-7.2,0.6l5.4,4.7l-1.6,7.0L12,17.3z'/%3E%3C/svg%3E") no-repeat center;
+}
+
+.comagic-c-consultant-tools__btn--close {
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239e9e9e' d='M19,6.4L17.6,5L12,10.6L6.4,5L5,6.4l5.6,5.6L5,17.6L6.4,19l5.6-5.6l5.6,5.6l1.4-1.4L13.4,12L19,6.4z'/%3E%3C/svg%3E") no-repeat center;
+}
+
+.comagic-js-btn-hidden {
+    display: none;
+}
+
+.comagic-js-sound-btn-off {
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239e9e9e' d='M16.5,12c0-1.8-1-3.3-2.5-4.0v2.2l2.5,2.5C16.5,12.5,16.5,12.2,16.5,12z M19,12c0,0.9-0.2,1.8-0.5,2.6l1.5,1.5c0.7-1.2,1-2.6,1-4.0c0-4.3-3-7.9-7-8.8v2.1C17.0,6.2,19,8.8,19,12z M4.3,3L3,4.3l4.0,4.0H3v6h4l5,5v-6.7l4.3,4.3c-0.7,0.5-1.4,0.9-2.3,1.2v2.1c1.4-0.3,2.6-1.0,3.7-1.8l2.0,2.0l1.3-1.3l-9-9.0L4.3,3z M12,4L9.9,6.1L12,8.2V4z'/%3E%3C/svg%3E") no-repeat center !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎯 UTILITY CLASSES - فئات مساعدة
+   ═══════════════════════════════════════════════════════════════ */
+
+.comagic-h-consultant-opacity {
+    opacity: 0;
+}
+
+.comagic-h-consultant-relative {
+    position: relative;
+}
+
+.comagic-h-consultant-margin-top {
+    margin-top: 18px;
+}
+
+.comagic-h-consultant-hidden {
+    display: none;
+}
+
+.comagic-h-consultant-events-none {
+    pointer-events: none;
+}
+
+.comagic-h-consultant-space-between {
+    justify-content: space-between;
+}
+
+.comagic-h-consultant-flex-end {
+    justify-content: flex-end;
+}
+
+.comagic-h-consultant-fix-link a {
+    text-decoration: underline;
+    cursor: pointer;
+    border: 0;
+}
+
+.comagic-h-consultant-decorate-as-link {
+    text-decoration: underline;
+    cursor: pointer;
+    border: 0;
+}
+
+@media (min-width: 769px) {
+    .comagic-h-consultant-tools-owner:hover .comagic-c-consultant-tools {
+        opacity: 1;
+    }
+}
+
+.comagic-js-consultant-label-owner--hidden .comagic-c-consultant-label {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ✅ نهاية الملف - COMPLETE
+   تم تنظيم جميع أكواد CoMagic Sitephone Widget
+   ═══════════════════════════════════════════════════════════════ */

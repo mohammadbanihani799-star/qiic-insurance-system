@@ -1,0 +1,503 @@
+/* ========================================
+   BUTTONS & LOADER COMPONENT - COMPLETE STYLESHEET
+   مكون الأزرار والمحمل - CSS كامل
+   ======================================== */
+
+/* ========================================
+   1. LOADER ICON ANIMATION
+   حركة أيقونة التحميل
+   ======================================== */
+
+.loader-icon {
+  animation: rotate-09a6cd26 1s linear infinite;
+}
+
+@keyframes rotate-09a6cd26 {
+  0% {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* RTL Support for SVG Icons */
+.rtl svg {
+  transform: scaleX(-1);
+}
+
+/* ========================================
+   2. BASE BUTTON STYLES
+   الأنماط الأساسية للأزرار
+   ======================================== */
+
+.button {
+  align-items: center;
+  border: none;
+  border-radius: var(--radius-5);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 8px;
+  justify-content: center;
+  letter-spacing: -0.1px;
+  line-height: 20px;
+  padding: 22px var(--spacing-8);
+  text-align: center;
+  transition: 0.2s;
+}
+
+/* ========================================
+   3. BUTTON SIZES
+   أحجام الأزرار
+   ======================================== */
+
+/* Large Button - 64px Height */
+.button--large {
+  font-size: 20px;
+  font-weight: 600;
+  height: 64px;
+  line-height: 24px;
+  padding: 20px var(--spacing-8);
+}
+
+/* Medium Button - 56px Height */
+.button--medium {
+  font-size: 16px;
+  font-weight: 500;
+  height: 56px;
+  line-height: 20px;
+  padding: 18px var(--spacing-8);
+}
+
+/* Small Button - 44px Height */
+.button--small {
+  font-size: 14px;
+  font-weight: 500;
+  height: 44px;
+  line-height: 18px;
+  padding: 13px var(--spacing-6);
+}
+
+/* ========================================
+   4. BUTTON STATES - LOADING & DISABLED
+   حالات الأزرار - التحميل والتعطيل
+   ======================================== */
+
+.button--loading,
+.button:disabled {
+  cursor: not-allowed;
+}
+
+.button--loading {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* ========================================
+   5. PRIMARY BUTTON
+   الزر الأساسي
+   ======================================== */
+
+.button--primary {
+  background: var(--Content-action);
+  color: var(--Content-contrast-white);
+}
+
+.button--primary:hover {
+  background: var(--Interactive-primary-hover);
+}
+
+.button--primary:active:not(.button--loading) {
+  background: #6568f4;
+  box-shadow: 0 0 0 2px rgba(101, 104, 244, 0.08);
+}
+
+.button--primary:disabled:not(.button--loading) {
+  background: var(--Background-primary);
+  color: var(--Content-ghost);
+}
+
+/* ========================================
+   6. SECONDARY BUTTON
+   الزر الثانوي
+   ======================================== */
+
+.button--secondary {
+  background: #f5f5ff;
+  color: #494bb5;
+}
+
+.button--secondary:hover {
+  background: #eeeeff;
+  color: #3a3c8f;
+}
+
+.button--secondary:active:not(.button--loading) {
+  background: #e5e5ff;
+  box-shadow: 0 0 0 2px rgba(73, 75, 181, 0.08);
+  color: #22245e;
+}
+
+.button--secondary:disabled:not(.button--loading) {
+  background: #f5f5f5;
+  color: #9e9ea8;
+}
+
+/* ========================================
+   7. GHOST BUTTON
+   الزر الشفاف
+   ======================================== */
+
+.button--ghost {
+  background: transparent;
+  color: #494bb5;
+}
+
+.button--ghost:hover {
+  background: rgba(73, 75, 181, 0.08);
+  color: #3a3c8f;
+}
+
+.button--ghost:active:not(.button--loading) {
+  background: rgba(73, 75, 181, 0.12);
+  box-shadow: 0 0 0 2px rgba(73, 75, 181, 0.08);
+  color: #22245e;
+}
+
+.button--ghost:disabled:not(.button--loading) {
+  background: transparent;
+  color: #9e9ea8;
+}
+
+/* ========================================
+   8. OUTLINE BUTTON
+   الزر المحدد
+   ======================================== */
+
+.button--outline {
+  background: #fff;
+  border: 1px solid #e5e3ff;
+  color: #494bb5;
+}
+
+.button--outline:hover {
+  background: #f5f5ff;
+  border-color: #d5ddff;
+}
+
+.button--outline:active:not(.button--loading) {
+  background: #eeeeff;
+  border-color: #494bb5;
+  box-shadow: 0 0 0 2px rgba(73, 75, 181, 0.08);
+}
+
+.button--outline:disabled:not(.button--loading) {
+  background: #fff;
+  border-color: #e5e5e5;
+  color: #9e9ea8;
+}
+
+/* ========================================
+   9. DANGER/ERROR BUTTON
+   زر الخطر
+   ======================================== */
+
+.button--danger {
+  background: #f3405e;
+  color: #fff;
+}
+
+.button--danger:hover {
+  background: #e12d4a;
+}
+
+.button--danger:active:not(.button--loading) {
+  background: #d01a36;
+  box-shadow: 0 0 0 2px rgba(243, 64, 94, 0.12);
+}
+
+.button--danger:disabled:not(.button--loading) {
+  background: #ffc9d0;
+  color: #fff;
+}
+
+/* ========================================
+   10. SUCCESS BUTTON
+   زر النجاح
+   ======================================== */
+
+.button--success {
+  background: #00c48c;
+  color: #fff;
+}
+
+.button--success:hover {
+  background: #00b17d;
+}
+
+.button--success:active:not(.button--loading) {
+  background: #009e6e;
+  box-shadow: 0 0 0 2px rgba(0, 196, 140, 0.12);
+}
+
+.button--success:disabled:not(.button--loading) {
+  background: #b3f1df;
+  color: #fff;
+}
+
+/* ========================================
+   11. FULL WIDTH BUTTON
+   زر بعرض كامل
+   ======================================== */
+
+.button--full-width {
+  width: 100%;
+}
+
+/* ========================================
+   12. ICON-ONLY BUTTON
+   زر الأيقونة فقط
+   ======================================== */
+
+.button--icon-only {
+  aspect-ratio: 1;
+  padding: 0;
+  width: 56px;
+}
+
+.button--icon-only.button--small {
+  width: 44px;
+}
+
+.button--icon-only.button--large {
+  width: 64px;
+}
+
+/* ========================================
+   13. BUTTON GROUP
+   مجموعة الأزرار
+   ======================================== */
+
+.button-group {
+  display: flex;
+  gap: 12px;
+}
+
+.button-group .button {
+  flex: 1;
+}
+
+.button-group--vertical {
+  flex-direction: column;
+}
+
+.button-group--compact {
+  gap: 8px;
+}
+
+/* ========================================
+   14. RESPONSIVE DESIGN
+   التصميم المتجاوب
+   ======================================== */
+
+@media (max-width: 767px) {
+  .button {
+    font-size: 14px;
+    padding: 18px var(--spacing-6);
+  }
+  
+  .button--large {
+    font-size: 18px;
+    height: 56px;
+    padding: 16px var(--spacing-6);
+  }
+  
+  .button--medium {
+    font-size: 14px;
+    height: 48px;
+    padding: 14px var(--spacing-6);
+  }
+  
+  .button--small {
+    font-size: 12px;
+    height: 40px;
+    padding: 11px var(--spacing-5);
+  }
+}
+
+/* Mobile - Stack Buttons */
+@media (max-width: 480px) {
+  .button-group:not(.button-group--vertical) {
+    flex-direction: column;
+  }
+  
+  .button {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   15. RTL SUPPORT
+   دعم اللغة العربية
+   ======================================== */
+
+.rtl .button {
+  flex-direction: row-reverse;
+}
+
+.rtl .button svg {
+  transform: scaleX(-1);
+}
+
+/* ========================================
+   16. LOADING STATE VARIATIONS
+   أشكال حالة التحميل
+   ======================================== */
+
+.button--loading .button__text {
+  opacity: 0.6;
+}
+
+.button--loading .loader-icon {
+  animation: rotate-09a6cd26 1s linear infinite;
+}
+
+/* Spinner Only (Hide Text) */
+.button--loading.button--spinner-only .button__text {
+  display: none;
+}
+
+/* ========================================
+   17. FOCUS STATES
+   حالات التركيز
+   ======================================== */
+
+.button:focus-visible {
+  outline: 2px solid var(--Content-action);
+  outline-offset: 2px;
+}
+
+.button--primary:focus-visible {
+  outline-color: #6568f4;
+}
+
+.button--secondary:focus-visible,
+.button--ghost:focus-visible,
+.button--outline:focus-visible {
+  outline-color: #494bb5;
+}
+
+.button--danger:focus-visible {
+  outline-color: #f3405e;
+}
+
+.button--success:focus-visible {
+  outline-color: #00c48c;
+}
+
+/* ========================================
+   18. ACCESSIBILITY
+   إمكانية الوصول
+   ======================================== */
+
+.button:disabled {
+  opacity: 0.5;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .button {
+    border: 2px solid currentColor;
+  }
+  
+  .button:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Reduce Motion */
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .loader-icon {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* ========================================
+   19. DARK MODE SUPPORT
+   دعم الوضع الداكن
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  .button--secondary {
+    background: #2c2c2e;
+    color: #8b8dff;
+  }
+  
+  .button--secondary:hover {
+    background: #38383a;
+  }
+  
+  .button--ghost {
+    color: #8b8dff;
+  }
+  
+  .button--outline {
+    background: #1c1c1e;
+    border-color: #38383a;
+    color: #8b8dff;
+  }
+  
+  .button--outline:hover {
+    background: #2c2c2e;
+    border-color: #48484a;
+  }
+}
+
+/* ========================================
+   20. BUTTON WITH BADGE
+   زر مع شارة
+   ======================================== */
+
+.button__badge {
+  background: #f3405e;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  min-width: 18px;
+  padding: 3px 6px;
+}
+
+.button--primary .button__badge {
+  background: #fff;
+  color: #6568f4;
+}
+
+/* ========================================
+   21. BUTTON TOOLTIP (Optional)
+   تلميح الزر (اختياري)
+   ======================================== */
+
+.button[data-tooltip]:hover:after {
+  background: #2e2c3a;
+  border-radius: 4px;
+  color: #fff;
+  content: attr(data-tooltip);
+  font-size: 12px;
+  left: 50%;
+  padding: 6px 10px;
+  position: absolute;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* ========================================
+   END OF STYLESHEET
+   ======================================== */

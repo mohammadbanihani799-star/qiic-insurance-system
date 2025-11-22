@@ -1,0 +1,366 @@
+/* ================================================
+   📋 BTS STEPS COMPONENT - مكون خطوات BTS
+   ================================================
+   مكون عرض الخطوات بتصميم احترافي مع دعم RTL كامل
+   يدعم: الموبايل، التابلت، الديسكتوب، الصور، الأيقونات
+   ================================================ */
+
+/* ===== CONTAINER ===== */
+.bts-steps {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-10, 64px) var(--spacing-6, 24px);
+  direction: inherit;
+}
+
+.bts-steps.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ===== TITLE ===== */
+.bts-steps__title {
+  font-family: var(--font-family-rtl, 'PP Neue Montreal Arabic'), var(--font-family-main, 'PP Neue Montreal'), sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  letter-spacing: -1px;
+  color: var(--colorPearlGray950, #2e2c3a);
+  text-align: center;
+  margin-bottom: var(--spacing-10, 64px);
+  position: relative;
+}
+
+.bts-steps__title::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--colorAccentPurple700, #6568f4) 0%, var(--colorAccentPurple500, #b0bbff) 100%);
+  border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  .bts-steps__title {
+    font-size: 32px;
+    line-height: 40px;
+    margin-bottom: var(--spacing-8, 48px);
+  }
+}
+
+/* ===== LIST ===== */
+.bts-steps__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-8, 32px);
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .bts-steps__list {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-6, 24px);
+  }
+}
+
+@media (max-width: 768px) {
+  .bts-steps__list {
+    gap: var(--spacing-5, 20px);
+  }
+}
+
+/* ===== ITEM (CARD) ===== */
+.bts-steps__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--colorPearlGray0, #ffffff);
+  border-radius: var(--radius-6, 20px);
+  padding: var(--spacing-7, 24px);
+  box-shadow: 
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.bts-steps__item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--colorAccentPurple700, #6568f4) 0%, var(--colorAccentPurple500, #b0bbff) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bts-steps__item:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border-color: var(--colorAccentPurple200, #e3e8ff);
+}
+
+.bts-steps__item:hover::before {
+  opacity: 1;
+}
+
+/* Step Type Colors */
+.bts-steps__item--step1:hover {
+  border-color: var(--colorAccentPurple200, #e3e8ff);
+}
+
+.bts-steps__item--step2:hover {
+  border-color: var(--colorSuluGreen200, #d7f2a4);
+}
+
+.bts-steps__item--step3:hover {
+  border-color: var(--colorSunriseYellow200, #ffd970);
+}
+
+@media (max-width: 768px) {
+  .bts-steps__item {
+    padding: var(--spacing-5, 20px);
+  }
+}
+
+/* ===== ITEM HEAD ===== */
+.bts-steps__item-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3, 8px);
+  margin-bottom: var(--spacing-6, 24px);
+}
+
+/* ===== ITEM TITLE ===== */
+.bts-steps__item-title {
+  font-family: var(--font-family-rtl, 'PP Neue Montreal Arabic'), var(--font-family-main, 'PP Neue Montreal'), sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--colorPearlGray950, #2e2c3a);
+  margin: 0;
+  position: relative;
+  padding-inline-start: var(--spacing-5, 20px);
+}
+
+.bts-steps__item-title::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--colorAccentPurple700, #6568f4);
+  border-radius: 50%;
+}
+
+.bts-steps__item--step1 .bts-steps__item-title::before {
+  background: var(--colorAccentPurple700, #6568f4);
+}
+
+.bts-steps__item--step2 .bts-steps__item-title::before {
+  background: var(--colorSuluGreen600, #639719);
+}
+
+.bts-steps__item--step3 .bts-steps__item-title::before {
+  background: var(--colorSunriseYellow600, #dd6902);
+}
+
+@media (max-width: 768px) {
+  .bts-steps__item-title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+/* ===== ITEM SUBTITLE ===== */
+.bts-steps__item-subtitle {
+  font-family: var(--font-family-rtl, 'PP Neue Montreal Arabic'), var(--font-family-main, 'PP Neue Montreal'), sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--colorPearlGray700, #746c96);
+  margin: 0;
+  padding-inline-start: var(--spacing-5, 20px);
+}
+
+@media (max-width: 768px) {
+  .bts-steps__item-subtitle {
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+
+/* ===== ITEM PICTURE ===== */
+.bts-steps__item-picture {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-4, 12px);
+  margin-bottom: var(--spacing-5, 20px);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bts-steps__item:hover .bts-steps__item-picture {
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .bts-steps__item-picture {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bts-steps__item-picture {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bts-steps__item-picture {
+    height: 160px;
+  }
+}
+
+/* ===== ITEM STORES (ICONS) ===== */
+.bts-steps__item-stores {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3, 8px);
+  margin-top: auto;
+  padding-top: var(--spacing-4, 12px);
+  border-top: 1px solid var(--colorPearlGray100, #ebebff);
+}
+
+.bts-steps__item-stores button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--colorPearlGray50, #f5f5ff);
+  border: 2px solid var(--colorPearlGray200, #e5e3ff);
+  border-radius: var(--radius-3, 8px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.bts-steps__item-stores button:hover {
+  background: var(--colorAccentPurple100, #f7f8ff);
+  border-color: var(--colorAccentPurple500, #b0bbff);
+  transform: translateY(-2px);
+}
+
+.bts-steps__item-stores button:active {
+  transform: translateY(0);
+}
+
+.bts-steps__item-stores button svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--colorPearlGray700, #746c96);
+  transition: fill 0.3s ease;
+}
+
+.bts-steps__item-stores button:hover svg {
+  fill: var(--colorAccentPurple700, #6568f4);
+}
+
+/* ===== RTL SPECIFIC ADJUSTMENTS ===== */
+.rtl .bts-steps__item-title,
+.rtl .bts-steps__item-subtitle {
+  text-align: right;
+}
+
+.rtl .bts-steps__item-title::before {
+  right: auto;
+  left: auto;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bts-steps__item {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.bts-steps__item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.bts-steps__item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bts-steps__item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ===== ACCESSIBILITY ===== */
+.bts-steps__item-stores button:focus {
+  outline: 2px solid var(--colorAccentPurple700, #6568f4);
+  outline-offset: 2px;
+}
+
+.bts-steps__item:focus-within {
+  box-shadow: 
+    0 0 0 3px var(--colorAccentPurple200, #e3e8ff),
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== LOADING STATE ===== */
+.bts-steps__item--loading .bts-steps__item-picture {
+  background: linear-gradient(
+    90deg,
+    var(--colorPearlGray100, #ebebff) 0%,
+    var(--colorPearlGray50, #f5f5ff) 50%,
+    var(--colorPearlGray100, #ebebff) 100%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .bts-steps__item {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid var(--colorPearlGray300, #d3d3eb);
+  }
+  
+  .bts-steps__item-stores {
+    display: none;
+  }
+}

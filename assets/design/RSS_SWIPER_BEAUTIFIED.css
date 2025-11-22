@@ -1,0 +1,849 @@
+/* ========================================
+   RSS GALLERY WITH SWIPER SLIDER - COMPLETE STYLESHEET
+   نظام عرض RSS مع سلايدر Swiper
+   ======================================== */
+
+/* ========================================
+   1. MAIN RSS CONTAINER
+   الحاوية الرئيسية لـ RSS
+   ======================================== */
+
+.rss {
+  padding: 64px 0;
+  z-index: 0;
+}
+
+/* ========================================
+   2. RSS HEADER SECTION
+   قسم رأس RSS
+   ======================================== */
+
+.rss__head {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.rss__head h2 {
+  color: #2e2c3a;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 56px;
+  max-width: 625px;
+}
+
+/* Responsive Typography للعنوان */
+@media (max-width: 992px) {
+  .rss__head h2 {
+    font-size: 36px;
+    line-height: 42px;
+  }
+}
+
+@media (max-width: 767px) {
+  .rss__head h2 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+}
+
+@media (max-width: 420px) {
+  .rss__head h2 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+/* ========================================
+   3. RSS BUTTONS
+   أزرار RSS
+   ======================================== */
+
+.rss__button {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.rss__button.ds-base-button {
+  padding: var(--spacing-5) var(--spacing-8);
+}
+
+@media (max-width: 774px) {
+  .rss__button {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 680px) {
+  .rss__button {
+    display: none !important;
+  }
+}
+
+/* ========================================
+   4. RSS FOOTER
+   فوتر RSS (يظهر في الشاشات الصغيرة)
+   ======================================== */
+
+.rss__footer {
+  display: none;
+  margin-top: 16px;
+}
+
+@media (max-width: 680px) {
+  .rss__footer {
+    display: block;
+  }
+  
+  .rss__footer .rss__button {
+    display: block !important;
+    width: 100%;
+  }
+}
+
+@media (max-width: 400px) {
+  .rss__footer .rss__button {
+    font-size: 16px;
+  }
+}
+
+/* ========================================
+   5. RSS GALLERY CONTAINER
+   حاوية معرض RSS
+   ======================================== */
+
+.rss__gallery {
+  background-color: #f5f5ff;
+  border-radius: var(--radius-8);
+  overflow: hidden;
+  padding: 32px 0;
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .rss__gallery {
+    padding: 32px 0 24px;
+  }
+}
+
+/* ========================================
+   6. RSS WRAPPER (LTR/RTL SUPPORT)
+   الغلاف الخارجي مع دعم RTL
+   ======================================== */
+
+.rss__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: space-between;
+  -ms-grid-gap: 32px;
+  grid-gap: 32px;
+}
+
+.rss__wrapper.start {
+  padding-left: 32px;
+  padding-right: 0;
+}
+
+.rss__wrapper.end {
+  padding-left: 0;
+  padding-right: 32px;
+}
+
+@media (max-width: 767px) {
+  .rss__wrapper {
+    gap: 16px;
+    padding: 24px 0 16px;
+  }
+}
+
+/* ========================================
+   7. RSS LIST CONTAINER
+   حاوية قائمة RSS
+   ======================================== */
+
+.rss__list {
+  overflow: hidden;
+  transition: all 0.2s linear;
+}
+
+.rss__list.inner {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.rss__list-title {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+@media (max-width: 767px) {
+  .rss__list-title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+/* ========================================
+   8. RSS LIST NAVIGATION ARROWS
+   أسهم التنقل في القائمة
+   ======================================== */
+
+.rss__list-nav {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  transition: all 0.2s linear;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  width: 132px;
+  z-index: 2;
+}
+
+@media (max-width: 680px) {
+  .rss__list-nav {
+    display: none;
+  }
+}
+
+.rss__list-nav.swiper-button-disabled {
+  opacity: 0;
+  width: 0;
+}
+
+.rss__list-nav img {
+  margin-bottom: 64px;
+  width: 32px;
+}
+
+/* Left Navigation Arrow */
+.rss__list-nav--left {
+  background: linear-gradient(90deg, #f5f5ff, #f5f5ff00);
+  left: 0;
+}
+
+.rss__list-nav--left img {
+  transform: scaleX(-1);
+}
+
+/* Right Navigation Arrow */
+.rss__list-nav--right {
+  background: linear-gradient(270deg, #f5f5ff, #f5f5ff00);
+  right: 0;
+}
+
+/* ========================================
+   9. RSS LIST HEADER
+   رأس قائمة RSS
+   ======================================== */
+
+.rss__list-head {
+  align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 0 32px;
+  position: relative;
+  width: 100%;
+}
+
+.rss__list-head .rss__list-nav {
+  gap: 16px;
+  height: auto;
+  position: relative;
+  width: auto;
+}
+
+.rss__list-head .rss__list-nav.swiper-button-disabled {
+  opacity: 0.6;
+  width: inherit;
+}
+
+.rss__list-head .rss__list-nav--left,
+.rss__list-head .rss__list-nav--right {
+  background: none;
+}
+
+.rss__list-head .rss__list-nav--left img,
+.rss__list-head .rss__list-nav--right img {
+  margin: 0;
+}
+
+/* ========================================
+   10. RSS LIST ITEMS
+   عناصر قائمة RSS
+   ======================================== */
+
+.rss__list:not(.inner) {
+  margin: 16px 0;
+  position: relative;
+}
+
+@media (min-width: 681px) {
+  .rss__list:not(.inner) .hide {
+    opacity: 0.1;
+  }
+}
+
+.rss__list-item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  -ms-grid-gap: 16px;
+  grid-gap: 16px;
+}
+
+.rss__list-item img {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+@media (min-width: 580px) {
+  .rss__list-item {
+    max-width: 340px;
+  }
+}
+
+/* ========================================
+   11. SLIDE WRAPPER & PICTURE
+   غلاف السلايد والصورة
+   ======================================== */
+
+.rss__list .slide-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.rss__list .slide-picture {
+  border-radius: 16px;
+  overflow: hidden;
+  padding-bottom: 182px;
+  position: relative;
+}
+
+/* ========================================
+   12. SKELETON LOADER (للصور أثناء التحميل)
+   محمل الهيكل العظمي
+   ======================================== */
+
+.rss__list .slide-picture .loader {
+  background-color: #f0f0f4;
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.rss__list .slide-picture .loader:after {
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  background: linear-gradient(90deg, #f0f0f4, #fcfcfd, #f0f0f4);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.rss__list .slide-picture img {
+  transition: all 0.1s linear;
+}
+
+.rss__list .slide-picture img.hidden {
+  opacity: 0;
+}
+
+/* ========================================
+   13. SLIDE INFO & TITLE
+   معلومات وعنوان السلايد
+   ======================================== */
+
+.rss__list .slide-info {
+  color: #9e9ea8;
+  font-feature-settings: "tnum" on, "lnum" on;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+.rss__list .slide-title {
+  color: #2d2d36;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+  line-height: 20px;
+}
+
+/* ========================================
+   14. RSS LIST BUTTON (زر الإجراء)
+   زر داخل القائمة
+   ======================================== */
+
+.rss__list-button {
+  align-items: center;
+  background: #1a1b1f;
+  border-radius: 380px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  padding: 56px 42px;
+  position: absolute;
+  text-align: center;
+  transition: all 0.2s ease-in;
+  width: 100%;
+}
+
+.rss__list-button * {
+  transition: all 0.4s ease-out;
+}
+
+.rss__list-button .label {
+  color: #fff;
+  font-size: 12px;
+  line-height: 14px;
+  margin-bottom: 8px;
+}
+
+.rss__list-button .icon {
+  height: 0;
+  margin-top: 16px;
+  opacity: 0;
+  width: 0;
+}
+
+/* Hover Effect */
+.rss__list-button:hover {
+  border-radius: 16px;
+}
+
+.rss__list-button:hover .icon {
+  height: 24px;
+  opacity: 1;
+  width: 24px;
+}
+
+/* ========================================
+   15. RTL SUPPORT (دعم النص العربي)
+   دعم اللغة العربية
+   ======================================== */
+
+.rtl .rss__wrapper.start {
+  padding-left: 0;
+  padding-right: 32px;
+}
+
+.rtl .rss__wrapper.end {
+  padding-left: 32px;
+  padding-right: 0;
+}
+
+.rtl .rss__list-nav--left {
+  background: linear-gradient(270deg, #f5f5ff, #f5f5ff00);
+  left: auto;
+  right: 0;
+}
+
+.rtl .rss__list-nav--left img {
+  transform: scaleX(1);
+}
+
+.rtl .rss__list-nav--right {
+  background: linear-gradient(90deg, #f5f5ff, #f5f5ff00);
+  left: 0;
+  right: auto;
+}
+
+.rtl .rss__list-nav--right img {
+  transform: scaleX(-1);
+}
+
+/* ========================================
+   16. SWIPER ICON FONT (خط أيقونات Swiper)
+   ======================================== */
+
+@font-face {
+  font-family: swiper-icons;
+  font-style: normal;
+  font-weight: 400;
+  src: url(data:application/font-woff;charset=utf-8;base64,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);
+}
+
+/* ========================================
+   17. SWIPER CORE STYLES
+   الأنماط الأساسية لـ Swiper
+   ======================================== */
+
+:root {
+  --swiper-theme-color: #007aff;
+}
+
+.swiper,
+swiper-container {
+  display: block;
+  list-style: none;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.swiper-vertical > .swiper-wrapper {
+  flex-direction: column;
+}
+
+.swiper-wrapper {
+  box-sizing: content-box;
+  display: flex;
+  height: 100%;
+  position: relative;
+  transition-property: transform;
+  transition-timing-function: var(--swiper-wrapper-transition-timing-function, initial);
+  width: 100%;
+  z-index: 1;
+}
+
+.swiper-android .swiper-slide,
+.swiper-wrapper {
+  transform: translateZ(0);
+}
+
+.swiper-horizontal {
+  touch-action: pan-y;
+}
+
+.swiper-vertical {
+  touch-action: pan-x;
+}
+
+/* ========================================
+   18. SWIPER SLIDE
+   شريحة Swiper
+   ======================================== */
+
+.swiper-slide,
+swiper-slide {
+  display: block;
+  flex-shrink: 0;
+  height: 100%;
+  position: relative;
+  transition-property: transform;
+  width: 100%;
+}
+
+.swiper-slide-invisible-blank {
+  visibility: hidden;
+}
+
+/* ========================================
+   19. SWIPER AUTO HEIGHT
+   الارتفاع التلقائي
+   ======================================== */
+
+.swiper-autoheight,
+.swiper-autoheight .swiper-slide {
+  height: auto;
+}
+
+.swiper-autoheight .swiper-wrapper {
+  align-items: flex-start;
+  transition-property: transform, height;
+}
+
+/* ========================================
+   20. SWIPER 3D EFFECTS
+   تأثيرات ثلاثية الأبعاد
+   ======================================== */
+
+.swiper-backface-hidden .swiper-slide {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.swiper-3d.swiper-css-mode .swiper-wrapper {
+  perspective: 1200px;
+}
+
+.swiper-3d .swiper-wrapper {
+  transform-style: preserve-3d;
+}
+
+.swiper-3d {
+  perspective: 1200px;
+}
+
+.swiper-3d .swiper-cube-shadow,
+.swiper-3d .swiper-slide,
+.swiper-3d .swiper-slide-shadow,
+.swiper-3d .swiper-slide-shadow-bottom,
+.swiper-3d .swiper-slide-shadow-left,
+.swiper-3d .swiper-slide-shadow-right,
+.swiper-3d .swiper-slide-shadow-top {
+  transform-style: preserve-3d;
+}
+
+.swiper-3d .swiper-slide-shadow,
+.swiper-3d .swiper-slide-shadow-bottom,
+.swiper-3d .swiper-slide-shadow-left,
+.swiper-3d .swiper-slide-shadow-right,
+.swiper-3d .swiper-slide-shadow-top {
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.swiper-3d .swiper-slide-shadow {
+  background: #00000026;
+}
+
+.swiper-3d .swiper-slide-shadow-left {
+  background-image: linear-gradient(270deg, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.swiper-3d .swiper-slide-shadow-right {
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.swiper-3d .swiper-slide-shadow-top {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.swiper-3d .swiper-slide-shadow-bottom {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent);
+}
+
+/* ========================================
+   21. SWIPER CSS MODE
+   وضع CSS للتمرير
+   ======================================== */
+
+.swiper-css-mode > .swiper-wrapper {
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.swiper-css-mode > .swiper-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.swiper-css-mode > .swiper-wrapper > .swiper-slide {
+  scroll-snap-align: start start;
+}
+
+.swiper-horizontal.swiper-css-mode > .swiper-wrapper {
+  scroll-snap-type: x mandatory;
+}
+
+.swiper-vertical.swiper-css-mode > .swiper-wrapper {
+  scroll-snap-type: y mandatory;
+}
+
+/* ========================================
+   22. SWIPER CENTERED MODE
+   وضع التمركز
+   ======================================== */
+
+.swiper-centered > .swiper-wrapper:before {
+  content: "";
+  flex-shrink: 0;
+  order: 9999;
+}
+
+.swiper-centered > .swiper-wrapper > .swiper-slide {
+  scroll-snap-align: center center;
+  scroll-snap-stop: always;
+}
+
+.swiper-centered.swiper-horizontal > .swiper-wrapper > .swiper-slide:first-child {
+  margin-inline-start: var(--swiper-centered-offset-before);
+}
+
+.swiper-centered.swiper-horizontal > .swiper-wrapper:before {
+  height: 100%;
+  min-height: 1px;
+  width: var(--swiper-centered-offset-after);
+}
+
+.swiper-centered.swiper-vertical > .swiper-wrapper > .swiper-slide:first-child {
+  margin-block-start: var(--swiper-centered-offset-before);
+}
+
+.swiper-centered.swiper-vertical > .swiper-wrapper:before {
+  height: var(--swiper-centered-offset-after);
+  min-width: 1px;
+  width: 100%;
+}
+
+/* ========================================
+   23. SWIPER LAZY PRELOADER
+   محمل الصور البطيء
+   ======================================== */
+
+.swiper-lazy-preloader {
+  border: 4px solid var(--swiper-preloader-color, var(--swiper-theme-color));
+  border-radius: 50%;
+  border-top: 4px solid transparent;
+  box-sizing: border-box;
+  height: 42px;
+  left: 50%;
+  margin-left: -21px;
+  margin-top: -21px;
+  position: absolute;
+  top: 50%;
+  transform-origin: 50%;
+  width: 42px;
+  z-index: 10;
+}
+
+.swiper-watch-progress .swiper-slide-visible .swiper-lazy-preloader,
+.swiper:not(.swiper-watch-progress) .swiper-lazy-preloader,
+swiper-container:not(.swiper-watch-progress) .swiper-lazy-preloader {
+  animation: swiper-preloader-spin 1s linear infinite;
+}
+
+.swiper-lazy-preloader-white {
+  --swiper-preloader-color: #fff;
+}
+
+.swiper-lazy-preloader-black {
+  --swiper-preloader-color: #000;
+}
+
+/* ========================================
+   24. SWIPER PRELOADER ANIMATION
+   حركة المحمل
+   ======================================== */
+
+@keyframes swiper-preloader-spin {
+  0% {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* ========================================
+   25. RSS LIST SWIPER CUSTOMIZATION
+   تخصيص Swiper لقائمة RSS
+   ======================================== */
+
+.rss__list .swiper,
+.rss__list .swiper-wrapper {
+  width: 100%;
+}
+
+.rss__list .swiper {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.rss__list .swiper-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  max-height: 300px;
+}
+
+.rss__list .swiper-slide {
+  flex-shrink: 0;
+  max-width: 264px;
+  transform: all 0.2s linear;
+}
+
+/* ========================================
+   26. SWIPER PAGINATION (نقاط التصفح)
+   ======================================== */
+
+.rss__list .swiper-pagination {
+  display: none;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+  left: 0;
+  margin: 16px auto 8px;
+  position: relative;
+  right: 0;
+  z-index: 1;
+}
+
+.rss__list .swiper-pagination-bullet {
+  background: #cacad8;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  height: 8px;
+  opacity: 1;
+  transition: all 0.2s ease-in;
+  width: 8px;
+}
+
+.rss__list .swiper-pagination-bullet-active {
+  background: #2d2d36;
+  width: 24px;
+}
+
+@media (max-width: 680px) {
+  .rss__list .swiper-pagination {
+    display: flex;
+  }
+}
+
+/* ========================================
+   27. SWIPER NAVIGATION BUTTONS
+   أزرار التنقل
+   ======================================== */
+
+.rss__list .swiper-button {
+  color: #fff;
+}
+
+.rss__list .swiper-button-disabled svg path {
+  stroke: #cacad8;
+}
+
+/* ========================================
+   28. KEYFRAME ANIMATIONS
+   الحركات المتحركة
+   ======================================== */
+
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+/* ========================================
+   END OF STYLESHEET
+   ======================================== */

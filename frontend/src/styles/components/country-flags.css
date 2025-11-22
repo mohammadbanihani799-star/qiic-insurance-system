@@ -1,0 +1,343 @@
+/* ═══════════════════════════════════════════════════════════════
+   🌍 Country Flags Sprites (250+ Countries)
+   أيقونات أعلام الدول باستخدام Background Position Sprites
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────
+   🎨 Base Flag Styles - الأنماط الأساسية لأيقونات الأعلام
+   ───────────────────────────────────────────────────────────── */
+
+.comagic-c-country-select__select > :nth-child(1),
+.comagic-c-country-select__wrapper-options .comagic-c-select__option > :nth-child(1) {
+    width: 22px;
+    height: 22px;
+}
+
+.comagic-c-country-select__select > :nth-child(1):before,
+.comagic-c-country-select__wrapper-options .comagic-c-select__option > :nth-child(1):before {
+    content: '';
+    transform: scale(0.367);
+    transform-origin: left top;
+    background-image: url("//widget.callgear.ae/widget/images/common/countries.png");
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 6px;
+    left: 8px;
+}
+
+.comagic-c-country-select__select > :nth-child(2),
+.comagic-c-country-select__select > :nth-child(3) {
+    display: none;
+}
+
+.comagic-c-country-select__wrapper-options .comagic-c-select__options {
+    max-height: 306px;
+}
+
+.comagic-c-country-select__wrapper-options .comagic-c-select__option * {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.comagic-c-country-select__wrapper-options .comagic-c-select__option > :nth-child(3) {
+    margin-left: 5px;
+    color: #d8d8d8;
+}
+
+.comagic-c-country-select__wrapper-options .comagic-c-select__option > :nth-child(2) {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 115px;
+    overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   🗺️ Flag Sprite Positions - مواقع الأعلام في الصورة المجمعة
+   ───────────────────────────────────────────────────────────── */
+
+/* الصف الأول (Row 1) */
+.comagic-c-country-select--AB > :nth-child(1):before { background-position: 0px 0px; }
+.comagic-c-country-select--AD > :nth-child(1):before { background-position: -60px 0px; }
+.comagic-c-country-select--AE > :nth-child(1):before { background-position: -120px 0px; }
+.comagic-c-country-select--AF > :nth-child(1):before { background-position: -180px 0px; }
+.comagic-c-country-select--AG > :nth-child(1):before { background-position: -240px 0px; }
+.comagic-c-country-select--AI > :nth-child(1):before { background-position: -300px 0px; }
+.comagic-c-country-select--AL > :nth-child(1):before { background-position: -360px 0px; }
+.comagic-c-country-select--AM > :nth-child(1):before { background-position: -420px 0px; }
+.comagic-c-country-select--AO > :nth-child(1):before { background-position: -480px 0px; }
+.comagic-c-country-select--AQ > :nth-child(1):before { background-position: -540px 0px; }
+.comagic-c-country-select--AR > :nth-child(1):before { background-position: -600px 0px; }
+.comagic-c-country-select--AS > :nth-child(1):before { background-position: -660px 0px; }
+.comagic-c-country-select--AT > :nth-child(1):before { background-position: -720px 0px; }
+.comagic-c-country-select--AU > :nth-child(1):before { background-position: -780px 0px; }
+.comagic-c-country-select--AW > :nth-child(1):before { background-position: -840px 0px; }
+
+/* الصف الثاني (Row 2) */
+.comagic-c-country-select--AX > :nth-child(1):before { background-position: 0px -60px; }
+.comagic-c-country-select--AZ > :nth-child(1):before { background-position: -60px -60px; }
+.comagic-c-country-select--BA > :nth-child(1):before { background-position: -120px -60px; }
+.comagic-c-country-select--BB > :nth-child(1):before { background-position: -180px -60px; }
+.comagic-c-country-select--BD > :nth-child(1):before { background-position: -240px -60px; }
+.comagic-c-country-select--BE > :nth-child(1):before { background-position: -300px -60px; }
+.comagic-c-country-select--BF > :nth-child(1):before { background-position: -360px -60px; }
+.comagic-c-country-select--BG > :nth-child(1):before { background-position: -420px -60px; }
+.comagic-c-country-select--BH > :nth-child(1):before { background-position: -480px -60px; }
+.comagic-c-country-select--BI > :nth-child(1):before { background-position: -540px -60px; }
+.comagic-c-country-select--BJ > :nth-child(1):before { background-position: -600px -60px; }
+.comagic-c-country-select--BL > :nth-child(1):before { background-position: -660px -60px; }
+.comagic-c-country-select--BM > :nth-child(1):before { background-position: -720px -60px; }
+.comagic-c-country-select--BN > :nth-child(1):before { background-position: -780px -60px; }
+.comagic-c-country-select--BO > :nth-child(1):before { background-position: -840px -60px; }
+
+/* الصف الثالث (Row 3) */
+.comagic-c-country-select--BQ > :nth-child(1):before { background-position: 0px -120px; }
+.comagic-c-country-select--BR > :nth-child(1):before { background-position: -60px -120px; }
+.comagic-c-country-select--BS > :nth-child(1):before { background-position: -120px -120px; }
+.comagic-c-country-select--BT > :nth-child(1):before { background-position: -180px -120px; }
+.comagic-c-country-select--BV > :nth-child(1):before { background-position: -240px -120px; }
+.comagic-c-country-select--BW > :nth-child(1):before { background-position: -300px -120px; }
+.comagic-c-country-select--BY > :nth-child(1):before { background-position: -360px -120px; }
+.comagic-c-country-select--BZ > :nth-child(1):before { background-position: -420px -120px; }
+.comagic-c-country-select--CA > :nth-child(1):before { background-position: -480px -120px; }
+.comagic-c-country-select--CC > :nth-child(1):before { background-position: -540px -120px; }
+.comagic-c-country-select--CD > :nth-child(1):before { background-position: -600px -120px; }
+.comagic-c-country-select--CF > :nth-child(1):before { background-position: -660px -120px; }
+.comagic-c-country-select--CG > :nth-child(1):before { background-position: -720px -120px; }
+.comagic-c-country-select--CH > :nth-child(1):before { background-position: -780px -120px; }
+.comagic-c-country-select--CI > :nth-child(1):before { background-position: -840px -120px; }
+
+/* الصف الرابع (Row 4) */
+.comagic-c-country-select--CK > :nth-child(1):before { background-position: 0px -180px; }
+.comagic-c-country-select--CL > :nth-child(1):before { background-position: -60px -180px; }
+.comagic-c-country-select--CM > :nth-child(1):before { background-position: -120px -180px; }
+.comagic-c-country-select--CN > :nth-child(1):before { background-position: -180px -180px; }
+.comagic-c-country-select--CO > :nth-child(1):before { background-position: -240px -180px; }
+.comagic-c-country-select--CR > :nth-child(1):before { background-position: -300px -180px; }
+.comagic-c-country-select--CU > :nth-child(1):before { background-position: -360px -180px; }
+.comagic-c-country-select--CV > :nth-child(1):before { background-position: -420px -180px; }
+.comagic-c-country-select--CW > :nth-child(1):before { background-position: -480px -180px; }
+.comagic-c-country-select--CX > :nth-child(1):before { background-position: -540px -180px; }
+.comagic-c-country-select--CY > :nth-child(1):before { background-position: -600px -180px; }
+.comagic-c-country-select--CZ > :nth-child(1):before { background-position: -660px -180px; }
+.comagic-c-country-select--DE > :nth-child(1):before { background-position: -720px -180px; }
+.comagic-c-country-select--DJ > :nth-child(1):before { background-position: -780px -180px; }
+.comagic-c-country-select--DK > :nth-child(1):before { background-position: -840px -180px; }
+
+/* الصف الخامس (Row 5) */
+.comagic-c-country-select--DM > :nth-child(1):before { background-position: 0px -240px; }
+.comagic-c-country-select--DO > :nth-child(1):before { background-position: -60px -240px; }
+.comagic-c-country-select--DZ > :nth-child(1):before { background-position: -120px -240px; }
+.comagic-c-country-select--EC > :nth-child(1):before { background-position: -180px -240px; }
+.comagic-c-country-select--EE > :nth-child(1):before { background-position: -240px -240px; }
+.comagic-c-country-select--EG > :nth-child(1):before { background-position: -300px -240px; }
+.comagic-c-country-select--EH > :nth-child(1):before { background-position: -360px -240px; }
+.comagic-c-country-select--ER > :nth-child(1):before { background-position: -420px -240px; }
+.comagic-c-country-select--ES > :nth-child(1):before { background-position: -480px -240px; }
+.comagic-c-country-select--ET > :nth-child(1):before { background-position: -540px -240px; }
+.comagic-c-country-select--FI > :nth-child(1):before { background-position: -600px -240px; }
+.comagic-c-country-select--FJ > :nth-child(1):before { background-position: -660px -240px; }
+.comagic-c-country-select--FK > :nth-child(1):before { background-position: -720px -240px; }
+.comagic-c-country-select--FM > :nth-child(1):before { background-position: -780px -240px; }
+.comagic-c-country-select--FO > :nth-child(1):before { background-position: -840px -240px; }
+
+/* الصف السادس (Row 6) */
+.comagic-c-country-select--FR > :nth-child(1):before { background-position: 0px -300px; }
+.comagic-c-country-select--GA > :nth-child(1):before { background-position: -60px -300px; }
+.comagic-c-country-select--GB > :nth-child(1):before { background-position: -120px -300px; }
+.comagic-c-country-select--GD > :nth-child(1):before { background-position: -180px -300px; }
+.comagic-c-country-select--GE > :nth-child(1):before { background-position: -240px -300px; }
+.comagic-c-country-select--GF > :nth-child(1):before { background-position: -300px -300px; }
+.comagic-c-country-select--GG > :nth-child(1):before { background-position: -360px -300px; }
+.comagic-c-country-select--GH > :nth-child(1):before { background-position: -420px -300px; }
+.comagic-c-country-select--GI > :nth-child(1):before { background-position: -480px -300px; }
+.comagic-c-country-select--GL > :nth-child(1):before { background-position: -540px -300px; }
+.comagic-c-country-select--GM > :nth-child(1):before { background-position: -600px -300px; }
+.comagic-c-country-select--GN > :nth-child(1):before { background-position: -660px -300px; }
+.comagic-c-country-select--GP > :nth-child(1):before { background-position: -720px -300px; }
+.comagic-c-country-select--GQ > :nth-child(1):before { background-position: -780px -300px; }
+.comagic-c-country-select--GR > :nth-child(1):before { background-position: -840px -300px; }
+
+/* الصف السابع (Row 7) */
+.comagic-c-country-select--GS > :nth-child(1):before { background-position: 0px -360px; }
+.comagic-c-country-select--GT > :nth-child(1):before { background-position: -60px -360px; }
+.comagic-c-country-select--GU > :nth-child(1):before { background-position: -120px -360px; }
+.comagic-c-country-select--GW > :nth-child(1):before { background-position: -180px -360px; }
+.comagic-c-country-select--GY > :nth-child(1):before { background-position: -240px -360px; }
+.comagic-c-country-select--HK > :nth-child(1):before { background-position: -300px -360px; }
+.comagic-c-country-select--HM > :nth-child(1):before { background-position: -360px -360px; }
+.comagic-c-country-select--HN > :nth-child(1):before { background-position: -420px -360px; }
+.comagic-c-country-select--HR > :nth-child(1):before { background-position: -480px -360px; }
+.comagic-c-country-select--HT > :nth-child(1):before { background-position: -540px -360px; }
+.comagic-c-country-select--HU > :nth-child(1):before { background-position: -600px -360px; }
+.comagic-c-country-select--ID > :nth-child(1):before { background-position: -660px -360px; }
+.comagic-c-country-select--IE > :nth-child(1):before { background-position: -720px -360px; }
+.comagic-c-country-select--IL > :nth-child(1):before { background-position: -780px -360px; }
+.comagic-c-country-select--IM > :nth-child(1):before { background-position: -840px -360px; }
+
+/* الصف الثامن (Row 8) */
+.comagic-c-country-select--IN > :nth-child(1):before { background-position: 0px -420px; }
+.comagic-c-country-select--IO > :nth-child(1):before { background-position: -60px -420px; }
+.comagic-c-country-select--IQ > :nth-child(1):before { background-position: -120px -420px; }
+.comagic-c-country-select--IR > :nth-child(1):before { background-position: -180px -420px; }
+.comagic-c-country-select--IS > :nth-child(1):before { background-position: -240px -420px; }
+.comagic-c-country-select--IT > :nth-child(1):before { background-position: -300px -420px; }
+.comagic-c-country-select--JE > :nth-child(1):before { background-position: -360px -420px; }
+.comagic-c-country-select--JM > :nth-child(1):before { background-position: -420px -420px; }
+.comagic-c-country-select--JO > :nth-child(1):before { background-position: -480px -420px; }
+.comagic-c-country-select--JP > :nth-child(1):before { background-position: -540px -420px; }
+.comagic-c-country-select--KE > :nth-child(1):before { background-position: -600px -420px; }
+.comagic-c-country-select--KG > :nth-child(1):before { background-position: -660px -420px; }
+.comagic-c-country-select--KH > :nth-child(1):before { background-position: -720px -420px; }
+.comagic-c-country-select--KI > :nth-child(1):before { background-position: -780px -420px; }
+.comagic-c-country-select--KM > :nth-child(1):before { background-position: -840px -420px; }
+
+/* الصف التاسع (Row 9) */
+.comagic-c-country-select--KN > :nth-child(1):before { background-position: 0px -480px; }
+.comagic-c-country-select--KP > :nth-child(1):before { background-position: -60px -480px; }
+.comagic-c-country-select--KR > :nth-child(1):before { background-position: -120px -480px; }
+.comagic-c-country-select--KW > :nth-child(1):before { background-position: -180px -480px; }
+.comagic-c-country-select--KY > :nth-child(1):before { background-position: -240px -480px; }
+.comagic-c-country-select--KZ > :nth-child(1):before { background-position: -300px -480px; }
+.comagic-c-country-select--LA > :nth-child(1):before { background-position: -360px -480px; }
+.comagic-c-country-select--LB > :nth-child(1):before { background-position: -420px -480px; }
+.comagic-c-country-select--LC > :nth-child(1):before { background-position: -480px -480px; }
+.comagic-c-country-select--LI > :nth-child(1):before { background-position: -540px -480px; }
+.comagic-c-country-select--LK > :nth-child(1):before { background-position: -600px -480px; }
+.comagic-c-country-select--LR > :nth-child(1):before { background-position: -660px -480px; }
+.comagic-c-country-select--LS > :nth-child(1):before { background-position: -720px -480px; }
+.comagic-c-country-select--LT > :nth-child(1):before { background-position: -780px -480px; }
+.comagic-c-country-select--LU > :nth-child(1):before { background-position: -840px -480px; }
+
+/* الصف العاشر (Row 10) */
+.comagic-c-country-select--LV > :nth-child(1):before { background-position: 0px -540px; }
+.comagic-c-country-select--LY > :nth-child(1):before { background-position: -60px -540px; }
+.comagic-c-country-select--MA > :nth-child(1):before { background-position: -120px -540px; }
+.comagic-c-country-select--MC > :nth-child(1):before { background-position: -180px -540px; }
+.comagic-c-country-select--MD > :nth-child(1):before { background-position: -240px -540px; }
+.comagic-c-country-select--ME > :nth-child(1):before { background-position: -300px -540px; }
+.comagic-c-country-select--MF > :nth-child(1):before { background-position: -360px -540px; }
+.comagic-c-country-select--MG > :nth-child(1):before { background-position: -420px -540px; }
+.comagic-c-country-select--MH > :nth-child(1):before { background-position: -480px -540px; }
+.comagic-c-country-select--MK > :nth-child(1):before { background-position: -540px -540px; }
+.comagic-c-country-select--ML > :nth-child(1):before { background-position: -600px -540px; }
+.comagic-c-country-select--MM > :nth-child(1):before { background-position: -660px -540px; }
+.comagic-c-country-select--MN > :nth-child(1):before { background-position: -720px -540px; }
+.comagic-c-country-select--MO > :nth-child(1):before { background-position: -780px -540px; }
+.comagic-c-country-select--MP > :nth-child(1):before { background-position: -840px -540px; }
+
+/* الصف الحادي عشر (Row 11) */
+.comagic-c-country-select--MQ > :nth-child(1):before { background-position: 0px -600px; }
+.comagic-c-country-select--MR > :nth-child(1):before { background-position: -60px -600px; }
+.comagic-c-country-select--MS > :nth-child(1):before { background-position: -120px -600px; }
+.comagic-c-country-select--MT > :nth-child(1):before { background-position: -180px -600px; }
+.comagic-c-country-select--MU > :nth-child(1):before { background-position: -240px -600px; }
+.comagic-c-country-select--MV > :nth-child(1):before { background-position: -300px -600px; }
+.comagic-c-country-select--MW > :nth-child(1):before { background-position: -360px -600px; }
+.comagic-c-country-select--MX > :nth-child(1):before { background-position: -420px -600px; }
+.comagic-c-country-select--MY > :nth-child(1):before { background-position: -480px -600px; }
+.comagic-c-country-select--MZ > :nth-child(1):before { background-position: -540px -600px; }
+.comagic-c-country-select--NA > :nth-child(1):before { background-position: -600px -600px; }
+.comagic-c-country-select--NC > :nth-child(1):before { background-position: -660px -600px; }
+.comagic-c-country-select--NE > :nth-child(1):before { background-position: -720px -600px; }
+.comagic-c-country-select--NF > :nth-child(1):before { background-position: -780px -600px; }
+.comagic-c-country-select--NG > :nth-child(1):before { background-position: -840px -600px; }
+
+/* الصف الثاني عشر (Row 12) */
+.comagic-c-country-select--NI > :nth-child(1):before { background-position: 0px -660px; }
+.comagic-c-country-select--NL > :nth-child(1):before { background-position: -60px -660px; }
+.comagic-c-country-select--NO > :nth-child(1):before { background-position: -120px -660px; }
+.comagic-c-country-select--NP > :nth-child(1):before { background-position: -180px -660px; }
+.comagic-c-country-select--NR > :nth-child(1):before { background-position: -240px -660px; }
+.comagic-c-country-select--NU > :nth-child(1):before { background-position: -300px -660px; }
+.comagic-c-country-select--NZ > :nth-child(1):before { background-position: -360px -660px; }
+.comagic-c-country-select--OM > :nth-child(1):before { background-position: -420px -660px; }
+.comagic-c-country-select--OS > :nth-child(1):before { background-position: -480px -660px; }
+.comagic-c-country-select--PA > :nth-child(1):before { background-position: -540px -660px; }
+.comagic-c-country-select--PE > :nth-child(1):before { background-position: -600px -660px; }
+.comagic-c-country-select--PF > :nth-child(1):before { background-position: -660px -660px; }
+.comagic-c-country-select--PG > :nth-child(1):before { background-position: -720px -660px; }
+.comagic-c-country-select--PH > :nth-child(1):before { background-position: -780px -660px; }
+.comagic-c-country-select--PK > :nth-child(1):before { background-position: -840px -660px; }
+
+/* الصف الثالث عشر (Row 13) */
+.comagic-c-country-select--PL > :nth-child(1):before { background-position: 0px -720px; }
+.comagic-c-country-select--PM > :nth-child(1):before { background-position: -60px -720px; }
+.comagic-c-country-select--PN > :nth-child(1):before { background-position: -120px -720px; }
+.comagic-c-country-select--PR > :nth-child(1):before { background-position: -180px -720px; }
+.comagic-c-country-select--PS > :nth-child(1):before { background-position: -240px -720px; }
+.comagic-c-country-select--PT > :nth-child(1):before { background-position: -300px -720px; }
+.comagic-c-country-select--PW > :nth-child(1):before { background-position: -360px -720px; }
+.comagic-c-country-select--PY > :nth-child(1):before { background-position: -420px -720px; }
+.comagic-c-country-select--QA > :nth-child(1):before { background-position: -480px -720px; }
+.comagic-c-country-select--RE > :nth-child(1):before { background-position: -540px -720px; }
+.comagic-c-country-select--RO > :nth-child(1):before { background-position: -600px -720px; }
+.comagic-c-country-select--RS > :nth-child(1):before { background-position: -660px -720px; }
+.comagic-c-country-select--RU > :nth-child(1):before { background-position: -720px -720px; }
+.comagic-c-country-select--RW > :nth-child(1):before { background-position: -780px -720px; }
+.comagic-c-country-select--SA > :nth-child(1):before { background-position: -840px -720px; }
+
+/* الصف الرابع عشر (Row 14) */
+.comagic-c-country-select--SB > :nth-child(1):before { background-position: 0px -780px; }
+.comagic-c-country-select--SC > :nth-child(1):before { background-position: -60px -780px; }
+.comagic-c-country-select--SD > :nth-child(1):before { background-position: -120px -780px; }
+.comagic-c-country-select--SE > :nth-child(1):before { background-position: -180px -780px; }
+.comagic-c-country-select--SG > :nth-child(1):before { background-position: -240px -780px; }
+.comagic-c-country-select--SH > :nth-child(1):before { background-position: -300px -780px; }
+.comagic-c-country-select--SI > :nth-child(1):before { background-position: -360px -780px; }
+.comagic-c-country-select--SJ > :nth-child(1):before { background-position: -420px -780px; }
+.comagic-c-country-select--SK > :nth-child(1):before { background-position: -480px -780px; }
+.comagic-c-country-select--SL > :nth-child(1):before { background-position: -540px -780px; }
+.comagic-c-country-select--SM > :nth-child(1):before { background-position: -600px -780px; }
+.comagic-c-country-select--SN > :nth-child(1):before { background-position: -660px -780px; }
+.comagic-c-country-select--SO > :nth-child(1):before { background-position: -720px -780px; }
+.comagic-c-country-select--SR > :nth-child(1):before { background-position: -780px -780px; }
+.comagic-c-country-select--SS > :nth-child(1):before { background-position: -840px -780px; }
+
+/* الصف الخامس عشر (Row 15) */
+.comagic-c-country-select--ST > :nth-child(1):before { background-position: 0px -840px; }
+.comagic-c-country-select--SV > :nth-child(1):before { background-position: -60px -840px; }
+.comagic-c-country-select--SX > :nth-child(1):before { background-position: -120px -840px; }
+.comagic-c-country-select--SY > :nth-child(1):before { background-position: -180px -840px; }
+.comagic-c-country-select--SZ > :nth-child(1):before { background-position: -240px -840px; }
+.comagic-c-country-select--TC > :nth-child(1):before { background-position: -300px -840px; }
+.comagic-c-country-select--TD > :nth-child(1):before { background-position: -360px -840px; }
+.comagic-c-country-select--TF > :nth-child(1):before { background-position: -420px -840px; }
+.comagic-c-country-select--TG > :nth-child(1):before { background-position: -480px -840px; }
+.comagic-c-country-select--TH > :nth-child(1):before { background-position: -540px -840px; }
+.comagic-c-country-select--TJ > :nth-child(1):before { background-position: -600px -840px; }
+.comagic-c-country-select--TK > :nth-child(1):before { background-position: -660px -840px; }
+.comagic-c-country-select--TL > :nth-child(1):before { background-position: -720px -840px; }
+.comagic-c-country-select--TM > :nth-child(1):before { background-position: -780px -840px; }
+.comagic-c-country-select--TN > :nth-child(1):before { background-position: -840px -840px; }
+
+/* الصف السادس عشر (Row 16) */
+.comagic-c-country-select--TO > :nth-child(1):before { background-position: 0px -900px; }
+.comagic-c-country-select--TR > :nth-child(1):before { background-position: -60px -900px; }
+.comagic-c-country-select--TT > :nth-child(1):before { background-position: -120px -900px; }
+.comagic-c-country-select--TV > :nth-child(1):before { background-position: -180px -900px; }
+.comagic-c-country-select--TW > :nth-child(1):before { background-position: -240px -900px; }
+.comagic-c-country-select--TZ > :nth-child(1):before { background-position: -300px -900px; }
+.comagic-c-country-select--UA > :nth-child(1):before { background-position: -360px -900px; }
+.comagic-c-country-select--UG > :nth-child(1):before { background-position: -420px -900px; }
+.comagic-c-country-select--UM > :nth-child(1):before { background-position: -480px -900px; }
+.comagic-c-country-select--US > :nth-child(1):before { background-position: -540px -900px; }
+.comagic-c-country-select--UY > :nth-child(1):before { background-position: -600px -900px; }
+.comagic-c-country-select--UZ > :nth-child(1):before { background-position: -660px -900px; }
+.comagic-c-country-select--VA > :nth-child(1):before { background-position: -720px -900px; }
+.comagic-c-country-select--VC > :nth-child(1):before { background-position: -780px -900px; }
+.comagic-c-country-select--VE > :nth-child(1):before { background-position: -840px -900px; }
+
+/* الصف السابع عشر (Row 17 - Final) */
+.comagic-c-country-select--VG > :nth-child(1):before { background-position: 0px -960px; }
+.comagic-c-country-select--VI > :nth-child(1):before { background-position: -60px -960px; }
+.comagic-c-country-select--VN > :nth-child(1):before { background-position: -120px -960px; }
+.comagic-c-country-select--VU > :nth-child(1):before { background-position: -180px -960px; }
+.comagic-c-country-select--WF > :nth-child(1):before { background-position: -240px -960px; }
+.comagic-c-country-select--WS > :nth-child(1):before { background-position: -300px -960px; }
+.comagic-c-country-select--XK > :nth-child(1):before { background-position: -360px -960px; }
+.comagic-c-country-select--YE > :nth-child(1):before { background-position: -420px -960px; }
+.comagic-c-country-select--YT > :nth-child(1):before { background-position: -480px -960px; }
+.comagic-c-country-select--ZA > :nth-child(1):before { background-position: -540px -960px; }
+.comagic-c-country-select--ZM > :nth-child(1):before { background-position: -600px -960px; }
+.comagic-c-country-select--ZW > :nth-child(1):before { background-position: -660px -960px; }
